@@ -1,0 +1,75 @@
+p.caption {
+  color: #777;
+  margin-top: 10px;
+}
+p code {
+  white-space: inherit;
+}
+pre {
+  word-break: normal;
+  word-wrap: normal;
+}
+pre code {
+  white-space: inherit;
+}
+
+
+.rmdnote, .rmdtip, .rmdwarning, .rmdlevel1, .rmdlevel2, .rmdlevel3, .rmdsummary, .rmdexercise {
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  background: #f5f5f5 5px center/3em no-repeat;
+}
+
+
+/*
+
+.rmdnote {
+  background-image: url("images/note.png");
+}
+.rmdtip {
+  background-image: url("images/tip.png");
+}
+.rmdwarning {
+  background-image: url("images/warning.png");
+}
+*/
+
+/*
+div.rmdhegy1, div.rmdhegy2, div.rmdhegy3, div.rmdosszefoglalas, div.rmdfeladat {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-size: 70px;
+  background-repeat: no-repeat;
+  background-position: 15px 1.5em;
+  min-height: 120px;
+  background-color: #ecf0f9;
+  max-width: 100%;
+  font-size: 0.85em;
+  letter-spacing: 1pt;
+}
+
+*/
+
+div.rmdlevel1 {
+  background-image: url("../images/level1.png");
+}
+
+
+div.rmdlevel2 {
+  background-image: url("../images/level2.png");
+}
+
+
+div.rmdlevel3 {
+  background-image: url("../images/level3.png");
+}
+
+div.rmdexercise {
+  background-image: url("../images/exercise.png");
+}
+
+
+div.rmdsummary {
+  background-image: url("../images/summary.png");
+}

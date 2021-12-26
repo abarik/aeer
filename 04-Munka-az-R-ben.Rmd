@@ -1,0 +1,21 @@
+# Munka az R-ben {#munka-az-r-ben}
+
+```{r results='asis', echo=FALSE}
+knitr::include_graphics(path = "images/ch_04_small.png")
+```
+
+## Az RStudio használata {#AzRStudiohasznalata}
+
+```{block, type='rmdlevel1'}
+
+Ebben a fejezetben:
+
+* megismerjük az *RStudio* jellemzőit és felépítését,
+* a konzolos és parancsállományos használat különbségeit,
+* a parancsállományok és az RMarkdown állományok lehetőségeit, 
+* a projekt fogalmát és használatát,
+* és az *RStudio* billenytűparancsait.
+
+```
+
+

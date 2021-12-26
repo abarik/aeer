@@ -1,0 +1,23 @@
+# Mi az R? {#mi-az-r} 
+
+```{r results='asis', echo=FALSE}
+knitr::include_graphics(path = "images/ch_02_small.png")
+```
+
+
+## Az R bemutatása
+
+
+```{block, type='rmdlevel1'}
+
+Ebben a fejezetben:
+  
+* megismerjük az R jellemzőit,
+* megtudjuk, hogy melyek a parancssoros interfész előnyei,
+* megismerjük az *Alap R* fogalmát,
+* körülhatároljuk az R nyelv, az *Alap R* és a csomag fogalmát.
+
+
+```
+
+

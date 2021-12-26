@@ -1,0 +1,18 @@
+# Az R telepítése {#az-r-telepitese}
+
+
+```{r results='asis', echo=FALSE}
+knitr::include_graphics(path = "images/ch_03_small.png")
+```
+
+## A fő komponensek telepítése
+
+
+```{block, type='rmdlevel1'}
+
+Ebben a fejezetben:
+
+* megismerjük az *Alap R*, az *RStudio* és a csomagok telepítését.
+
+```
+

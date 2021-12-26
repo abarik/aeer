@@ -1,0 +1,23 @@
+# Itt kezdődik {#itt-kezdodik}
+
+
+```{r results='asis', echo=FALSE}
+knitr::include_graphics(path = "images/ch_01_small.png")
+```
+
+
+## Elindulás {#Itt-kezdodik-1-szint}
+
+
+```{block, type='rmdlevel1'}
+
+Ebben a fejezetben:
+
+* bemutatunk egy konkrét adatelemzési példát,
+* és áttekintjük a könyv tartalmát,
+* lehetőséget adunk az előzetes R ismeretek felmérésére,
+* és segítünk a megfelelő fejezet kiválasztására a folytatáshoz.
+
+```
+
+

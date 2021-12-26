@@ -1,0 +1,14 @@
+# Leíró statisztika {#leiro-statisztika}
+
+
+
+```{r results='asis', echo=FALSE}
+knitr::include_graphics(path = "images/ch_08_small.png")
+```
+
+
+```{block2, type='rmdlevel1'}
+Ebben a fejezetben áttekintjük:
+  
+```
+

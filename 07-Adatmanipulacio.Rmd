@@ -1,0 +1,18 @@
+# Adatmanipuláció {#adatmanipulacio}
+
+```{r results='asis', echo=FALSE}
+knitr::include_graphics(path = "images/ch_07_small.png")
+```
+
+
+## Adatkezelés az Alap R-ben
+
+
+```{block2, type='rmdlevel1'}
+
+Ebben a fejezetben:
+  
+```
+
+
+

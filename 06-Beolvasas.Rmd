@@ -1,0 +1,22 @@
+# Beolvasás {#beolvasas}
+
+```{r results='asis', echo=FALSE}
+knitr::include_graphics(path = "images/ch_06_small.png")
+```
+
+## Alapvető formátumok {#beolvas-kiir}
+
+```{block2, type='rmdlevel1'}
+
+Ebben a fejezetben áttekintjük:
+  
+* mit nevezünk tagolt szöveges állománynak, hogyan hozzuk létre
+* inline és állományos beolvasás közötti különbség
+* az inline beolvasás esetei
+* tagolt szöveges állomány beolvasása és kiírása (AR és TR)
+* fix széles mezővel rendelkező állományok olvasása
+* más statisztikai programcsomagok adatállományainak olvasása és írása 
+* objektumok írása és olvasása bináris állományba
+
+```
+
