@@ -19,6 +19,14 @@ alapelvek
 Ralaptudas
 az-r-telepitese
 a-fő-komponensek-telepítése
+az-alap-r-telepítése
+az-rstudio-telepítése
+Csomagoktelepitese
+a-tidyverse-r-telepítése
+az-r-frissítése
+az-alap-r-frissítése
+az-rstudio-frissítése
+csomagok-frissítése
 munka-az-r-ben
 AzRStudiohasznalata
 az-r-nyelv
