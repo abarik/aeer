@@ -1,6 +1,6 @@
 # Mi az R? {#mi-az-r} 
 
-<img src="images/ch_02_small.png" width="90%" style="display: block; margin: auto;" />
+<img src="images/ch_02_small.png" width="60%" style="display: block; margin: auto;" />
 
 
 ## Az R bemutatása

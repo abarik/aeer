@@ -1,6 +1,6 @@
 # Adatmanipuláció {#adatmanipulacio}
 
-<img src="images/ch_07_small.png" width="90%" style="display: block; margin: auto;" />
+<img src="images/ch_07_small.png" width="70%" style="display: block; margin: auto;" />
 
 
 ## Adatkezelés az Alap R-ben

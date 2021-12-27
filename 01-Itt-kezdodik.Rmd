@@ -1,7 +1,7 @@
 # Itt kezdődik {#itt-kezdodik}
 
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=FALSE, out.width = '70%'}
 knitr::include_graphics(path = "images/ch_01_small.png")
 ```
 

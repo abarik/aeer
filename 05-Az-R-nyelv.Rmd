@@ -1,6 +1,6 @@
 # Az R nyelv {#az-r-nyelv}
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=FALSE, out.width = '70%'}
 knitr::include_graphics(path = "images/ch_05_small.png")
 ```
 

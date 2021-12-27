@@ -1,6 +1,6 @@
 # Hipotézisvizsgálatok {#hipotezisvizsgalatok}
 
-<img src="images/ch_10_small.png" width="90%" style="display: block; margin: auto;" />
+<img src="images/ch_10_small.png" width="70%" style="display: block; margin: auto;" />
 
 
 \BeginKnitrBlock{rmdlevel1}<div class="rmdlevel1">Ebben a fejezetben a statisztika azon klasszikus próbáit foglaltuk össze, amelyek jellemzően egy- vagy kétmintás hipotézisvizsgálatokat jelentenek. Az öt alfejezet a nullhipotézisben szereplő állításoknak és paramétereknek megfelelően a statisztikai próbák különböző csoportjait fedi le:

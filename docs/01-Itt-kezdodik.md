@@ -1,7 +1,7 @@
 # Itt kezdődik {#itt-kezdodik}
 
 
-<img src="images/ch_01_small.png" width="90%" style="display: block; margin: auto;" />
+<img src="images/ch_01_small.png" width="70%" style="display: block; margin: auto;" />
 
 
 ## Elindulás {#Itt-kezdodik-1-szint}

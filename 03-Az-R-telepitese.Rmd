@@ -1,7 +1,7 @@
 # Az R telepítése {#az-r-telepitese}
 
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=FALSE, out.width = '70%'}
 knitr::include_graphics(path = "images/ch_03_small.png")
 ```
 

@@ -1,6 +1,6 @@
 # Munka az R-ben {#munka-az-r-ben}
 
-<img src="images/ch_04_small.png" width="90%" style="display: block; margin: auto;" />
+<img src="images/ch_04_small.png" width="70%" style="display: block; margin: auto;" />
 
 ## Az RStudio használata {#AzRStudiohasznalata}
 

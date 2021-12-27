@@ -1,6 +1,6 @@
 # Publikáció {#publikacio}
 
-<img src="images/ch_11_small.png" width="90%" style="display: block; margin: auto;" />
+<img src="images/ch_11_small.png" width="70%" style="display: block; margin: auto;" />
 
 
 ## Reprodukálható kutatás
