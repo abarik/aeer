@@ -9,12 +9,14 @@ knitr::include_graphics(path = "images/ch_02_small.png")
 
 
 ```{block, type='rmdlevel1'}
+
 Ebben a fejezetben:
   
 * megismerjük az R jellemzőit,
 * megtudjuk, hogy melyek a parancssoros interfész előnyei,
 * megismerjük az *Alap R* fogalmát,
 * körülhatároljuk az R nyelv, az *Alap R* és a csomag fogalmát.
+
 ```
 
 
@@ -66,10 +68,9 @@ A R környezet már igazi szoftver, terjesztésének koordinálását az [R Foun
 
 Az R tehát egyszerre több dolgot jelent. Az R egyrészt egy magas szintű programozási nyelv, hamarosan megtanuljuk, hogyan írjunk ezen a nyelven értelmes utasításokat. Másrészt a nyelv körüli környezetet is jelenti, amely magába foglalja a konzolt, a parancsaink értelmezésért felelős R interpretert, valamint azokat a csomagokat, amelyekkel az R tudása kiegészíthető.
 
+### Összefoglalás {#mi-az-r-1-summary}
 
 ```{block, type='rmdsummary'}
-
-**Összefoglalás**
 
 Minden statisztikai programcsomag, így az R is, alapvetően a számításigényes statisztikai eljárások kézi végrehajtásától kímél meg minket. Az R nagyon gazdag adatmanipulációs és grafikus funkciókban is, támogatja a reprodukálható adatelemzés végrehajtását. Az R ingyenes, többplatformos és egyik legfontosabb jellemzője, hogy parancsok útján bírhatjuk működésre. Az *Alap R* biztosítja a konzolt a parancsok begépelésére, az R interpretert a parancsok tényleges végrehajtására, és jónéhány csomagba szervezett eljárást az adatelemzési feladatok elvégzéséhez. Az *Alap R* mindössze néhány tucat csomagot tartalmaz, *standard csomagokokat* és az *ajánlott csomagokat*, de több tízezer további csomaggal bővíthetjük az R tudását. Az adatelemzési munka során egy R környezet vesz minket körül, amely az R nyelven megírt parancsok értelmezésére és végrehajtására képes *Alap R*-ből, és az ún. *egyéb csomagokból* áll. 
 
@@ -77,11 +78,10 @@ Minden statisztikai programcsomag, így az R is, alapvetően a számításigény
 ```
 
 
+### Feladatok {#mi-az-r-1-exercise}
 
 
 ```{block2, type='rmdexercise'}
-
-**Feladatok**
   
 1. Keressünk weboldalakat, amelyek az R előnyeit és hátrányait listázzák!
 1. Keressük meg, hogy az R optimális futtatásához, milyen hardver követelmények szükségesek!
@@ -115,9 +115,9 @@ Eddig láttuk, hogy az R használatához szükséges az *Alap R* telepítése, m
 A modern R alatt lényegében azokat a funkciókat értjük, amelyek a [*Tidyverse*](https://www.tidyverse.org/) gyűjteményben található csomagokhoz kötődnek. Ezekkel a csomagokkal, gyorsabb, olvashatóbb és könnyebben karbantartható kódokat hozhatunk létre. A *Tidyverse* használata tehát erősen javasolt, de ebben a könyvben a "hagyományos", *Tidyverse R* előtti lehetőségeket is bemutatjuk. 
 
 
-```{block, type='rmdsummary'}
+### Összefoglalás {#mi-az-r-2-summary}
 
-**Összefoglalás**
+```{block, type='rmdsummary'}
 
 A *Tidyverse R* egy csomaggyűjtemény az *egyéb csomagok* csoportjából, amely újabb szemléletű R parancsok írására ad lehetőséget. Az így készült kódjaink rendszerint gyorsabban futnak és könnyebben karbantarthatók. A modern R a *Tidyverse R* csomagjaival kiegészített *Alap R*, de legfőképp egy új lehetőség parancsaink megfogalmazására.
 
@@ -125,9 +125,10 @@ A *Tidyverse R* egy csomaggyűjtemény az *egyéb csomagok* csoportjából, amel
 ```
 
 
-```{block2, type='rmdexercise'}
+### Feladatok {#mi-az-r-2-exercise}
 
-**Feladatok**
+
+```{block2, type='rmdexercise'}
   
 1. Ki Hadley Wickham?
 1. Honnan származik a pipe operátor neve?
@@ -211,9 +212,10 @@ Melyek az R-ben való munkavégzéshez nélkülözhetetlen alapismeretek? Meggy�
     - [ ] reprodukálható kutatás az RMarkdown segítségével
 
 
-```{block, type='rmdsummary'}
+### Összefoglalás {#mi-az-r-3-summary}
 
-**Összefoglalás**
+
+```{block, type='rmdsummary'}
 
 Az R fejlesztését Ross Ihaka és Robert Gentleman kezdte, majd 1997-től egy nagyobb csapat, az *R Development Core Team* vezeti a fejlesztést. Az *R Core Team* tagjai 2002-ben létrehozták a *The R Foundation for Statistical Computing* közhasznú, nonprofit szervezetet, amelynek fő célja az R folyamatos fejlesztésének biztosítása. A szervezet fenntart egy CRAN nevű számítógépes hálózatot, amely szabad hozzáférést biztosít az R legfrissebb verziójához, a csomagokhoz és a részletes dokumentációkhoz.  
 Az R alaptudás megszerzése elegendő magabiztosságot fog nyújtani az adatelemzési munka során, azonban vegyük figyelembe, hogy ezt csak kellő gyakorlással érhetjük el. Az R sokféle megoldást biztosít ugyanarra a problémára, legyen az statisztikai vagy bármilyen más jellegű probléma.   
@@ -222,9 +224,10 @@ Az R alaptudás megszerzése elegendő magabiztosságot fog nyújtani az adatele
 ```
 
 
-```{block2, type='rmdexercise'}
+### Feladatok {#mi-az-r-3-exercise}
 
-**Feladatok**
+
+```{block2, type='rmdexercise'}
   
 1. Keressünk olyan statisztikai jellegű témaköröket, amelyekben az R segítségünkre lehet?
 1. Keressünk olyan nem-statisztikai jellegű témaköröket, amelyekben az R segítségünkre lehet?
@@ -232,7 +235,6 @@ Az R alaptudás megszerzése elegendő magabiztosságot fog nyújtani az adatele
   
 https://www.r-bloggers.com/the-history-of-r-updated-for-2020/
   
-
 ```
 
 

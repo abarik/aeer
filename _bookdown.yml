@@ -28,6 +28,8 @@ language:
 # #- "09-Grafika.Rmd"
 # - "10-Hipotezisvizsgalatok.Rmd"
 # #- "11-Publikalas.Rmd"
-
-
+# - "31-Megoldasok.Rmd"
+# - "41-Szinek.Rmd"
+# - "42-Oravazlat.Rmd"
+# - "51-Irodalomjegyzek.Rmd"
 

@@ -64,8 +64,11 @@
 <li><a class="" href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></li>
 <li><a class="" href="hipotezisvizsgalatok.html"><span class="header-section-number">10</span> Hipotézisvizsgálatok</a></li>
 <li><a class="" href="publikacio.html"><span class="header-section-number">11</span> Publikáció</a></li>
+<li class="book-part">Függelék</li>
+<li><a class="" href="megoldasok.html"><span class="header-section-number">A</span> Megoldások</a></li>
+<li><a class="" href="szinek.html"><span class="header-section-number">B</span> Színek</a></li>
+<li><a class="" href="oravazlat-az-r-tanitasahoz.html"><span class="header-section-number">C</span> Óravázlat az R tanításához</a></li>
 <li><a class="" href="irodalomjegyzek.html">Irodalomjegyzék</a></li>
-<li><a class="" href="megoldasok.html">Megoldások</a></li>
 </ul>
 
         <div class="book-extra">
@@ -78,10 +81,10 @@
 </h1>
 <p>Kedves Olvasó!</p>
 <p>Köszönjük, hogy bizalmat szavaz könyvünknek, és az R megismeréséhez ezt az utat választja. Az első lépésektől a komplett adatelemzési feladatok megoldásáig vezetjük az Olvasót, és főként kezdő vagy újrakezdő felhasználókhoz szólunk. Utunk során áttekintjük az adatfeldolgozás minden lépését: az adatok beolvasását, előkészítését, elemzését és az eredmények publikálását is.</p>
-<p>Könyvünk összesen 11 fejezetet tartalmaz. Az egyes fejezeteket alkotó alfejezeteket három különböző ikonnal jelöltük meg, amelyek jelzőtáblaként szolgálnak az R megismerésének útján. Az egyes ikonok jelentése a következő:</p>
+<p>Könyvünk összesen 11 fejezetet tartalmaz. Az egyes fejezeteket alkotó alfejezeteket három különböző ikon egyikével jelöltük meg, amelyek jelzőtáblaként szolgálnak az R megismerésének útján. Az egyes ikonok jelentése a következő:</p>
 <div class="rmdlevel1">
 <p>
-<strong>Egy hegy.</strong> Az így jelölt fejezet az R alaptudás része, megismerése feltétlenül javasolt. A könyvben megfogalmazott célok ezen fejezetek megismerésével is elérhetők, azaz komplett adatelemzéseket hajthatunk végre csupán ezek végigolvasásával is.
+<strong>Egy hegy.</strong> Az így jelölt fejezet az R alaptudás része, megismerése feltétlenül javasolt. A könyvben megfogalmazott célok ezen fejezetek megismerésével is elérhetők, azaz komplett adatelemzéseket hajthatunk végre csupán ezek végig olvasásával is.
 </p>
 </div>
 <div class="rmdlevel2">
@@ -94,20 +97,19 @@
 <strong>Három hegy.</strong> Az R ismeretek további részletezése, a meglévő eszközök finomabb kezelése, vagy további beállítási lehetőségek olvashatók ezekben a fejezetekben. Elképzelhető, hogy ritkábban felmerülő problémák megoldásához kapunk itt segítséget.
 </p>
 </div>
-<p>A fejezetek hármas tagolása azt a célt szolgálja, hogy minél hamarabb örömet és sikert okozhasson az R használata, ugyanakkor további olvasással a részletesebb ismeretek utáni vágyunkat is kielégíthessük. <strong>Könyvünk olvasását tehát az 1. fejezet <em>egy hegy</em> alfejezetével (<em>1.1. Elindulás</em>) érdemes kezdeni</strong>, ott kapunk ajánlást a folytatásra. A további fejezetek olvasási sorrendje teljes mértékben az elvégzendő feladattól, tudásunktól és kíváncsiságunktól függ.</p>
+<p>A fejezetek hármas tagolása azt a célt szolgálja, hogy minél hamarabb örömet és sikert okozhasson az R használata, ugyanakkor további olvasással a részletesebb ismeretek utáni vágyunkat is kielégíthessük. <strong>Könyvünk olvasását tehát az 1. fejezet <em>egy hegy</em> alfejezetével (<em><a href="itt-kezdodik.html#Itt-kezdodik-1-szint">1.1</a> Elindulás</em>) érdemes kezdeni</strong>, ott kapunk ajánlást a folytatásra. A további fejezetek olvasási sorrendje teljes mértékben az elvégzendő feladattól, tudásunktól és kíváncsiságunktól függ.</p>
+<p>A fejezetek végén összefoglaljuk a tanultakat. Megismételjük a legfontosabb fogalmakat és felsoroljuk a megismert függvényeket.</p>
+<div class="rmdsummary">
+<p>
+<strong>Összefoglalás.</strong> Miről szólt az előszó? A könyv 11 fejezetet tartalmaz, az alfejezeteket három különböző ikon egyikével jelöltük: <em>egy hegy</em>, <em>két hegy</em> vagy <em>három hegy</em>.
+</p>
+</div>
 <p>Az R tanulmányozása kitartást és némi időt igényel. Nagyon fontos szerepet kap a gyakorlás, ezért minden fejezet végén találunk feladatokat.</p>
 <div class="rmdexercise">
 <p>
 <strong>Feladatok.</strong> A fejezet végi feladatok megoldásával jelentősen hozzájárulunk a magabiztos R tudás megszerzéséhez. Találunk szórakoztató és érdekes feladatokat is.
 </p>
 </div>
-<p>A fejezetek végén összefoglaljuk a tanultakat. Megismételjük a legfontosabb fogalmakat és felsoroljuk a megismert függvényeket.</p>
-<div class="rmdsummary">
-<p>
-<strong>Összefoglalás.</strong> Miről szólt az előszó? A könyv 11 fejezetet tartalmaz, az alfejezeteket három különböző ikonnal jelöltük: <em>egy hegy</em>, <em>két hegy</em> és <em>három hegy</em>. Az alfejezetek végén összefoglalást és feladatokat találunk.
-</p>
-</div>
-<p>A könyvben használt adatbázisokat és R kódokat, valamint a kitűzött feladatok megoldását is elérhetővé tettük: <em><a href="https://github.com/abarik/aeer" class="uri">https://github.com/abarik/aeer</a></em>.</p>
 <p>Örömmel fogadjuk Olvasóink észrevételeit az <code>abari.kalman@gmail.com</code> címen.</p>
 
 </div>
@@ -133,7 +135,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2021-12-27.</p>
+    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2021-12-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

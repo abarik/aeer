@@ -64,8 +64,11 @@
 <li><a class="" href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></li>
 <li><a class="" href="hipotezisvizsgalatok.html"><span class="header-section-number">10</span> Hipotézisvizsgálatok</a></li>
 <li><a class="" href="publikacio.html"><span class="header-section-number">11</span> Publikáció</a></li>
+<li class="book-part">Függelék</li>
+<li><a class="" href="megoldasok.html"><span class="header-section-number">A</span> Megoldások</a></li>
+<li><a class="" href="szinek.html"><span class="header-section-number">B</span> Színek</a></li>
+<li><a class="" href="oravazlat-az-r-tanitasahoz.html"><span class="header-section-number">C</span> Óravázlat az R tanításához</a></li>
 <li><a class="" href="irodalomjegyzek.html">Irodalomjegyzék</a></li>
-<li><a class="" href="megoldasok.html">Megoldások</a></li>
 </ul>
 
         <div class="book-extra">
@@ -125,7 +128,7 @@ körülhatároljuk az R nyelv, az <em>Alap R</em> és a csomag fogalmát.
 <h3>
 <span class="header-section-number">2.1.2</span> A R parancssoros<a class="anchor" aria-label="anchor" href="#a-r-parancssoros"><i class="fas fa-link"></i></a>
 </h3>
-<p>Az R alapvető használata során parancsokat gépelünk be és hajtunk végre. Ez lényegesen eltér a ma megszokott felhasználói programok világától, ahol egy grafikus felhasználói felületen egérrel vagy az ujjunkkal mutogatjuk el a kívánt tevékenységet. Az R egészen más megközelítést vall, használata a kezdeti lépésektől nagyfokú figyelmet és pontosságot követel. A parancsokban kell gondolkodnunk, ám ezt végig áthatja a <em>tudom mit csinálok</em> elv, így némi idő elteltével érezni fogjuk, hogy az R megszelídül, már nem köt bele minden “szavunkba”, egyre több dologra tudjuk rávenni, és végül egy rendkívül értékes társsá válik. Jelen könyv ezen az úton szeretné végigvezetni az Olvasót.</p>
+<p>Az R alapvető használata során parancsokat gépelünk be és hajtunk végre. Ez lényegesen eltér a ma megszokott felhasználói programok világától, ahol egy grafikus felhasználói felületen egérrel vagy az ujjunkkal mutogatjuk el a kívánt tevékenységet. Az R egészen más megközelítést vall, használata a kezdeti lépésektől nagyfokú figyelmet és pontosságot követel. A parancsokban kell gondolkodnunk, ám ezt végig áthatja a <em>tudom mit csinálok</em> elv, így némi idő elteltével érezni fogjuk, hogy az R megszelídül, már nem köt bele minden “szavunkba,” egyre több dologra tudjuk rávenni, és végül egy rendkívül értékes társsá válik. Jelen könyv ezen az úton szeretné végigvezetni az Olvasót.</p>
 <p>Már a tanulás elején szeretnénk tisztázni, hogy az R elsajátításához nem szükséges programozói alaptudás. Az R felhasználók többsége egyáltalán nem programozó, és a mindennapi adatelemző munka sem igényli az R nyelv programozói fokú ismeretét. Természetesen, ha rendelkezünk ilyen irányú előtanulmányokkal a tanulási folyamat néhány szakasza lerövidíthető, de könyvünk elsősorban azok számra íródott, akik programozási nyelvekkel korábban nem találkoztak, és nem is vágynak az R ilyen mélységű ismeretére. Az R nyelv elsajátítása során bevezetjük azokat az egyszerű fogalmakat, amelyeket nem nélkülözhetők az adatelemzés során, azonban az R programozásához más szakkönyveket javaslunk olvasásra.</p>
 </div>
 <div id="mi-valójában-az-r" class="section level3" number="2.1.3">
@@ -136,17 +139,23 @@ körülhatároljuk az R nyelv, az <em>Alap R</em> és a csomag fogalmát.
 <p>Az R környezet három fő összetevőt tartalmaz: (1) egy <em>konzol</em>t, ahová a parancsainkat begépelhetjük; (2) a parancsok végrehajtásáért felelős <em>R interpreter</em>t; (3) a <em>csomagokok</em>at. A konzol és az interpreter biztosítja az R nyelven írt parancsok tényleges végrehajtását. Így tudunk adatokat beolvasni, átlagot számolni, varianciaelemzést futtatni, vagy publikációkész ábrákat létrehozni. A csomagok adatokat és függvényeket tartalmaznak, például a <strong>MASS</strong> csomag 88 adatobjektumot és 78 függvényt tartalmaz. A függvények valamilyen tevékenységet hajtanak végre, és valójában ezeket a csomag-függvényeket használjuk fel a konzolban, ha <em>bármilyen tevékenységet</em> szeretnénk végrehajtani (például adatokat beolvasni, átlagot számolni stb.). A könyv írásának időpontjában kb. 17000 csomag volt érhető el az R-hez. Csomagok 3 csoportját különböztetjük meg: <em>standard csomagok</em> (14 db), <em>ajánlott csomagok</em> (15 db) és <em>egyéb csomagok</em> (kb. 17000 db). A standard csomagok fejlesztője az R Core Team. A standard csomagok: <strong>base</strong>, <strong>compiler</strong>, <strong>datasets</strong>, <strong>grDevices</strong>, <strong>graphics</strong>, <strong>grid</strong>, <strong>methods</strong>, <strong>parallel</strong>, <strong>splines</strong>, <strong>stats</strong>, <strong>stats4</strong>, <strong>tcltk</strong>, <strong>tools</strong>, <strong>utils</strong>. Az ajánlott csomagok: <strong>KernSmooth</strong>, <strong>MASS</strong>, <strong>Matrix</strong>, <strong>boot</strong>, <strong>class</strong>, <strong>cluster</strong>, <strong>codetools</strong>, <strong>foreign</strong>, <strong>lattice</strong>, <strong>mgcv</strong>, <strong>nlme</strong>, <strong>nnet</strong>, <strong>rpart</strong>, <strong>spatial</strong>, <strong>survival</strong>. Az ajánlot csomagok közül a <strong>foreign</strong> és az <strong>nlme</strong> fejlesztője az R Core Team, a többit más felhasználók fejlesztették, például a már említett <strong>MASS</strong> csomag fejlesztője Brian Ripley. Csomagot bárki szabadon fejleszthet és terjeszthet, az <em>egyéb csomagok</em> csoportját akár mi is gyarapíthatjuk.</p>
 <p>A R környezet már igazi szoftver, terjesztésének koordinálását az <a href="https://www.r-project.org/foundation/">R Foundation</a> végzi a <a href="https://cran.r-project.org/mirrors.html">CRAN</a> infrastruktúráján keresztül. Ez biztosítja, hogy számítógépünkre telepíthessük az R környezetet. Ezt a CRAN-ról elérhető R futtatási környezetet <em>Alap R</em>-nek nevezzük. Fő komponensei a már említett konzol a parancsok begépelésére, az R értelmező a begépelt parancsok végrehajtására és a csomagok közül a standard és ajánlott csomagok. Az <em>Alap R</em> telepítése után már tudunk R parancsokat végrehajtani, és nagyon sok adatelemzési probléma megoldására nyílik módunk, sőt azt mondhatjuk, hogy tetszőleges problémát megoldhatunk kisebb-nagyobb erőfeszítéssel, mert az R egy teljes értékű nyelv. Azonban sokszor érdemesebb az <em>egyéb csomagok</em> közül választani, hiszen könnyen elképzelhető, hogy a számtalan csomag között találunk olyat, amely segítségünkre lehet speciális feladataink megoldása során. Valószínű, hogy létezik olyan csomago és benne olyan függvény, amely adatkezelési, adatelemzési, grafikai vagy publikálási feladatunkat jelentősen megkönnyíti. Az <em>egyéb csomagok</em> csoportjába tartozó csomagok forrása több tárhely is lehet, ezek közül legjelentősebb az R Foundation által karbantartott CRAN (kb. 15000 csomaggal), a Bioconductor (1741 csomaggal) és a GitHub.</p>
 <p>Az R tehát egyszerre több dolgot jelent. Az R egyrészt egy magas szintű programozási nyelv, hamarosan megtanuljuk, hogyan írjunk ezen a nyelven értelmes utasításokat. Másrészt a nyelv körüli környezetet is jelenti, amely magába foglalja a konzolt, a parancsaink értelmezésért felelős R interpretert, valamint azokat a csomagokat, amelyekkel az R tudása kiegészíthető.</p>
+</div>
+<div id="mi-az-r-1-summary" class="section level3" number="2.1.4">
+<h3>
+<span class="header-section-number">2.1.4</span> Összefoglalás<a class="anchor" aria-label="anchor" href="#mi-az-r-1-summary"><i class="fas fa-link"></i></a>
+</h3>
 <div class="rmdsummary">
-<p>
-<strong>Összefoglalás</strong>
-</p>
 <p>
 Minden statisztikai programcsomag, így az R is, alapvetően a számításigényes statisztikai eljárások kézi végrehajtásától kímél meg minket. Az R nagyon gazdag adatmanipulációs és grafikus funkciókban is, támogatja a reprodukálható adatelemzés végrehajtását. Az R ingyenes, többplatformos és egyik legfontosabb jellemzője, hogy parancsok útján bírhatjuk működésre. Az <em>Alap R</em> biztosítja a konzolt a parancsok begépelésére, az R interpretert a parancsok tényleges végrehajtására, és jónéhány csomagba szervezett eljárást az adatelemzési feladatok elvégzéséhez. Az <em>Alap R</em> mindössze néhány tucat csomagot tartalmaz, <em>standard csomagokokat</em> és az <em>ajánlott csomagokat</em>, de több tízezer további csomaggal bővíthetjük az R tudását. Az adatelemzési munka során egy R környezet vesz minket körül, amely az R nyelven megírt parancsok értelmezésére és végrehajtására képes <em>Alap R</em>-ből, és az ún. <em>egyéb csomagokból</em> áll.
 </p>
 </div>
+</div>
+<div id="mi-az-r-1-exercise" class="section level3" number="2.1.5">
+<h3>
+<span class="header-section-number">2.1.5</span> Feladatok<a class="anchor" aria-label="anchor" href="#mi-az-r-1-exercise"><i class="fas fa-link"></i></a>
+</h3>
 
 <div class="rmdexercise">
-<p><strong>Feladatok</strong></p>
 <ol style="list-style-type: decimal">
 <li>Keressünk weboldalakat, amelyek az R előnyeit és hátrányait listázzák!</li>
 <li>Keressük meg, hogy az R optimális futtatásához, milyen hardver követelmények szükségesek!</li>
@@ -177,22 +186,28 @@ megtudjuk mit értünk modern R alatt.
 </div>
 <p>A 2014-es év az R nyelv életében meghatározó változást hozott. Egyrészt megjelent a <strong>magrittr</strong> csomagban a pipe operátor (<code>%&gt;%</code>), amellyel olvashatóbb kódok írására nyílt lehetőség<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://www.r-bloggers.com/magrittr-simplifying-r-code-with-pipes/" class="uri"&gt;https://www.r-bloggers.com/magrittr-simplifying-r-code-with-pipes/&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>, másrészt a pipe operátorra alapozva Hadley Wickham bemutatta a <strong>dplyr</strong> és <strong>tidyr</strong> csomagokat. Ezzel az R funkcionális<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Az R egy nem túl fiatal, a funkcionális programnyelvekhez hasonlóan építkező programozási nyelv, vagyis egy probléma megoldása tipikusan sokszorosan egymásba ágyazott függvényhívások segítségével történik. Ez sok-sok nyitó és záró kerekzárójellel jár együtt, így a parancsaink áttekintése és karbantartása sokszor nehézségekbe ütközik. Ezt kiküszöbölendő az R-ben előszeretettel használnak procedurális eszközöket (például &lt;code&gt;for&lt;/code&gt; ciklusokat), de a kód olvashatóságát és karbantartását igazán ez sem könnyíti meg.&lt;/p&gt;"><sup>2</sup></a> oldalát úgy erősítették meg<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://www.r-bloggers.com/magrittr-the-best-thing-to-have-ever-happened-to-r/" class="uri"&gt;https://www.r-bloggers.com/magrittr-the-best-thing-to-have-ever-happened-to-r/&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>, hogy a sokszoros egymásba ágyazás során kiküszöbölték a kerekzárójelek írásának problémáját. Az ebben a szellemben készült csomagok listája bővült az idők folyamán, és a <em>Tidyverse</em> nevet kapta ez a csomaggyűjtemény. Jelenleg a következő csomagok alkotják: <strong>ggplot2</strong>, <strong>purrr</strong>, <strong>tibble</strong>, <strong>dplyr</strong>, <strong>tidyr</strong>, <strong>stringr</strong>, <strong>readr</strong> és <strong>forcats</strong>. Ezek a csomagok nem egyszerűen új funkciókkal ruházzák fel az <em>Alap R</em> tudását, mint általában az <em>egyéb csomagok</em>. A <em>Tidyverse</em> csomagjai konzisztens módon együttműködnek, és egy új megközelítést hoznak az adatelemzési folyamatok végrehajtásában és a kódok írásában. Rövidebb idő alatt hozhatunk létre könnyebben karbantartható kódokat, és a műveleteink végrehajtása is rendszerint gyorsabb. Amikor ebben a megközelítésben hozzuk létre és hajtjuk végre utasításainkat, akkor azt mondjuk hogy a <em>Tidyverse R</em>-t használjuk. A <em>Tidyverse R</em> nem helyettesíti az <em>Alap R</em>-t, és csak bizonyos feladatokra használható. Lássunk tisztán, amit elvégezhetünk <em>Tidyverse R</em>-ben, azt az <em>Alap R</em>-ben is meg tudnánk tenni, de valószínűleg több gépeléssel, lassabb és rosszabbul karbantartható kóddal.</p>
 <p>Eddig láttuk, hogy az R használatához szükséges az <em>Alap R</em> telepítése, majd a speciális problémánknak megfelelően kiegészíthetjük az R tudását úgy, hogy telepítünk egyet vagy többet az <em>egyéb csomagok</em> kategóriájából. Választhatjuk akár a <em>Tidyverse</em> csomagjait is telepítésre, ugyanis így lehetőségünk nyílik a <em>Tidyverse R</em> használatára. Utasításaink megfogalmazásának ma ez a legmodernebb módja.</p>
-<p>A modern R alatt lényegében azokat a funkciókat értjük, amelyek a <a href="https://www.tidyverse.org/"><em>Tidyverse</em></a> gyűjteményben található csomagokhoz kötődnek. Ezekkel a csomagokkal, gyorsabb, olvashatóbb és könnyebben karbantartható kódokat hozhatunk létre. A <em>Tidyverse</em> használata tehát erősen javasolt, de ebben a könyvben a “hagyományos”, <em>Tidyverse R</em> előtti lehetőségeket is bemutatjuk.</p>
+<p>A modern R alatt lényegében azokat a funkciókat értjük, amelyek a <a href="https://www.tidyverse.org/"><em>Tidyverse</em></a> gyűjteményben található csomagokhoz kötődnek. Ezekkel a csomagokkal, gyorsabb, olvashatóbb és könnyebben karbantartható kódokat hozhatunk létre. A <em>Tidyverse</em> használata tehát erősen javasolt, de ebben a könyvben a “hagyományos,” <em>Tidyverse R</em> előtti lehetőségeket is bemutatjuk.</p>
+<div id="mi-az-r-2-summary" class="section level3" number="2.2.1">
+<h3>
+<span class="header-section-number">2.2.1</span> Összefoglalás<a class="anchor" aria-label="anchor" href="#mi-az-r-2-summary"><i class="fas fa-link"></i></a>
+</h3>
 <div class="rmdsummary">
-<p>
-<strong>Összefoglalás</strong>
-</p>
 <p>
 A <em>Tidyverse R</em> egy csomaggyűjtemény az <em>egyéb csomagok</em> csoportjából, amely újabb szemléletű R parancsok írására ad lehetőséget. Az így készült kódjaink rendszerint gyorsabban futnak és könnyebben karbantarthatók. A modern R a <em>Tidyverse R</em> csomagjaival kiegészített <em>Alap R</em>, de legfőképp egy új lehetőség parancsaink megfogalmazására.
 </p>
 </div>
+</div>
+<div id="mi-az-r-2-exercise" class="section level3" number="2.2.2">
+<h3>
+<span class="header-section-number">2.2.2</span> Feladatok<a class="anchor" aria-label="anchor" href="#mi-az-r-2-exercise"><i class="fas fa-link"></i></a>
+</h3>
 
 <div class="rmdexercise">
-<p><strong>Feladatok</strong></p>
 <ol style="list-style-type: decimal">
 <li>Ki Hadley Wickham?</li>
 <li>Honnan származik a pipe operátor neve?</li>
 </ol>
+</div>
 </div>
 </div>
 <div id="múlt-és-jelen" class="section level2" number="2.3">
@@ -338,24 +353,30 @@ reprodukálható kutatás az RMarkdown segítségével</li>
 </ul>
 </li>
 </ul>
+</div>
+<div id="mi-az-r-3-summary" class="section level3" number="2.3.4">
+<h3>
+<span class="header-section-number">2.3.4</span> Összefoglalás<a class="anchor" aria-label="anchor" href="#mi-az-r-3-summary"><i class="fas fa-link"></i></a>
+</h3>
 <div class="rmdsummary">
-<p>
-<strong>Összefoglalás</strong>
-</p>
 <p>
 Az R fejlesztését Ross Ihaka és Robert Gentleman kezdte, majd 1997-től egy nagyobb csapat, az <em>R Development Core Team</em> vezeti a fejlesztést. Az <em>R Core Team</em> tagjai 2002-ben létrehozták a <em>The R Foundation for Statistical Computing</em> közhasznú, nonprofit szervezetet, amelynek fő célja az R folyamatos fejlesztésének biztosítása. A szervezet fenntart egy CRAN nevű számítógépes hálózatot, amely szabad hozzáférést biztosít az R legfrissebb verziójához, a csomagokhoz és a részletes dokumentációkhoz.<br>
 Az R alaptudás megszerzése elegendő magabiztosságot fog nyújtani az adatelemzési munka során, azonban vegyük figyelembe, hogy ezt csak kellő gyakorlással érhetjük el. Az R sokféle megoldást biztosít ugyanarra a problémára, legyen az statisztikai vagy bármilyen más jellegű probléma.
 </p>
 </div>
+</div>
+<div id="mi-az-r-3-exercise" class="section level3" number="2.3.5">
+<h3>
+<span class="header-section-number">2.3.5</span> Feladatok<a class="anchor" aria-label="anchor" href="#mi-az-r-3-exercise"><i class="fas fa-link"></i></a>
+</h3>
 
 <div class="rmdexercise">
-<p><strong>Feladatok</strong></p>
 <ol style="list-style-type: decimal">
 <li>Keressünk olyan statisztikai jellegű témaköröket, amelyekben az R segítségünkre lehet?</li>
 <li>Keressünk olyan nem-statisztikai jellegű témaköröket, amelyekben az R segítségünkre lehet?</li>
 <li>Nézzük át néhány online elérhető R könyvet, és hasonlítsuk össze az R alaptudás egyes elemeivel! Melyek az átfedő részek, és hol vannak különbségek?</li>
 </ol>
-<p><a href="https://www.r-bloggers.com/the-history-of-r-updated-for-2020/" class="uri">https://www.r-bloggers.com/the-history-of-r-updated-for-2020/</a></p>
+<a href="https://www.r-bloggers.com/the-history-of-r-updated-for-2020/" class="uri">https://www.r-bloggers.com/the-history-of-r-updated-for-2020/</a>
 </div>
 <!--
 ### Jelölési konvenciók
@@ -424,14 +445,23 @@ sessionInfo()
 <li><a class="nav-link" href="#az-r-jellemz%C5%91i"><span class="header-section-number">2.1.1</span> Az R jellemzői</a></li>
 <li><a class="nav-link" href="#a-r-parancssoros"><span class="header-section-number">2.1.2</span> A R parancssoros</a></li>
 <li><a class="nav-link" href="#mi-val%C3%B3j%C3%A1ban-az-r"><span class="header-section-number">2.1.3</span> Mi valójában az R?</a></li>
+<li><a class="nav-link" href="#mi-az-r-1-summary"><span class="header-section-number">2.1.4</span> Összefoglalás</a></li>
+<li><a class="nav-link" href="#mi-az-r-1-exercise"><span class="header-section-number">2.1.5</span> Feladatok</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#a-modern-r"><span class="header-section-number">2.2</span> A modern R</a></li>
+<li>
+<a class="nav-link" href="#a-modern-r"><span class="header-section-number">2.2</span> A modern R</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#mi-az-r-2-summary"><span class="header-section-number">2.2.1</span> Összefoglalás</a></li>
+<li><a class="nav-link" href="#mi-az-r-2-exercise"><span class="header-section-number">2.2.2</span> Feladatok</a></li>
+</ul>
+</li>
 <li>
 <a class="nav-link" href="#m%C3%BAlt-%C3%A9s-jelen"><span class="header-section-number">2.3</span> Múlt és jelen</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#szerepl%C5%91k-%C3%A9s-fogalmak"><span class="header-section-number">2.3.1</span> Szereplők és fogalmak</a></li>
 <li><a class="nav-link" href="#alapelvek"><span class="header-section-number">2.3.2</span> Alapelvek</a></li>
 <li><a class="nav-link" href="#Ralaptudas"><span class="header-section-number">2.3.3</span> Az R alaptudás</a></li>
+<li><a class="nav-link" href="#mi-az-r-3-summary"><span class="header-section-number">2.3.4</span> Összefoglalás</a></li>
+<li><a class="nav-link" href="#mi-az-r-3-exercise"><span class="header-section-number">2.3.5</span> Feladatok</a></li>
 </ul>
 </li>
 </ul>
@@ -451,7 +481,7 @@ sessionInfo()
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2021-12-27.</p>
+    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2021-12-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

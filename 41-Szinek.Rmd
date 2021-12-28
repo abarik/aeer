@@ -1,0 +1,547 @@
+# Színek {#szinek}
+
+Az R grafikus elemeinek a színét magunk is megválaszthatjuk. Ehhez nyújt segítséget ez a függelék.
+
+Megismerjük 
+
+* az előre definiált paletta színeit (\@ref(az-elore-definialt) fejezet),
+* színek választását az **RColorBrewer** csomag segítségével (\@ref(szinek-valasztasa-rcolorbrewer) fejezet),
+* színek választása a **dichromat** csomag segítségével (\@ref(szinek-valasztasa-dichromat) fejezet),
+* színek választását egyéb paletták segítségével (\@ref(szinek-valasztasa-egyeb) fejezet),
+* és végül az előre definiált 657 színnevet (\@ref(a-657-szinnev) fejezet).
+
+## Az előre definiált paletta színei {#az-elore-definialt}
+
+Az előre definiált paletta 8 színt tartalmaz. A \@ref(fig:default-palette) ábra az alapértelmezett színeket tartalmazza. Az előre definiált paletta egyes színeit sorszámokkal (1, 2 stb.) tudjuk elérni, amelyeket rendszerint a rajzfüggvények `col=` argumentumában kell elhelyezni. Az 1. szín a palettán a fekete, a második a piros, és így tovább.
+
+
+```{r default-palette, fig.cap="Az alapértelmezett paletta 8 színének sorszáma és neve"}
+set.seed(0)
+x <- rpois(n = 50, lambda = 100)
+par(las = 1, mgp = c(0, 0.2, 0), tcl = -0.2, mar = c(3, 2, 1, 1))
+bar <- barplot(x[1:8], col = 1:8, names.arg = 1:8)
+mtext(side = 1, at = bar, text = palette(), line = 1)
+```
+
+Más színeket is alapértelmezetté tehetünk, sőt a színek számát is megnövelhetjük a palettán. Ennek a legegyszerűbb módja, ha a `palette()` függvény argumentumában színkódokat tartalmazó karakteres vektort adunk meg.
+
+```{r}
+szinek <- c("#E84F2C", "#E31307", "#E84F2C", "#E4BA51", "#E3B786", "#825846", 
+    "#59392A", "#564C30", "#897D6E", "#627C82", "#93AF8A", "#A0BA5E", "#63BA5E", 
+    "#5EBAB2", "#6596B7")
+palette(value = szinek)
+```
+
+A rajzfüggvények ezután a paletta új színeit használják.
+
+```{r}
+barplot(x[1:15], col = 1:15)
+```
+
+Ha megváltoztattuk a paletta színeit, akkor az alapértelmezett színekhez a `palette("default")` paranccsal térhetünk vissza.
+
+```{r}
+palette(value = "default")  # alapértelmezett paletta visszaállítása
+```
+
+## Színek választása az RColorBrewer csomag segítségével {#szinek-valasztasa-rcolorbrewer}
+
+Az **RColorBrewer** csomag `brewer.pal()` függvénye szolgál az előre definiált színpaletták alapján színkódokat tartalmazó vektor létrehozására. A függvény általános alakja:
+
+```{r eval=FALSE}
+library(RColorBrewer)
+brewer.pal(n, name)
+```
+
+Az `n=` a kívánt színek számát határozza meg, amely háromnál nem lehet kevesebb. A `name=` a színpaletta nevét tartalmazza. A választható neveket a `brewer.pal.info` adattábla tartalmazza, amely a palettából elérhető összes szín számát és a paletta típusát is tartalmazza. Ez utóbbi a `category` oszlopban olvasható, amelynek lehetséges értékei: `seq`, `div` és `qual`. A szekvenciális palettákat (`seq`) rendezett adatok ábrázolására használhatjuk: a világosabb színek a kisebb értékeket, a sötétebbek a nagyobbakat szemléltethetik. A divergens (`div`) paletták a középső részt világosabb színekkel, a szélső értékeket sötétebb színekkel jelenítik meg. A kvalitatív (`qual`) paletta kategorikus változók megjelenítésére használható.
+
+```{r}
+library(RColorBrewer)
+brewer.pal.info
+```
+
+A továbbiakban a `brewer.pal()` függvény használatára mutatunk példát:
+
+```{r}
+# az x adatvektor beállítása
+set.seed(0)
+x <- rpois(n = 50, lambda = 100)
+# grafikus paraméterek beállítása
+par(las = 1, mgp = c(0, 0.2, 0), tcl = -0.2, mar = c(3, 2, 1, 1))
+library(RColorBrewer)
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "BrBG"), names.arg = 1:11, 
+    main = "BrBG, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "BrBG"), names.arg = 1:11, 
+    main = "BrBG, div", border = NA)
+```
+
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "PiYG"), names.arg = 1:11, 
+    main = "PiYG, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "PiYG"), names.arg = 1:11, 
+    main = "PiYG, div", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "PRGn"), names.arg = 1:11, 
+    main = "PRGn, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "PRGn"), names.arg = 1:11, 
+    main = "PRGn, div", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "PuOr"), names.arg = 1:11, 
+    main = "PuOr, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "PuOr"), names.arg = 1:11, 
+    main = "PuOr, div", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "RdBu"), names.arg = 1:11, 
+    main = "RdBu, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "RdBu"), names.arg = 1:11, 
+    main = "RdBu, div", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "RdGy"), names.arg = 1:11, 
+    main = "RdGy, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "RdGy"), names.arg = 1:11, 
+    main = "RdGy, div", border = NA)
+```
+
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "RdYlBu"), names.arg = 1:11, 
+    main = "RdYlBu, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "RdYlBu"), names.arg = 1:11, 
+    main = "RdYlBu, div", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "RdYlGn"), names.arg = 1:11, 
+    main = "RdYlGn, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "RdYlGn"), names.arg = 1:11, 
+    main = "RdYlGn, div", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:11], col = brewer.pal(n = 11, name = "Spectral"), names.arg = 1:11, 
+    main = "Spectral, div")
+barplot(x[1:11], col = brewer.pal(n = 11, name = "Spectral"), names.arg = 1:11, 
+    main = "Spectral, div", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:8], col = brewer.pal(n = 8, name = "Accent"), names.arg = 1:8, main = "Accent, qual")
+barplot(x[1:8], col = brewer.pal(n = 8, name = "Accent"), names.arg = 1:8, main = "Accent, qual", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:8], col = brewer.pal(n = 8, name = "Dark2"), names.arg = 1:8, main = "Dark2, qual")
+barplot(x[1:8], col = brewer.pal(n = 8, name = "Dark2"), names.arg = 1:8, main = "Dark2, qual", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:12], col = brewer.pal(n = 12, name = "Paired"), names.arg = 1:12, 
+    main = "Paired, qual")
+barplot(x[1:12], col = brewer.pal(n = 12, name = "Paired"), names.arg = 1:12, 
+    main = "Paired, qual", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Pastel1"), names.arg = 1:9, 
+    main = "Pastel1, qual")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Pastel1"), names.arg = 1:9, 
+    main = "Pastel1, qual", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:8], col = brewer.pal(n = 8, name = "Pastel2"), names.arg = 1:8, 
+    main = "Pastel2, qual")
+barplot(x[1:8], col = brewer.pal(n = 8, name = "Pastel2"), names.arg = 1:8, 
+    main = "Pastel2, qual", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Set1"), names.arg = 1:9, main = "Set1, qual")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Set1"), names.arg = 1:9, main = "Set1, qual", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:8], col = brewer.pal(n = 8, name = "Set2"), names.arg = 1:8, main = "Set2, qual")
+barplot(x[1:8], col = brewer.pal(n = 8, name = "Set2"), names.arg = 1:8, main = "Set2, qual", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:12], col = brewer.pal(n = 12, name = "Set3"), names.arg = 1:12, 
+    main = "Set3, qual")
+barplot(x[1:12], col = brewer.pal(n = 12, name = "Set3"), names.arg = 1:12, 
+    main = "Set3, qual", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Blues"), names.arg = 1:9, main = "Blues, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Blues"), names.arg = 1:9, main = "Blues, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "BuGn"), names.arg = 1:9, main = "BuGn, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "BuGn"), names.arg = 1:9, main = "BuGn, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "BuPu"), names.arg = 1:9, main = "BuPu, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "BuPu"), names.arg = 1:9, main = "BuPu, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "GnBu"), names.arg = 1:9, main = "GnBu, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "GnBu"), names.arg = 1:9, main = "GnBu, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Greens"), names.arg = 1:9, main = "Greens, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Greens"), names.arg = 1:9, main = "Greens, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Greys"), names.arg = 1:9, main = "Greys, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Greys"), names.arg = 1:9, main = "Greys, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Oranges"), names.arg = 1:9, 
+    main = "Oranges, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Oranges"), names.arg = 1:9, 
+    main = "Oranges, seq", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "OrRd"), names.arg = 1:9, main = "OrRd, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "OrRd"), names.arg = 1:9, main = "OrRd, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "PuBu"), names.arg = 1:9, main = "PuBu, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "PuBu"), names.arg = 1:9, main = "PuBu, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "PuBuGn"), names.arg = 1:9, main = "PuBuGn, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "PuBuGn"), names.arg = 1:9, main = "PuBuGn, seq", 
+    border = NA)
+```
+
+
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "PuRd"), names.arg = 1:9, main = "PuRd, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "PuRd"), names.arg = 1:9, main = "PuRd, seq", 
+    border = NA)
+```
+
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Purples"), names.arg = 1:9, 
+    main = "Purples, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Purples"), names.arg = 1:9, 
+    main = "Purples, seq", border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "RdPu"), names.arg = 1:9, main = "RdPu, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "RdPu"), names.arg = 1:9, main = "RdPu, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Reds"), names.arg = 1:9, main = "Reds, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "Reds"), names.arg = 1:9, main = "Reds, seq", 
+    border = NA)
+```
+
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "YlGn"), names.arg = 1:9, main = "YlGn, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "YlGn"), names.arg = 1:9, main = "YlGn, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "YlGnBu"), names.arg = 1:9, main = "YlGnBu, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "YlGnBu"), names.arg = 1:9, main = "YlGnBu, seq", 
+    border = NA)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "YlOrBr"), names.arg = 1:9, main = "YlOrBr, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "YlOrBr"), names.arg = 1:9, main = "YlOrBr, seq", 
+    border = NA)
+```
+
+
+```{r}
+par(mfrow = c(1, 2))
+barplot(x[1:9], col = brewer.pal(n = 9, name = "YlOrRd"), names.arg = 1:9, main = "YlOrRd, seq")
+barplot(x[1:9], col = brewer.pal(n = 9, name = "YlOrRd"), names.arg = 1:9, main = "YlOrRd, seq", 
+    border = NA)
+```
+
+
+
+## Színek választása a dichromat csomag segítségével {#szinek-valasztasa-dichromat}
+
+A `dichromat` csomag színsémai közül is választhatunk. A színsémákat a `colorschemes` lista tartalmazza. A lisatelemek neve:
+
+```{r}
+library(dichromat)
+names(colorschemes)
+```
+
+Példák színek választására:
+
+```{r}
+# az x adatvektor beállítása
+set.seed(0)
+x <- rpois(n = 50, lambda = 100)
+# grafikus paraméterek beállítása
+par(las = 1, mgp = c(0, 0.2, 0), tcl = -0.2, mar = c(3, 2, 1, 1))
+library(dichromat)
+par(mfrow=c(1,2))
+barplot(x[1:10], col = colorschemes$BrowntoBlue.10, names.arg = 1:10, main = "BrowntoBlue.10")
+barplot(x[1:10], col = colorschemes$BrowntoBlue.10, names.arg = 1:10, main = "BrowntoBlue.10", border=NA)
+```
+
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:12], col = colorschemes$BrowntoBlue.12, names.arg = 1:12, main = "BrowntoBlue.12")
+barplot(x[1:12], col = colorschemes$BrowntoBlue.12, names.arg = 1:12, main = "BrowntoBlue.12", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:12], col = colorschemes$BluetoDarkOrange.12, names.arg = 1:12, main = "BluetoDarkOrange.12")
+barplot(x[1:12], col = colorschemes$BluetoDarkOrange.12, names.arg = 1:12, main = "BluetoDarkOrange.12", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:18], col = colorschemes$BluetoDarkOrange.18, names.arg = 1:18, main = "BluetoDarkOrange.18")
+barplot(x[1:18], col = colorschemes$BluetoDarkOrange.18, names.arg = 1:18, main = "BluetoDarkOrange.18", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:12], col = colorschemes$DarkRedtoBlue.12, names.arg = 1:12, main = "DarkRedtoBlue.12")
+barplot(x[1:12], col = colorschemes$DarkRedtoBlue.12, names.arg = 1:12, main = "DarkRedtoBlue.12", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:18], col = colorschemes$DarkRedtoBlue.18, names.arg = 1:18, main = "DarkRedtoBlue.18")
+barplot(x[1:18], col = colorschemes$DarkRedtoBlue.18, names.arg = 1:18, main = "DarkRedtoBlue.18", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:14], col = colorschemes$BluetoGreen.14, names.arg = 1:14, main = "BluetoGreen.14")
+barplot(x[1:14], col = colorschemes$BluetoGreen.14, names.arg = 1:14, main = "BluetoGreen.14", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:8], col = colorschemes$BluetoGray.8, names.arg = 1:8, main = "BluetoGray.8")
+barplot(x[1:8], col = colorschemes$BluetoGray.8, names.arg = 1:8, main = "BluetoGray.8", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:14], col = colorschemes$BluetoOrangeRed.14, names.arg = 1:14, main = "BluetoOrangeRed.14")
+barplot(x[1:14], col = colorschemes$BluetoOrangeRed.14, names.arg = 1:14, main = "BluetoOrangeRed.14", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:10], col = colorschemes$BluetoOrange.10, names.arg = 1:10, main = "BluetoOrange.10")
+barplot(x[1:10], col = colorschemes$BluetoOrange.10, names.arg = 1:10, main = "BluetoOrange.10", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:12], col = colorschemes$BluetoOrange.12, names.arg = 1:12, main = "BluetoOrange.12")
+barplot(x[1:12], col = colorschemes$BluetoOrange.12, names.arg = 1:12, main = "BluetoOrange.12", border = T)
+
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:8], col = colorschemes$BluetoOrange.8, names.arg = 1:8, main = "BluetoOrange.8")
+barplot(x[1:8], col = colorschemes$BluetoOrange.8, names.arg = 1:8, main = "BluetoOrange.8", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:10], col = colorschemes$LightBluetoDarkBlue.10, names.arg = 1:10, 
+    main = "LightBluetoDarkBlue.10")
+barplot(x[1:10], col = colorschemes$LightBluetoDarkBlue.10, names.arg = 1:10, 
+    main = "LightBluetoDarkBlue.10", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:7], col = colorschemes$LightBluetoDarkBlue.7, names.arg = 1:7, main = "LightBluetoDarkBlue.7")
+barplot(x[1:7], col = colorschemes$LightBluetoDarkBlue.7, names.arg = 1:7, main = "LightBluetoDarkBlue.7", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:12], col = colorschemes$Categorical.12, names.arg = 1:12, main = "Categorical.12")
+barplot(x[1:12], col = colorschemes$Categorical.12, names.arg = 1:12, main = "Categorical.12", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:16], col = colorschemes$GreentoMagenta.16, names.arg = 1:16, main = "GreentoMagenta.16")
+barplot(x[1:16], col = colorschemes$GreentoMagenta.16, names.arg = 1:16, main = "GreentoMagenta.16", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:25], col = colorschemes$SteppedSequential.5, names.arg = 1:25, main = "SteppedSequential.5")
+barplot(x[1:25], col = colorschemes$SteppedSequential.5, names.arg = 1:25, main = "SteppedSequential.5", border = NA)
+```
+
+
+## Színek választása egyéb paletta segítségével {#szinek-valasztasa-egyeb}
+
+Színpaletta létrehozásához több beépített lehetőségek közül is választhatunk.
+
+```{r eval=FALSE}
+rainbow(n, start=0, end, alpha = 1)
+heat.colors(n, alpha = 1)
+terrain.colors(n, alpha = 1)
+topo.colors(n, alpha = 1)
+cm.colors(n, alpha = 1)
+```
+
+Az `n=` argumentum a létrehozandó színek számát jelenti.
+
+Példák színpaletta létrehozására:
+
+```{r}
+# az x adatvektor beállítása
+set.seed(0)
+x <- rpois(n = 50, lambda = 100)
+# grafikus paraméterek beállítása
+par(las = 1, mgp = c(0, 0.2, 0), tcl = -0.2, mar = c(3, 2, 1, 1))
+par(mfrow=c(1,2))
+barplot(x[1:16], col = rainbow(16), names.arg = 1:16, main = "rainbow(n=16)")
+barplot(x[1:16], col = rainbow(16), names.arg = 1:16, main = "rainbow(n=16)", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:16], col = rainbow(16, start = 0, end = 0.2), names.arg = 1:16, 
+    main = "rainbow(n=16, start=0, end=0.2)")
+barplot(x[1:16], col = rainbow(16, start = 0, end = 0.2), names.arg = 1:16, 
+    main = "rainbow(n=16, start=0, end=0.2)", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:16], col = rainbow(16, start = 0, end = 0.5), names.arg = 1:16, 
+    main = "rainbow(n=16, start=0, end=0.5)")
+barplot(x[1:16], col = rainbow(16, start = 0, end = 0.5), names.arg = 1:16, 
+    main = "rainbow(n=16, start=0, end=0.5)", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:16], col = rainbow(16, start = 0, end = 0.8), names.arg = 1:16, 
+    main = "rainbow(n=16, start=0, end=0.8)")
+barplot(x[1:16], col = rainbow(16, start = 0, end = 0.8), names.arg = 1:16, 
+    main = "rainbow(n=16, start=0, end=0.8)", border = NA)
+```
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:16], col = heat.colors(16), names.arg = 1:16, main = "heat.colors(n=16)")
+barplot(x[1:16], col = heat.colors(16), names.arg = 1:16, main = "heat.colors(n=16)", border = NA)
+```
+
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:16], col = terrain.colors(16), names.arg = 1:16, main = "terrain.colors(n=16)")
+barplot(x[1:16], col = terrain.colors(16), names.arg = 1:16, main = "terrain.colors(n=16)", border = NA)
+```
+
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:16], col = topo.colors(16), names.arg = 1:16, main = "topo.colors(n=16)")
+barplot(x[1:16], col = topo.colors(16), names.arg = 1:16, main = "topo.colors(n=16)", border = NA)
+```
+
+
+```{r}
+par(mfrow=c(1,2))
+barplot(x[1:16], col = cm.colors(16), names.arg = 1:16, main = "cm.colors(n=16)")
+barplot(x[1:16], col = cm.colors(16), names.arg = 1:16, main = "cm.colors(n=16)", border = NA)
+```
+
+## A 657 színnév {#a-657-szinnev}
+
+```{r}
+colors()
+```
+

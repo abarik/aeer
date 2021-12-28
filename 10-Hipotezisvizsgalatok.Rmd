@@ -6,6 +6,7 @@ knitr::include_graphics(path = "images/ch_10_small.png")
 
 
 ```{block2, type='rmdlevel1'}
+
 Ebben a fejezetben a statisztika azon klasszikus próbáit foglaltuk össze, amelyek jellemzően egy- vagy kétmintás hipotézisvizsgálatokat jelentenek. Az öt alfejezet a nullhipotézisben szereplő állításoknak és paramétereknek megfelelően a statisztikai próbák különböző csoportjait fedi le:
 
 * várható értékre vonatkozó próbák
@@ -13,5 +14,6 @@ Ebben a fejezetben a statisztika azon klasszikus próbáit foglaltuk össze, ame
 * valószínűségre vonatkozó próbák 
 * varianciára vonatkozó próbák
 * az eloszlás egészére vonatkozó próbák. 
+
 ```
 

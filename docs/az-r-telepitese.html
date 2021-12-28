@@ -64,8 +64,11 @@
 <li><a class="" href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></li>
 <li><a class="" href="hipotezisvizsgalatok.html"><span class="header-section-number">10</span> Hipotézisvizsgálatok</a></li>
 <li><a class="" href="publikacio.html"><span class="header-section-number">11</span> Publikáció</a></li>
+<li class="book-part">Függelék</li>
+<li><a class="" href="megoldasok.html"><span class="header-section-number">A</span> Megoldások</a></li>
+<li><a class="" href="szinek.html"><span class="header-section-number">B</span> Színek</a></li>
+<li><a class="" href="oravazlat-az-r-tanitasahoz.html"><span class="header-section-number">C</span> Óravázlat az R tanításához</a></li>
 <li><a class="" href="irodalomjegyzek.html">Irodalomjegyzék</a></li>
-<li><a class="" href="megoldasok.html">Megoldások</a></li>
 </ul>
 
         <div class="book-extra">
@@ -126,22 +129,22 @@ megismerjük az <em>Alap R</em>, az <em>RStudio</em> és a csomagok telepítés�
 <p>A csomagok telepítésére az <em>Alap R</em> vagy az <em>RStudio</em> elindítása után van módunk. Érdemes a telepítéseket az <em>RStudio</em>-ból végezni. A csomag fellelési helye alapján, három különböző tárhelyről mutatjuk be a csomagok telepítését. Látni fogjuk, hogy a csomagok telepítéséhez R parancsokat fogunk használni. Ha még nem vagyunk jártasak R parancsok futtatásban, akkor a <a href="munka-az-r-ben.html#AzRStudiohasznalata">4.1</a> fejezet fellapozásával segítséget kaphatunk a lenti parancsok kipróbálásához, de úgy is eljárhatunk, hogy most kihagyjuk ennek a résznek az áttekintését, és később térünk vissza, amikor valóban felmerül az igény csomagok telepítésére.</p>
 <p>Az R csomagok hivatalos helye a <a href="https://cran.r-project.org/web/packages/">CRAN (The Comprehensive R Archive Network)</a>. A CRAN számítógépei tárolják a nyílt forráskódú R nyelv és környezet különböző verzióinak kódjait és dokumentációit, így az összes R csomag forráskódját is. Egy bírálási folyamat után bármely felhasználó csomagja a CRAN-ból is elérhető lehet.</p>
 <p>Az <em>Alap R</em> vagy az <em>RStudio</em> elindítása után az <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> függvénnyel tölthetünk le és telepíthetünk csomagot a CRAN-ról. Tetszőleges csomag telepítéséhez írjuk a csomag nevét idézőjelekben a függvény argumentumába:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb11-1"><a href="az-r-telepitese.html#cb11-1" aria-hidden="true" tabindex="-1"></a>install.packages("csomag_neve")</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb10-1"><a href="az-r-telepitese.html#cb10-1" aria-hidden="true" tabindex="-1"></a>install.packages("csomag_neve")</span></code></pre></div>
 <p>A <strong>psych</strong> csomagot, amely a pszichológia kutatások adatainak elemzéséhez nyújt segítséget, például így telepíthetjük:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"psych"</span><span class="op">)</span>        <span class="co"># psych csomag telepítése</span></code></pre></div>
 <p>A csomagok másik fontos forrása a <a href="https://www.bioconductor.org/">Bioconductor</a>, ahol alaposan tesztelt és igen jól dokumentált bioinformatikai témájú csomagokat találunk. Az innen elérhető csomagokat – például most a <strong>DESeq2</strong> csomagot az RNS-szekvenálási elemzésekhez – a következő parancsokkal telepíthetjük:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"DESeq2"</span><span class="op">)</span></code></pre></div>
 <p>A csomagok harmadik fő forrása a GitHub. A felhasználók a saját fejlesztésű csomagjaikat rendszerint először a GitHub-on keresztül teszik elérhetővé. Ha ezeket a csomagokat szeretnénk kipróbálni, akkor a felhasználó és a csomag nevének birtokában a következő parancsot kell kiadnunk:</p>
 <pre><code>devtools::install_github("felhasznalo_neve/csomag_neve")</code></pre>
 <p>Például a GitHub-ról telepíthető <strong>emo</strong> csomag segítségvel hangulatjeleket szúrhatunk be az RMarkdown állományainkba. Ezzel a sorral telepíthetjük a csomagot:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"hadley/emo"</span><span class="op">)</span></code></pre></div>
 <p>Fontos tudnunk, hogy a csomagok telepítésére egy számítógépen egy adott R verzión belül csak egyszer van szükség. A telepítő parancsainkat azonban érdemes megőrizni, hogy ha szükséges, akkor egy új R verzióban könnyen tudjuk telepíteni a korábban használt csomagjainkat. Nagyon fontos, hogy a telepítő parancsok futtatása után, tegyük azokat megjegyzésbe, vagyis írjunk előjük kettőskereszt (<code>#</code>) karaktert (részletesebb információkat a megjegyzésekről a <a href="#MegjegyzesazRben"><strong>??</strong></a> fejezetben olvashatunk). Ezzel tudjuk megvédeni ezeket a telepítő parancsokat az újbóli, véletlen, felesleges végrehajtástól. Ennek megfelelően a telepítő parancsainkat ilyen formában kell őriznünk:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("psych")        # psych csomag telepítése</span>
 <span class="co"># if (!requireNamespace("BiocManager", quietly = TRUE))</span>
 <span class="co">#     install.packages("BiocManager")</span>
@@ -182,10 +185,10 @@ megismerjük a <em>Tidyverse R</em> telepítését.
 </ul>
 </div>
 <p>A <em>Tidyverse R</em> az R meglévő funkcióinak új szemléletű használatát jelenti. A modern R jelenleg egyet jelent a <em>Tidyverse R</em>-rel, az ebben a szemléleteben készült parancsaink gyorsak, jól olvashatók és könnyen módosíthatók. A <em>Tidyverse R</em> funkciói összesen 8 csomagba (<strong>ggplot2</strong>, <strong>purrr</strong>, <strong>tibble</strong>, <strong>dplyr</strong>, <strong>tidyr</strong>, <strong>stringr</strong>, <strong>readr</strong> és <strong>forcats</strong>) vannak szétosztva, mindegyik csomag egy-egy témakört fed le. A fenti csomagok telepítése egyetlen gyűjtőcsomag a <strong>tidyverse</strong> nevű csomag telepítésével is elvégezhető:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span> <span class="co"># a Tidyverse R telepítése</span></code></pre></div>
 <p>A <em>Tidyverse R</em> telepítését követően a csomagokban lévő függvények használatához a <em>Tidyverse R</em> betöltésére is szükség van. Hívjuk meg a <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> függvényt, amely ebben az esetben igen részletes tájékoztatást ad az újonnan elérhető csomagokról.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="co">#&gt; -- Attaching packages ----------------------------- tidyverse 1.3.0 --</span>
 <span class="co">#&gt; &lt;U+221A&gt; ggplot2 3.3.0     &lt;U+221A&gt; purrr   0.3.3</span>
@@ -196,7 +199,7 @@ megismerjük a <em>Tidyverse R</em> telepítését.
 <span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
 <span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span></code></pre></div>
 <p>A <em>Tidyverse R</em> csomagjait jelenleg is intenzíven fejlesztik, így gyakran jelenik meg újabb és újabb verzió. Érdemes ellenőrizni, hogy a <em>Tidyverse R</em> csomagjai közül a legfrissebbeket használjuk-e. Ehhez a <strong>tidyverse</strong> csomag <code><a href="https://tidyverse.tidyverse.org/reference/tidyverse_update.html">tidyverse_update()</a></code> függvényét használjuk.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tidyverse</span><span class="fu">::</span><span class="fu"><a href="https://tidyverse.tidyverse.org/reference/tidyverse_update.html">tidyverse_update</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; The following packages are out of date:</span>
 <span class="co">#&gt; </span>
@@ -245,7 +248,7 @@ bemutatjuk az <em>Alap R</em>, az <em>RStudio</em> és a csomagok frissítését
 </h3>
 <p>A telepített <em>Alap R</em> verzióját az <code>R.version.string</code> végrehajtásával ellenőrizhetjük. Amennyiben az R hivatalos <a href="https://cran.r-project.org/">oldalán</a> találunk frissebb példányt, akkor legalább két módszer segítségével frissíthetjük az <em>Alap R</em>-t. Megjegyezzük, hogy az <em>Alap R</em> sikeres frissítése után az <em>RStudio</em> automatikusan az új példányt fogja használni.</p>
 <p><strong>1. módszer: csak Windows alatt.</strong> Windows operációs rendszer alatt rendelkezésre áll az <strong>installr</strong> csomag, amelynek pontosan az a feladata, hogy kényelmesen telepíthessük számítógépünkre az R legfrissebb verzióját. Az <strong>installr</strong> a régebbi verzióban lévő csomagokat az új változatba is átmozgatja, és ott azok frissítését is elvégzi. A következő parancsok futtatására van szükség.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("installr") # az installr csomag telepítése</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://talgalili.github.io/installr/">installr</a></span><span class="op">)</span>              <span class="co"># az installr csomag betöltése</span>
 <span class="fu"><a href="https://talgalili.github.io/installr/reference/updateR.html">updateR</a></span><span class="op">(</span><span class="op">)</span>                      <span class="co"># az Alap R és a csomagok frissítése</span></code></pre></div>
@@ -253,14 +256,14 @@ bemutatjuk az <em>Alap R</em>, az <em>RStudio</em> és a csomagok frissítését
 <ol style="list-style-type: decimal">
 <li>Indítsuk el az <em>RStudio</em>-t még az új R verzió telepítése előtt, és futtassuk le a következő sorokat. A futtatás eredménye egy bináris állomány (<code>csomagok.rds</code>), amely a régi R összes telepített csomagjának nevét és más információkat tartalmaz. Lépjünk ki az <em>RStudio</em>-ból.</li>
 </ol>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">telepitett.csomagok</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html">installed.packages</a></span><span class="op">(</span>priority<span class="op">=</span><span class="st">"NA"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">telepitett.csomagok</span>, file <span class="op">=</span> <span class="st">"csomagok.rds"</span><span class="op">)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Telepítsük az <em>Alap R</em> új verzióját.</p></li>
 <li><p>Indítsuk el az <em>RStudio</em>-t és futtassuk le a lenti sorokat. A folyamat több percig is eltarthat. Az <em>RStudio</em> már az új R verziót használja, így a csomagok az új R tudását egészítik ki.</p></li>
 </ol>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">telepitett.csomagok</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"csomagok.rds"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span>pkgs<span class="op">=</span><span class="va">telepitett.csomagok</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <!--
@@ -293,7 +296,7 @@ filter(source == "Bioconductor")
 <span class="header-section-number">3.3.3</span> Csomagok frissítése<a class="anchor" aria-label="anchor" href="#csomagok-friss%C3%ADt%C3%A9se"><i class="fas fa-link"></i></a>
 </h3>
 <p>A korábban telepített csomagokat az <em>RStudio</em> <code>Tools/Check for Package Updates</code> menüpontjával frissíthetjük. A frissíthető csomagok megjelennek egy dialógus dobozban, jelöljük ki az összes csomagot és indítsuk el a telepítési folyamatot. A következő R parancs végrehajtásával is frissíthetjük a csomagjainkat.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/update.packages.html">update.packages</a></span><span class="op">(</span>ask<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> </code></pre></div>
 <div class="rmdsummary">
 <p>
@@ -353,7 +356,7 @@ Az <em>Alap R</em>, az <em>RStudio</em> és az egyes csomagok időről-időre me
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2021-12-27.</p>
+    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2021-12-28.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

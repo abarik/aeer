@@ -2,12 +2,12 @@
 title: "Adatkezelés és egyváltozós elemzések R-ben"
 # subtitle: ""
 author: "Abari Kálmán"
-date: "2021-12-27"
+date: "2021-12-28"
 knit: "bookdown::render_book"
 site: bookdown::bookdown_site
 output: bookdown::bs4_book
 documentclass: book
-#bibliography: [book.bib]
+bibliography: [bibliography/book.bib]
 biblio-style: apalike
 link-citations: true
 links-as-notes: true
@@ -24,10 +24,10 @@ description: "A legjobb R könyv!"
 
 <a href="http://amzn.to/2tZkmxG"><img src="images/cover.jpg" width="350" height="460" alt="" class="cover" /></a>
 
-Ez a honlap az *Adatkezelés és egyváltozós elemzések* c. könyv elektronikus változatát tartalmazza. A nyomtatásban megjelent könyvhöz képest számos bővítést tartalmaz: 
+Ez a honlap az *Adatkezelés és egyváltozós elemzések* c. könyv elektronikus változatát mutatja be. A nyomtatásban megjelent könyvhöz képest számos bővítést tartalmaz: 
 
-* a kitűzött feladatok megoldása
-* az R grafikus lehetőségeit tartamazó fejezet bővebb a *hagyományos grafika* résszel.
+* a függelék fejezetei, például a kitűzött feladatok megoldásai is itt jelennek meg,
+* az R grafikus lehetőségeit tartalmazó fejezet bővebb a *hagyományos grafika* résszel.
 
 A teljes könyv, az adatbázisok és az R kódok megtalálhatók a [következő címen](https://abarik.github.io/aeer).
 

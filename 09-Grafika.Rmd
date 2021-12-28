@@ -7,6 +7,7 @@ knitr::include_graphics(path = "images/ch_09_small.png")
 
 
 ```{block2, type='rmdlevel1'}
+
 Ebben a fejezetben áttekintjük:
   
 * az R grafikus rendszerei
@@ -15,6 +16,7 @@ Ebben a fejezetben áttekintjük:
 * a ggplot2 rendszer alapelve
 * ábrák létrehozása ggplot2-ben
 * ábrák mentése háttértárra
+
 ```
 
 
