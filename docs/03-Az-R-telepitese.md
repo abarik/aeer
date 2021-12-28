@@ -95,18 +95,17 @@ Fontos tudnunk, hogy a csomagok telepítésére egy számítógépen egy adott R
 ```
 
 
-Vegyük figyelmbe, hogy egy csomag telepítése során más, egyéb csomagok telepítése automatikusan is megtörténhet, tehát egy helyett valójában több csomag is felkerülhet a gépünkre. Az is előfordulhat, hogy egy csomag telepítése csak akkor lesz sikeres, ha más csomagok frissítését engedélyezzük az adott csomag telepítése során. Végül előfordulhat olyan eset is, amikor egy csomag telepítése valamilyen oknál fogva meghiúsul. Erról minden esetben hibaüzenet tájékoztat minket, és ez szinte minden esetben jó kiindulásul szolgál a hibát okozó körülmény elhárításában. A legtöbbször egy másik csomag hiánya okozza a sikertelen telepítést, ezért olvassuk ki a hibaüzenetből a hiányolt csomag nevét, és először ennek a telepítését végezzük el.    
+Vegyük figyelmbe, hogy egy csomag telepítése során más, egyéb csomagok telepítése automatikusan is megtörténhet, tehát egy helyett valójában több csomag is felkerülhet a gépünkre. Az is előfordulhat, hogy egy csomag telepítése csak akkor lesz sikeres, ha más csomagok frissítését engedélyezzük az adott csomag telepítése során. Végül előfordulhat olyan eset is, amikor egy csomag telepítése valamilyen oknál fogva meghiúsul. Erról minden esetben hibaüzenet tájékoztat minket, és ez szinte minden esetben jó kiindulásul szolgál a hibát okozó körülmény elhárításában. A legtöbbször egy másik csomag hiánya okozza a sikertelen telepítést, ezért olvassuk ki a hibaüzenetből a hiányolt csomag nevét, és először ennek a telepítését végezzük el.  
+
+### Összefoglalás {#az-r-telepitese-1-summary}
 
 <div class="rmdsummary">
-<p><strong>Összefoglalás</strong></p>
 <p>Az R kényelmes használatához először telepítsük az operációs rendszerünknek megfelelő <em>Alap R</em>, majd az <em>RStudio</em> legújabb verzióját. Az R képességeit csomagok segítségével bővíthetjük, ehhez legtöbbször az <code>install.packages()</code> parancsot használjuk.</p>
 </div>
 
+### Feladatok {#az-r-telepitese-1-exercise}
 
-
-\BeginKnitrBlock{rmdexercise}<div class="rmdexercise">
-**Feladatok**
-  
+\BeginKnitrBlock{rmdexercise}<div class="rmdexercise">  
 1. Melyik az R legfrissebb változata, és milyen újdonságokat tartalmaz az előző változathoz képest?
 1. Melyik az *RStudio* legfrissebb változata, és milyen újdonságokat tartalmaz az előző változathoz képest?
 1. Hogyan deríthető ki, hogy egy csomagban (például a **MASS**) csomagban, hány adatobjektum, és hány függvény található?
@@ -161,17 +160,15 @@ tidyverse::tidyverse_update()
 
 Például a fenti esetben 3 csomag frissítését javasolja a `tidyverse_update()` függvény, és segítséget is ad a telepítőparancs listázásával. 
 
+### Összefoglalás {#az-r-telepitese-2-summary}
 
 <div class="rmdsummary">
-<p><strong>Összefoglalás</strong></p>
 <p>A <em>Tidyverse R</em> használatához elegendő telepítenünk a <strong>tidyverse</strong> csomagot, amely a többi 8 csomag telepítését automatikusan elvégzi. A telepítést a <code>install.packages("tidyverse")</code> paranccsal végezzük. Időnként ellenőrizzük a <code>tidyverse::tidyverse_update()</code> segítségével, hogy a legfrissebb változatát használjuk-e a <em>Tidyverse R</em>-t alkotó csomagoknak.</p>
 </div>
 
+### Feladatok {#az-r-telepitese-2-exercise}
 
-
-\BeginKnitrBlock{rmdexercise}<div class="rmdexercise">
-**Feladatok**
-  
+\BeginKnitrBlock{rmdexercise}<div class="rmdexercise">  
 1. Keressünk rá a *Tidyverse R* csomagjaira, és próbáljuk kideríteni az egyes csomagok fő célját, alkalmazási területeit!
 1. Derítsük ki, hogy az R Core Team vagy Hadley Wickham több R csomag szerzője!
 </div>\EndKnitrBlock{rmdexercise}
@@ -259,20 +256,17 @@ A korábban telepített csomagokat az *RStudio* `Tools/Check for Package Updates
 update.packages(ask=FALSE) 
 ```
 
-
-
+### Összefoglalás {#az-r-telepitese-3-summary}
 
 <div class="rmdsummary">
-<p><strong>Összefoglalás</strong></p>
 <p>Az <em>Alap R</em>, az <em>RStudio</em> és az egyes csomagok időről-időre megújulnak, érdemes évente legalább egy-két alkalommal elvégezni ezek frissítését. Az <em>Alap R</em> frissítése lényegében egy új verzió telepítését jelenti, a régi R továbbra is elérhető marad. Az <em>RStudio</em> frissítése után csak az új verziót használhatjuk. Az <em>Alap R</em> és az <em>RStudio</em> friss verziója a hivatalos honlapokról szerezhető be. A csomagok frissítéséhez használjuk a <code>update.packages(ask=FALSE)</code> parancsot.</p>
 </div>
 
 
+### Feladatok {#az-r-telepitese-3-exercise}
 
 
-\BeginKnitrBlock{rmdexercise}<div class="rmdexercise">
-**Feladatok**
-  
+\BeginKnitrBlock{rmdexercise}<div class="rmdexercise">  
 1. Az *RStudio* `Tools/Check for Package Updates` menüpontjával tájékozódjunk a telepített csomagjaink állapotáról. Végezzük el a szükséges frissítéseket!  
   </div>\EndKnitrBlock{rmdexercise}
 

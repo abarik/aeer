@@ -1,0 +1,18 @@
+---
+title: "A Csillagok háborúja c. film karaktereinek átlagos testmagassága"
+author: "Abari Kálmán"
+date: '2020. 06. 23 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Adatok beolvasása és az átlagok kiírása
+
+```{r}
+# install.packages("dplyr")      # a dplyr csomag telepítése
+data(starwars, package="dplyr")  # adatbázis beolvasása csomagból
+psych::describeBy(starwars$height, starwars$species, fast=T, mat=T)
+```
