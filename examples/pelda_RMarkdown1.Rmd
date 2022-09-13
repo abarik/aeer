@@ -1,7 +1,7 @@
 ---
 title: "A Csillagok háborúja c. film karaktereinek átlagos testmagassága"
 author: "Abari Kálmán"
-date: '2020. 06. 23 '
+date: '2022. 07. 06.'
 output: html_document
 ---
 
@@ -13,6 +13,8 @@ Adatok beolvasása és az átlagok kiírása
 
 ```{r}
 # install.packages("dplyr")      # a dplyr csomag telepítése
+# install.packages("psych")      # a psych csomag telepítése
 data(starwars, package="dplyr")  # adatbázis beolvasása csomagból
+# testmagasság átlagok fajonként
 psych::describeBy(starwars$height, starwars$species, fast=T, mat=T)
 ```

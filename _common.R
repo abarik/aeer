@@ -14,9 +14,15 @@ knitr::opts_chunk$set(
   fig.height = 7
 )
 
+options(
+  htmltools.dir.version = FALSE, formatR.indent = 2,
+  width = 80, digits = 4, warnPartialMatchAttr = FALSE, warnPartialMatchDollar = FALSE
+)
+
 options(crayon.enabled = FALSE)
 
 suppressPackageStartupMessages(library(tidyverse))
+
 theme_set(theme_light())
 
 library(scales)
@@ -31,3 +37,4 @@ import_example <- function(file, lang = xfun::file_ext(file)) {
   }
   knitr::asis_output(paste(c(sprintf("````%s", lang), x, "````"), collapse = '\n'))
 }
+

@@ -4,8 +4,11 @@
 
 ## Megoldások az \@ref(itt-kezdodik-1-exercise) feladatokhoz {#itt-kezdodik-1-exercise-solution}
 
+```{block, type='rmdexercise'}
 
-> 1. Milyen online vagy nyomtat könyvek segítik az R elsajátítását? Próbáljuk összegyűjteni a magyar nyelvű könyveket is!
+1. Milyen online vagy nyomtat könyvek segítik az R elsajátítását? Próbáljuk összegyűjteni a magyar nyelvű könyveket is!
+
+```
 
 Az R könyvekkel kapcsolatban könnyen az lehet az érzésünk, hogy *túl sok a könyv, és túl kevés az idő*. Valóban tengernyi R könyv vásárolható meg, melyek többsége angol nyelvű. Elegendő a Springer [Use R!](https://www.springer.com/series/6991) könyvsorozatára gondolni, amely önmagában több mint 80 címet tartalmaz. Az Amazon-ról elérhető, 2020. januárja után [megjelent](https://www.amazon.com/s?k=r+statistics&i=stripbooks&rh=n%3A5&s=relevanceexprank&Adv-Srch-Books-Submit.x=39&Adv-Srch-Books-Submit.y=5&field-datemod=1&field-dateop=After&field-dateyear=2020&unfiltered=1&ref=sr_adv_b) könyvek száma is túl van a kétszázon.
 
@@ -18,13 +21,1766 @@ A magyar nyelvű könyvek közül külön is felsorolunk néhányat:
 * Münnich Ákos, Nagy Ágnes, Abari Kálmán. *Többváltozós statisztika pszichológus hallgatók számára.* Bölcsész Konzorcium, Debrecen, 2006. (http://psycho.unideb.hu/statisztika)
 ISBN 963 9704 04 0
 
-> 2. Térképezzük fel az online videókurzusokat is az R tanulásához!
+
+```{block, type='rmdexercise'}
+
+2. Térképezzük fel az online videókurzusokat is az R tanulásához!
+
+```
+
 
 A videókurzusok többsége is angol nyelvű, a [Youtube](https://www.youtube.com/results?search_query=r+statistics)-ról ingyenesen, de a [Udemy](https://www.udemy.com/) vagy a [datacamp](https://www.datacamp.com/) oldaláról előfizetés ellenében több száz kurzust is elérhetünk.
 
 Az R-rel való ismerkedést kezdhetjük az [R a gyakorlatban](https://www.youtube.com/playlist?list=PLnmeQHnHYqv6ENGrdTXiE9YJrvHuxH2C9) videósorozatommal is.
 
 
-> 3. A bevezető példa (*Két tanítási módszer összehasonlítása*) megoldásában a hipotézisvizsgálat alapján adjunk szöveges értékelést! 
+```{block, type='rmdexercise'}
 
-A Mann-Whitney-próba alapján azt mondhatjuk, elegendő bizonyítékot találtunk arra, hogy a modern (Sprego) módszer eredményesebb (Mdn=0,36), mint a hagyományos (Mdn=0,66) tanítási módszer (W=24; p=0,001).
+3. A bevezető példa (*Két tanítási módszer összehasonlítása*) megoldásában a hipotézisvizsgálat alapján adjunk szöveges értékelést! 
+
+```
+
+
+A Mann-Whitney-próba alapján azt mondhatjuk, elegendő bizonyítékot találtunk arra, hogy a modern (Sprego) módszer eredményesebb (Med=65%), mint a hagyományos (Med=38%) tanítási módszer (W=24; p=0,001).
+
+
+## Megoldások az \@ref(itt-kezdodik-2-exercise) feladatokhoz {#itt-kezdodik-2-exercise-solution}
+
+```{block2, type='rmdexercise'}
+
+1. Az adatfeldolgozás 4 lépése a következő: (1) adatok beolvasása, (2) adatok előkészítése elemzésre, (3) adatok elemzése és (4) az eredmények publikálása. A könyv mely fejezetei tartoznak az adatfeldolgozás fenti lépéseihez?
+
+```
+
+
+1. Adatok beolvasása: \@ref(beolvasas) fejezet
+1. Adatok előkészítése elemzésre: \@ref(adatmanipulacio) fejezet, 
+1. Az adatok elemzése: \@ref(leiro-statisztika), \@ref(grafika-az-r-ben), \@ref(hipotezisvizsgalatok) fejezet 
+1. Az eredmények publikálása: \@ref(publikacio) fejezet
+
+```{block2, type='rmdexercise'}
+
+2. Az R-rel való munka általunk javasolt módja: *RStudio*-ban, projektmódban, R vagy RMarkdown állományokat szerkesztünk és hajtunk végre. Mely fejezetekben találunk hasznos információkat az R ezen használatával kapcsolatban?
+
+```
+
+1. Az *Alap R* telepítése: \@ref(az-alap-r-tele = tese) fejezet
+1. Az *RStudio* telepítése: \@ref(az-rstudio-telepitese) fejezet
+1. Az *RStudio* felépítése: \@ref(az-rstudio-felepitese) fejezet
+1. Parancsállományok használata *RStudio*-ban: \@ref(parancsallomanyok), \@ref(munka-az-rstudio-ban) fejezet
+1. RMarkdown állományok használata *RStudio*-ban: \@ref(rmarkdown-allomanyok) fejezet
+1. Projektek használata *RStudio*-ban: \@ref(projektek-hasznalata) fejezet
+
+
+## Megoldások az \@ref(itt-kezdodik-3-exercise) feladatokhoz {#itt-kezdodik-3-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+  
+1. Minden statisztikai próba esetében négy dolgot érdemes tudni: (1) a statisztikai próba neve, (2) null- és ellenhipotézise, (3) alkalmazási feltételei, és (4) a próba végrehajtásának módja valamely statisztikai programcsomagban. A 10. fejezetben a statisztikai próbák végrehajtását természetesen R-beli eszközökkel mutatjuk be. Ismerjük a fenti táblázatokban megnevezett próbák null- és ellenhipotézisét, valamint az alkalmazási feltételeit? Próbáljuk ezeket felidézni! Hol találunk ezekről információt?
+
+```
+
+
+Számos kiváló statisztika könyv érhető el, akár magyar nyelven is. A teljesség igénye nélkül:
+
+* Freedman, D., Pisani, R., és Roger, P. (2005). *Statisztika - Statisztikai módszerek a társadalomkutatásban.* TYPOTEX, Budapest.
+* Hajtman B. (1968a). *Bevezetés a matematikai statisztikába pszichológusok számára.* Akadémiai Kiadó, Budapest.
+* Hajtman B. (1968b). *Matematikai statisztika pszichológus szakos hallgatók részére.* Akadémiai Kiadó, Budapest.
+* Reiczigel J., Harnos A. és Solymosi N. (2018). *Biostatisztika nem statisztikusoknak.* Pars Kft., Budapest.
+* Vargha A. (1978). *Pszichológiai statisztikai gyakorlat I.* Tankönyvkiadó, Budapest.
+* Vargha A. (1985). *Valószínűségszámítás pszichológus hallgatók számára.* Tankönyvkiadó, Budapest.
+* Vargha A. (1989). *Pszichológiai statisztikai gyakorlat II.* Tankönyvkiadó, Budapest.
+* Vargha A. (2015). *Matematikai statisztika pszichológiai, nyelvészeti és biológiai alkalmazásokkal.* Pólya Kiadó, Budapest.
+
+
+```{block2, type='rmdexercise'}
+  
+2. Mely próbák maradtak ki ebből a könyvből? Hol találunk ezek R-beli végrehajtására példát? 
+  
+```
+
+A statisztikai próbák számtalan elv alaján csoportosíthatók. Az egyik szerint megkülönböztetünk egyváltozós és többváltozós elemzéseket. Ez a könyv az egyváltozós elemzésekről ad, egy többé-kevésbé teljes képet. A többváltozós elemzések R-beli végrehajtásához a következő könyvet ajánljuk:
+
+* Münnich Ákos, Nagy Ágnes, Abari Kálmán. *Többváltozós statisztika pszichológus hallgatók számára.* Bölcsész Konzorcium, Debrecen, 2006. (http://psycho.unideb.hu/statisztika)
+ISBN 963 9704 04 0
+
+
+## Megoldások az \@ref(mi-az-r-1-exercise) feladatokhoz {#mi-az-r-1-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+  
+1. Keressünk weboldalakat, amelyek az R előnyeit és hátrányait listázzák!
+
+```
+
+
+Például:
+
+* [Should you start learning R? Weigh the Pros and Cons of R programming](https://techvidvan.com/tutorials/pros-and-cons-of-r/)
+* [Pros and Cons of R Programming Language – Unveil the Essential Aspects!](https://data-flair.training/blogs/pros-and-cons-of-r-programming-language/)
+* [What’s the Best Statistical Software? A Comparison of R, Python, SAS, SPSS and STATA](https://www.r-bloggers.com/2019/07/whats-the-best-statistical-software-a-comparison-of-r-python-sas-spss-and-stata/)
+
+
+```{block2, type='rmdexercise'}
+  
+2. Keressük meg, hogy az R optimális futtatásához, milyen hardver követelmények szükségesek!
+
+```
+
+
+A néhány száz elemű minta feldolgozásához egyszerű, irodai követelményeknek megfelelő teljesítményű számítógép elegendő lehet. 
+
+Könyvünkben az R környezetet *RStudio*-n keresztül érjük el, de mind az R, mind az RStudio rendszerkövetelményeiről kevés információ áll rendelkezésre: [What are your system recommendations for the RStudio IDE?](https://support.rstudio.com/hc/en-us/articles/201853926-RStudio-IDE-System-Recommendations)
+
+
+```{block2, type='rmdexercise'}
+  
+3. Nézzünk utána, hogy ma kb. hány csomag érhető el az R-hez? Keressünk ábrát, amely bemutatja, hogy az évek során hány csomag volt elérhető az R-hez?
+
+```
+
+
+A két legnagyobb szolgáltató a CRAN és a Bioconductor, a következő linkeken elérhető csomagszámokat érdemes összeadni:
+
+* [CRAN](https://cran.r-project.org/web/packages/)
+* [Bioconductor](https://www.bioconductor.org/)
+
+Természetesen a GitHub-on bárki publikálhat saját csomagot, ezek száma is több százra tehető.
+
+Az aktuálisan elérhető CRAN csomagok számát R függvénnyel is meghatározhatjuk:
+
+```{r}
+Sys.Date() # aktuális dátum
+nrow(available.packages(repos = "https://cran.rstudio.com/"))
+```
+
+A **BiocManager** `available()` függvénye a CRAN és Bioconductor összes elérhető csomagját is listázza.
+
+```{r}
+length(BiocManager::available())
+```
+
+A csomagok számának hihetetlen növekedését mutatja ez az ábra:
+
+* [CRAN now has 10,000 R packages. Here's how to find the ones you need](https://blog.revolutionanalytics.com/2017/01/cran-10000.html)
+
+
+
+```{block2, type='rmdexercise'}
+  
+4. Hol áll az R népszerűsége a többi programozási nyelvhez, illetve statisztikai programcsomaghoz képest?
+
+```
+
+
+Például:
+
+* [TIOBE Index for December 2021](https://www.tiobe.com/tiobe-index/)
+* [Statistical Software Popularity in 40,582 Research Papers](https://quantifyinghealth.com/statistical-software-popularity-in-research/)
+
+
+
+```{block2, type='rmdexercise'}
+  
+5. Milyen ingyenesen elérhető, grafikus felhasználói felülettel rendelkező statisztikai programcsomagok építenek az R-re?
+
+```
+
+
+Ilyenek például:
+
+* [R Commander](https://socialsciences.mcmaster.ca/jfox/Misc/Rcmdr/)
+* [jamovi](https://www.jamovi.org/)
+* [JASP](https://jasp-stats.org/)
+
+További források:
+
+* [R Graphical User Interface Comparison](https://r4stats.com/articles/software-reviews/r-gui-comparison/)
+* [The Popularity of Point-and-Click GUIs for R](https://r4stats.com/articles/guipop/)
+
+
+
+```{block2, type='rmdexercise'}
+
+6. Említettük, hogy az adatelmezési munka nem igényli az R programozói fokú ismeretét, de soroljunk fel néhány könyvet, amelyből az R programozása is megtanulható! 
+
+```
+
+
+Például:
+
+* [Solymosi Norbert: R <- ...erre, ...erre! Bevezetés az R-nyelv és környezet használatába](https://cran.r-project.org/doc/contrib/Solymosi-Rjegyzet.pdf)
+* [Oscar Baruffa: Big Book of R. 22 R programming](https://www.bigbookofr.com/r-programming.html)
+
+## Megoldások az \@ref(mi-az-r-2-exercise) feladatokhoz {#mi-az-r-2-exercise-solution}
+
+```{block2, type='rmdexercise'}
+  
+1. Ki Hadley Wickham?
+
+```
+
+
+Hadley Wickham több R könyv és csomag szerzője, a Tidyverse R egyik megalkotója. Több információt itt találunk: [https://hadley.nz/](http://hadley.nz/)
+
+
+```{block2, type='rmdexercise'}
+  
+2. Mikor történt az egyik legjobb dolog az R-rel? 
+
+```
+
+
+2014-ben: [magrittr: The best thing to have ever happened to R?](https://www.r-bloggers.com/2015/11/magrittr-the-best-thing-to-have-ever-happened-to-r/)
+
+
+## Megoldások az \@ref(mi-az-r-3-exercise) feladatokhoz {#mi-az-r-3-exercise-solution}
+
+```{block2, type='rmdexercise'}
+  
+1. Keressünk olyan statisztikai jellegű témaköröket, amelyekben az R segítségünkre lehet?
+
+```
+
+
+Érdemes körülnézni a [CRAN Task Views](https://cran.r-project.org/web/views/) oldalon, a csomagok tematikus gyűjteményében.
+
+
+```{block2, type='rmdexercise'}
+  
+2. Keressünk olyan nem-statisztikai jellegű témaköröket, amelyekben az R segítségünkre lehet?
+
+```
+
+
+Érdemes körülnézni a [CRAN Task Views](https://cran.r-project.org/web/views/) oldalon, a csomagok tematikus gyűjteményében.
+
+```{block2, type='rmdexercise'}
+  
+3. Nézzünk át néhány online elérhető R könyvet, és hasonlítsuk össze az R alaptudás egyes elemeivel! Melyek az átfedő részek, és hol vannak különbségek?
+  
+```
+
+
+
+Példa online elérhető könyvekre:
+
+* [Sakir, Benjamin (2011). Introduction to Statistical Thinking (With R, Without Calculus)](https://pluto.huji.ac.il/~msby/StatThink/)
+* [Crawley, Michael J. (2012). The R Book.](https://www.cs.upc.edu/~robert/teaching/estadistica/TheRBook.pdf)
+* [Navarro, Danielle (2020). Learning Statistics with R.](https://learningstatisticswithr.com/)
+* [Verzani, John (2002). simpleR Using R for Introductory Statistics.](https://www.math.csi.cuny.edu/Statistics/R/simpleR/)
+
+```{block2, type='rmdexercise'}
+  
+4. Melyek a fontosabb lépcsőfokok az R fejlődősében?
+  
+```
+
+
+* [The History of R (updated for 2020)](https://www.r-bloggers.com/the-history-of-r-updated-for-2020/)
+
+
+## Megoldások az \@ref(az-r-telepitese-1-exercise) feladatokhoz {#az-r-telepitese-1-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+  
+1. Melyik az R legfrissebb változata, és milyen újdonságokat tartalmaz az előző változathoz képest?
+
+```
+
+
+A jelenleg aktuális R verziószáma és az újdonságok itt elérhetők: [https://cran.r-project.org/doc/manuals/r-release/NEWS.html](https://cran.r-project.org/doc/manuals/r-release/NEWS.html)
+
+
+```{block2, type='rmdexercise'}
+  
+2. Melyik az *RStudio* legfrissebb változata, és milyen újdonságokat tartalmaz az előző változathoz képest?
+
+```
+
+
+Az *RStudio* aktuális verziójáról itt olvashatunk: [https://www.rstudio.com/products/rstudio/](https://www.rstudio.com/products/rstudio/)
+
+
+```{block2, type='rmdexercise'}
+  
+3. Hogyan deríthető ki, hogy egy csomagban (például a **MASS**) csomagban, hány adatobjektum, és hány függvény található?
+
+```
+
+Használhatjuk a beépített súgót:
+
+```{r eval=FALSE}
+help(package = "MASS")
+```
+
+Vagy használhatunk más R függvényeket:
+
+```{r}
+library(MASS)
+# a MASS csomag tartalmának feltárása
+table(sapply(ls(pos = "package:MASS"), function(x) class(get(x))[1]))
+```
+
+
+## Megoldások az \@ref(az-r-telepitese-2-exercise) feladatokhoz {#az-r-telepitese-2-exercise-solution}
+
+```{block2, type='rmdexercise'}
+  
+1. Keressünk rá a *Tidyverse R* csomagjaira, és próbáljuk kideríteni az egyes csomagok fő célját, alkalmazási területeit!
+
+```
+
+
+Egy lehetséges oldal a válaszhoz:
+
+* [Tidyverse R](https://www.tidyverse.org/)
+
+
+```{block2, type='rmdexercise'}
+  
+2. Derítsük ki, hogy az R Core Team vagy Hadley Wickham több R csomag szerzője!
+
+```
+
+
+Az R Core Team a következő csomagok szerzője a standard csomagok közül: **base**, **compiler**, **datasets**, **grDevices**, **graphics**, **grid**, **methods**, **parallel**, **splines**, **stats**, **stats4**, **tcltk**, **tools**, **utils**, míg az ajánlott csomagok közül **foreign** és az **nlme**. Ez összesen 16 csomag. Hadley Wickham csomagjairól a [saját weboldalán](http://hadley.nz/#code), vagy a [github](https://github.com/hadley?tab=repositories) oldalán tájékozódhatunk. A csomagok száma jóval meghaladja a 16-ot.
+
+Egy adott csomag szerzőjéről a `packageDescription()` függvény ad információt:
+
+```{r}
+packageDescription("base")$Author     # R Core Team csomag
+packageDescription("ggplot2")$Author  # Hadley Wickham csomag
+```
+
+## Megoldások az \@ref(az-r-telepitese-3-exercise) feladatokhoz {#az-r-telepitese-3-exercise-solution}
+
+
+
+```{block2, type='rmdexercise'}
+  
+1. Az *RStudio* `Tools/Check for Package Updates` menüpontjával tájékozódjunk a telepített csomagjaink állapotáról. Végezzük el a szükséges frissítéseket! Mit tegyünk, ha nem sikerül valamelyik csomag telepítése?
+  
+```
+
+
+A frissítések elvégzését a fenti menüpont kiválasztásával kezdjük. Válasszuk ki a frissítendő csomagokat, akár az összeset, majd indítsuk el a frissítés folyamatát. Hibaüzenet esetén érdemes a következő lehetőségeket megfontolni:
+
+* a hibaüzenetből kiolvasható lehet annak a csomagnak neve, amelynek előzetes telepítése szükséges
+* *RStudio* helyett végezzük el az *Alap R*-ben az adott csomag telepítését
+* végezzük adminisztrátori jogosultsággal a telepítést
+* Windows operációs rendszer alatt ne legyen ékezetes vagy szóközt tartalmazó a felhasználói nevünk
+* a forrásszövegben megjelenő csomagokhoz a megfelelő [RTools](https://cran.r-project.org/bin/windows/Rtools) verzióra lehet szükség Windows operációs rendszer alatt
+* frissítsük meg az *Alap R* és *RStudio* komponenseket
+
+
+```{block2, type='rmdexercise'}
+  
+2. Ismerjük meg a telepített csomagjaink számát és forrását (CRAN vagy Bioconductor vagy GitHub)!
+  
+```
+
+
+A következő parancsok segítenek:
+
+```{r}
+library(tidyverse)
+inst.pckgs <- installed.packages()
+pckgs.info <- devtools::package_info(rownames(inst.pckgs))
+# A csomagok száma forrásonként
+pckgs.info %>% 
+  group_by(source) %>% 
+  summarise(n=n())
+# Az egyes forrásokhoz tartozó csomagok neve
+pckgs.info %>%
+  filter(grepl("CRAN", source))
+pckgs.info %>%
+  filter(source == "Bioconductor")
+pckgs.info %>%
+  filter(grepl("Github", source))
+
+```
+
+
+
+## Megoldások az \@ref(munka-az-r-ben-1-exercise) feladatokhoz {#munka-az-r-ben-1-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+  
+1. Bizonyosudjunk meg róla, hogy az alapvető szövegszerkesztési ismeretek birtokában vagyunk. Ismerjük az `Insert` billentyű funkcióját? Találjunk legalább 8 módszert, amely kizárólag a billentyű segítségével mozgatja a szövegkurzort! A szövegkijelölésnek milyen billentyűparancsait ismerjük? Milyen karaktertörlési lehetőségeket ismerünk? Ismerjük mindhárom vágóasztal-művelet billentyűparancsát?
+
+```
+
+
+A szövegkurzor mozgatása billentyűvel:
+
+* `FEL/LE/JOBBRA/BALRA` nyilak
+* `Ctrl+FEL/LE/JOBBRA/BALRA` nyilak
+* `Page Up`, `Page Down`
+* `Ctrl+Page Up`, `Ctrl+Page Down`
+* `Home`, `End`
+* `Ctrl+Home`, `Ctrl+End`
+* `TAB`
+* `Shift+TAB`
+
+Karaktertörlései lehetőségek:
+
+* `Backspace`
+* `Delete`
+
+Vágóasztal műveletek:
+
+* Másolás (`Ctrl+C`)
+* Kivágás (`Ctrl+X`)
+* Beillesztés (`Ctrl+V`)
+
+```{block2, type='rmdexercise'}
+  
+2. Az *RStudio* mellett milyen más intergrált fejlesztőeszközök léteznek az R-hez? 
+
+```
+
+Például: 
+
+* [RKWard](https://rkward.kde.org/)
+* [BlueSky Statistics](https://www.blueskystatistics.com/)
+
+
+```{block2, type='rmdexercise'}
+  
+3. Az `Appearance` menüpont `Editor theme` beállításával változtassunk az *RStudio* színösszeállításán. Keressük meg a legjobban hozzánk illőt! Vegyük figyelembe, hogy hosszútávon a minél sötétebb háttér a jó választás. 
+
+```
+
+Én a `Tomorrow Night Bright` témát használom.
+
+
+## Megoldások az \@ref(munka-az-r-ben-2-exercise) feladatokhoz {#munka-az-r-ben-2-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+  
+1. Keressünk magyar nyelvű leírásokat az R-hez! 
+
+```
+
+Például:
+
+* Reiczigel Jenő, Harnos Andrea, Solymosi Norbert (2021). *Biostatisztika nem statisztikusoknak*. Pars Kft., Nagykovácsi.
+* Dinya Elek, Solymosi Norbert (2016). *Biometria a klinikumban 2.  Feladatok megoldása R-környezetben.* Medicina Kiadó.
+* Münnich Ákos, Nagy Ágnes, Abari Kálmán. *Többváltozós statisztika pszichológus hallgatók számára.* Bölcsész Konzorcium, Debrecen, 2006. (http://psycho.unideb.hu/statisztika)
+ISBN 963 9704 04 0
+
+
+
+```{block2, type='rmdexercise'}
+  
+2. A közösségi médiában melyek az R legfontosabb fórumai?
+
+```
+
+Pélául:
+
+* [R-bloggers](https://www.r-bloggers.com/)
+* https://twitter.com/hashtag/rstat
+
+
+
+```{block2, type='rmdexercise'}
+  
+3. Hogyan indíthatjuk el egy csomag beépített súgóját? Ismerjük meg így a **fun** csomagot!
+
+```
+
+```{r eval=FALSE}
+# install.packages("fun")
+help(package="fun")
+library(fun)
+alzheimer_test()
+```
+
+
+
+## Megoldások az \@ref(munka-az-r-ben-3-exercise) feladatokhoz {#munka-az-r-ben-3-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+  
+1. Foglaljuk össze az R használati módjait! Soroljuk fel mind a négy lehetőséget!
+
+```
+
+
+
+* Konzolos használat
+* Parancsállományos használat (*RGui*, *RStudio*)
+* Point-and-click használat (*R Commander*, *jamovi*, *JASP* stb.)
+* Kötegelt használat
+
+
+
+```{block2, type='rmdexercise'}
+  
+2. Hasonlítsuk össze a parancsállományok használatát *RGui*-ban és *RStudio*-ban!
+
+```
+
+
+Az *RGui* és a az *RStudio* is támogatja a parancsállományos használati módot. Valójában az *RGui* a `Ctrl+R` billentyűkombináción, és az `*.R` kiterjesztésű állományok mentésén/nyitásán kívül más segítséget nem ad a a parancsállományos használathoz, míg az *RStudio* a ma elérhető legkényelmesebb felület nyújtja a parancsállományok szerkesztéséhez.
+
+
+
+```{block2, type='rmdexercise'}
+  
+3. Hasonlítsuk össze a parancsállományok és az RMarkdown használatát *R Commander*-ben és *RStudio*-ban!
+
+```
+
+
+Az *R Commander* a menüből kiválasztott műveletek R parancsait parancsállományban és RMarkdown állományban is rögzíti, így, utóbbi esetben HTML formátumú állományt generálhatunk az elemzésünk végén. Az *R Commander*-ben tehát akár parancsok gépelése nélkül hosszabb távon is eltárolhatjuk elemző parancsainkat, amelyet `*.R` vagy `*.Rmd` állományban is rögzíthetünk. Az *RStudio*-ban minden parancsot magunknak kell begépelnünk, de a gépelés során számos segítség áll rendelkezésre. Az RMarkdown összes lehetőségét valójában csak az *RStudio*-ban használhatjuk ki.
+
+
+```{block2, type='rmdexercise'}
+  
+4. Töltsük le és telepítsük az ingyenesen elérhető *jamovi* és a *JASP* statisztikai programokat, majd nyissuk meg a beépített adatbázisait, és végezzünk néhány egyszerűbb elemzést! Ha elakadunk, keressünk videó tutoriált az eszközök használatáról. Melyik eszköz tetszik jobban? Miben hasonlítanak és miben térnek el?
+
+```
+
+A két eszköz honlapján a letöltés is elvégezhető és a szoftverek részletes dokumentációját is elérhetjük:
+
+* [jamovi](https://www.jamovi.org/)
+* [JASP](https://jasp-stats.org/)
+
+
+
+## Megoldások az \@ref(az-r-nyelv-1-exercise) feladatokhoz {#az-r-nyelv-1-exercise-solution}
+
+```{block2, type='rmdexercise'}
+
+1. Gondoljuk át, mi lehet a következő algebrai kifejezés eredménye, majd ellenőrizzük R-ben is: $8/2(2+2)$.
+
+```
+
+
+```{r}
+8/2*(2+2)
+```
+
+Alternatív [válasz](https://hvg.hu/tudomany/20190808_Mero_Laszlo_megvalaszolta_az_egesz_internetet_lazban_tarto_matematikai_feladvanyt).
+
+```{block2, type='rmdexercise'}
+
+2. Gondoljuk át, hogy a `.342e1` név miért nem lehet érvényes objektumnév? Próbáljuk ki a `make.names(".342e1")` parancsot, majd tanulmányozzuk a `?make.names` leírást!
+
+```
+
+
+A `make.names()` függvény egy tetszőleges karaktersorozatból szabályos objektumnevet hoz létre. Önmagában a `.342e1` nem szabályos objektumnév, hiszen egy exponenciális alakú számról van szó.
+
+```{r}
+.342e1
+make.names(".342e1")
+```
+
+
+```{block2, type='rmdexercise'}
+
+3. Magyarázzuk meg a `make.names(c("", "", ""))` és a `make.names(c("", "", ""), unique = T)` parancsok közötti különbséget!
+
+```
+
+
+```{r}
+make.names(c("", "", ""))
+make.names(c("", "", ""), unique = T)
+```
+
+A `make.names()` függvényben szereplő `unique=T` a létrehozandó objektumnevek egyediségéről is gondoskodik.
+
+
+```{block2, type='rmdexercise'}
+
+4. Gondoljuk át, hogy egy parancsállomány mely pontjain érdemes feltétlenül megjegyzéseket használni!
+
+```
+
+
+A lehető legtöbb ponton használjunk megjegyzést, de mindenképp alakítsuk ki megjegyzésekkel a négyes tagolást:
+
+1. Beolvasás
+1. Előkészítés
+1. Elemzés
+1. Publikálás
+
+
+```{block2, type='rmdexercise'}
+
+5. Jelentősen segíthetjük a navigációt az *RStudio* parancsállományaiban, ha bizonyos megjegyzések végére ezt írjuk: ` ----` (szóköz és négy mínusz jel). Hogyan használhatjuk ezt a lehetőséget az *RStudio*-ban, és milyen előnyei vannak?
+
+```
+
+A címsorok végén, szóköz után, ha szerepeltetjük a `----` (négy mínusz jel) karaktersorozatot, akkor a `Code / Show document outline` menüpontból elérhető válik a megjelölt címsorok tartalomjegyzéke. Így hozunk létre szakaszokat az `.R` parancsállományokban.
+
+
+```{block2, type='rmdexercise'}
+
+6. Az *RStudio*-ban parancsállomány (`.R`) szerkesztése közben próbáljuk ki a `Ctrl+Alt+R` billentyűparancsot, és a hozzá kapcsolódó `Shift+Alt+J` billentyűparancsot is. Mi a jelentése az `Alt+L`, `Shift+Alt+L`, `Alt+O` és `Shift+Alt+O` billentyűparancsoknak? A most megismert funkciók hogyan válthatók ki RMarkdown (`.Rmd`) állomány szerkesztése közben?
+  
+```
+
+
+A parancsállományok (`.R`) szerkesztése közben:
+
+* `Ctrl+Alt+R` - az összes sor futtatása
+* `Shift+Alt+J` - választás a `----` (négy mínusz jel) karakterekkel megjelölt címekből, vagyis ugrás a megjelölt a szakaszra.
+* `Alt+L` - az aktuális szakasz bezárása
+* `Shift+Alt+L` - az aktuális szakasz kinyitása
+* `Alt+O` - minden szakasz bezárása
+* `Shift+Alt+O` - minden szakasz kinyitása
+
+Az RMarkdown (`.Rmd`) szerkesztése közben szintén használhatók a fenti billentyűkombinációk. Az egyetlen eltérés, hogy a `----` (négy mínusz jel) karakterekre nincs szükség, a Markdown címsorok és az R csonkok automatikusan szakasszá válnak.
+
+## Megoldások az \@ref(az-r-nyelv-2-exercise) feladatokhoz {#az-r-nyelv-2-exercise-solution}
+
+```{block2, type='rmdexercise'}
+
+1. Tekintsük át az \@ref(tab:matfuggvenyek). táblázat utolsó oszlopában szereplő R függvényeket. Próbáljuk megjósolni a függvények visszatérési értékét. Végezzünk ellenőrzést: gépeljük be, és hajtsuk végre a matematikai függvényeket! Egészítsük ki a begépelt matematikai függvényeket az argumentumok nevével, mindegyik argumentumnak adjunk nevet az \@ref(tab:matfuggvenyek). táblázat első oszlopa alapján! 
+
+```
+
+
+```{r}
+abs(x = -1)
+sign(x = pi)
+sqrt(x = 9+16)
+exp(x = 1)
+log(x = exp(3))
+log(x = 8,base = 10)
+log10(x = 1000)
+log2(x = 256)
+cos(x = pi)
+sin(x = 0)
+tan(x = 0)
+round(x = c(1.5,-1.5))
+floor(x = c(1.5,-1.5))
+ceiling(x = c(1.5,-1.5))
+trunc(x = c(1.5,-1.5))
+```
+
+
+```{block2, type='rmdexercise'}
+
+2. Az előző feladatban a matematikai függvények gépelése során milyen *RStudio* kényelmi funkciókat fedeztünk fel. Soroljunk fel legalább hármat!
+
+```
+
+
+* függvény nevének kiegészítése
+* kerek zárójelek elhelyezése a függvénynév után
+* argumentumnevek felajánlása
+
+```{block2, type='rmdexercise'}
+
+3. Az aranymetszés arányait tartalmazó épületek, képzőművészeti alkotások máig nagy esztétikai értékkel bírnak. Határozzuk meg ezt az arányt a $\phi=\frac{1+\sqrt{5}}{2}$
+ képlet segítségével! Egy A/4-es oldalra kb. 47 sort írhatunk 12-es betűmérettel, és kb. 35 sort 16-os betűmérettel. Egy üres lap hanyadik sorába írnánk címet 12-es és 16-os betűméret esetén? Próbáljuk ki mindezt egy szövegszerkesztőben is! 
+
+```
+
+
+```{r}
+fi <- (1+sqrt(5))/2
+fi
+c(47, 35)/(1+fi)
+```
+
+A 47 soros A/4-es oldal 18. sorába, illetve a 35 soros A/4-es oldal 13. sorába kerülhetne a cím.
+
+```{block2, type='rmdexercise'}
+
+4. A trigonometrikus függvények argumentumában radiánban kell megadni a szög értékét, és nem fokban. Ezt figyelembe véve határozzuk meg a 0, 30, 45, 60, 90 és 180 fok szinuszát, koszinuszát és tangensét!
+  
+```
+
+
+```{r}
+fokok <- c(0, 30, 45, 60, 90, 180)
+sin(pi*fokok/180)
+cos(pi*fokok/180)
+tan(pi*fokok/180)
+```
+
+
+## Megoldások az \@ref(az-r-nyelv-3-1-exercise) feladatokhoz {#az-r-nyelv-3-1-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+
+1. Mi a hasonlóság a következő három numerikus konstans között: `0xabc`, `2748`, `.2748e4`. 
+
+
+```
+
+
+Mindhárom szám értéke azonos, 2748.
+
+```{r}
+0xabc
+2748
+.2748e4
+```
+
+
+
+```{block2, type='rmdexercise'}
+
+
+2. Az R öt előre definiált konstassal rendelkezik (`?Constants`). Írassuk ki ezek értékeit, állapítsuk meg típusukat!
+
+
+```
+
+
+```{r}
+LETTERS
+letters
+month.abb
+month.name
+pi
+```
+
+A `pi` double, a többi karakteres típusú.
+
+```{block2, type='rmdexercise'}
+
+3. Az aranymetszés arányszámát ($\phi=\frac{1+\sqrt{5}}{2}$) írassuk a konzolba legalább 8 tizedes pontossággal!
+
+
+```
+
+
+
+```{r}
+fi <- (1+sqrt(5))/2
+# 1. megoldás
+options(digits=10) # megnöveljük az értékes jegyek kiírását
+fi                 # fi kiírása
+options(digits=7)  # alapértelmezés visszaállítása
+# 2. megoldás
+print(fi, digits=10) 
+
+```
+
+
+```{block2, type='rmdexercise'}
+
+4. Az `r"(tetszőleges karakterek)"` formájú karakteres konstans megadásnak több válozata is létezik, soroljunk fel még legalább öt lehetőséget (`?Quotes`)! Milyen előnyökkel rendelkezik ez a megadási forma az idézőjelek és a fordított perjel tekintetében? 
+
+
+```
+
+
+```{r}
+r"(Alapértelmezett alak)"
+r'(Így is jó)'
+r"{Használhatunk kapcsos zárójeleket is}"
+r"[Vagy szögletest]"
+r"---(Vagy körbevehetjük azonos számú gondolatjellel is)---"
+r"-(Akár eggyel is)-"
+r"(Ne feledjük, két előnye van ennek a formának:)"
+r"((1) könnyebb egyszerre használni a szimpla (') és dupla (") idéző jeleket)"
+r"((2) a Windows-os elérési utak könyebben másolhatók az op. renszerből:)"
+r"(C:\Program Files\Android)"
+```
+
+
+
+
+```{block2, type='rmdexercise'}
+
+5. Helyezzünk el idézőjeleket karakteres konstansokban, mindhárom megadási forma mellett!
+
+
+```
+
+
+```{r}
+"szimpla (') és dupla (\")"
+'szimpla (\') és dupla (")'
+r"(szimpla (') és dupla ("))"
+```
+
+
+```{block2, type='rmdexercise'}
+
+6. Próbáljuk ki az \@ref(tab:karfuggvenyek). táblázat karakterkezelő függvényeit! Gépeljük be az utolsó oszlopban lévő példákat, és vizsgáljuk meg a függvények visszatérési értékét.
+
+
+```
+
+
+```{r}
+paste("a","b",sep="=")
+nchar("alma")
+substr("alma", 3, 5)
+tolower("Kiss Géza")
+toupper("Kiss Géza")
+chartr("it","ál","titik")
+cat("alma","fa", sep="")
+grepl(pattern="lm",x="alma")
+gsub("lm",repl="nyj",x="alma")
+```
+
+
+```{block2, type='rmdexercise'}
+
+7. Próbáljuk ki az \@ref(tab:reloperatorok). táblázat relációs operátorait! Gépeljük be a példákat és ellenőrizzük az eredményeket.
+
+
+```
+
+
+
+```{r}
+1<2
+"alma"<"körte"
+3>(1+2)
+"abc">"ab"
+1<=-.3
+"él"<="elő"
+3/4>=7/9
+"aki">="Ági"
+20==2e1
+"Len"=="len"
+exp(1)!=pi
+"Len"!="len"
+c(8, 12) %in% 1:10
+```
+
+
+
+```{block2, type='rmdexercise'}
+
+8. A logikai operátorok működéséről teljes képet kaphatunk az \@ref(tab:logoperatorok). táblázatból. Próbáljuk ki ezeket a parancsokat is!
+
+
+```
+
+
+```{r}
+# logikai NEM
+!(1<2)
+!T
+!F
+# logikai ÉS (csak egy esetben igaz)
+T & T
+T & F
+F & T
+F & F
+# logikai VAGY (csak egy esetben hamis)
+T | T
+T | F
+F | T
+F | F
+```
+
+
+## Megoldások az \@ref(az-r-nyelv-4-exercise) feladatokhoz {#az-r-nyelv-4-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+
+1. Próbáljuk ki az \@ref(tab:adatszerkezetek). táblázatban szereplő példákat. Hozzuk létre a különböző típusú objektumokat és vizsgáljuk meg a `typeof()` és `class()` függvényekkel az objektumok típusát.
+
+
+```
+
+
+```{r}
+x <- c(12L, 14L)
+typeof(x)
+class(x)
+
+x <- c(12, 14)
+typeof(x)
+class(x)
+
+x <- c("a", "az", "egy")
+typeof(x)
+class(x)
+
+x <- c(T, TRUE, FALSE, F)
+typeof(x)
+class(x)
+
+
+x <- matrix(1L, nrow=2, ncol = 3)
+typeof(x)
+class(x)
+
+x <- matrix(1.3, nrow=2, ncol = 3)
+typeof(x)
+class(x)
+
+x <- matrix("az", nrow=2,ncol=3)
+typeof(x)
+class(x)
+
+x <- factor(c("D", "D", "ND"), level=c("ND", "D", "ED"))
+typeof(x)
+class(x)
+
+x <- list(A='Pék', B=1:2)
+typeof(x)
+class(x)
+
+x <- data.frame(nev=c("a", "b"), pont=c(11, 9))
+typeof(x)
+class(x)
+```
+
+
+## Megoldások az \@ref(az-r-nyelv-5-exercise) feladatokhoz {#az-r-nyelv-5-exercise-solution}
+
+```{block2, type='rmdexercise'}
+
+1. Hozzuk létre a következő numerikus vektort: 12, 14, 17.
+
+```
+
+
+```{r}
+x <- c(12, 14, 17)
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+```{block2, type='rmdexercise'}
+
+2. Hozzuk létre a következő karakteres vektort: "Vác", "Eger", "Pécs".
+
+```
+
+
+
+```{r}
+x <- c("Vác", "Eger", "Pécs")
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+```{block2, type='rmdexercise'}
+
+3. Hozzuk létre a következő logikai vektort: TRUE, FALSE, FALSE.
+
+```
+
+
+```{r}
+x <- c(T, F, F)
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+
+```{block2, type='rmdexercise'}
+
+4. Hozzuk létre egy számtani sorozat egymást követő elemeit, ahol az első elem 8, az utolsó 102 és a különbség 1.
+
+```
+
+
+```{r}
+x <- 8:102
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+```{block2, type='rmdexercise'}
+
+5. Hozzuk létre egy számtani sorozat egymást követő elemeit, ahol az első elem 102, az utolsó 8 és a különbség -1.
+
+```
+
+
+```{r}
+x <- 102:8
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+```{block2, type='rmdexercise'}
+
+6. Hozzuk létre egy számtani sorozat egymást követő elemeit, ahol az első elem 8, az utolsó 102 és a különbség 2.
+
+```
+
+```{r}
+x <- seq(from=8, to=102, by=2)
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+
+```{block2, type='rmdexercise'}
+
+7. Hozzuk létre egy számtani sorozat egymást követő elemeit, ahol az első elem 8, a különbség 3 és a vektor 25 elemű.
+
+```
+
+
+```{r}
+x <- seq(from=8, by=3, length.out=25)
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+```{block2, type='rmdexercise'}
+
+8. Hozzuk létre azt a numerikus vektort, amely 12 elemű, és minden elemének -2 az értéke!
+
+```
+
+
+```{r}
+x <- rep(-2, times=12)
+x
+typeof(x)
+class(x)
+length(x)
+```
+  
+  
+```{block2, type='rmdexercise'}
+
+9. Hozzuk létre azt a karakteres vektort, amely 7 elemű, és minden elemének "Péntek" az értéke!
+  
+```
+
+
+```{r}
+x <- rep("Péntek", times=7)
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+```{block2, type='rmdexercise'}
+
+  
+10. Hozzuk létre azt a logikai vektort, amely 7 elemű, és minden elemének TRUE az értéke!
+  
+```  
+
+
+```{r}
+x <- rep(T, times=7)
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+  
+```{block2, type='rmdexercise'}
+
+11. Hozzuk létre azt a numerikus vektort, amely a 2, 3, 5 elemeket háromszor egymás után megismétli! Hány elemű az így létrejött vektor?
+  
+```
+
+```{r}
+x <- rep(c(2, 3, 5), times=3)
+x
+typeof(x)
+class(x)
+length(x)
+```
+  
+  
+```{block2, type='rmdexercise'}
+
+12. Hozzuk létre azt a numerikus vektort, amely a 2, 3, 5 elemeket háromszor helyben megismétli! Hány elemű az így létrejött vektor?
+  
+```
+
+
+```{r}
+x <- rep(c(2, 3, 5), each=3)
+x
+typeof(x)
+class(x)
+length(x)
+```
+  
+  
+```{block2, type='rmdexercise'}
+
+13. Hozzuk létre azt a numerikus vektort, amely a 2, 3, 5 elemeket helyben megismétli úgy, hogy a 2-őt 4-szer, a 3-at 5-ször és az 5-öt 7-szer ismétli meg! Hány elemű az így létrejött vektor?
+
+```
+
+
+```{r}
+x <- rep(c(2, 3, 5), times=c(4, 5, 7))
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+
+```{block2, type='rmdexercise'}
+
+14. Szabályos vektorok létrehozásának van egy korábban még nem említett módja: a `sequence()` függvény. Ismerjük meg a súgóból ezt a függvényt, és értelmezzük a `sequence(4)` és `sequence(c(4,5))` függvényhívásokat!
+
+```
+  
+
+```{r}
+x <- sequence(4)       # 1:4 vektor
+x
+typeof(x)
+class(x)
+length(x)
+x <- sequence(c(4,5)) # c(1:4, 1:5) vektor
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+  
+```{block2, type='rmdexercise'}
+
+15. Vektorok létrehozásának számos módját megismertük ebben a fejezetben, de elemek megadása nélkül, vagy akár nulla hosszúsággal is létrehozhatunk vektort. A `double()`, `integer()`, `character()` és `logical()` függvények közvetlenül az adott típusnak megfelelő vektort hozzák létre. A súgó tanulmányozásával állítsunk elő 0 és 10 elemű vektor objektumokat mind a négy típus esetén.
+
+```
+
+
+```{r}
+x <- double()
+x
+typeof(x)
+class(x)
+length(x)
+x <- double(10)
+x
+typeof(x)
+class(x)
+length(x)
+x <- integer()
+x
+typeof(x)
+class(x)
+length(x)
+x <- integer(10)
+x
+typeof(x)
+class(x)
+length(x)
+x <- character()
+x
+typeof(x)
+class(x)
+length(x)
+x <- character(10)
+x
+typeof(x)
+class(x)
+length(x)
+x <- logical()
+x
+typeof(x)
+class(x)
+length(x)
+x <- logical(10)
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+
+```{block2, type='rmdexercise'}
+
+16. Próbáljuk ki az \@ref(tab:statfuggvenyek). táblázatban szereplő példákat.
+
+```
+
+
+```{r}
+max(1:10)
+min(11:20)
+sum(1:5)
+prod(1:5)
+mean(1:10)
+median(1:10)
+range(1:10)
+sd(1:10)
+var(1:10)
+cor(1:10,11:20)
+```
+
+
+```{block2, type='rmdexercise'}
+
+17. Hozzuk létre a `'Peti'=5, 'Bori'=NA, 'Éva'=3, 'Pál'=NA, 'Gergő'=5, 'Ili'=4` adatokat tartalmazó vektort, majd rendezzük, indexeljük az első és az utolsó elemét, válogassuk le az 5-ös értékeket, csökkentsük mindegyik értéket 1-gyel, csak az 5-öket csökkentsük 1-gyel.
+
+```
+
+
+```{r}
+x <- c('Peti'=5, 'Bori'=NA, 'Éva'=3, 'Pál'=NA, 'Gergő'=5, 'Ili'=4)
+x
+sort(x)                 # rendezések
+sort(x, decreasing = T)
+x[order(x)]
+x[order(x, decreasing = T)]
+x[c(1, length(x))]      # az első és utolsó elem
+x[x == 5]               # szűrés
+x[x %in% 5]             # szűrés (használjuk == helyett a %in% operátort)
+y <- x - 1              # mindegyik értéket csökkentjük 1-gyel, új vektorban
+y
+z <- x                  # 5-öket csökkentjük 1-gyel, új vektorban
+z[z %in% 5 & !is.na(z)] <- z[z %in% 5 & !is.na(z)] - 1                         
+z
+```
+
+
+## Megoldások az \@ref(az-r-nyelv-6-exercise) feladatokhoz {#az-r-nyelv-6-exercise-solution}
+
+```{block2, type='rmdexercise'}
+
+1. Hozzunk létre egy csupa 1-ből álló mátrixot, amelynek 3 sora és 2 oszlopa van!
+  
+```  
+  
+
+```{r}
+x <- matrix(1, nrow=3, ncol=2)
+x
+typeof(x)
+class(x)
+length(x)
+
+```
+  
+
+```{block2, type='rmdexercise'}
+
+2. Hozzunk létre egy 3 $\times$ 4-es karakteres mátrixot, amely 12 különbüző keresztnevet tartalmaz!
+
+```
+
+
+```{r}
+nevek <- c("Ibrahim", "Ibrány", "Idrisz", "Ignác",
+           "Igor", "Iláj", "Ilán", "Ilárion",
+           "Ildár", "Ildefonz", "Ilián", "Iliász")
+x <- matrix(nevek, nrow=3, ncol=4, byrow=T)
+x
+typeof(x)
+class(x)
+length(x)
+
+```
+
+  
+```{block2, type='rmdexercise'}
+
+3. Hozzunk létre egy 3 $\times$ 4-es logikai mátrixot, amelynek 1. és 3. sora `TURE` a 2. sora pedig `FALSE` értékeket tartalmaz!
+
+```
+
+```{r}
+x <- matrix(c(T, F, T), nrow=3, ncol=4, byrow=F)
+x
+typeof(x)
+class(x)
+length(x)
+
+```
+
+    
+```{block2, type='rmdexercise'}
+  
+4. Mátrixok indexelésére olyan speciális indexmátrix is használható, amelynek két oszlopa van, és az elérendő elemek sor- és oszlopkoordinátáit tartalmazza. Mutassunk példát erre a `mátrix[indexmátrix]` alakú mátrixindexelésre!
+
+```
+
+```{r}
+x <- matrix(1:12, nrow=3, ncol=4, byrow=F)
+x
+typeof(x)
+class(x)
+length(x)
+
+im <- rbind(c(2,1), c(2,2)) # indexmátrix
+im
+typeof(im)
+class(im)
+length(im)
+x[im]         # mátrix indexelése indexmátrix-szal
+x[2, c(1,2)]  # mátrix hagyományos indexelése
+
+```
+
+
+## Megoldások az \@ref(az-r-nyelv-7-exercise) feladatokhoz {#az-r-nyelv-7-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+
+1. Hozzuk létre azt a karakteres vektort, amely a férfi, nő karakteres konstansokat, úgy helyezi el egymás mellett, hogy a 7 darab férfi érték után 13 db nő címke következik! Hány elemű az így létrejött vektor?
+  
+```
+
+```{r}
+x <- rep(c("férfi", "nő"), times=c(7, 13))
+x
+typeof(x)
+class(x)
+length(x)
+
+x.f <- factor(x, levels=c("férfi", "nő"))
+x.f
+typeof(x.f)
+class(x.f)
+length(x.f)
+```
+
+
+```{block2, type='rmdexercise'}
+
+2. Egy vizsgálatban az első 10 személy neme férfi, a többi 8 neme nő volt. Hozzuk létre azt a faktort, amely leírja a neme változót!
+  
+```
+
+
+```{r}
+x <- rep(c("férfi", "nő"), times=c(10, 8))
+x
+typeof(x)
+class(x)
+length(x)
+
+x.f <- factor(x, levels=c("férfi", "nő"))
+x.f
+typeof(x.f)
+class(x.f)
+length(x.f)
+```
+
+
+```{block2, type='rmdexercise'}
+
+3. Egy vizsgálatban városi ("V") és falusi ("F") fiatalok vettek részt! A megkérdezettek településtípusa rendre a következő volt: F, F, V, F, V, V, V, F. Hozzuk létre azt a faktort, amely leírja a településtípus változót!
+
+```  
+
+
+```{r}
+x <- c("F", "F", "V", "F", "V", "V", "V", "F")
+x
+typeof(x)
+class(x)
+length(x)
+
+x.f <- factor(x, levels=c("F", "V"))
+x.f
+typeof(x.f)
+class(x.f)
+length(x.f)
+```
+
+
+  
+```{block2, type='rmdexercise'}
+
+4. Egy vizsgálatban a dohányzási szokást egy kétértékű skálán mérték: 0-nem dohányzik; 1-dohányzik. A megkérdezettek dohányzási szokása a következő volt: 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0. Hozzuk létre azt a faktort, amely leírja a dohányzási szokás változót!
+
+
+```
+
+
+```{r}
+x <- c(0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0)
+x
+typeof(x)
+class(x)
+length(x)
+
+x.f <- factor(x, levels=c("0", "1"), 
+                 labels = c("nem dohányzik", "dohányzik"))
+x.f
+typeof(x.f)
+class(x.f)
+length(x.f)
+```
+
+
+## Megoldások az \@ref(az-r-nyelv-8-exercise) feladatokhoz {#az-r-nyelv-8-exercise-solution}
+
+```{block2, type='rmdexercise'}
+
+1. Hozzunk létre egy háromelemű listát a TRUE, 12, és "Verseny" konstansokból!
+  
+```
+
+
+```{r}
+lista <- list(T, 12, "Verseny")
+lista
+typeof(lista)
+class(lista)
+length(lista)
+```
+
+
+```{block2, type='rmdexercise'}
+
+2. Hozzunk létre egy háromelemű listát a TRUE, 12, és "Verseny" konstansokból, de gondoskodjunk az egyes elemek elnevezéséről, amelyek legyenek rendre: "befejezve", "indulok" és "leiras"!
+  
+```
+
+
+```{r}
+lista <- list("befejezve"=T, "indulok"=12, "leiras"="Verseny")
+lista
+typeof(lista)
+class(lista)
+length(lista)
+```
+
+
+```{block2, type='rmdexercise'}
+
+3. Hozzunk létre egy háromelemű listát a TRUE, 12 és "Verseny" konstansokból, valamint az induló versenyzők végső pontszámaiból, amelyek rendre: 89, 78, 23, 67, 99, 69, 85, 77, 58, 72, 48, 81. Gondoskodjunk az egyes elemek elnevezéséről, amelyek legyenek rendre: "befejezve", "indulok", "leiras" és "pontszam"!
+
+```
+
+
+```{r}
+lista <- list("befejezve"=T, "indulok"=12, "leiras"="Verseny",
+              pontszam=c(89, 78, 23, 67, 99, 69, 85, 77, 58, 72, 48, 81))
+lista
+typeof(lista)
+class(lista)
+length(lista)
+```
+
+
+## Megoldások az \@ref(az-r-nyelv-9-exercise) feladatokhoz {#az-r-nyelv-9-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+  
+1. Hozzunk létre egy 30 $\times$ 3-as adattáblát, `csoport`, `matematika` és `magyar` oszlopnevekkel. A `csoport` változó legyen egy `5.a`, `5.b` és `5.c` címkéket tetszőleges sorrendben tartalmazó faktor, a `matematika` és a `magyar` pedig 1-5 osztályzatokat tartalmazó numerikus vektor.
+
+```
+
+
+```{r}
+df <- data.frame(
+  csoport=factor(rep(c("5.a", "5.b", "5.c"), times=10)),
+  matematika=sample(x = 1:5, size = 30, replace = T),
+  magyar=sample(x = 1:5, size = 30, replace = T)
+)
+df
+str(df)
+typeof(df)
+class(df)
+length(df)
+```
+
+
+
+```{block2, type='rmdexercise'}
+  
+2. Írassuk ki a **MASS** csomag `survey` adattáblájának 3. sorában az 5. oszlopban lévő értéket!
+
+```  
+
+
+```{r}
+library(MASS)
+survey[3, 5]
+```
+  
+```{block2, type='rmdexercise'}
+  
+3. Írassuk ki a **MASS** csomag `survey` adattáblájának 3. és 6. sorában sorában az 5. oszlopban lévő értékeket! Az adattábla típus maradjon meg!
+
+```  
+  
+
+```{r}
+library(MASS)
+survey[c(3, 6), 5, drop=F]
+
+```
+  
+
+```{block2, type='rmdexercise'}
+  
+4. Írassuk ki a **MASS** csomag `survey` adattáblájának 3. és 6. sorából az összes adatértéket!
+
+```
+
+
+```{r}
+library(MASS)
+survey[c(3, 6), ]
+
+```
+
+  
+```{block2, type='rmdexercise'}
+  
+5. Írassuk ki a **MASS** csomag `survey` adattábla `Pulse` oszlopát háromféle módszerrel! 
+
+```
+
+
+```{r}
+data(survey, package = "MASS") # a `survey` beolvasása
+str(survey)
+survey[, 6]       # 1. módszer
+survey[, "Pulse"] # 2. módszer
+survey$Pulse      # 3. módszer
+```
+
+  
+```{block2, type='rmdexercise'}
+  
+6. Írassuk ki a **MASS** csomag `survey` adattábla `Pulse` változójának első 3 elemét háromféle módszerrel!
+  
+```
+
+```{r}
+data(survey, package = "MASS") # a `survey` beolvasása
+str(survey)
+survey[1:3, 6]       # 1. módszer
+survey[1:3, "Pulse"] # 2. módszer
+survey$Pulse[1:3]    # 3. módszer
+```
+
+
+  
+```{block2, type='rmdexercise'}
+  
+7. A **HSAUR3** csomag `Forbes2000` adattáblája 2000 vállalat adatát tartalmazza! Határozzuk meg a magyar cégek nevét és helyezését (`country` oszlop alapján)! Írassuk ki a képernyőre a 10 legnagyobb piaci értékkel (`marketvalue` oszlop) rendelkező cég nevét és piaci értékét! Határozzuk meg a legkisebb profittal (`profits` oszlop) rendelkező 5 cég minden adatát! Határozzuk meg a legnagyobb profittal (`profits` oszlop) rendelkező 10 amerikai vagy japán cég nevét, országát és profitját!  
+  
+  
+```
+
+```{r}
+# install.packages("HSAUR3")
+library(HSAUR3)
+str(Forbes2000)
+# a magyar cégek neve és helyezése
+Forbes2000[Forbes2000$country=="Hungary",c("rank","name")]
+# a 10 legnagyobb piaci értékkel rendelkező cég neve és piaci értéke
+Forbes2000[order(Forbes2000$marketvalue, decreasing=T)[1:10],
+           c("name", "marketvalue")]
+# a legkisebb profittal rendelkező 5 cég minden adata
+Forbes2000[order(Forbes2000$profits)[1:5],]
+# a legnagyobb profittal rendelkező 10 amerikai vagy japán cég neve, országa és profitja
+Forbes2000.USA.Japan <- Forbes2000[Forbes2000$country == "United States" |
+                                     Forbes2000$country == "Japan",]
+Forbes2000.USA.Japan[order(Forbes2000.USA.Japan$profits,decreasing=T)[1:10],
+                     c("name","country","profits")]
+```
+
+
+## Megoldások az \@ref(az-r-nyelv-12-exercise) feladatokhoz {#az-r-nyelv-12-exercise-solution}
+
+```{block2, type='rmdexercise'}
+  
+1. Konvertáljuk dátummá a következő két sztringet: `"6November2020"`, `"2013-02-29"`! Utóbbi esetben mi lehet a hiba oka?
+  
+```
+
+
+```{r}
+as.Date("6November2020","%d%B%Y")  # ez rendben van
+# as.Date("2013-02-29")            # nem létező dátum !!!
+```
+
+
+```{block2, type='rmdexercise'}
+
+2. A `seq()` függvény `from=` és `to=` argumentuma a dátum típusú objektumokkal is működik. A `by=` argumentum értéke ilyenkor lehet numerikus (ekkor napokat jelent), de lehet `x weeks`, `x months` vagy `x years`, ahol `x` nullánál nagyobb egész lehet. Hozzunk létre egy dátum-vektort 2020 összes hétfőjének dátumával! 
+
+```
+
+
+```{r}
+d1 <- as.Date("2020-01-06")
+d2 <- as.Date("2020-12-28")
+x <- seq(from=d1, to=d2, by="weeks")
+x
+typeof(x)
+class(x)
+length(x)
+```
+
+
+
+
+```{block2, type='rmdexercise'}
+
+3. A Halley-üstökös utoljára 1986-ban járt a Naprendszerünkben, így az előrejelzések szerint legközelebb 2061. július 26-ban tér vissza. Rögzítsük ezt dátumként, és számoljuk ki, hány napotot kell még várni az üstökös érkezésére.
+
+```
+
+
+```{r}
+as.Date("2061-07-26")-Sys.Date()
+# vagy
+as.Date("2061. július 26.", format="%Y. %B %d.")-Sys.Date()
+```
+
+
+## Megoldások az \@ref(beolvasas-1-exercise) feladatokhoz {#beolvasas-1-exercise-solution}
+
+
+```{block2, type='rmdexercise'}
+
+1. Olvassuk be a `https://onlinestatbook.com/2/case_studies/data/leniency.xls` Excel állományt, állapítsuk meg hány sora és oszlopa van.
+
+```
+
+
+```{r}
+library(rio)
+df <- import(file = "https://onlinestatbook.com/2/case_studies/data/leniency.xls")
+str(df)
+```
+
+Az adatbázisnak 136 sora és 2 oszlopa van.
+
+```{block2, type='rmdexercise'}
+
+2. Olvassuk be a `https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/socsupport.csv` tagolt szöveges állományt, állapítsuk meg hány sora és oszlopa van.
+
+```
+
+
+```{r}
+library(rio)
+df <- read.table(file = "https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/socsupport.csv",
+                 header=T, sep=",", dec=".")
+str(df)
+```
+
+
+Az adatbázisnak 95 sora és 21 oszlopa van.
+
+
+## Megoldások az \@ref(beolvasas-3-exercise) feladatokhoz {#beolvasas-3-exercise-solution}
+
+
+
+```{block2, type='rmdexercise'}
+  
+1 A `cat()` függvénnyel a `dput()`-hoz hasonlóan szöveges állományba írhatjuk egy karakteres, numerikus vagy logikai vektor értékét. Mindkét függvénnyel végezzük el a kiírást, és vessük össze a kapott szöveges állományok tartalmát!
+
+```
+
+
+```{r}
+# karakteres, numerikus és logikai vektor előkészítése
+vekt.1 <- "Helló világ!"
+vekt.2 <- c("Péter", "Károly")
+vekt.3 <- 1:20
+vekt.4 <- c(T, F, T)
+# kiírás cat()-tel
+cat(vekt.1, vekt.2, vekt.3, vekt.4, 
+    file = "output/adat/cat_out.txt", sep="\n")
+# kiírás dput()-tal
+dput(x = vekt.1, file = "output/adat/dput_1_out.txt")
+dput(x = vekt.2, file = "output/adat/dput_2_out.txt")
+dput(x = vekt.3, file = "output/adat/dput_3_out.txt")
+dput(x = vekt.4, file = "output/adat/dput_4_out.txt")
+
+```
+
+A `cat()` függvénynek igazán nincs jelentősége objektumok értékének megőrzésében (kiírásában és később visszaolvasásában), inkább csak az érdekesség miatt említettük. Láthatjuk, hogy a `cat()` függvénnyel egyetlen szöveges állományban több vektor értékét elhelyezhetjük, és a kutató könnyen áttekinthető ezeket az értékeket. Azonban ezek visszaolvasása már nehézségbe ütközik. A `dput()`-tal kiírt objektumok viszont könnyen visszaolvashatók a `dget()` segítségével. A `cat()` függvénnyel tipikusan a konzolba írunk.
+
+
+```{r}
+# visszaolvasás dget()-tel
+uj.vekt.1 <- dget(file = "output/adat/dput_1_out.txt")
+uj.vekt.2 <- dget(file = "output/adat/dput_2_out.txt")
+uj.vekt.3 <- dget(file = "output/adat/dput_3_out.txt")
+uj.vekt.4 <- dget(file = "output/adat/dput_4_out.txt")
+```
+
+
+```{block2, type='rmdexercise'}
+  
+2. A [Kaggle egyik adatbázisában](https://www.kaggle.com/skateddu/metacritic-games-stats-20112019) 4000 videójáték értékelése található. Töltsük le a CSV adatállományt, és nyissuk meg. Keressük meg az [R-bloggers](https://www.r-bloggers.com) oldalon az adatállományhoz kapcsolódó cikket, és próbáljunk ki néhány elemző parancsot. A blogger melyik csomag, melyik függvényével végezte a beolvasást?
+
+```
+
+
+A blogger a **datatable** `fread()` függvényével olvasta be az adatokat. Mi az *Alap R* `read.table()` függvényét választjuk.
+
+```{r}
+df.meta <- read.table(file = "adat/metacritic_games.csv", header=T, sep=",", dec=".", 
+                      quote = "\"", comment.char = "", fileEncoding = "UTF-8")
+str(df.meta)
+```
+
+
+
+```{block2, type='rmdexercise'}
+  
+3. Keressük fel és tanulmányozzuk a [Great R packages for data import, wrangling and visualization](https://www.computerworld.com/article/2921176/great-r-packages-for-data-import-wrangling-visualization.html) oldalt! A bevezetésben lefektetett alapelvek közül melyiket erősíti meg ez az oldal? 
+
+```
+
+Az oldalon számos lehetőséget találunk adatok beolvasására és kezelésére. Ugyanarra a problémára számos eltérő megoldás van, például egy tagolt szöveges állományt beolvashatjuk a **base**, **tidyr**, **rio** vagy **datatable** csomag megfelelő függvényével is (*Svájci bicska*). Ha átböngésszük az oldalt felfedezhetünk olyan megoldásokat, amelyek kiegészítik az alaptudásunkat (*Magabiztosság*), de egy bizonyos idő után ezek az újdonságok is beépülhetnek a saját eszköztárunkba (*Gyakorlás*).
+
+
+```{block2, type='rmdexercise'}
+  
+4. Töltsünk le 10 érdekesnek tűnő adatállományt a [19 Places to Find Free Data Sets for Data Science Projects](https://www.dataquest.io/blog/free-datasets-for-projects/) oldalról, és nyissuk meg őket!
+  
+```
+
+
+
+```{r}
+
+```
+

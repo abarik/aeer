@@ -9,7 +9,8 @@
 <div class="rmdlevel1">
 <p>Ebben a fejezetben:</p>
 <ul>
-<li>megismerjük az <em>Alap R</em>, az <em>RStudio</em> és a csomagok telepítését.</li>
+<li>megismerjük az <em>Alap R</em>, az <em>RStudio</em> és a csomagok
+telepítését.</li>
 </ul>
 </div>
 
@@ -18,16 +19,29 @@
 
 A korábbi fejezetekben megismertük az R világának néhány fogalmát és szereplőjét. Tudjuk, hogy az R nyelv használatához megfelelő szoftveres környezetre van szükség, amely magába foglalja az *Alap R*-t és az *egyéb csomagok* kategóriájából esetlegesen telepített csomagokat is. Az R már ezen eszközök birtokában is teljes körűen használható, azonban egy újabb ingyenes eszköz, az *RStudio*, kényelmessé és hatékonnyá teszi az adatelemzési munkát.
 
-Könyvünk legfontosabb gondolata: **ma akkor tudjuk a legjobban kihasználni az R lehetőségeit, és ezzel egyidőben a legkényelmesebb módon elvégezni az adatelemzési feladatunkat, ha (1) az *Rstudio*-t használjuk, (2) projekt üzemmódban dolgozunk, és (3) RMarkdown állományokban rögzítjük az R parancsainkat.** Ezt a szemléletet következetesen képviseljük az egyes fejezetekben, és a későbbiekben részletesebben bemutatjuk, hogyan tudjuk mindezt megvalósítani.
+Könyvünk legfontosabb gondolata: **ma akkor tudjuk a legjobban kihasználni az R lehetőségeit, és ezzel egyidőben a legkényelmesebb módon elvégezni az adatelemzési feladatunkat, ha**
+
+1. **az *Rstudio*-t használjuk,** 
+1. **projekt üzemmódban dolgozunk, és** 
+1. **RMarkdown állományokban rögzítjük az R parancsainkat.** 
+
+Ezt a szemléletet következetesen képviseljük az egyes fejezetekben, és a későbbiekben részletesebben bemutatjuk, hogyan tudjuk mindezt megvalósítani (\@ref(fig:alaprst02). ábra).
+
+
+<div class="figure" style="text-align: center">
+<a href="" target="_blank"><img src="images/alaprst02.png" alt="Az R kényelmes használata" width="85%" /></a>
+<p class="caption">(\#fig:alaprst02)Az R kényelmes használata</p>
+</div>
+
 
 A R kényelmes használatához a legelső lépés a szoftveres környezet egyes elemeinek telepítése. Három fő komponens telepítésére lesz szükségünk:  
   
-1. *Alap R*, amely tartalmazza a konzolt, az R interpretert, illetve a *standard csomagokokat* és az *ajánlott csomagokat*,
+1. *Alap R*, amely tartalmazza a konzolt, az R interpretert, illetve a *standard csomagokat* és az *ajánlott csomagokat*,
 1. *RStudio*, amely egy új konzollal "eltakarja" az *Alap R*-t, és kényelmesebb hozzáférést biztosít az *Alap R* interpreteréhez és a csomagjaihoz.
 1. Csomagok, amelyek az *egyéb csomagok* nagy halmazából származnak, és telepítésükkel újabb és újabb képességekkel ruházzuk fel az *Alap R*-t.
 
 
-### Az Alap R telepítése
+### Az Alap R telepítése {#az-alap-r-telepitese}
 
 Az *Alap R* telepítéséhez látogassunk el az R hivatalos letöltő oldalára: *https://cran.r-project.org/*. Az operációs rendszerünknek megfelelő link kiválasztásával folytassuk a navigálást.
 
@@ -35,13 +49,13 @@ Az *Alap R* telepítéséhez látogassunk el az R hivatalos letöltő oldalára:
 * A macOS felhasználók a `Download R for (Mac) OS X` linken kattintva jutnak a telepítőhöz: `R-X.X.X.pkg`. A letöltés után indítsuk el a telepítőt, és a `Next` gombok segítségével végezzük el a telepítést.
 * A Linux felhasználók az aktuális R verzió telepítéséhez a `Download R for Linux` linken keresztül jutnak el, ahol a megfelelő disztribúció (Debian, Redhat, Suse, Ubuntu) kiválasztása után konkrét információkat kapnak a telepítésről.
 
-### Az RStudio telepítése
+### Az RStudio telepítése {#az-rstudio-telepitese}
 
-Az *RStudio* telepítéséhez az operációs rendszerünknek megfelelő telepítőt kell letöltenünk a *https://www.rstudio.com/products/rstudio/download/* oldalról. Az RStudio Desktop (Open Source License) változatára lesz szükségünk, töltsük le és telepítsük ezt a számítógépünkre. A telepítés során fogadjuk el az alapértelmezett opciókat. Az *RStudio* automatikusan megtalálja és használja a korábban telepített *Alap R* példányunkat, így a későbbiekben elegendő lesz az *RStudio*-t használni, azon keresztül elérhetjük az *Alap R* minden funkcióját.
+Az *RStudio* telepítéséhez az operációs rendszerünknek megfelelő telepítőt kell letöltenünk a *https://www.rstudio.com/products/rstudio/download/* oldalról. Az *RStudio Desktop (Open Source License)* változatra lesz szükségünk, töltsük le és telepítsük ezt a számítógépünkre. A telepítés során fogadjuk el az alapértelmezett opciókat. Az *RStudio* automatikusan megtalálja és használja a korábban telepített *Alap R* példányunkat, így a későbbiekben elegendő lesz az *RStudio*-t használni, azon keresztül elérhetjük az *Alap R* minden funkcióját (\@ref(fig:alaprst02). ábra).
 
 ### Csomagok telepítése {#Csomagoktelepitese}
 
-A csomagok telepítésére az *Alap R* vagy az *RStudio* elindítása után van módunk. Érdemes a telepítéseket az *RStudio*-ból végezni. A csomag fellelési helye alapján, három különböző tárhelyről mutatjuk be a csomagok telepítését. Látni fogjuk, hogy a csomagok telepítéséhez R parancsokat fogunk használni. Ha még nem vagyunk jártasak R parancsok futtatásban, akkor a \@ref(AzRStudiohasznalata) fejezet fellapozásával segítséget kaphatunk a lenti parancsok kipróbálásához, de úgy is eljárhatunk, hogy most kihagyjuk ennek a résznek az áttekintését, és később térünk vissza, amikor valóban felmerül az igény csomagok telepítésére.     
+A csomagok telepítésére az *Alap R* vagy az *RStudio* elindítása után van módunk. Érdemes a telepítéseket az *RStudio*-ból végezni. A csomag fellelési helye alapján, három különböző tárhelyről mutatjuk be a csomagok telepítését. Látni fogjuk, hogy a csomagok telepítéséhez R parancsokat fogunk használni. Ha még nem vagyunk jártasak R parancsok futtatásban, akkor a \@ref(AzRStudiohasznalata). fejezet fellapozásával segítséget kaphatunk a lenti parancsok kipróbálásához, de úgy is eljárhatunk, hogy most kihagyjuk ennek a résznek az áttekintését, és később térünk vissza, amikor valóban felmerül az igény csomagok telepítésére.     
 
 Az R csomagok hivatalos helye a [CRAN (The Comprehensive R Archive Network)](https://cran.r-project.org/web/packages/). A CRAN számítógépei tárolják a nyílt forráskódú R nyelv és környezet különböző verzióinak kódjait és dokumentációit, így az összes R csomag forráskódját is. Egy bírálási folyamat után bármely felhasználó csomagja a CRAN-ból is elérhető lehet.
 
@@ -74,7 +88,7 @@ A csomagok harmadik fő forrása a GitHub. A felhasználók a saját fejlesztés
 devtools::install_github("felhasznalo_neve/csomag_neve")
 ```
 
-Például a GitHub-ról telepíthető **emo** csomag segítségvel hangulatjeleket szúrhatunk be az RMarkdown állományainkba. Ezzel a sorral telepíthetjük a csomagot: 
+Például a GitHub-ról telepíthető **emo** csomag segítségével hangulatjeleket szúrhatunk be az RMarkdown állományainkba. Ezzel a sorral telepíthetjük a csomagot: 
 
 
 ```r
@@ -82,7 +96,7 @@ devtools::install_github("hadley/emo")
 ```
 
 
-Fontos tudnunk, hogy a csomagok telepítésére egy számítógépen egy adott R verzión belül csak egyszer van szükség. A telepítő parancsainkat azonban érdemes megőrizni, hogy ha szükséges, akkor egy új R verzióban könnyen tudjuk telepíteni a korábban használt csomagjainkat. Nagyon fontos, hogy a telepítő parancsok futtatása után, tegyük azokat megjegyzésbe, vagyis írjunk előjük kettőskereszt (`#`) karaktert (részletesebb információkat a megjegyzésekről a \@ref(MegjegyzesazRben) fejezetben olvashatunk). Ezzel tudjuk megvédeni ezeket a telepítő parancsokat az újbóli, véletlen, felesleges végrehajtástól. Ennek megfelelően a telepítő parancsainkat ilyen formában kell őriznünk:
+Fontos tudnunk, hogy a csomagok telepítésére egy számítógépen egy adott R verzión belül csak egyszer van szükség. A telepítő parancsainkat azonban érdemes megőrizni, ugyanis egy új R verzióban könnyebben tudjuk így telepíteni a korábban használt csomagjainkat. Nagyon fontos, hogy a telepítő parancsok futtatása után, tegyük azokat megjegyzésbe, vagyis írjunk eléjük kettőskereszt (`#`) karaktert (részletesebb információkat a megjegyzésekről a \@ref(MegjegyzesazRben). fejezetben olvashatunk). Ezzel tudjuk megvédeni ezeket a telepítő parancsokat az újbóli, véletlen, felesleges végrehajtástól. Ennek megfelelően a telepítő parancsainkat ilyen formában kell őriznünk:
 
 
 
@@ -95,12 +109,18 @@ Fontos tudnunk, hogy a csomagok telepítésére egy számítógépen egy adott R
 ```
 
 
-Vegyük figyelmbe, hogy egy csomag telepítése során más, egyéb csomagok telepítése automatikusan is megtörténhet, tehát egy helyett valójában több csomag is felkerülhet a gépünkre. Az is előfordulhat, hogy egy csomag telepítése csak akkor lesz sikeres, ha más csomagok frissítését engedélyezzük az adott csomag telepítése során. Végül előfordulhat olyan eset is, amikor egy csomag telepítése valamilyen oknál fogva meghiúsul. Erról minden esetben hibaüzenet tájékoztat minket, és ez szinte minden esetben jó kiindulásul szolgál a hibát okozó körülmény elhárításában. A legtöbbször egy másik csomag hiánya okozza a sikertelen telepítést, ezért olvassuk ki a hibaüzenetből a hiányolt csomag nevét, és először ennek a telepítését végezzük el.  
+Vegyük figyelembe, hogy egy csomag telepítése során más, egyéb csomagok telepítése automatikusan is megtörténhet, tehát egy helyett valójában több csomag is felkerülhet a gépünkre. Az is előfordulhat, hogy egy csomag telepítése csak akkor lesz sikeres, ha más csomagok frissítését engedélyezzük az adott csomag telepítése során. Végül előfordulhat olyan eset is, amikor egy csomag telepítése valamilyen oknál fogva meghiúsul. Erről minden esetben hibaüzenet tájékoztat minket, és ez szinte minden esetben jó kiindulásul szolgál a hibát okozó körülmény elhárításában. A legtöbbször egy másik csomag hiánya okozza a sikertelen telepítést, ezért olvassuk ki a hibaüzenetből a hiányolt csomag nevét, és először ennek a telepítését végezzük el. Nagyon ritka esetben az is előfordulhat, hogy egy csomag telepítését az *RStudio* helyett az *Alap R*-ben kell elvégeznünk.
 
 ### Összefoglalás {#az-r-telepitese-1-summary}
 
 <div class="rmdsummary">
-<p>Az R kényelmes használatához először telepítsük az operációs rendszerünknek megfelelő <em>Alap R</em>, majd az <em>RStudio</em> legújabb verzióját. Az R képességeit csomagok segítségével bővíthetjük, ehhez legtöbbször az <code>install.packages()</code> parancsot használjuk.</p>
+<p>Az R kényelmes használatához először telepítsük az operációs
+rendszerünknek megfelelő <em>Alap R</em>, majd az <em>RStudio</em>
+legújabb verzióját. Az R képességeit csomagok segítségével bővíthetjük,
+melyek három különböző tárhelyről származhatnak. A legtöbb csomagot a
+CRAN-ről telepíthetjük az <code>install.packages()</code> parancs
+használatával. A Bioconductor-ról vagy a GitHub-ról származó csomagok
+telepítéséhez más parancsokat kell használnunk.</p>
 </div>
 
 ### Feladatok {#az-r-telepitese-1-exercise}
@@ -110,6 +130,9 @@ Vegyük figyelmbe, hogy egy csomag telepítése során más, egyéb csomagok tel
 1. Melyik az *RStudio* legfrissebb változata, és milyen újdonságokat tartalmaz az előző változathoz képest?
 1. Hogyan deríthető ki, hogy egy csomagban (például a **MASS**) csomagban, hány adatobjektum, és hány függvény található?
 </div>\EndKnitrBlock{rmdexercise}
+
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-telepitese-1-exercise-solution)
 
 ## A Tidyverse R telepítése
 
@@ -121,7 +144,7 @@ Vegyük figyelmbe, hogy egy csomag telepítése során más, egyéb csomagok tel
 </ul>
 </div>
 
-A *Tidyverse R* az R meglévő funkcióinak új szemléletű használatát jelenti. A modern R jelenleg egyet jelent a *Tidyverse R*-rel, az ebben a szemléleteben készült parancsaink gyorsak, jól olvashatók és könnyen módosíthatók. A *Tidyverse R* funkciói összesen 8 csomagba (**ggplot2**, **purrr**, **tibble**, **dplyr**, **tidyr**, **stringr**, **readr** és **forcats**) vannak szétosztva, mindegyik csomag egy-egy témakört fed le. A fenti csomagok telepítése egyetlen gyűjtőcsomag a **tidyverse** nevű csomag telepítésével is elvégezhető:
+A *Tidyverse R* az R meglévő funkcióinak új szemléletű használatát jelenti. A modern R jelenleg egyet jelent a *Tidyverse R*-rel, az ebben a szemléleteben készült parancsaink gyorsak, jól olvashatók és könnyen módosíthatók. A *Tidyverse R* funkciói összesen több csomagba (például **ggplot2**, **purrr**, **tibble**, **dplyr**, **tidyr**, **stringr**, **readr** és **forcats**) vannak szétosztva, mindegyik csomag egy-egy témakört fed le. A fenti csomagok telepítése egyetlen gyűjtőcsomag a **tidyverse** nevű csomag telepítésével is elvégezhető:
 
 
 ```r
@@ -147,7 +170,7 @@ A *Tidyverse R* csomagjait jelenleg is intenzíven fejlesztik, így gyakran jele
 
 
 ```r
-tidyverse::tidyverse_update()
+tidyverse::tidyverse_update()  # a Tidyverse R frissítése
 #> The following packages are out of date:
 #> 
 #> * lubridate (1.7.4 -> 1.7.8)
@@ -158,12 +181,18 @@ tidyverse::tidyverse_update()
 #> install.packages(c("lubridate", "purrr", "xml2"))
 ```
 
-Például a fenti esetben 3 csomag frissítését javasolja a `tidyverse_update()` függvény, és segítséget is ad a telepítőparancs listázásával. 
+Például a fenti esetben 3 csomag frissítését javasolja a `tidyverse_update()` függvény, és segítséget is ad a telepítőparancs listázásával. A javaslatban szereplő munkamenet törlés (`Start a clean R session`) az *RStudio*-ban az `.rs.restartR()` parancs vagy a `Ctrl+Shift+F10` billentyűkombináció kiadásával valósítható meg.
 
 ### Összefoglalás {#az-r-telepitese-2-summary}
 
 <div class="rmdsummary">
-<p>A <em>Tidyverse R</em> használatához elegendő telepítenünk a <strong>tidyverse</strong> csomagot, amely a többi 8 csomag telepítését automatikusan elvégzi. A telepítést a <code>install.packages("tidyverse")</code> paranccsal végezzük. Időnként ellenőrizzük a <code>tidyverse::tidyverse_update()</code> segítségével, hogy a legfrissebb változatát használjuk-e a <em>Tidyverse R</em>-t alkotó csomagoknak.</p>
+<p>A <em>Tidyverse R</em> használatához elegendő telepítenünk a
+<strong>tidyverse</strong> csomagot, amely a többi 8 csomag telepítését
+automatikusan elvégzi. A telepítést a
+<code>install.packages("tidyverse")</code> paranccsal végezzük. Időnként
+ellenőrizzük a <code>tidyverse::tidyverse_update()</code> segítségével,
+hogy a legfrissebb változatát használjuk-e a <em>Tidyverse R</em>-t
+alkotó csomagoknak.</p>
 </div>
 
 ### Feladatok {#az-r-telepitese-2-exercise}
@@ -173,6 +202,7 @@ Például a fenti esetben 3 csomag frissítését javasolja a `tidyverse_update(
 1. Derítsük ki, hogy az R Core Team vagy Hadley Wickham több R csomag szerzője!
 </div>\EndKnitrBlock{rmdexercise}
 
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-telepitese-2-exercise-solution)
 
 
 ## Az R frissítése
@@ -180,7 +210,8 @@ Például a fenti esetben 3 csomag frissítését javasolja a `tidyverse_update(
 <div class="rmdlevel3">
 <p>Ebben a fejezetben:</p>
 <ul>
-<li>bemutatjuk az <em>Alap R</em>, az <em>RStudio</em> és a csomagok frissítését.</li>
+<li>bemutatjuk az <em>Alap R</em>, az <em>RStudio</em> és a csomagok
+frissítését.</li>
 </ul>
 </div>
 
@@ -191,7 +222,7 @@ A R ideális használata során az *RStudio*-ban dolgozunk, és így érjük el 
 
 A telepített *Alap R* verzióját az `R.version.string` végrehajtásával ellenőrizhetjük. Amennyiben az R hivatalos [oldalán](https://cran.r-project.org/) találunk frissebb példányt, akkor legalább két módszer segítségével frissíthetjük az *Alap R*-t. Megjegyezzük, hogy az *Alap R* sikeres frissítése után az *RStudio* automatikusan az új példányt fogja használni.
 
-**1. módszer: csak Windows alatt.** Windows operációs rendszer alatt rendelkezésre áll az **installr** csomag, amelynek pontosan az a feladata, hogy kényelmesen telepíthessük számítógépünkre az R legfrissebb verzióját. Az **installr** a régebbi verzióban lévő csomagokat az új változatba is átmozgatja, és ott azok frissítését is elvégzi. A következő parancsok futtatására van szükség.
+**1. módszer (csak Windows alatt)** Windows operációs rendszer alatt rendelkezésre áll az **installr** csomag, amelynek pontosan az a feladata, hogy kényelmesen telepíthessük számítógépünkre az *Alap R* legfrissebb verzióját. Az **installr** a régebbi verzióban lévő csomagokat az új változatba is átmozgatja, és ott azok frissítését is elvégzi. A következő parancsok futtatására van szükség.
 
 
 ```r
@@ -200,7 +231,7 @@ library(installr)              # az installr csomag betöltése
 updateR()                      # az Alap R és a csomagok frissítése
 ```
 
-**2. módszer: általános út.** Az *Alap R* frissítésének másik módja, hogy telepítünk egy új példányt a régi R mellé. Azaz a korábban látott módon letöltjük és telepítjük az *Alap R* legújabb változatát, pontosan úgy, mintha még nem lenne a gépünkön működő R. Ez az új verzió azonban félkarú óriás mindaddig, amíg a régi R verzióban használt összes csomagot nem telepítjük újra az új verzióban is. Ezt magunk egyesével is megtehetjük, ha korábban összegyűjtöttük a csomagtelepítő parancsainkat, legyen szó akár akár a CRAN, a Bioconductor vagy a GitHub oldaláról származó csomagokról. Ha ezek nem állnak rendelkezésre, akkor az *Alap R* frissítésének általános útját három lépésben foglalhatjuk össze.
+**2. módszer (minden operációs rendszeren)** Az *Alap R* frissítésének másik módja, hogy telepítünk egy új példányt a régi R mellé. Azaz a korábban látott módon letöltjük és telepítjük az *Alap R* legújabb változatát, pontosan úgy, mintha még nem lenne a gépünkön működő R. Ez az új verzió azonban félkarú óriás mindaddig, amíg a régi R verzióban használt összes csomagot nem telepítjük újra az új verzióban is. Ezt magunk is megtehetjük, ha korábban összegyűjtöttük a csomagtelepítő parancsainkat, legyen szó akár akár a CRAN, a Bioconductor vagy a GitHub oldaláról származó csomagokról. Ha ezek a parancsok nem állnak rendelkezésre, akkor az *Alap R* frissítésének általános útját három lépésben foglalhatjuk össze.
 
 1. Indítsuk el az *RStudio*-t még az új R verzió telepítése előtt, és futtassuk le a következő sorokat. A futtatás eredménye egy bináris állomány (`csomagok.rds`), amely a régi R összes telepített csomagjának nevét és más információkat tartalmaz. Lépjünk ki az *RStudio*-ból.
 
@@ -240,11 +271,11 @@ filter(source == "Bioconductor")
 
 -->
 
-Megjegyezzük, hogy a fenti 2. módszer segítségével csak a CRAN csomagjait tudjuk telepíteni, a Bioconductor és a GitHub oldalakról származó csomagok telepítését magunknak kell megismételni.
+Megjegyezzük, hogy a fenti módszer segítségével csak a CRAN csomagjait tudjuk telepíteni, a Bioconductor és a GitHub oldalakról származó csomagok telepítését magunknak kell megismételni. Tehát a nem CRAN-ről származó csomagok telepítő parancsait mindenképp érdemes megőrizni.
 
 ### Az RStudio frissítése
 
-A telepített *RStudio* példányunk verziószámát a `Help / About RStudio` menüpont segítségével, vagy az `rstudioapi::versionInfo()` parancs futtatásával ellenőrizhetjük. Frissebb verzió létezéséről a `Help / Check for Updates` menüpont ad tájékoztatást. Amennyiben találunk újabb verziót az *RStudio* hivatalos [honlapján](https://rstudio.com/), töltsük le az operációs rendszerünknek megfelelő változatot és indítsuk el a telepítőt. Szerencsére a régi *RStudio* beállításait örökli az új példány.
+A telepített *RStudio* példányunk verziószámát a `Help / About RStudio` menüpont segítségével, vagy az `rstudioapi::versionInfo()` parancs futtatásával ellenőrizhetjük. Frissebb verzió létezéséről a `Help / Check for Updates` menüpont ad tájékoztatást. Amennyiben találunk újabb verziót az *RStudio* hivatalos [honlapján](https://rstudio.com/), töltsük le az operációs rendszerünknek megfelelő változatot és indítsuk el a telepítőt. Szerencsére a régi *RStudio* beállításait örökli az új példány, és a továbbiakban csak az új példány lesz elérhető.
 
 
 ### Csomagok frissítése
@@ -259,7 +290,14 @@ update.packages(ask=FALSE)
 ### Összefoglalás {#az-r-telepitese-3-summary}
 
 <div class="rmdsummary">
-<p>Az <em>Alap R</em>, az <em>RStudio</em> és az egyes csomagok időről-időre megújulnak, érdemes évente legalább egy-két alkalommal elvégezni ezek frissítését. Az <em>Alap R</em> frissítése lényegében egy új verzió telepítését jelenti, a régi R továbbra is elérhető marad. Az <em>RStudio</em> frissítése után csak az új verziót használhatjuk. Az <em>Alap R</em> és az <em>RStudio</em> friss verziója a hivatalos honlapokról szerezhető be. A csomagok frissítéséhez használjuk a <code>update.packages(ask=FALSE)</code> parancsot.</p>
+<p>Az <em>Alap R</em>, az <em>RStudio</em> és az egyes csomagok
+időről-időre megújulnak, érdemes évente legalább egy-két alkalommal
+elvégezni ezek frissítését. Az <em>Alap R</em> frissítése lényegében egy
+új verzió telepítését jelenti, a régi R továbbra is elérhető marad. Az
+<em>RStudio</em> frissítése után csak az új verziót használhatjuk. Az
+<em>Alap R</em> és az <em>RStudio</em> friss verziója a hivatalos
+honlapokról szerezhető be. A csomagok frissítéséhez használjuk az
+<code>update.packages(ask=FALSE)</code> parancsot.</p>
 </div>
 
 
@@ -267,6 +305,9 @@ update.packages(ask=FALSE)
 
 
 \BeginKnitrBlock{rmdexercise}<div class="rmdexercise">  
-1. Az *RStudio* `Tools/Check for Package Updates` menüpontjával tájékozódjunk a telepített csomagjaink állapotáról. Végezzük el a szükséges frissítéseket!  
+1. Az *RStudio* `Tools/Check for Package Updates` menüpontjával tájékozódjunk a telepített csomagjaink állapotáról. Végezzük el a szükséges frissítéseket! Mit tegyünk, ha nem sikerül valamelyik csomag telepítése?
+1. Ismerjük meg a telepített csomagjaink számát és forrását (CRAN vagy Bioconductor vagy GitHub)!
   </div>\EndKnitrBlock{rmdexercise}
 
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-telepitese-3-exercise-solution)

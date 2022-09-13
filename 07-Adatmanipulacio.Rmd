@@ -15,4 +15,768 @@ Ebben a fejezetben:
 ```
 
 
+Ebben a fejezetben az adattáblák manipulációját tekintjük át, melyek az adatkezelés szempontjából a legfontosabb R objektumok. Mint korábban láttuk, a mátrixhoz hasonlóan sorokat és oszlopokat tartalmaz, illetve a listához hasonlóan elemekből, méghozzá azonos hosszúságú oszlopvektorokból épül fel (\@ref(fig:adatszerkezetek-1). ábra). Az adattábla kettős eredete jelentősen megkönnyíti az ilyen adatok kezelését.
+
+Az adattábla sorai egyedekre (személyek, tárgyak, dolgok stb.) vonatkozó megfigyelések, az oszlopok pedig a megfigyelt tulajdonságok. A statisztikához közelebbi fogalmakkal, az adattáblában az adatmátrixunkat/többdimenziós mintánkat rögzíthetjük, a sorok a mintaelemek, az oszlopok a megfigyelt változók.
+
+Az adattábla inhomogén adatszerkezet, oszlopai különböző típusú adatokat is tartalmazhatnak. Jellemzően kvalitatív (nominális és ordinális skálán mért) adatok tárolására a faktort használjuk, kvantitatív (intervallum és arányskálán mért) adatok tárolására a numerikus vektort. Természetesen adattáblában karakteres és logikai vektorok is szerepelhetnek, sőt dátumokat és időpontokat is kezelhetünk az adattáblában.
+
+
+### Információ megtekintése
+
+Az adatbázis beolvasása (\@ref(#beolvasas)) után következik az információk begyűjtése a beolvasott adatokról. A legfontosabb információkérő függvényeket a \@ref(tab:infofuggvenyek) táblázat tartalmazza. Az információ megszerzésének célja az egyszerű tájékozódáson kívül a beolvasás helyességének ellenőrzése: rendelkezésre áll-e a kívánt sor- és oszlopszám, az oszlopnevek rendben vannak-e, a numerikusnak szánt változók valóban számokat tartalmaznak-e és a karakteres oszlopokban az esetleges magyar ékezetek rendben megjelennek-e.
+
+
+```{r infofuggvenyek, echo=FALSE}
+table.kiir <- data.frame(A=c( "str(object)",
+                              "dim(x)",
+                              "nrow(x)",
+                              "ncol(x)",
+                              "names(x)",
+                              "colnames(x)",
+                              "rownames(x)",
+                              "head(x,n=6)",
+                              "tail(x,n=6)",
+                              "View(x)",
+                              "class(x)",
+                              "length(x)",
+                              "unique(x)",
+                              "table(...,useNA)",
+                              "summary(object)"
+                              ),
+                         
+                         
+                         
+                         
+                         B= c("szerkezet kiírása",
+                              "x dimenziói",
+                              "x sorainak száma",
+                              "x oszlopainak száma",
+                              "x elemeinek neve",
+                              "x oszlopnevei",
+                              "x sornevei",
+                              "x első sorai",
+                              "x utolsó sorai",
+                              "x teljes tartalma", 
+                              "x típusa",
+                              "x hossza",
+                              "x különböző értékei",
+                              "gyakorisági tábla",
+                              "leíró adatok"
+                              ),
+                         
+                         
+
+                                                  
+                         C=c( "str(df)",
+                              "dim(df)",
+                              "nrow(df)",
+                              "ncol(df)",
+                              "names(df)",
+                              "colnames(df)",
+                              "rownames(df)",
+                              "head(df)",
+                              "tail(df)",
+                              "View(df)",
+                              "class(df);class(df\\$oszlop)",
+                              "length(df);length(df\\$oszlop)",
+                              "unique(df\\$oszlop)",
+                              "table(df\\$oszlop,useNA='ifany')",
+                              "summary(df);summary(df\\$oszlop)"
+                              ))
+
+table.kiir %>%
+  mutate(A=kableExtra::cell_spec(A, ifelse(knitr:::is_html_output(),"html", "latex"),
+                                 monospace = T)) %>%
+  mutate(C=kableExtra::cell_spec(C, ifelse(knitr:::is_html_output(),"html", "latex"),
+                                 monospace = T)) %>%
+  knitr::kable(escape = F, booktabs = T,
+  col.names = c("Függvény",
+                "Leírás", 
+                "Példa"),
+  caption = 'Információt kérő függvények',
+               format = ifelse(knitr:::is_html_output(),"html", "latex")) %>%
+  kableExtra::kable_styling(full_width = F,
+                            latex_options = "striped",
+                            bootstrap_options = c("striped", "hover"))
+
+```
+
+
+Az adatelemzési munkánk során a beolvasás előtt már sok ismeretünk összegyűlt az adatbázisról, de most tegyünk úgy, mintha egy ismeretlen `flow.xlsx` adatbázist kellene felfedeznünk.
+
+```{r}
+flow <- rio::import(file = "adat/flow.xlsx") # beolvasás
+str(flow)    # a teljes szerkezet
+class(flow)  # típus                
+dim(flow)    # sor- és oszlopszám
+```
+
+A fenti sorok után világossá válik, hogy egy 100 sort és 25 oszlopot tartalmazó *adattábla* (*data frame*) áll rendelkezésre. Az oszlopnevek a `names()`\index{names()} és a `colnames()`\index{colnames()} függvényekkel is megismerhetők
+
+```{r}
+names(flow)[1:4]    # az első 4 oszlop neve
+colnames(flow)[5:8] # a következő 4 oszlop neve
+```
+
+Az oszlopnevek viszonylag beszédesek, de jobban is megismerhetjük ezeket a változókat.
+
+```{r}
+class(flow$alkatoi.tev)   # az alkotoi.tev változó típusa
+unique(flow$alkatoi.tev)  # egyedi értékei
+table(flow$alkatoi.tev, useNA = "ifany") # gyakorisági táblázata
+class(flow$kor)                          # a kor változó típusa
+table(flow$kor, useNA = "ifany")         # gyakorisági táblázata
+```
+
+Az adatbázis tetszőleges részét megjeleníthetjük a konzolban a szokásos indexelés segítségével:
+
+```markdown
+d.df[sorindex, oszlopindex]
+```
+
+Például 4 sorból az első 5 oszlopot így tekinthetjük meg: 
+
+```{r}
+flow[c(1:2, 50:51), 1:5]
+```
+
+
+Ne feledjük, hogy az *RStudio*-ban az `Environment` fülön is megjelenik a `flow` adatbázis a sikeres beolvasás után. Kattintva a neven a teljes adatbázist áttekinthetjük a bal felső részben (ezt a `View(flow)` paranccsal is kezdeményezhetjük), de a `flow` előtti ikonon kattintva megjeleníthetjük az adatbázis `str()`-ból ismert szerkezete is.
+
+További kényelmi lehetőség, ha a *tibble* típus kényelmes megjelenítését is kihasználjuk. Ehhez konvertáljuk át az adattáblánkat *tibble* típusúvá, és egyszerűen jelenítsük meg az objektumot:
+
+```{r}
+library(tidyverse)
+flow.tbl <- as_tibble(flow) # tibble típusú adatbázis létrehozása
+flow.tbl                    # kényelmes megjelenítés
+```
+
+
+### Oszlopok kezelése
+
+#### Oszlopnevek módosítása
+
+A sikeres beolvasás és a szükséges tájékozódás után az oszlopnevek áttekintése és esetleges módosítása a következő lépés. Ez kulcsfontosságú a további munka szempontjából, ugyanis a jól megválasztott változónevek jelentősen meggyorsíthatják a további munkát, és fordítva, a kevésbe beszédes, következetlen, a túl rövid vagy túl hosszú változónevek akadályozhatják a sikeres adatelemzést. A változónevek mindig legyenek beszédesek, csak az angol ábécé kisbetűit és számjegyeket használjunk, több részből álló neveket aláhúzással (`_`) esetleg ponttal (`.`) tagoljuk ([R kódolási stílus](https://style.tidyverse.org/syntax.html)).
+
+Egy adattábla oszlopait a `names()` vagy `colnames()`, a sorait a `rownames()` függvény használatával kérdezhetjük le és nevezhetjük át. A sornevek egymástól különböző, karakteres vagy numerikus egész értékek lehetnek, míg az oszlopnevek csak karakteres adatok. 
+
+Az oszlopnevek módosításának több oka lehet. Példánkban magyar változónevekre váltunk, de sokszor rövidítjük vagy beszédesebbé tesszük az oszlopaink nevét. 
+
+```{r}
+bandak <- rio::import(file = "adat/metal_bandak.xlsx")
+bandak
+names(bandak)                     # az összes oszlop neve 
+names(bandak)[2] <- "rajongo"     # 2. oszlop nevének átírása
+names(bandak)[3:5] <- c("alakulas","felbomlas","orszag") # 3-5. oszlopok átnevezése
+names(bandak)[names(bandak)=="banda"] <- "nev" # a "banda" nevű oszlop átnevezése
+bandak
+```
+
+
+#### Oszlop indexelése
+
+Az *Alap R*-ben az oszlopok indexelése a `[` vagy `[[` operátor segítségével történhet. Mivel az adattáblák örökölték a kétdimenziós mátrix és az egydimenziós lista adatszerkezet indexelési lehetőségeit, így az oszlopokra négyféle módon hivatkozhatunk:
+
+```markdown
+adattábla[,oszlopindex]  # hivatkozás egy vagy több oszlopra
+adattábla[oszlopindex]   # hivatkozás egy vagy több oszlopra
+adattábla[[oszlopnév]]   # hivatkozás egyetlen oszlopra
+adattábla$oszlopnév      # hivatkozás egyetlen oszlopra
+```
+
+Az fenti példa első sorában mátrixszerűen, második sorában listaszerűen indexelünk. A továbbiakban a mátrixszerű, azaz vesszőt tartalmazó hivatkozást használjuk. Az oszlopindex lehet numerikus vektor pozitív vagy negatív értékekkel, karakteres vektor, vagy akár logikai vektor is. Ha csak egyetlen oszlopra vagyunk kíváncsiak, akkor a `[[` vagy még gyakrabban a `$` operátort használjuk az oszlop nevének megadásával.
+
+Az oszlopok elérése mindennapos a statisztikai munka során, így ezeket az indexelési formákat ismernünk kell. 
+
+```{r}
+mean(flow$kor, na.rm=T)           # kor átlaga
+summary(flow[c("kor", "flow.1")]) # kor és flow.1 leíró statisztikai adatai
+# "flow" szót tartalmazó oszlopok száma
+ncol(flow[grepl(pattern = "flow", names(flow))]) 
+```
+
+Ne feledjük, hogy mátrixszerű indexelés során is kaphatunk egydimenziós eredményt, hiszen ha egyetlen oszlopra hivatkozunk, akkor a `[` operátor automatikusan az egydimenziós vektorra vált a kétdimenziós adattábla helyett. Ezt a `drop=F` használatával akadályozhatjuk meg.
+
+```{r}
+flow[1:3, c("kor", "nem")] # két oszlop, nincs dimenzióvesztés
+flow[1:3, "kor"]           # egy oszlop, dimenzióvesztés
+flow[1:3, "kor", drop=F]   # egy oszlop, nincs dimenzióvesztés
+```
+
+#### Oszlopok sorrendje
+
+Ha már jól ismerjük az oszlopok indexelését, akkor számos további műveletre nyílik lehetőség. Ezek közül a legegyszerűbb az oszlopok sorrendjének megváltoztatása. Ha az oszlopindex hivatkozásai az eredeti oszlopsorrendtől eltérnek, akkor máris új oszlopsorrendet határoztunk meg.
+
+```{r}
+# a korábbi 1. oszlop (alkotoi.tev) átkerül a 3. oszlopba
+flow <- flow[, c(2, 3, 1, 4:25)] 
+flow[1:2, 1:3]
+```
+
+Természetesen oszlopsorszámok helyett változóneveket is használhatunk.
+
+```{r}
+bandak
+# a rajongo oszlop a végére kerül
+bandak <- bandak[,c("nev", "alakulas", "felbomlas", "orszag", "rajongo")]
+bandak
+```
+
+
+#### Oszlopok létrehozása és törlése
+
+Láttuk korábban, hogy a `cbind()` segítségével oszlopokat adhatunk a meglévő adatbázisunkhoz. Például a meglévő `bandak` adatbázishoz adjunk hozzá egy kétoszlopos új adatbázist, amely a bandák Wikipédia oldalának címét, és egy szubjektív rangsort tartalmaz.
+
+```{r eval=FALSE, tidy=FALSE}
+bandak.kieg <- data.frame(wikipedia=c("https://en.wikipedia.org/wiki/Kiuas",
+                                      "https://hu.wikipedia.org/wiki/Accept",
+                                      "https://hu.wikipedia.org/wiki/Metallica",
+                                      "https://en.wikipedia.org/wiki/Zonata",
+                                      "https://en.wikipedia.org/wiki/Therion_(band)"),
+                          rangsor=c(2,4,1,3,5))
+bandak.2 <- cbind(bandak, bandak.kieg)
+str(bandak.2)
+```
+
+Egyetlen oszlop beszúrására is van lehetőségünk, és hasonlóan törölhetünk egyetlen oszlopot is:
+
+```markdown
+adattábla$új.oszlopnév       # új oszlop beszúrása a dataframe végére
+adattábla$oszlopnév <- NULL  # oszlop törlése
+```
+
+Szúrjuk be a rangsor változót az eredeti `bandak` adatbázisba, majd távolítsuk el.
+
+```{r tidy=FALSE}
+bandak$rangsor <- c(2,4,1,3,5)  # új oszlop beszúrása
+bandak$rangsor <- NULL          # oszlop törlése
+```
+
+
+#### Típuskonverzió
+
+Az oszlopok nevének és sorrendjének optimális beállítása után meg kell vizsgálnunk, hogy az oszlopaink típusa megfelel-e az általa reprezentált statisztikai változók mérési skálájának. Nem léphetünk tovább az elemzés felé, amíg ez az összefüggés nem teljesül.
+
+
++-----------------------------+--------------------------------+
+| Változó mérési skálája      | R típus                        |
++=============================+================================+
+| nominális                   | faktor                         |
++-----------------------------+--------------------------------+
+| ordinális                   | faktor (rendezett)             |
++-----------------------------+--------------------------------+
+| intervallum                 | numerikus vektor               |
++-----------------------------+--------------------------------+
+| arány                       | numerikus vektor               |
++-----------------------------+--------------------------------+
+
+
+
++------------------+------------------------------------+--------------------------------+
+| Cél mérési skála |    Típuskonverzió                  | R függvény                     |
++==================+====================================+================================+
+| - nominális      | - numerikusból faktor              | - `factor(x)`                  |
+|                  | - karakteresből faktor             |                                |
++------------------+------------------------------------+--------------------------------+
+| - ordinális      | - numerikusból faktor (rendezett)  | - `ordered(x)`                 |
+|                  | - karakteresből faktor (rendezett) |                                |
++------------------+------------------------------------+--------------------------------+
+| - intervallum    | - karakteresből numerikus          | - `as.numeric(x)`              |
+| - arány          | - faktorból numerikus              | - `as.numeric(as.character(x))`|
++------------------+------------------------------------+--------------------------------+
+
+
+
+A típuskonverzió két leggyakoribb esetével foglalkozunk itt. Az egyik faktorrá konvertálás teszi a típuskonverziók legnagyobb részét. Ezt a `factor()` függvénnyel végezzük el. A kiinduló változónk lehet numerikus vagy karakteres. 
+
+```{r}
+factor(c(1, 1, 2, 1, 1, 1, 2))
+factor(c("Dohányzik", "Dohányzik", "Nem dohányzik"))
+```
+
+Mindkét esetben előfordulhat, hogy a kiinduló változóban lévő egyedi numerikus értékek 
+
+A numerikus típuskonverzió kevésbé gyakori, de előfordulhat.
+
+Például 
+
+
+```{r}
+kor <- c(44, 39, "55 év", 38)
+kor[3] <- "55"
+as.numeric(kor)
+```
+
+
+
+#### Transzformáció
+
+Számos esetben szükség lehet az adattábla oszlopaiban lévő értéke átalakítására (transzformálására). Az értékeket vagy helyben (ugyanabban az oszlopban) változtatjuk meg, vagy új oszlopként szúrjuk be az adattáblába.
+Adatok transzformálásához tekintsük a women adattáblát, amely a weight változójában font-ban mért értékeket tartalmaz. Ezt alakítsuk át kg-ban mért adatokká egy új oszlopban:
+
+  
+```{r}  
+data(women); women
+```
+
+```{r}
+women$suly<-round(women$weight*0.45)
+women
+```
+
+Ugyanezt az eredményt a transform() függvény segítségével is elérhetjük, ahol a subset()-hez hasonlóan némileg egyszerűbben hivatkozhatunk az adattábla változóira. Most alakítsuk át height változót inch-ről cm-re.
+
+```{r}
+transform(women, magassag=round(height*2.45))
+```
+
+Amennyiben a fenti példákban nem új változónevek az átalakítás célpontjai, hanem már létező oszlopok, akkor helyben végezzük a transzformációt:
+  
+```{r}
+transform(women, height=height-10)
+```
+
+
+A változók átalakításának másik gyakori esete, amikor az eredetileg folytonos változót kategórikus változóvá alakítjuk. A `cut()` függvény segítségével numerikus vektorból faktort állíthatunk elő.
+
+```{r}
+cut(1:10,3)
+```
+
+
+A fenti példában a 10 elemű bemenő vektortból 3 szintű faktort hoztunk létre. Ha az intervallumok határát magunk szeretnénk megadni, akkor a második (breaks) argumentumban egy vektort kell megadnunk:
+
+```{r}  
+cut(1:10,breaks=c(0,2,10))
+```
+
+A létrejövő faktor szintjei az intervallumok leírásaiból állnak, természetesen ezeket megvaáltoztathatjuk, csak a `labels=` paramétert kell használnunk:
+
+```{r}  
+cut(1:10,breaks=c(0,2,7,10),label=c("gyenge","közepes","erős"))
+
+```
+
+Adattáblák esetében a `cut()` függvény használatára láthatunk egy példát:
+
+  
+  
+```{r}  
+transform(women,height=cut(height,breaks=c(0,60,70,100),labels=c("alacsony","közepes","magas")))
+```
+
+
+car csomag recode() függvénye
+
+
+#### Faktor változó összefoglalás
+
+
+#### Numerikus változó összefoglalás
+
+
+### Sorok kezelése
+
+
+Sokszor előfordul, hogy egy adattábla valamely változójának értékeivel szeretnénk a sorokat elnevezni, illetve fordítva, az adattábla sorneveit oszlopvektorban szeretnénk látni. A **fivethirtyeight** csomag `unisex_names` adattáblája adattábla állományból történő beolvasása során a read.table() függvényben a ”row.names=n” argumentum megadásával a szöveges állomány n. oszlopából nyerjük a sorok neveit.
+Az mtcars adattábla sorneveit a következő parancs segítségével vihetjük be változóba:
+
+
+```{r}
+data(unisex_names, package = "fivethirtyeight")
+head(unisex_names)
+```
+
+
+```{r}
+rownames(unisex_names) <- unisex_names$name
+head(unisex_names)
+```
+
+
+
+```{r}
+mtcars2<-data.frame(name=rownames(mtcars),mtcars,row.names=1:32)
+mtcars2[1:10,]
+```
+
+A fordított irányhoz a következő parancsot kell használnunk:
+
+```{r}
+mtcars3<-mtcars2                  # új adattábla
+rownames(mtcars3)<-mtcars3$name   # sornevek meghatározása
+mtcars3<-mtcars3[2:11]            # a felesleges első oszlop törlése
+mtcars3[1:10,]
+```
+
+#### Rendezés
+
+A vektorok rendezésénél már megismertük az `order()` függvényt (3.1.8. fejezet), amelyet adattáblák rendezésére is használhatunk. Az mtcars adattábla sorait a fogyasztási adatok (mpg változó) alapján növekvő sorrendbe rendezhetjük, ha a sorok indexelésére az `order()` függvény visszatérési értékét használjuk:
+
+
+```{r}
+order(mtcars$mpg)
+```
+
+A fenti indexeket a sorkoordináta helyére írva, megkapjuk a rendezett adattáblát (helytakarékosságból az első 10 sorát írjuk ki):
+
+```{r}
+mtcars[order(mtcars$mpg)[1:10],]
+```
+
+
+Rendezési szempontnak a sorneveket is használhatjuk:
+
+
+```{r}
+mtcars[order(rownames(mtcars))[1:10],]
+```
+
+
+Rendezésnél egynél több változót is figyelembe vehetünk, ekkor az order() függvényben több változónevet kell felsorolnunk vesszővel elválasztva:
+
+```{r}
+mtcars[order(mtcars$mpg,mtcars$disp)[1:10],c("mpg","disp")]
+```
+
+
+Csökkenő sorrendű rendezéshez használhatjuk az `order()` függvény ”decreasing=TRUE” argumentumát, vagy a rev() függvényt. Több rendezési szempont esetén ha keverni szeretnénk a rendezési irányokatt, akkor numerikus oszlopvektorok előtt a mínusz (-) jellel fordíthatjuk meg a rendezés irányát csökkenőre.
+
+
+```{r}
+mtcars[order(mtcars$mpg,-mtcars$disp)[1:10],c("mpg","disp")]
+```
+
+### Adattábla szűrése
+
+
+Sokszor előfordul, hogy az adattábla sorait egy vagy több változó (oszlop) értéke szerint szeretnénk leválogatni. Az adattábla indexelése során a sorkoordináta helyén logikai kifejezést szerepeltetünk. Ha például le szeretnénk kérdezni, azokat a sorokat, amelyekben a fogyásztás értéke kisebb mint 15 mérföld/gallon, akkor a következő logikai kifejezést használhatjuk:
+
+  
+```{r}  
+mtcars$mpg<15
+```
+
+
+A fenti logikai vekorban pontosan azokban a pozíciókban szerepel TRUE érték, amelyik sorban fogyásztás értéke kisebb mint 15 mérföld/gallon. Ha ezt szerpeltetjük a sorkoordináta helyén, a kívánt sorokhoz jutunk:
+
+```{r}  
+mtcars[mtcars$mpg<15,]
+```
+
+
+Több váltózón alapuló feltétel megadásához összetett logikai kifejezést kell írnunk:
+
+  
+  
+```{r}  
+mtcars[mtcars$mpg<15 & mtcars$disp>400,]
+```
+
+
+Adattáblák szűrését egyszerűsíti a subset() függvény, amely az első paraméterében egy adattáblát, második paraméterében pedig a szűrést jelentő logikai kifejezést várja. A fenti szűrés subset() függvény használatával:
+
+  
+  
+```{r}  
+subset(mtcars, mpg<15 & disp>400)
+```
+
+
+A subset() függvény egy select argumentumot is tartalmazhat, melynek sgítségével a szűrés eredményében megjelenő oszlopokat határozhatjuk meg:
+
+  
+```{r}
+subset(mtcars, mpg<15 & disp>400, select=c("mpg","disp"))
+```
+
+### Hiányzó értékeket tatalmazó sorok eltávolítása
+
+Az `NA` értéket is tartalmazó adattáblánkból az na.omit() függvény használatával távolíthatjuk el azokat a sorokat, amelyekben a hiányzó érték előfordul.
+
+```{r}
+data(mtcars)
+mtcars[c(2,5,7),1]<-NA
+mtcars[1:10,]
+```
+
+
+```{r}
+na.omit(mtcars)[1:10,]
+```
+
+
+```{r eval=FALSE, include=FALSE}
+x <- c(1, NA, 3, 4)
+y <- c(1, 2, 3, 4)
+
+x[x>2] <- 1000
+x[x>2] <- y[y>2]
+
+
+x[x>2 & !is.na(x)] <- x[x>2 & !is.na(x)]+1
+
+NA<NA
+subset(x, x>15)
+
+c(1, NA, 10) + c(2, NA, NA)
+
+```
+
+
+
+### Adattáblák indexelése
+
+Az adattáblák indexelésére a mátrixok és listák indexelési eljárásait is használhatjuk. A 3.5. fejezetben már áttekintettük az Alap R lehetőségeit. 
+
+```{r}
+data.file <- "https://github.com/abarik/rdata/raw/master/r_alapok/metacritic_games.csv"
+library(tidyverse)
+d.tbl <- read_delim(file = data.file, delim = ",")
+d.tbl
+d.df <- as.data.frame(d.tbl)
+head(d.df)
+```
+
+
+
+
+
+### Válogatás az sorokból
+
+
+A sorok leválogatatása nagyon fontos eszköz a kezünben ahhoz, hogy az elemzésünket a kívánt mintaelemekkel folytathassuk.
+
+#### Sorok indexelése és a szűrés Alap R-ben
+
+A sorok indexelésére a `[` operátort használhatjuk, a vessző előtti részbe, a sorkoordintátákba írhatunk neumerikus vektort, pozitív és negatív értékekkel, logikai vektort és karakteres vektort, bár ez utóbbi használta nagyon ritkkán fordul elő.
+
+A példákhoz a **fivethirtyeight** csomag `unisex_names` adattáblájából indulunk ki, amely amerikában használt uniszex neveket tartalmaz.
+
+```{r}
+data("unisex_names", package = "fivethirtyeight")
+unisex_names
+```
+
+A sorkoordinátákba írjuk a sorok válogatását biztosító lehetőségeket:
+
+```{r}
+unisex_names[2, ]
+unisex_names[1:3, ]
+unisex_names[-(1:3), ]
+```
+
+A `head()` és `tail()` függvény is a sorokból válogat, az első 6, illetve utolsó 3 sort így kaphatjuk meg: 
+
+```{r}
+head(unisex_names, n = 6)
+tail(unisex_names, n = 3)
+```
+
+
+Bizonyos esetekben szükség lehet az adattábla soraiból véletlen módon néhányat kiválasztani. Ekkor a `sample()` függvényt használjuk:
+
+```{r}
+unisex_names[sample(x = 1:nrow(unisex_names), size = 10), ]
+```
+
+A `sample()` függvény alapértelmezés szerint visszatevés nélküli választ véletlen értékeket az első paraméterből (esetünkben 919 számból 10-et), de ha a `replace=TRUE` argumentumot használjuk, akkor visszatevéssel fog választani:
+
+```{r}
+d.tbl <- unisex_names[sample(x = 11:14, size = 5, replace = T), ]
+d.tbl
+```
+
+A `sample()` függvény fenti paraméterezése mellett biztosan előfordul sorismétlés az új `d.tbl` adattáblában.
+Az sorismétléseket tartalmazó adattáblák kezelésére a `duplicated()` és a `unique()` függvényeket használhatjuk. A sorismétlések felderítésére a `duplicated()` függvényt használjuk:
+
+
+```{r}
+duplicated(d.tbl)
+d.tbl[duplicated(d.tbl), ]
+```
+
+A sorismétlések eltávolítására a `unique()` függvényt használhatjuk:
+  
+```{r}
+unique(d.tbl)
+```
+
+
+
+Ha a sorkoordítátákba logikai vektort írunk, akkor szűrést valósítunk meg:
+
+```{r}
+unisex_names[unisex_names$gap < 0.003, ]
+```
+
+
+
+## Adatkezelés Tidyverse R-ben
+
+```{block2, type='rmdlevel2'}
+
+Ebben a fejezetben:
+  
+```
+
+
+### A `%>%` operátor
+
+Egy probléma megoldása több lépésben történik. A `survey` adatbázisból keressük ki a lányok testmagasságának az át gyakran függvényeket kell egymásba ágyaznunk. Ha például az 1, 2 és 3 számok természetes alapú logaritmusának az összegét szeretnénk kiszámolni, akkor a következő sorokat írhatjuk:
+
+
+```{r}
+x <- c(1, 2, 3)       # vektor előállítása
+out <- log(x)         # természetes alapú logaritmus kiszámolása  
+out <- sum(out)       # átlag kiszámolása
+out                   # eredmény kírása
+```
+
+A részeredmények tárolására az `out` objektumot használtuk fel. A köztes eredmények tárolása azonos vagy eltérő nevek alatt szokásos gyakorlat a hagyományos R használata során.
+
+A fenti lehetőség mellett választhatjuk a függvények egymásba ágyazását is:
+
+```{r}
+x   <- c(1, 2, 3)     # vektor előállítása
+sum(log(x))           # eredmény kiírása
+```
+
+A fenti példa jóval tömörebb és nem szükséges köztes objektumok létrehozása, a hagyományos R-ben nagyon gyakori összetett függvényhívásokkal (rész)problémák megoldása.
+
+A **magrittr** csomag kínál egy harmadik lehetőséget, a pipe operátor (`%>%`)\index{pipe operátor} használatával. Az operátor egyben a Tidyverse R része is.
+
+```{r}
+library(tidyverse)
+x   <- c(1, 2, 3)     # vektor előállítása
+x %>% log() %>% sum() # eredmény kiírása
+```
+
+A fenti sor olvasható úgy, hogy induljunk ki az `x` adatobjektumból, *azután* vegyük a 2-es alapú logaritmusát, *azután* vegyük az értékek összegét. A `%>%` pipe operátor az *azután* lehetőséget kínálja, és egyben egy rendkívül jól olvasható és karbantarható kód létrehozását teszi lehetővé. A fentebb látott függvények egymásba ágyazásánál sokkal könyebben javítható ez a kód, az azt megelőző, köztes objektumokkal dolgozó esetnél pedig jóval egyszerűbb és elegánsabb. A pipe operátort használó parancsok tipikusan adatobjektummal, vagy az azt létrehozó függvénnyel indítanak, majd azoknak a tevékenységeknek a felsorolása történik függvényhívások egymásutánjának megadásával, amelyeket a felsorolás sorrendjében az adatokkal tenni szeretnénk. Az adat rész ezekből a függvényhívásokból hiányzik, ugyanis a pipe operátor biztosítja, hogy mindegyik függvény első argumentumába megkapja azt.
+
+```{r}
+10 %>% log()                 # ekvivalens alak: log(x=10)
+c(10, 100) %>% log()         # ekvivalens alak: log(x=c(10, 100))
+c(10, 100) %>% log(base=10)  # ekvivalens alak: log(x=c(10, 100), base=10)
+```
+
+A fenti példában, látható, hogyan gondoskodik a pipe oprátor arról, hogy `log()` függvény első argumentuma (`x=`) megkapja a szükséges értékét. Néhány függvény esetében előfordul, hogy a kiinduló adat apaértelmezés szerint nem az első paraméter. Ekkor a pont `.` helyörző segítségével expliciten jelezzük, hogy hová kerül a pipe operátor bal oldaláról eérkező adat. Például a karakterstring cserére használatos `sub()` függvény `x=` argumentuma alapértelmezés szerint a harmadik:
+
+```{r}
+sub(pattern = "s", replacement = "z", x = letters)  # s cseréje z-re
+```
+
+A következő függvényhívás az argumentumok nevesítése miatt szintén működőképes, az pipe-ban `x=letters` argumentumhívás valósul meg.  
+
+```{r}
+letters %>% sub(pattern = "s", replacement = "z")
+```
+
+Azonban ha nem használunk argumentumneveket, akkor ez a hívás már nem kívánt eredményre vezet, mert alapértelmezés szerint az első argumentumba kerül az adat, amelyik a `sub()` esetében a `pattern=` argumentum.
+
+```{r}
+letters %>% sub("s", "z") # Nem ezt akartuk. Valójában ez hívódik: sub(pattern=letters, replacement="s", x="z") 
+```
+
+Ha tehát nem az első argumentumban szeretnénk szerepeltetni a pipe bal oldaláról érkező adatot, akkor a `.` helyörzőt kell használnunk:
+
+```{r}
+letters %>% sub("s", "z", .) # letters %>% sub(pattern = "s", replacement = "z", x=letters)
+```
+
+
+
+```{r}
+unisex_names %>% slice(1:3)  
+unisex_names %>% slice(n())         # csak az utolsó sor 
+unisex_names %>% slice((n()-4):n()) # utolsó 5 sor
+unisex_names %>% slice(sample(1:n(), size=4)) # véletlen 4 sor
+d.tbl <- unisex_names %>% slice(sample(21:24, size=5, replace = T )) # véletlen 4 sor
+d.tbl
+
+d.tbl %>% distinct()   # a sorok egyedivé tétele
+
+
+unisex_names %>% sample_n(3)        # véletlen 3 sor
+unisex_names %>% sample_frac(0.01)  # véletlen 1%-nyi sor
+```
+
+
+```{r}
+unisex_names %>% filter(gap<0.003, grepl(pattern = "^C", x = name) | grepl(pattern = "^K", x = name))
+```
+
+```{r}
+unisex_names %>% filter_all(any_vars(.>0.4))
+```
+
+
+```{r}
+smiths %>% select(kor=age, suly=weight)
+smiths %>% rename(kor=age, suly=weight)
+```
+
+
+```{r}
+library(fivethirtyeight)
+```
+
+
+#### Oszlopok válogatása a Tidyverse R-ben
+
+A Tidyverse R a `select()` függvényt kínálja az oszlopok indexelése. A `select()` függvény argumentumába az Alap R-ben látott fenti lehetőség mindegyikét használhatjuk, némi könnyítéssel:
+
+```{r}
+# library(tidyverse)
+# smiths.tbl %>% select(1:3)
+# smiths.tbl %>% select(1, 3, 5)
+# smiths.tbl %>% select(-1, -3, -5)
+# smiths.tbl %>% select(subject, height)
+
+```
+
+Láthatjuk a `select()` elbírja a pozitív vagy negatív indexek közvetlen megadását, nem kell vektorban felsorolni őket, illetve az oszlopneveket idézőjel nélkül is megadhatjuk.
+További lehetőség, hogy az oszlopneveket úgy ishasználhatjuk, mintha számok lennének, a kettőspont operátor és a negtív előjel is használható velük:
+
+```{r}
+# smiths.tbl %>% select(subject:age)
+# smiths.tbl %>% select(-subject, -age)
+# smiths.tbl %>% select(-(subject:age))
+
+```
+
+Az oszlopok között az oszlopnevek alapján is lehet válogatni, ehhez a Tidyverse R számos függvényt ajánl:
+
+```{r}
+# smiths.tbl %>% select(starts_with("ti"))
+# smiths.tbl %>% select(ends_with("t"))
+# smiths.tbl %>% select(contains("ei"))
+# d.df <- data.frame(id=1, kerd.1=10, kerd.2=20, kerd.3=30)
+# d.df
+# d.df %>% select(num_range("kerd.",1:3))
+
+```
+
+Válogathatunk az oszlopok közül az oszlop adataira vonatkozó logikai értéket szolgáltató függvények segítségével. Erre a `select_if()` ad lehetőséget.
+
+```{r}
+# smiths.tbl %>% select_if(is.numeric)
+# smiths.tbl %>% select_if(is.character)
+
+```
+
+
+
+
+
+## Haladó adatkezelés
+
+
+```{block2, type='rmdlevel3'}
+
+Ebben a fejezetben:
+
+```
+
 

@@ -7,7 +7,7 @@
 <title>1 Itt kezdődik | Adatkezelés és egyváltozós elemzések R-ben</title>
 <meta name="author" content="Abari Kálmán">
 <meta name="description" content="1.1 Elindulás  Ebben a fejezetben:  bemutatunk egy konkrét adatelemzési példát,  áttekintjük a könyv tartalmát,  lehetőséget adunk az előzetes R ismeretek felmérésére,  és segítünk a megfelelő...">
-<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta name="generator" content="bookdown 0.28 with bs4_book()">
 <meta property="og:title" content="1 Itt kezdődik | Adatkezelés és egyváltozós elemzések R-ben">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://abarik.github.io/aeer/itt-kezdodik.html">
@@ -17,10 +17,11 @@
 <meta name="twitter:title" content="1 Itt kezdődik | Adatkezelés és egyváltozós elemzések R-ben">
 <meta name="twitter:description" content="1.1 Elindulás  Ebben a fejezetben:  bemutatunk egy konkrét adatelemzési példát,  áttekintjük a könyv tartalmát,  lehetőséget adunk az előzetes R ismeretek felmérésére,  és segítünk a megfelelő...">
 <meta name="twitter:image" content="https://abarik.github.io/aeer/images/cover.jpg">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -29,7 +30,33 @@
       ga('create', 'UA-68765210-2', 'auto');
       ga('send', 'pageview');
 
-    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="css/style.css">
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -60,14 +87,8 @@
 <li><a class="" href="az-r-nyelv.html"><span class="header-section-number">5</span> Az R nyelv</a></li>
 <li><a class="" href="beolvasas.html"><span class="header-section-number">6</span> Beolvasás</a></li>
 <li><a class="" href="adatmanipulacio.html"><span class="header-section-number">7</span> Adatmanipuláció</a></li>
-<li><a class="" href="leiro-statisztika.html"><span class="header-section-number">8</span> Leíró statisztika</a></li>
+<li><a class="" href="mutatok-tablazatok.html"><span class="header-section-number">8</span> Mutatók és táblázatok</a></li>
 <li><a class="" href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></li>
-<li><a class="" href="hipotezisvizsgalatok.html"><span class="header-section-number">10</span> Hipotézisvizsgálatok</a></li>
-<li><a class="" href="publikacio.html"><span class="header-section-number">11</span> Publikáció</a></li>
-<li class="book-part">Függelék</li>
-<li><a class="" href="megoldasok.html"><span class="header-section-number">A</span> Megoldások</a></li>
-<li><a class="" href="szinek.html"><span class="header-section-number">B</span> Színek</a></li>
-<li><a class="" href="oravazlat-az-r-tanitasahoz.html"><span class="header-section-number">C</span> Óravázlat az R tanításához</a></li>
 <li><a class="" href="irodalomjegyzek.html">Irodalomjegyzék</a></li>
 </ul>
 
@@ -113,7 +134,7 @@ Nézzük az adatelemzés lépéseit és egyben könyvünk felépítését!</p>
 <p><strong>2. fejezet: Mi az R?</strong><br>
 A bevezető példa megoldását R-ben fogjuk elvégezni (és nem más eszközben, mint például az SPSS, jamovi, JASP, SAS stb.). Érdemes tehát ismerni az R céljait és lehetőségeit, jó ha van egy összképünk a használt statisztikai programcsomagról. Ezt az áttekintést nyújtja 2 fejezet.</p>
 <p><strong>3. fejezet: Az R telepítése.</strong><br>
-Az adatelemzés konkrét lépéseinek elvégzéséhez telepített <em>Alap R</em> és <em>RStudio</em> szükséges. Ha ezek nem állnak rendelkezésre, vagy még nem is találkoztunk ezekkel az eszközökkel, akkor a 3. fejezet nekünk szól.</p>
+Adatelemzésünk konkrét lépéseinek elvégzéséhez telepített <em>Alap R</em> és <em>RStudio</em> szükséges. Ha ezek nem állnak rendelkezésre, vagy még nem is találkoztunk ezekkel az eszközökkel, akkor a 3. fejezet nekünk szól.</p>
 <p><strong>4. fejezet: Munka az R-ben.</strong><br>
 Az adatelemzés végrehajtásához az <em>RStudio</em>-t ajánljuk, és azon belül pedig a projektek használatát szorgalmazzuk. A 4. fejezetben megismerjük az <em>RStudio</em> legalapvetőbb funkcióit, a parancsállományok létrehozását és futtatását.</p>
 <p>A fenti előzmények után elkezdhetjük a bevezető példa megoldását:</p>
@@ -126,254 +147,109 @@ Az adatelemzés végrehajtásához az <em>RStudio</em>-t ajánljuk, és azon bel
 <p><strong>5. fejezet: Az R nyelv.</strong><br>
 Az R parancsok létrehozásának vannak szabályai, amelyeket a munka során be kell tartanunk. Ismernünk kell jó néhány függvényt, és általában el kell tudnunk igazodni az R nyelvben. Az 5. fejezet ezért kulcsfontosságú, tanulmányozzuk alaposan, és lehetőleg minden kitűzött feladatát oldjuk meg.</p>
 <p><strong>6. fejezet: Beolvasás</strong><br>
-Az adatelemzés első lépése az adatállomány beolvasása. Adataink változatos formában állhatnak rendelkezésre, a 6. fejezetben ezek beolvasására kapunk receptet.</p>
+Minden adatelemzés első lépése az adatállomány beolvasása. Adataink változatos formában állhatnak rendelkezésre, a 6. fejezetben ezek beolvasására kapunk receptet.</p>
 <p>A bevezető példa megoldásához az RMarkdown állomány egyik csonkját bővítsük a lenti sorokkal.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("rio")                         # rio csomag telepítése</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/leeper/rio">rio</a></span><span class="op">)</span>                                      <span class="co"># rio csomag betöltése</span>
-<span class="va">felmeres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"adat/excel_2020.xlsx"</span><span class="op">)</span> <span class="co"># beolvasás</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("rio")                         # rio csomag telepítése</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/leeper/rio">rio</a></span><span class="op">)</span>                                      <span class="co"># rio csomag betöltése</span></span>
+<span><span class="va">felmeres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"adat/excel_2020.xlsx"</span><span class="op">)</span> <span class="co"># beolvasás</span></span></code></pre></div>
 <p><strong>7. fejezet: Adatkezelés</strong><br>
 A statisztikai elemzés elkezdése előtt számos adatkezelési tevékenységre lehet szükség. Ezt a sokszor rendkívül időigényes folyamatot a 7. fejezetben részletezzük.</p>
 <p>A bevezető példa megoldásához az RMarkdown állomány egyik csonkját bővítsük a lenti sorokkal. Az adatkezelés legtöbbször a beolvasott állomány <em>jellemzőinek lekérésével</em> kezdődik.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">)</span>              <span class="co"># dataframe szerkezete</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">)</span>            <span class="co"># változónevek  </span>
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span><span class="op">)</span>   <span class="co"># különböző értékek - osztaly</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">)</span>              <span class="co"># a dataframe szerkezete</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">)</span>            <span class="co"># változónevek  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span><span class="op">)</span>   <span class="co"># különböző értékek</span></span></code></pre></div>
 <p>A karakteres vagy numerikus vektorok faktorrá konvertálása az egyik leggyakoribb előkészítő parancs.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span><span class="op">)</span></span></code></pre></div>
 <p>A táblázatok és ábrák megfelelő megjelenéséhez, végezzük el a <em>faktorszintek sorrendbe állítását</em>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"modern"</span>, <span class="st">"hagyományos"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"modern"</span>, <span class="st">"hagyományos"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><strong>8. fejezet: Mutatók és táblázatok.</strong><br>
 Ha az adatainkat már megfelelő formába hoztuk, akkor továbbléphetünk az elemzés felé. A 8. fejezet a leíró statisztikai elemzésekből a mutatók és a táblázatok létrehozását mutatja be.</p>
 <p>Most a felmérés eredményeinek statisztikai mutatóit íratjuk ki a két tanítási módszert használó csoportban.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("psych") # psych csomag telepítése</span>
-<span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">felmeres</span><span class="op">$</span><span class="va">eredmeny</span>, group <span class="op">=</span> <span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span>, mat<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
-<span class="co">#&gt;     item      group1 vars  n      mean        sd    median   trimmed       mad</span>
-<span class="co">#&gt; X11    1      modern    1 13 0.6541958 0.1968892 0.6621212 0.6568871 0.2044191</span>
-<span class="co">#&gt; X12    2 hagyományos    1 13 0.3800117 0.1272075 0.3628788 0.3913912 0.1190573</span>
-<span class="co">#&gt;            min       max     range       skew  kurtosis         se</span>
-<span class="co">#&gt; X11 0.32575758 0.9530303 0.6272727 -0.2885768 -1.189491 0.05460724</span>
-<span class="co">#&gt; X12 0.08333333 0.5515152 0.4681818 -0.6434813 -0.114030 0.03528102</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("psych") # psych csomag telepítése</span></span>
+<span><span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">felmeres</span><span class="op">$</span><span class="va">eredmeny</span>, group <span class="op">=</span> <span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span>,</span>
+<span>                  mat<span class="op">=</span><span class="cn">T</span>, fast<span class="op">=</span><span class="cn">T</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     item      group1 vars  n mean   sd  min  max range   se</span></span>
+<span><span class="co">#&gt; X11    1      modern    1 13 0.65 0.20 0.33 0.95  0.63 0.05</span></span>
+<span><span class="co">#&gt; X12    2 hagyományos    1 13 0.38 0.13 0.08 0.55  0.47 0.04</span></span></code></pre></div>
 <p><strong>9. fejezet: Grafika.</strong><br>
 A grafikus megjelenítés is a leíró statisztikai elemzés része. A 9. fejezetben részletesebben olvashatunk a publikációkész ábrák létrehozásáról.</p>
 <p>Most a numerikus változók esetén használt egyik elterjedt ábrázolási formát, a dobozdiagramot használjuk két tanítási csoport eredményének grafikus összehasonlítására.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">felmeres</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">modszer</span>, y<span class="op">=</span><span class="va">eredmeny</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">felmeres</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">modszer</span>, y<span class="op">=</span><span class="va">eredmeny</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="01-Itt-kezdodik_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;"></div>
 <p><strong>10. fejezet: Hipotézisvizsgálatok.</strong><br>
 A statisztikai hipotézisvizsgálat minden adatelemzés központi része, a gyűjtött adatokból a populációra nézve következtetést vonhatunk le. A 10. fejezetben a leggyakoribb egyváltozós elemzéseket mutatjuk be.</p>
 <p>Most Mann-Whitney-próbát hajtunk végre a két tanítási módszer eredményességének összehasonlítására.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span><span class="op">(</span><span class="va">eredmeny</span><span class="op">~</span><span class="va">modszer</span>, data<span class="op">=</span><span class="va">felmeres</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Wilcoxon rank sum exact test</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  eredmeny by modszer</span>
-<span class="co">#&gt; W = 145, p-value = 0.001248</span>
-<span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span><span class="op">(</span><span class="va">eredmeny</span><span class="op">~</span><span class="va">modszer</span>, data<span class="op">=</span><span class="va">felmeres</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Wilcoxon rank sum exact test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  eredmeny by modszer</span></span>
+<span><span class="co">#&gt; W = 145, p-value = 0.001</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></span></code></pre></div>
 <p><strong>11. fejezet: Publikálás.</strong><br>
-Az adatelemzési folyamat utolsó lépése, az elemzés eredményének publikációkész formába alakítása. A 11. fejezetben megismerjük azokat a legegyszerűbb folyamatokat, amelyekkel többnyire formanyelvtől függetlenül, publikációkész eredményközlést végezhetünk.</p>
-<p>Most a bevezető példában kapott eredmények publikálását végezzük el. A korábban használt <code><a href="https://rdrr.io/pkg/psych/man/describe.by.html">psych::describeBy()</a></code> függvény hívását úgy módosítjuk, hogy az bármely formanyelven (PDF, HTML, Docx) megfelelő eredményt adjon. Ehhez mindössze egészítsük ki a következő sorokkal a leíró statisztikai elemzést, majd a <em>Knit</em> nyomógomb segítségével fordítsuk le az RMarkdown állományt. A leírü statisztikai mutatók máris táblázatos, könnyen áttekinthető formában jelennek meg.</p>
+Az adatelemzési folyamat utolsó lépése, az elemzés eredményének publikációkész formába öntése. A 11. fejezetben megismerjük azokat a legegyszerűbb folyamatokat, amelyekkel többnyire formanyelvtől függetlenül, publikációkész eredményközlést végezhetünk.</p>
+<p>Most a bevezető példában kapott eredmények publikálását végezzük el. A korábban használt <code><a href="https://rdrr.io/pkg/psych/man/describe.by.html">psych::describeBy()</a></code> függvény hívását úgy módosítjuk, hogy az bármely formanyelven (PDF, HTML, Docx) megfelelő eredményt adjon. Ehhez mindössze egészítsük ki a következő sorokkal a leíró statisztikai elemzést, majd a <em>Knit</em> nyomógomb segítségével fordítsuk le az RMarkdown állományt. A leíró statisztikai mutatók máris táblázatos, könnyen áttekinthető formában jelennek meg.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>OutDec <span class="op">=</span> <span class="st">","</span><span class="op">)</span>  <span class="co"># a tizdesjel beállítása</span>
-<span class="va">st</span> <span class="op">&lt;-</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">felmeres</span><span class="op">$</span><span class="va">eredmeny</span>, 
-                                 group <span class="op">=</span> <span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span>, 
-                                 mat<span class="op">=</span><span class="cn">T</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">st</span><span class="op">)</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>OutDec <span class="op">=</span> <span class="st">","</span><span class="op">)</span>  <span class="co"># a tizedesjel beállítása</span></span>
+<span><span class="va">st</span> <span class="op">&lt;-</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">felmeres</span><span class="op">$</span><span class="va">eredmeny</span>, group <span class="op">=</span> <span class="va">felmeres</span><span class="op">$</span><span class="va">modszer</span>, </span>
+<span>                        mat<span class="op">=</span><span class="cn">T</span>, fast<span class="op">=</span><span class="cn">T</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">st</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"c"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<thead><tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:center;">
-X11
-</th>
-<th style="text-align:center;">
-X12
-</th>
+<thead><tr class="header">
+<th align="center">group1</th>
+<th align="center">vars</th>
+<th align="center">n</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">min</th>
+<th align="center">max</th>
+<th align="center">range</th>
+<th align="center">se</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-item
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-2
-</td>
+<tr class="odd">
+<td align="center">modern</td>
+<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">0,65</td>
+<td align="center">0,20</td>
+<td align="center">0,33</td>
+<td align="center">0,95</td>
+<td align="center">0,63</td>
+<td align="center">0,05</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-group1
-</td>
-<td style="text-align:center;">
-modern
-</td>
-<td style="text-align:center;">
-hagyományos
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-vars
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-n
-</td>
-<td style="text-align:center;">
-13
-</td>
-<td style="text-align:center;">
-13
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-mean
-</td>
-<td style="text-align:center;">
-0,654
-</td>
-<td style="text-align:center;">
-0,380
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sd
-</td>
-<td style="text-align:center;">
-0,197
-</td>
-<td style="text-align:center;">
-0,127
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-median
-</td>
-<td style="text-align:center;">
-0,662
-</td>
-<td style="text-align:center;">
-0,363
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trimmed
-</td>
-<td style="text-align:center;">
-0,657
-</td>
-<td style="text-align:center;">
-0,391
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-mad
-</td>
-<td style="text-align:center;">
-0,204
-</td>
-<td style="text-align:center;">
-0,119
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-min
-</td>
-<td style="text-align:center;">
-0,326
-</td>
-<td style="text-align:center;">
-0,083
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-max
-</td>
-<td style="text-align:center;">
-0,953
-</td>
-<td style="text-align:center;">
-0,552
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-range
-</td>
-<td style="text-align:center;">
-0,627
-</td>
-<td style="text-align:center;">
-0,468
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-skew
-</td>
-<td style="text-align:center;">
--0,289
-</td>
-<td style="text-align:center;">
--0,643
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-kurtosis
-</td>
-<td style="text-align:center;">
--1,189
-</td>
-<td style="text-align:center;">
--0,114
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-se
-</td>
-<td style="text-align:center;">
-0,055
-</td>
-<td style="text-align:center;">
-0,035
-</td>
+<tr class="even">
+<td align="center">hagyományos</td>
+<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">0,38</td>
+<td align="center">0,13</td>
+<td align="center">0,08</td>
+<td align="center">0,55</td>
+<td align="center">0,47</td>
+<td align="center">0,04</td>
 </tr>
 </tbody>
 </table></div>
 <p>Publikációnk szerves része a magyarázó ábra. A korábban rajzolt dobozdiagramunkat csinosítsuk ki a következő sorok R csonkba helyezésével. A <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave()</a></code> függvény a háttértárra rögzítésről is gondoskodik.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">felmeres</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">modszer</span>, y<span class="op">=</span><span class="va">eredmeny</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="st">"Eredmény (%)"</span>, 
-       title<span class="op">=</span><span class="st">"7. osztályos tanulók Excel eredménye"</span>, 
-       subtitle <span class="op">=</span> <span class="st">"Két tanulási módszer összehasonlítása"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/label_percent.html">percent</a></span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"output/kep/dd.png"</span>, plot <span class="op">=</span> <span class="va">p1</span><span class="op">)</span>
-<span class="va">p1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">felmeres</span>, mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">modszer</span>, y<span class="op">=</span><span class="va">eredmeny</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="cn">NULL</span>, y<span class="op">=</span><span class="st">"Eredmény (%)"</span>, </span>
+<span>       title<span class="op">=</span><span class="st">"7. osztályos tanulók Excel eredménye"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Két tanulási módszer összehasonlítása"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"output/kep/dd.png"</span>, plot <span class="op">=</span> <span class="va">p1</span><span class="op">)</span></span>
+<span><span class="va">p1</span></span></code></pre></div>
 <div class="inline-figure"><img src="01-Itt-kezdodik_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;"></div>
 <p>A bevezető példa megoldásához természetesen a hipotézisvizsgálat szöveges értékelés is hozzátartozik, de ezt most az alfejezet végén szereplő egyik kitűzött feladatra halasztjuk. A hangsúly a könyv vázlatos tartalomjegyzékének bemutatásán volt, részletesebb, de felsorolásszerű tartalomjegyzéket a következő két alfejezetben találunk.</p>
 <div id="itt-kezdodik-1-summary" class="section level3" number="1.1.1">
@@ -382,7 +258,16 @@ se
 </h3>
 <div class="rmdsummary">
 <p>
-Ebben az alfejezetben egy adatelemzési példát oldottunk meg, melynek segítségével illusztrálni tudtuk a további fejezetek tartalmát. A 2. fejezetben áttekintést adunk az R-ről, a 3.-ban az <em>Alap R</em> és <em>RStudio</em> telepítését, a 4.-ben az <em>RStudio</em> használatát mutatjuk be. Az 5. fejezetben kellő részletességgel ismertetjük az R nyelvet. A további fejezetekben az adatelemzés szokásos lépéseit vesszük sorra, a 6. fejezetben a beolvasást, a 7. fejezetben az adatok előkészítését, a 8. és 9. fejezetben a leíró statisztikai műveleteket mutatjuk be. A 10. fejezet az egyváltozós hipotézisvizsgálatoké, az utolsó, 11. fejezet az eredmények publikálását foglalja össze.
+Ebben az alfejezetben egy adatelemzési példát oldottunk meg, melynek
+segítségével illusztrálni tudtuk a további fejezetek tartalmát. A 2.
+fejezetben áttekintést adunk az R-ről, a 3.-ban az <em>Alap R</em> és
+<em>RStudio</em> telepítését, a 4.-ben az <em>RStudio</em> használatát
+mutatjuk be. Az 5. fejezetben kellő részletességgel ismertetjük az R
+nyelvet. A további fejezetekben az adatelemzés szokásos lépéseit vesszük
+sorra, a 6. fejezetben a beolvasást, a 7. fejezetben az adatok
+előkészítését, a 8. és 9. fejezetben a leíró statisztikai műveleteket
+mutatjuk be. A 10. fejezet az egyváltozós hipotézisvizsgálatoké, az
+utolsó, 11. fejezet az eredmények publikálását foglalja össze.
 </p>
 </div>
 </div>
@@ -393,17 +278,20 @@ Ebben az alfejezetben egy adatelemzési példát oldottunk meg, melynek segíts�
 <div class="rmdexercise">
 <ol style="list-style-type: decimal">
 <li>
-Milyen online vagy nyomtat könyvek segítik az R elsajátítását? Próbáljuk összegyűjteni a magyar nyelvű könyveket is!
+Milyen online vagy nyomtat könyvek segítik az R elsajátítását?
+Próbáljuk összegyűjteni a magyar nyelvű könyveket is!
 </li>
 <li>
 Térképezzük fel az online videókurzusokat is az R tanulásához!
 </li>
 <li>
-A bevezető példa (<em>Két tanítási módszer összehasonlítása</em>) megoldásában a hipotézisvizsgálat alapján adjunk szöveges értékelést!
+A bevezető példa (<em>Két tanítási módszer összehasonlítása</em>)
+megoldásában a hipotézisvizsgálat alapján adjunk szöveges
+értékelést!
 </li>
 </ol>
 </div>
-<p><a href="megoldasok.html#itt-kezdodik-1-exercise-solution">A fenti feladatok megoldása</a></p>
+<p><svg aria-hidden="true" role="img" viewbox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"></path></svg><a href="#itt-kezdodik-1-exercise-solution">A fenti feladatok megoldása</a></p>
 </div>
 </div>
 <div id="a-könyv-felépítése" class="section level2" number="1.2">
@@ -444,7 +332,7 @@ ezzel tovább segítjük a választást a folytatáshoz.
 </tr>
 <tr class="odd">
 <td>1.2. A könyv felépítése</td>
-<td>A könyv egyes alfejezeteinek rövid bemutatása (jelen alfejezet)</td>
+<td>Jelen alfejezet, amelyben a könyv egyes alfejezeteit mutatjuk be röviden</td>
 </tr>
 <tr class="even">
 <td>1.3. Próbák listája</td>
@@ -500,7 +388,7 @@ ezzel tovább segítjük a választást a folytatáshoz.
 </tr>
 <tr class="odd">
 <td>4.1. Az RStudio használata</td>
-<td>Az <em>RStudio</em> jellemzői és felépítése, a projektek használata és a segítségkérés</td>
+<td>Az <em>RStudio</em> jellemzői és felépítése, a projektek használata</td>
 </tr>
 <tr class="even">
 <td>4.2. Segítség az R használatához</td>
@@ -508,7 +396,7 @@ ezzel tovább segítjük a választást a folytatáshoz.
 </tr>
 <tr class="odd">
 <td>4.3. Az Alap R használata</td>
-<td>Az <em>Alap R</em> konzola, az <em>RGui</em>, az <em>R Commander</em> és a kötegelt üzemmód lehetőségei</td>
+<td>Az <em>Alap R</em> konzolja, az <em>RGui</em>, az <em>R Commander</em> és a kötegelt üzemmód</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -519,50 +407,78 @@ ezzel tovább segítjük a választást a folytatáshoz.
 <td></td>
 </tr>
 <tr class="even">
-<td></td>
-<td></td>
+<td>5.1 Adatobjektumok</td>
+<td>Az objektumok fogalma és létrehozásuk, egyszerű kifejezések</td>
+</tr>
+<tr class="odd">
+<td>5.2 Függvények</td>
+<td>A függvény fogalma, a függvényhívás módja, a kifejezés teljes fogalma</td>
+</tr>
+<tr class="even">
+<td>5.3 Adatszerkezetek</td>
+<td>Az R egyszerű és összetett adatszerkezetei, létrehozásuk és indexelésük</td>
+</tr>
+<tr class="odd">
+<td>5.4 További adatszerkezetek és függvények</td>
+<td>A dátum, tömb, táblázat és tibble adatszerkezetek kezelése</td>
+</tr>
+<tr class="even">
+<td>5.5 Objektumok és típusok</td>
+<td>Az R objektum-orientált lehetőségei</td>
 </tr>
 <tr class="odd">
 <td><strong>6. Beolvasás</strong></td>
 <td></td>
 </tr>
 <tr class="even">
+<td>6.1 Excel, SPSS és RDS állományok</td>
+<td>A <em>rio</em> csomag lehetőségei</td>
+</tr>
+<tr class="odd">
+<td>6.2 Tidyverse beolvasás</td>
+<td>A <em>tidyverse</em> csomag lehetőségei</td>
+</tr>
+<tr class="even">
+<td>6.3 Tagolt szöveges állományok</td>
+<td>A hagyományos R lehetőségei</td>
+</tr>
+<tr class="odd">
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>7. Adatmanipuláció</strong></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>8. Mutatók és táblázatok</strong></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>9. Grafika</strong></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>10. Hipotézisvizsgálatok</strong></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>11. Publikáció</strong></td>
 <td></td>
 </tr>
@@ -574,7 +490,9 @@ ezzel tovább segítjük a választást a folytatáshoz.
 </h3>
 <div class="rmdsummary">
 <p>
-Ebben a részben röviden bemutattuk a könyv összes alfejezetét. A későbbiekben térképként használhatja az Olvasó az itt ismertetett táblázatot.
+Ebben a részben röviden bemutattuk a könyv összes alfejezetét. A
+későbbiekben térképként használhatja az Olvasó az itt ismertetett
+táblázatot.
 </p>
 </div>
 </div>
@@ -589,6 +507,7 @@ Ebben a részben röviden bemutattuk a könyv összes alfejezetét. A későbbie
 <li>Az R-rel való munka általunk javasolt módja: <em>RStudio</em>-ban, projektmódban, R vagy RMarkdown állományokat szerkesztünk és hajtunk végre. Mely fejezetekben találunk hasznos információkat az R ezen használatával kapcsolatban?</li>
 </ol>
 </div>
+<p><svg aria-hidden="true" role="img" viewbox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"></path></svg><a href="#itt-kezdodik-2-exercise-solution">A fenti feladatok megoldása</a></p>
 </div>
 </div>
 <div id="próbák-listája" class="section level2" number="1.3">
@@ -601,19 +520,20 @@ Ebben a fejezetben:
 </p>
 <ul>
 <li>
-áttekintést adunk az egy- és kétváltozós hipotézisvizsgálatokról.
+áttekintést adunk az egy- és kétváltozós
+hipotézisvizsgálatokról.
 </li>
 </ul>
 </div>
 <p>A 10. fejezetben bemutatjuk az egy- és kétváltozós hipotézisvizsgálatok végrehajtását. Ebben a fejezetben felsoroljuk a legfontosabb próbákat, összesen öt táblázatban soroljuk fel őket:</p>
 <ul>
-<li>egy mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:egyminta1">1.1</a> táblázat),</li>
-<li>páros mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:parosminta1">1.2</a> táblázat),</li>
-<li>két független mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:ketminta1">1.3</a> táblázat),</li>
-<li>több összetartozó mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:tobbosszeminta1">1.4</a> táblázat),</li>
-<li>több független mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:tobbminta1">1.5</a> táblázat).</li>
+<li>egy mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:egyminta1">1.1</a>. táblázat),</li>
+<li>páros mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:parosminta1">1.2</a>. táblázat),</li>
+<li>két független mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:ketminta1">1.3</a>. táblázat),</li>
+<li>több összetartozó mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:tobbosszeminta1">1.4</a>. táblázat),</li>
+<li>több független mintát vizsgáló próbák (<a href="itt-kezdodik.html#tab:tobbminta1">1.5</a>. táblázat).</li>
 </ul>
-<p>A táblázatokban megadjuk, hogy a vizsgálatnak mi a célja, vagyis a populációbeli változó(k) melyik paraméterére vonatkoznak a próbák, a várható értékre, a mediánra, a varianciára vagy a valószínűségre. A 10. fejezetben foglalkozunk az eloszlásvizsgálatok közül a normalitást ellenőrző próbákkal is, így a <a href="itt-kezdodik.html#tab:egyminta1">1.1</a> táblázat ezeket is számba veszi.</p>
+<p>A táblázatokban megadjuk, hogy a vizsgálatnak mi a célja, vagyis a populációbeli változó(k) melyik paraméterére vonatkoznak a próbák, a várható értékre, a mediánra, a varianciára vagy a valószínűségre. A 10. fejezetben foglalkozunk az eloszlásvizsgálatok közül a normalitást ellenőrző próbákkal is, így a <a href="itt-kezdodik.html#tab:egyminta1">1.1</a>. táblázat ezeket is számba veszi.</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
 <span id="tab:egyminta1">TÁBLÁZAT 1.1: </span> Egy minta vizsgálata</caption>
@@ -790,7 +710,7 @@ Ebben a fejezetben:
 <td>várható érték</td>
 <td>egyszempontos összetartozó<br>
 mintás varianciaelemzés</td>
-<td><code><a href="https://rdrr.io/pkg/ez/man/ezANOVA.html">ez::ezANOVA()</a></code></td>
+<td><code>ez::ezANOVA()</code></td>
 </tr>
 <tr class="even">
 <td>medián</td>
@@ -846,7 +766,12 @@ mintás varianciaelemzés</td>
 </h3>
 <div class="rmdsummary">
 <p>
-Ebben a részben rövid áttekintést adtunk a könyv 10. fejezetében sorra kerülő statisztikai próbákról. Megneveztük a próbákat, R parancsokkal szemléltettük használatukat, valamint jeleztük a céljukat. A táblázatok áttekintésével képet kaphatunk arról, hogy a későbbiekben milyen jellegű statisztikai következtetéseket tudunk levonni az R használatával.
+Ebben a részben rövid áttekintést adtunk a könyv 10. fejezetében
+sorra kerülő statisztikai próbákról. Megneveztük a próbákat, R
+parancsokkal szemléltettük használatukat, valamint jeleztük a céljukat.
+A táblázatok áttekintésével képet kaphatunk arról, hogy a későbbiekben
+milyen jellegű statisztikai következtetéseket tudunk levonni az R
+használatával.
 </p>
 </div>
 </div>
@@ -863,6 +788,7 @@ Ebben a részben rövid áttekintést adtunk a könyv 10. fejezetében sorra ker
 </ol>
 </div>
 
+<p><svg aria-hidden="true" role="img" viewbox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"></path></svg><a href="#itt-kezdodik-3-exercise-solution">A fenti feladatok megoldása</a></p>
 
 </div>
 </div>
@@ -909,7 +835,7 @@ Ebben a részben rövid áttekintést adtunk a könyv 10. fejezetében sorra ker
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2021-12-28.</p>
+    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2022-09-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -922,7 +848,7 @@ Ebben a részben rövid áttekintést adtunk a könyv 10. fejezetében sorra ker
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

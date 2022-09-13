@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Óravázlat az R tanításához {#oravazlat-az-r-tanitasahoz}
 
 Az R oktatásához és tanulásához egy lehetséges tanmenet vázlatát
@@ -83,3 +77,5 @@ Az alavető ábratípusok megjelenítése és paraméterezései: oszlopdiagram, 
 
 **20+1. óra**  
 Az R programozási lehetőségei: szekvencia, feltételes utasítások, ciklusok. Függvények létrehozása. Objektum-orientált lehetőségek.
+
+

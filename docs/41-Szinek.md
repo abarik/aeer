@@ -24,10 +24,14 @@ bar <- barplot(x[1:8], col = 1:8, names.arg = 1:8)
 mtext(side = 1, at = bar, text = palette(), line = 1)
 ```
 
-<div class="figure" style="text-align: center">
-<img src="41-Szinek_files/figure-html/default-palette-1.png" alt="Az alapértelmezett paletta 8 színének sorszáma és neve" width="90%" />
-<p class="caption">(\#fig:default-palette)Az alapértelmezett paletta 8 színének sorszáma és neve</p>
-</div>
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/default-palette-1} 
+
+}
+
+\caption{Az alapértelmezett paletta 8 színének sorszáma és neve}(\#fig:default-palette)
+\end{figure}
 
 Más színeket is alapértelmezetté tehetünk, sőt a színek számát is megnövelhetjük a palettán. Ennek a legegyszerűbb módja, ha a `palette()` függvény argumentumában színkódokat tartalmazó karakteres vektort adunk meg.
 
@@ -46,7 +50,9 @@ A rajzfüggvények ezután a paletta új színeit használják.
 barplot(x[1:15], col = 1:15)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-2-1} \end{center}
 
 Ha megváltoztattuk a paletta színeit, akkor az alapértelmezett színekhez a `palette("default")` paranccsal térhetünk vissza.
 
@@ -126,7 +132,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "BrBG"), names.arg = 1:11,
     main = "BrBG, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 
 
@@ -138,7 +146,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "PiYG"), names.arg = 1:11,
     main = "PiYG, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 
 ```r
@@ -149,7 +159,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "PRGn"), names.arg = 1:11,
     main = "PRGn, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 
 ```r
@@ -160,7 +172,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "PuOr"), names.arg = 1:11,
     main = "PuOr, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
 
 ```r
@@ -171,7 +185,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "RdBu"), names.arg = 1:11,
     main = "RdBu, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 
 ```r
@@ -182,7 +198,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "RdGy"), names.arg = 1:11,
     main = "RdGy, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 
 
@@ -194,7 +212,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "RdYlBu"), names.arg = 1:11,
     main = "RdYlBu, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 
 ```r
@@ -205,7 +225,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "RdYlGn"), names.arg = 1:11,
     main = "RdYlGn, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 
 ```r
@@ -216,7 +238,9 @@ barplot(x[1:11], col = brewer.pal(n = 11, name = "Spectral"), names.arg = 1:11,
     main = "Spectral, div", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 
 ```r
@@ -226,7 +250,9 @@ barplot(x[1:8], col = brewer.pal(n = 8, name = "Accent"), names.arg = 1:8, main 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-15-1} \end{center}
 
 
 ```r
@@ -236,7 +262,9 @@ barplot(x[1:8], col = brewer.pal(n = 8, name = "Dark2"), names.arg = 1:8, main =
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-16-1} \end{center}
 
 
 ```r
@@ -247,7 +275,9 @@ barplot(x[1:12], col = brewer.pal(n = 12, name = "Paired"), names.arg = 1:12,
     main = "Paired, qual", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-17-1} \end{center}
 
 
 ```r
@@ -258,7 +288,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "Pastel1"), names.arg = 1:9,
     main = "Pastel1, qual", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-18-1} \end{center}
 
 
 ```r
@@ -269,7 +301,9 @@ barplot(x[1:8], col = brewer.pal(n = 8, name = "Pastel2"), names.arg = 1:8,
     main = "Pastel2, qual", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-19-1} \end{center}
 
 
 ```r
@@ -279,7 +313,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "Set1"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-20-1} \end{center}
 
 
 ```r
@@ -289,7 +325,9 @@ barplot(x[1:8], col = brewer.pal(n = 8, name = "Set2"), names.arg = 1:8, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-21-1} \end{center}
 
 
 ```r
@@ -300,7 +338,9 @@ barplot(x[1:12], col = brewer.pal(n = 12, name = "Set3"), names.arg = 1:12,
     main = "Set3, qual", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-22-1} \end{center}
 
 
 ```r
@@ -310,7 +350,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "Blues"), names.arg = 1:9, main =
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
 
 ```r
@@ -320,7 +362,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "BuGn"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-24-1} \end{center}
 
 
 ```r
@@ -330,7 +374,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "BuPu"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-25-1} \end{center}
 
 
 ```r
@@ -340,7 +386,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "GnBu"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-26-1} \end{center}
 
 
 ```r
@@ -350,7 +398,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "Greens"), names.arg = 1:9, main 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-27-1} \end{center}
 
 
 ```r
@@ -360,7 +410,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "Greys"), names.arg = 1:9, main =
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-28-1} \end{center}
 
 
 ```r
@@ -371,7 +423,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "Oranges"), names.arg = 1:9,
     main = "Oranges, seq", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-29-1} \end{center}
 
 
 ```r
@@ -381,7 +435,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "OrRd"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-30-1} \end{center}
 
 
 ```r
@@ -391,7 +447,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "PuBu"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-31-1} \end{center}
 
 
 ```r
@@ -401,7 +459,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "PuBuGn"), names.arg = 1:9, main 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-32-1} \end{center}
 
 
 
@@ -413,7 +473,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "PuRd"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-33-1} \end{center}
 
 
 
@@ -425,7 +487,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "Purples"), names.arg = 1:9,
     main = "Purples, seq", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-34-1} \end{center}
 
 
 ```r
@@ -435,7 +499,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "RdPu"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-35-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-35-1} \end{center}
 
 
 ```r
@@ -445,7 +511,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "Reds"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-36-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-36-1} \end{center}
 
 
 
@@ -456,7 +524,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "YlGn"), names.arg = 1:9, main = 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-37-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-37-1} \end{center}
 
 
 ```r
@@ -466,7 +536,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "YlGnBu"), names.arg = 1:9, main 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-38-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-38-1} \end{center}
 
 
 ```r
@@ -476,7 +548,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "YlOrBr"), names.arg = 1:9, main 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-39-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-39-1} \end{center}
 
 
 
@@ -487,7 +561,9 @@ barplot(x[1:9], col = brewer.pal(n = 9, name = "YlOrRd"), names.arg = 1:9, main 
     border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-40-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-40-1} \end{center}
 
 
 
@@ -522,7 +598,9 @@ barplot(x[1:10], col = colorschemes$BrowntoBlue.10, names.arg = 1:10, main = "Br
 barplot(x[1:10], col = colorschemes$BrowntoBlue.10, names.arg = 1:10, main = "BrowntoBlue.10", border=NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-42-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-42-1} \end{center}
 
 
 
@@ -532,7 +610,9 @@ barplot(x[1:12], col = colorschemes$BrowntoBlue.12, names.arg = 1:12, main = "Br
 barplot(x[1:12], col = colorschemes$BrowntoBlue.12, names.arg = 1:12, main = "BrowntoBlue.12", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-43-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-43-1} \end{center}
 
 
 ```r
@@ -541,7 +621,9 @@ barplot(x[1:12], col = colorschemes$BluetoDarkOrange.12, names.arg = 1:12, main 
 barplot(x[1:12], col = colorschemes$BluetoDarkOrange.12, names.arg = 1:12, main = "BluetoDarkOrange.12", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-44-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-44-1} \end{center}
 
 
 ```r
@@ -550,7 +632,9 @@ barplot(x[1:18], col = colorschemes$BluetoDarkOrange.18, names.arg = 1:18, main 
 barplot(x[1:18], col = colorschemes$BluetoDarkOrange.18, names.arg = 1:18, main = "BluetoDarkOrange.18", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-45-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-45-1} \end{center}
 
 
 ```r
@@ -559,7 +643,9 @@ barplot(x[1:12], col = colorschemes$DarkRedtoBlue.12, names.arg = 1:12, main = "
 barplot(x[1:12], col = colorschemes$DarkRedtoBlue.12, names.arg = 1:12, main = "DarkRedtoBlue.12", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-46-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-46-1} \end{center}
 
 
 ```r
@@ -568,7 +654,9 @@ barplot(x[1:18], col = colorschemes$DarkRedtoBlue.18, names.arg = 1:18, main = "
 barplot(x[1:18], col = colorschemes$DarkRedtoBlue.18, names.arg = 1:18, main = "DarkRedtoBlue.18", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-47-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-47-1} \end{center}
 
 
 ```r
@@ -577,7 +665,9 @@ barplot(x[1:14], col = colorschemes$BluetoGreen.14, names.arg = 1:14, main = "Bl
 barplot(x[1:14], col = colorschemes$BluetoGreen.14, names.arg = 1:14, main = "BluetoGreen.14", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-48-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-48-1} \end{center}
 
 
 ```r
@@ -586,7 +676,9 @@ barplot(x[1:8], col = colorschemes$BluetoGray.8, names.arg = 1:8, main = "Blueto
 barplot(x[1:8], col = colorschemes$BluetoGray.8, names.arg = 1:8, main = "BluetoGray.8", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-49-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-49-1} \end{center}
 
 
 ```r
@@ -595,7 +687,9 @@ barplot(x[1:14], col = colorschemes$BluetoOrangeRed.14, names.arg = 1:14, main =
 barplot(x[1:14], col = colorschemes$BluetoOrangeRed.14, names.arg = 1:14, main = "BluetoOrangeRed.14", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-50-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-50-1} \end{center}
 
 
 ```r
@@ -604,7 +698,9 @@ barplot(x[1:10], col = colorschemes$BluetoOrange.10, names.arg = 1:10, main = "B
 barplot(x[1:10], col = colorschemes$BluetoOrange.10, names.arg = 1:10, main = "BluetoOrange.10", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-51-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-51-1} \end{center}
 
 
 ```r
@@ -613,7 +709,9 @@ barplot(x[1:12], col = colorschemes$BluetoOrange.12, names.arg = 1:12, main = "B
 barplot(x[1:12], col = colorschemes$BluetoOrange.12, names.arg = 1:12, main = "BluetoOrange.12", border = T)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-52-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-52-1} \end{center}
 
 
 ```r
@@ -622,7 +720,9 @@ barplot(x[1:8], col = colorschemes$BluetoOrange.8, names.arg = 1:8, main = "Blue
 barplot(x[1:8], col = colorschemes$BluetoOrange.8, names.arg = 1:8, main = "BluetoOrange.8", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-53-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-53-1} \end{center}
 
 
 ```r
@@ -633,7 +733,9 @@ barplot(x[1:10], col = colorschemes$LightBluetoDarkBlue.10, names.arg = 1:10,
     main = "LightBluetoDarkBlue.10", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-54-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-54-1} \end{center}
 
 
 ```r
@@ -642,7 +744,9 @@ barplot(x[1:7], col = colorschemes$LightBluetoDarkBlue.7, names.arg = 1:7, main 
 barplot(x[1:7], col = colorschemes$LightBluetoDarkBlue.7, names.arg = 1:7, main = "LightBluetoDarkBlue.7", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-55-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-55-1} \end{center}
 
 
 ```r
@@ -651,7 +755,9 @@ barplot(x[1:12], col = colorschemes$Categorical.12, names.arg = 1:12, main = "Ca
 barplot(x[1:12], col = colorschemes$Categorical.12, names.arg = 1:12, main = "Categorical.12", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-56-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-56-1} \end{center}
 
 
 ```r
@@ -660,7 +766,9 @@ barplot(x[1:16], col = colorschemes$GreentoMagenta.16, names.arg = 1:16, main = 
 barplot(x[1:16], col = colorschemes$GreentoMagenta.16, names.arg = 1:16, main = "GreentoMagenta.16", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-57-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-57-1} \end{center}
 
 
 ```r
@@ -669,7 +777,9 @@ barplot(x[1:25], col = colorschemes$SteppedSequential.5, names.arg = 1:25, main 
 barplot(x[1:25], col = colorschemes$SteppedSequential.5, names.arg = 1:25, main = "SteppedSequential.5", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-58-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-58-1} \end{center}
 
 
 ## Színek választása egyéb paletta segítségével {#szinek-valasztasa-egyeb}
@@ -701,7 +811,9 @@ barplot(x[1:16], col = rainbow(16), names.arg = 1:16, main = "rainbow(n=16)")
 barplot(x[1:16], col = rainbow(16), names.arg = 1:16, main = "rainbow(n=16)", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-60-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-60-1} \end{center}
 
 
 ```r
@@ -712,7 +824,9 @@ barplot(x[1:16], col = rainbow(16, start = 0, end = 0.2), names.arg = 1:16,
     main = "rainbow(n=16, start=0, end=0.2)", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-61-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-61-1} \end{center}
 
 
 ```r
@@ -723,7 +837,9 @@ barplot(x[1:16], col = rainbow(16, start = 0, end = 0.5), names.arg = 1:16,
     main = "rainbow(n=16, start=0, end=0.5)", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-62-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-62-1} \end{center}
 
 
 ```r
@@ -734,7 +850,9 @@ barplot(x[1:16], col = rainbow(16, start = 0, end = 0.8), names.arg = 1:16,
     main = "rainbow(n=16, start=0, end=0.8)", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-63-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-63-1} \end{center}
 
 
 ```r
@@ -743,7 +861,9 @@ barplot(x[1:16], col = heat.colors(16), names.arg = 1:16, main = "heat.colors(n=
 barplot(x[1:16], col = heat.colors(16), names.arg = 1:16, main = "heat.colors(n=16)", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-64-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-64-1} \end{center}
 
 
 
@@ -753,7 +873,9 @@ barplot(x[1:16], col = terrain.colors(16), names.arg = 1:16, main = "terrain.col
 barplot(x[1:16], col = terrain.colors(16), names.arg = 1:16, main = "terrain.colors(n=16)", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-65-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-65-1} \end{center}
 
 
 
@@ -763,7 +885,9 @@ barplot(x[1:16], col = topo.colors(16), names.arg = 1:16, main = "topo.colors(n=
 barplot(x[1:16], col = topo.colors(16), names.arg = 1:16, main = "topo.colors(n=16)", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-66-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-66-1} \end{center}
 
 
 
@@ -773,7 +897,9 @@ barplot(x[1:16], col = cm.colors(16), names.arg = 1:16, main = "cm.colors(n=16)"
 barplot(x[1:16], col = cm.colors(16), names.arg = 1:16, main = "cm.colors(n=16)", border = NA)
 ```
 
-<img src="41-Szinek_files/figure-html/unnamed-chunk-67-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{41-Szinek_files/figure-latex/unnamed-chunk-67-1} \end{center}
 
 ## A 657 színnév {#a-657-szinnev}
 

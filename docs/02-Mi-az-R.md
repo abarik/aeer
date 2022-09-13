@@ -12,23 +12,24 @@
 <li>megismerjük az R jellemzőit,</li>
 <li>megtudjuk, hogy melyek a parancssoros interfész előnyei,</li>
 <li>megismerjük az <em>Alap R</em> fogalmát,</li>
-<li>körülhatároljuk az R nyelv, az <em>Alap R</em> és a csomag fogalmát.</li>
+<li>körülhatároljuk az R nyelv, az <em>Alap R</em> és a csomag
+fogalmát.</li>
 </ul>
 </div>
 
 
 ### Az R jellemzői
 
-Az R egy magas szintű programozási nyelv és környezet, amelynek legfontosabb felhasználása az adatelemzés és az ahhoz kapcsolódó grafikus megjelenítés. Három alapvető jellemzője kiemeli a többi statisztikai programcsomag közül: (1) az R ingyenesen telepíthető és használható; (2) az R nyílt forrású, így bárki hozzájárulhat az R fejlesztéséhez, azaz létrehozhat új *csomag*okat, és ezzel kiegészítheti az R tudását; és (3) az R felhasználók rendkívül aktív és befogadó online közösséget alkotnak, szinte minden felmerülő kérdésünkre hamar választ kaphatunk. 
+Az R egy magas szintű programozási nyelv és környezet, amelynek legfontosabb felhasználása az adatelemzés és az ahhoz kapcsolódó grafikus megjelenítés. Három alapvető jellemzője kiemeli a többi statisztikai programcsomag közül: (1) az R ingyenesen telepíthető és használható; (2) az R nyílt forrású, így bárki hozzájárulhat az R fejlesztéséhez, azaz létrehozhat új *csomag*okat, és ezzel kiegészítheti az R tudását; és (3) az R felhasználók rendkívül aktív és befogadó online közösséget alkotnak, szinte minden felmerülő kérdésünkre azonnal választ kaphatunk. 
 
 Álljon itt egy bővített lista azokról a jellemzőkről, amelyek vonzóvá tehetik számunkra az R statisztikai programcsomagot.
 
-* Az R szabad szoftver, bárki ingyenesen letöltheti és használhatja. Ez egyfelől megkönnyíti az oktatási intézmények, tanszékek és oktatók munkáját, hiszen nincs szükség a kereskedelmi programok licenszeléséből adódó pénzügyi vagy más természetű nehézségek kezelésére. Másrészt a hallgatók a statisztika kurzusok során tanultakat otthon vagy később a munkájukban is felhasználhatják.
+* Az R szabad szoftver, bárki ingyenesen letöltheti és használhatja. Ez egyfelől megkönnyíti az oktatási intézmények, tanszékek és oktatók munkáját, hiszen nincs szükség a kereskedelmi programok licenceléséből adódó pénzügyi vagy más természetű nehézségek kezelésére. Másrészt a hallgatók a statisztika kurzusok során tanultakat otthon vagy később a munkájukban is felhasználhatják.
 * Az R platform-független, azaz Windows, Linux és macOS környezetben is használható. Nem kell lemondanunk a kedvenc operációs rendszerünkről, ha az R-t szeretnénk használni.
-* Az R egy teljes értékű programozási nyelv, nem csak egy statisztikai programcsomag önmagában.
+* Az R nemcsak egy statisztikai programcsomag önmagában, hanem egy teljes értékű programozási nyelv.
 * Az R statisztikai módszerek szinte végtelen választékát kínálja. A R-ben felhasználható statisztikai eljárásokat statisztikusok fejlesztik folyamatosan és csomagok formájában teszik elérhetővé. Valószínű, hogy egy új statisztikai módszer leghamarabb az R-ben válik elérhetővé.
 * Az R rendkívül gazdag grafikus lehetőségekkel rendelkezik.
-* A statisztikai szakirodalomban és az egyetemi oktatók körében egyre elterjedtebb az R, mint közös (statisztikai program)nyelv használata. Ha valamilyen statisztikai problémára keressük a megoldást, vagy csak konzultálunk egy statisztikussal, az R ismerete (akár csak olvasási szinten) rendkívüli előnyt jelenthet.
+* A statisztikai szakirodalomban és az egyetemi oktatók körében egyre elterjedtebb az R mint közös (statisztikai program)nyelv használata. Ha valamilyen statisztikai problémára keressük a megoldást, vagy csak konzultálunk egy statisztikussal, az R ismerete (akár csak olvasási szinten) rendkívüli előnyt jelenthet.
 * Az R igen jól dokumentált, a beépített súgón kívül számos könyv és leírás érhető el.
 * Az R parancssoros interfésszel rendelkezik, amely számos előnnyel jár. Egyrészt a szkript állományok létrehozása és végrehajtása a statisztikai elemzések megismételhetőségét biztosítják, másrészt ez az oktatók és a hallgatók könnyebb kommunikációját is lehetővé teszi. 
 * Az R az adatelemzés eredményének sokszínű publikálását is biztosítja. Az [RMarkdown](https://rmarkdown.rstudio.com/) formanyelv segítségével HTML, PDF és Word dokumentumot, illetve prezentációs diákat vagy akár kész cikkeket hozhatunk létre. A [Shiny](http://shiny.rstudio.com/) csomag interaktív Webes alkalmazások építését teszi lehetővé.
@@ -39,29 +40,49 @@ Az R egy magas szintű programozási nyelv és környezet, amelynek legfontosabb
 
 ### A R parancssoros
 
-Az R alapvető használata során parancsokat gépelünk be és hajtunk végre. Ez lényegesen eltér a ma megszokott felhasználói programok világától, ahol egy grafikus felhasználói felületen egérrel vagy az ujjunkkal mutogatjuk el a kívánt tevékenységet. Az R egészen más megközelítést vall, használata a kezdeti lépésektől nagyfokú figyelmet és pontosságot követel. A parancsokban kell gondolkodnunk, ám ezt végig áthatja a *tudom mit csinálok* elv, így némi idő elteltével érezni fogjuk, hogy az R megszelídül, már nem köt bele minden "szavunkba", egyre több dologra tudjuk rávenni, és végül egy rendkívül értékes társsá válik. Jelen könyv ezen az úton szeretné végigvezetni az Olvasót.
+Az R alapvető használata során parancsokat gépelünk be és hajtunk végre. Ez lényegesen eltér a ma megszokott felhasználói programok világától, ahol egy grafikus felhasználói felületen egérrel vagy az ujjunkkal mutogatjuk el a kívánt tevékenységet. Az R egészen más megközelítést vall, használata a kezdeti lépésektől nagyfokú figyelmet és pontosságot követel. Parancsokban kell gondolkodnunk, ám ezt végig áthatja a *tudom mit csinálok* elv, így némi idő elteltével érezni fogjuk, hogy az R megszelídül, már nem köt bele minden szavunkba, egyre több dologra tudjuk rávenni, és végül egy rendkívül értékes társsá válik. Jelen könyv ezen az úton szeretné végigvezetni az Olvasót.
 
 Már a tanulás elején szeretnénk tisztázni, hogy az R elsajátításához nem szükséges programozói alaptudás. Az R felhasználók többsége egyáltalán nem programozó, és a mindennapi adatelemző munka sem igényli az R nyelv programozói fokú ismeretét. Természetesen, ha rendelkezünk ilyen irányú előtanulmányokkal a tanulási folyamat néhány szakasza lerövidíthető, de könyvünk elsősorban azok számra íródott, akik programozási nyelvekkel korábban nem találkoztak, és nem is vágynak az R ilyen mélységű ismeretére. Az R nyelv elsajátítása során bevezetjük azokat az egyszerű fogalmakat, amelyeket nem nélkülözhetők az adatelemzés során, azonban az R programozásához más szakkönyveket javaslunk olvasásra.
 
 
 ### Mi valójában az R?
 
-Az R nyelv fejlesztője az [R Core Team](https://www.r-project.org/contributors.html). Az R nyelv egy rendkívül népszerű szkriptnyelv, több millióan használják világszerte. Elsősorban adatelemzésre, adatmodellezésre és grafikus megjelenítésre, vagyis arra, amit ma adattudományok (data science) alatt értünk. Azonban az R nyelv önmagában nem szoftver, hanem egy rendkívül rugalmas szkriptnyelv, amely például előírja, hogy milyen szintaktikai szabályok mentén fogalmazhatjuk meg az utasításainkat. Ahhoz, hogy az R nyelvet használni tudjuk, vagyis, hogy a számítógép valóban végre is hajtsa a szintaktikailag helyes utasításinkat, szükség van egy szoftveres környezetre, egy olyan futtató rendszerre, amely a kódunkat értelmezi és végrehajtja.
-
-Az R környezet három fő összetevőt tartalmaz: (1) egy *konzol*t, ahová a parancsainkat begépelhetjük; (2) a parancsok végrehajtásáért felelős *R interpreter*t; (3) a *csomagokok*at. A konzol és az interpreter biztosítja az R nyelven írt parancsok tényleges végrehajtását. Így tudunk adatokat beolvasni, átlagot számolni, varianciaelemzést futtatni, vagy publikációkész ábrákat létrehozni. A csomagok adatokat és függvényeket tartalmaznak, például a **MASS** csomag 88 adatobjektumot és 78 függvényt tartalmaz. A függvények valamilyen tevékenységet hajtanak végre, és valójában ezeket a csomag-függvényeket használjuk fel a konzolban, ha *bármilyen tevékenységet* szeretnénk végrehajtani (például adatokat beolvasni, átlagot számolni stb.). A könyv írásának időpontjában kb. 17000 csomag volt érhető el az R-hez. Csomagok 3 csoportját különböztetjük meg: *standard csomagok* (14 db), *ajánlott csomagok* (15 db) és *egyéb csomagok* (kb. 17000 db). A standard csomagok fejlesztője az R Core Team. A standard csomagok: **base**, **compiler**, **datasets**, **grDevices**, **graphics**, **grid**, **methods**, **parallel**, **splines**, **stats**, **stats4**, **tcltk**, **tools**, **utils**. Az ajánlott csomagok: **KernSmooth**, **MASS**, **Matrix**, **boot**, **class**, **cluster**, **codetools**, **foreign**, **lattice**, **mgcv**, **nlme**, **nnet**, **rpart**, **spatial**, **survival**. Az ajánlot csomagok közül a **foreign** és az **nlme** fejlesztője az R Core Team, a többit más felhasználók fejlesztették, például a már említett **MASS** csomag fejlesztője Brian Ripley. Csomagot bárki szabadon fejleszthet és terjeszthet, az *egyéb csomagok* csoportját akár mi is gyarapíthatjuk. 
+Az R nyelv fejlesztője az [R Core Team](https://www.r-project.org/contributors.html). Az R nyelv egy rendkívül népszerű szkriptnyelv, több millióan használják világszerte. Elsősorban adatelemzésre, adatmodellezésre és grafikus megjelenítésre, vagyis arra, amit ma adattudományok (data science) alatt értünk. Azonban az R nyelv önmagában nem szoftver, hanem egy rendkívül rugalmas szkriptnyelv, amely például előírja, hogy milyen szintaktikai szabályok mentén fogalmazhatjuk meg az utasításainkat. Ahhoz, hogy az R nyelvet használni tudjuk, vagyis, hogy a számítógép valóban végre is hajtsa a szintaktikailag helyes utasításainkat, szükség van egy szoftveres környezetre, egy olyan futtató rendszerre, amely a kódunkat értelmezi és végrehajtja.
 
 
+<div class="figure" style="text-align: center">
+<a href="" target="_blank"><img src="images/alapr_kornyezet.png" alt="Az R környezet: Alap R és az egyéb csomagok" width="85%" /></a>
+<p class="caption">(\#fig:ralapkorny-01)Az R környezet: Alap R és az egyéb csomagok</p>
+</div>
+
+
+Az R környezet három fő összetevőt tartalmaz (\@ref(fig:ralapkorny-01). ábra): (1) egy *konzol*t, ahová a parancsainkat begépelhetjük; (2) a parancsok végrehajtásáért felelős *R interpreter*t; (3) a *csomagokok*at. A konzol és az interpreter biztosítja az R nyelven írt parancsok tényleges végrehajtását. Így tudunk adatokat beolvasni, átlagot számolni, varianciaelemzést futtatni, vagy publikációkész ábrákat létrehozni. A csomagok adatokat és függvényeket tartalmaznak, például a **MASS** csomag 88 adatobjektumot és 78 függvényt tartalmaz. A függvények valamilyen tevékenységet hajtanak végre, és valójában ezeket a csomag-függvényeket használjuk fel a konzolban, ha *bármilyen tevékenységet* szeretnénk végrehajtani (például adatokat beolvasni, átlagot számolni stb.). A könyv írásának időpontjában kb. 21 ezer csomag volt érhető el az R-hez. Csomagok 3 csoportját különböztetjük meg: *standard csomagok* (14 db), *ajánlott csomagok* (15 db) és *egyéb csomagok* (kb. 21 ezer db). A standard csomagok fejlesztője az R Core Team. A standard csomagok: **base**, **compiler**, **datasets**, **grDevices**, **graphics**, **grid**, **methods**, **parallel**, **splines**, **stats**, **stats4**, **tcltk**, **tools**, **utils**. Az ajánlott csomagok: **KernSmooth**, **MASS**, **Matrix**, **boot**, **class**, **cluster**, **codetools**, **foreign**, **lattice**, **mgcv**, **nlme**, **nnet**, **rpart**, **spatial**, **survival**. Az ajánlott csomagok közül a **foreign** és az **nlme** fejlesztője az R Core Team, a többit más felhasználók fejlesztették, például a már említett **MASS** csomag fejlesztője Brian Ripley. Csomagot bárki szabadon fejleszthet és terjeszthet, az *egyéb csomagok* csoportját akár mi is gyarapíthatjuk. 
 
 
 
-A R környezet már igazi szoftver, terjesztésének koordinálását az [R Foundation](https://www.r-project.org/foundation/) végzi a [CRAN](https://cran.r-project.org/mirrors.html) infrastruktúráján keresztül. Ez biztosítja, hogy számítógépünkre telepíthessük az R környezetet. Ezt a CRAN-ról elérhető R futtatási környezetet *Alap R*-nek nevezzük. Fő komponensei a már említett konzol a parancsok begépelésére, az R értelmező a begépelt parancsok végrehajtására és a csomagok közül a standard és ajánlott csomagok. Az *Alap R* telepítése után már tudunk R parancsokat végrehajtani, és nagyon sok adatelemzési probléma megoldására nyílik módunk, sőt azt mondhatjuk, hogy tetszőleges problémát megoldhatunk kisebb-nagyobb erőfeszítéssel, mert az R egy teljes értékű nyelv. Azonban sokszor érdemesebb az *egyéb csomagok* közül választani, hiszen könnyen elképzelhető, hogy a számtalan csomag között találunk olyat, amely segítségünkre lehet speciális feladataink megoldása során. Valószínű, hogy létezik olyan csomago és benne olyan függvény, amely adatkezelési, adatelemzési, grafikai vagy publikálási feladatunkat jelentősen megkönnyíti. Az *egyéb csomagok* csoportjába tartozó csomagok forrása több tárhely is lehet, ezek közül legjelentősebb az R Foundation által karbantartott CRAN (kb. 15000 csomaggal), a Bioconductor (1741 csomaggal) és a GitHub. 
+
+
+A R környezet már igazi szoftver, terjesztésének koordinálását az [R Foundation](https://www.r-project.org/foundation/) végzi a [CRAN](https://cran.r-project.org/mirrors.html) infrastruktúráján keresztül. Ez biztosítja, hogy számítógépünkre telepíthessük az R környezetet. Ezt a CRAN-ról elérhető R futtatási környezetet *Alap R*-nek nevezzük. Fő komponensei a már említett konzol a parancsok begépelésére, az R értelmező a begépelt parancsok végrehajtására és a csomagok közül a standard és ajánlott csomagok. Az *Alap R* telepítése után már tudunk R parancsokat végrehajtani, és nagyon sok adatelemzési probléma megoldására nyílik módunk, sőt azt mondhatjuk, hogy tetszőleges problémát megoldhatunk kisebb-nagyobb erőfeszítéssel, mert az R egy teljes értékű nyelv. Azonban sokszor érdemesebb az *egyéb csomagok* közül választani, hiszen könnyen elképzelhető, hogy a számtalan csomag között találunk olyat, amely segítségünkre lehet speciális feladataink megoldása során. Valószínű, hogy létezik olyan csomag és benne olyan függvény, amely adatkezelési, adatelemzési, grafikai vagy publikálási feladatunkat jelentősen megkönnyíti. Az *egyéb csomagok* csoportjába tartozó csomagok forrása több tárhely is lehet, ezek közül legjelentősebb az R Foundation által karbantartott CRAN (18619 csomaggal), a Bioconductor (2140 csomaggal) és a GitHub. 
 
 Az R tehát egyszerre több dolgot jelent. Az R egyrészt egy magas szintű programozási nyelv, hamarosan megtanuljuk, hogyan írjunk ezen a nyelven értelmes utasításokat. Másrészt a nyelv körüli környezetet is jelenti, amely magába foglalja a konzolt, a parancsaink értelmezésért felelős R interpretert, valamint azokat a csomagokat, amelyekkel az R tudása kiegészíthető.
 
 ### Összefoglalás {#mi-az-r-1-summary}
 
 <div class="rmdsummary">
-<p>Minden statisztikai programcsomag, így az R is, alapvetően a számításigényes statisztikai eljárások kézi végrehajtásától kímél meg minket. Az R nagyon gazdag adatmanipulációs és grafikus funkciókban is, támogatja a reprodukálható adatelemzés végrehajtását. Az R ingyenes, többplatformos és egyik legfontosabb jellemzője, hogy parancsok útján bírhatjuk működésre. Az <em>Alap R</em> biztosítja a konzolt a parancsok begépelésére, az R interpretert a parancsok tényleges végrehajtására, és jónéhány csomagba szervezett eljárást az adatelemzési feladatok elvégzéséhez. Az <em>Alap R</em> mindössze néhány tucat csomagot tartalmaz, <em>standard csomagokokat</em> és az <em>ajánlott csomagokat</em>, de több tízezer további csomaggal bővíthetjük az R tudását. Az adatelemzési munka során egy R környezet vesz minket körül, amely az R nyelven megírt parancsok értelmezésére és végrehajtására képes <em>Alap R</em>-ből, és az ún. <em>egyéb csomagokból</em> áll.</p>
+<p>Minden statisztikai programcsomag, így az R is, alapvetően a
+számításigényes statisztikai eljárások kézi végrehajtásától kímél meg
+minket. Az R nagyon gazdag adatmanipulációs és grafikus funkciókban is,
+támogatja a reprodukálható adatelemzés végrehajtását. Az R ingyenes,
+többplatformos és egyik legfontosabb jellemzője, hogy parancsok útján
+bírhatjuk működésre. Az <em>Alap R</em> biztosítja a konzolt a parancsok
+begépelésére, az R interpretert a parancsok tényleges végrehajtására, és
+jó néhány csomagba szervezett eljárást az adatelemzési feladatok
+elvégzéséhez. Az <em>Alap R</em> mindössze néhány tucat csomagot
+tartalmaz, a <em>standard csomagokat</em> és az <em>ajánlott
+csomagokat</em>, de több tízezer további csomaggal bővíthetjük az R
+tudását. Az adatelemzési munka során egy R környezet vesz minket körül,
+amely az R nyelven megírt parancsok értelmezésére és végrehajtására
+képes <em>Alap R</em>-ből, és az ún. <em>egyéb csomagokból</em> áll.</p>
 </div>
 
 
@@ -77,7 +98,7 @@ Az R tehát egyszerre több dolgot jelent. Az R egyrészt egy magas szintű prog
 1. Említettük, hogy az adatelmezési munka nem igényli az R programozói fokú ismeretét, de soroljunk fel néhány könyvet, amelyből az R programozása is megtanulható! 
 </div>\EndKnitrBlock{rmdexercise}
 
-
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html} [ A fenti feladatok megoldása](#mi-az-r-1-exercise-solution)
 
 ## A modern R
 
@@ -91,7 +112,7 @@ Az R tehát egyszerre több dolgot jelent. Az R egyrészt egy magas szintű prog
 </div>
 
 
-A 2014-es év az R nyelv életében meghatározó változást hozott. Egyrészt megjelent a **magrittr** csomagban a pipe operátor (`%>%`), amellyel olvashatóbb kódok írására nyílt lehetőség[^1], másrészt a pipe operátorra alapozva Hadley Wickham bemutatta a **dplyr** és **tidyr** csomagokat. Ezzel az R funkcionális[^3] oldalát úgy erősítették meg[^2], hogy a sokszoros egymásba ágyazás során kiküszöbölték a kerekzárójelek írásának problémáját. Az ebben a szellemben készült csomagok listája bővült az idők folyamán, és a *Tidyverse* nevet kapta ez a csomaggyűjtemény. Jelenleg a következő csomagok alkotják: **ggplot2**, **purrr**, **tibble**, **dplyr**, **tidyr**, **stringr**, **readr** és **forcats**. Ezek a csomagok nem egyszerűen új funkciókkal ruházzák fel az *Alap R* tudását, mint általában az *egyéb csomagok*. A *Tidyverse* csomagjai konzisztens módon együttműködnek, és egy új megközelítést hoznak az adatelemzési folyamatok végrehajtásában és a kódok írásában. Rövidebb idő alatt hozhatunk létre könnyebben karbantartható kódokat, és a műveleteink végrehajtása is rendszerint gyorsabb. Amikor ebben a megközelítésben hozzuk létre és hajtjuk végre utasításainkat, akkor azt mondjuk hogy a *Tidyverse R*-t használjuk. A *Tidyverse R* nem helyettesíti az *Alap R*-t, és csak bizonyos feladatokra használható. Lássunk tisztán, amit elvégezhetünk *Tidyverse R*-ben, azt az *Alap R*-ben is meg tudnánk tenni, de valószínűleg több gépeléssel, lassabb és rosszabbul karbantartható kóddal. 
+A 2014-es év az R nyelv életében meghatározó változást hozott. Egyrészt megjelent a **magrittr** csomagban a pipe operátor (`%>%`), amellyel olvashatóbb kódok írására nyílt lehetőség[^1], másrészt a pipe operátorra alapozva Hadley Wickham bemutatta a **dplyr** és **tidyr** csomagokat. Ezzel az R funkcionális[^3] oldalát úgy erősítették meg[^2], hogy a sokszoros egymásba ágyazás során kiküszöbölték a kerek zárójelek írásának problémáját. Az ebben a szellemben készült csomagok listája bővült az idők folyamán, és a *Tidyverse* nevet kapta ez a csomaggyűjtemény. Jelenleg a következő csomagok alkotják: **ggplot2**, **purrr**, **tibble**, **dplyr**, **tidyr**, **stringr**, **readr** és **forcats**. Ezek a csomagok nem egyszerűen új funkciókkal ruházzák fel az *Alap R* tudását, mint általában az *egyéb csomagok*. A *Tidyverse* csomagjai konzisztens módon együttműködnek, és egy új megközelítést hoznak az adatelemzési folyamatok végrehajtásában és a kódok írásában. Rövidebb idő alatt hozhatunk létre könnyebben karbantartható kódokat, és a műveleteink végrehajtása is rendszerint gyorsabb. Amikor ebben a megközelítésben hozzuk létre és hajtjuk végre utasításainkat, akkor azt mondjuk hogy a *Tidyverse R*-t használjuk. A *Tidyverse R* nem helyettesíti az *Alap R*-t, és csak bizonyos feladatokra használható. Lássunk tisztán, amit elvégezhetünk *Tidyverse R*-ben, azt az *Alap R*-ben is meg tudnánk tenni, de valószínűleg több gépeléssel, lassabb és rosszabbul karbantartható kóddal. 
 
 Eddig láttuk, hogy az R használatához szükséges az *Alap R* telepítése, majd a speciális problémánknak megfelelően kiegészíthetjük az R tudását úgy, hogy telepítünk egyet vagy többet az *egyéb csomagok* kategóriájából. Választhatjuk akár a *Tidyverse* csomagjait is telepítésre, ugyanis így lehetőségünk nyílik a *Tidyverse R* használatára. Utasításaink megfogalmazásának ma ez a legmodernebb módja. 
 
@@ -101,7 +122,12 @@ A modern R alatt lényegében azokat a funkciókat értjük, amelyek a [*Tidyver
 ### Összefoglalás {#mi-az-r-2-summary}
 
 <div class="rmdsummary">
-<p>A <em>Tidyverse R</em> egy csomaggyűjtemény az <em>egyéb csomagok</em> csoportjából, amely újabb szemléletű R parancsok írására ad lehetőséget. Az így készült kódjaink rendszerint gyorsabban futnak és könnyebben karbantarthatók. A modern R a <em>Tidyverse R</em> csomagjaival kiegészített <em>Alap R</em>, de legfőképp egy új lehetőség parancsaink megfogalmazására.</p>
+<p>A <em>Tidyverse R</em> egy csomaggyűjtemény az <em>egyéb
+csomagok</em> csoportjából, amely újabb szemléletű R parancsok írására
+ad lehetőséget. Az így készült kódjaink rendszerint gyorsabban futnak és
+könnyebben karbantarthatók. A modern R a <em>Tidyverse R</em>
+csomagjaival kiegészített <em>Alap R</em>, de legfőképp egy új lehetőség
+parancsaink megfogalmazására.</p>
 </div>
 
 
@@ -110,9 +136,11 @@ A modern R alatt lényegében azokat a funkciókat értjük, amelyek a [*Tidyver
 
 \BeginKnitrBlock{rmdexercise}<div class="rmdexercise">  
 1. Ki Hadley Wickham?
-1. Honnan származik a pipe operátor neve?
+1. Mikor történt az egyik legjobb dolog az R-rel? 
 </div>\EndKnitrBlock{rmdexercise}
 
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html} [ A fenti feladatok megoldása](#mi-az-r-2-exercise-solution)
 
 
 
@@ -147,9 +175,9 @@ Az R elsődleges célja, hasonlóan más statisztikai programcsomagokhoz, a stat
 
 Az R mára a fenti 4 tevékenység elvégzését teljes körűen támogatja. A könyv célja ezek bemutatása. Mielőtt elkezdjük ezt az izgalmas utat -- az R tanulmányozását -- néhány alapelvet szeretnék megemlíteni, ami segíthet minket az utazásunk során:
 
-* *Magabiztosság* - Az R nagyon nagy, így a teljes megismerése nem lehet célunk. Mindig lesz valaki, aki az R egyik vagy másik részét jobban, vagy kevésbé ismeri nálunk. Ez természetes, ezen soha ne csodálkozzunk. Az eltérő ismeretek azonban az R speciális területeire vonatkoznak, az *R alaptudás* (\@ref(Ralaptudas) fejezet) minden R-ben jártas felhasználó számára közös. E könyv célja ennek az alaptudásnak az átadása, melynek birtokában már kellő magabiztossággal vághatunk neki az R azon részeinek elsajátításába, amelyek az éppen elénk kerülő speciális feladat megoldásához szükségesek. Hisszük, hogy e könyv elolvasásával, mind az R alaptudás, mind a kellő magabiztosság elérhetővé válik számunkra.
+* *Magabiztosság* - Az R nagyon nagy, így a teljes megismerése nem lehet célunk. Mindig lesz valaki, aki az R egyik vagy másik részét jobban, vagy kevésbé ismeri nálunk. Ez természetes, ezen soha ne csodálkozzunk. Az eltérő ismeretek azonban az R speciális területeire vonatkoznak, az *R alaptudás* (\@ref(Ralaptudas). fejezet) minden R-ben jártas felhasználó számára közös. E könyv célja ennek az alaptudásnak az átadása, melynek birtokában már kellő magabiztossággal vághatunk neki az R azon részeinek elsajátításába, amelyek az éppen elénk kerülő speciális feladat megoldásához szükségesek. Hisszük, hogy e könyv elolvasásával, mind az R alaptudás, mind a kellő magabiztosság elérhetővé válik számunkra.
 * *Gyakorlás* - Az R alaptudásának megszerzése némi időbe telik, ez tagadhatatlan. A motiváció megtartásához viszonylag jól kell éreznünk magunkat a tanulás és a gyakorlás során. A könyvben ezért minden fejezet végén találunk megoldandó feladatokat, amelyek között szórakoztató, érdekes és kihívást jelentő gyakorlatok is szerepelnek.
-* *Svájci bicska* - A R nagyon sokféle statisztikai és nem-statisztikai probléma megoldására képes, sőt ugyanarra a problémára nagyon sok különböző eszközt kínál. Ha elsőre nem a legszebb, legoptimálisabb megoldás jut az eszünkbe, ne csüggedjünk, ez a legtöbb esetben nem jelent gondot. Azon se csodálkozzunk, ha korábban megoldott problémánkra idővel újab és újabb megoldási lehetőségeket találunk.
+* *Svájci bicska* - A R nagyon sokféle statisztikai és nem-statisztikai probléma megoldására képes, sőt ugyanarra a problémára nagyon sok különböző eszközt kínál. Ha elsőre nem a legszebb, legoptimálisabb megoldás jut az eszünkbe, ne csüggedjünk, ez a legtöbb esetben nem jelent gondot. Azon se csodálkozzunk, ha korábban megoldott problémánkra idővel újabb és újabb megoldási lehetőségeket találunk.
 
 
 ### Az R alaptudás {#Ralaptudas}
@@ -192,8 +220,19 @@ Melyek az R-ben való munkavégzéshez nélkülözhetetlen alapismeretek? Meggy�
 
 
 <div class="rmdsummary">
-<p>Az R fejlesztését Ross Ihaka és Robert Gentleman kezdte, majd 1997-től egy nagyobb csapat, az <em>R Development Core Team</em> vezeti a fejlesztést. Az <em>R Core Team</em> tagjai 2002-ben létrehozták a <em>The R Foundation for Statistical Computing</em> közhasznú, nonprofit szervezetet, amelynek fő célja az R folyamatos fejlesztésének biztosítása. A szervezet fenntart egy CRAN nevű számítógépes hálózatot, amely szabad hozzáférést biztosít az R legfrissebb verziójához, a csomagokhoz és a részletes dokumentációkhoz.<br />
-Az R alaptudás megszerzése elegendő magabiztosságot fog nyújtani az adatelemzési munka során, azonban vegyük figyelembe, hogy ezt csak kellő gyakorlással érhetjük el. Az R sokféle megoldást biztosít ugyanarra a problémára, legyen az statisztikai vagy bármilyen más jellegű probléma.</p>
+<p>Az R fejlesztését Ross Ihaka és Robert Gentleman kezdte, majd
+1997-től egy nagyobb csapat, az <em>R Development Core Team</em> vezeti
+a fejlesztést. Az <em>R Core Team</em> tagjai 2002-ben létrehozták a
+<em>The R Foundation for Statistical Computing</em> közhasznú, nonprofit
+szervezetet, amelynek fő célja az R folyamatos fejlesztésének
+biztosítása. A szervezet fenntart egy CRAN nevű számítógépes hálózatot,
+amely szabad hozzáférést biztosít az R legfrissebb verziójához, a
+csomagokhoz és a részletes dokumentációkhoz.<br />
+Az R alaptudás megszerzése elegendő magabiztosságot fog nyújtani az
+adatelemzési munka során, azonban vegyük figyelembe, hogy ezt csak kellő
+gyakorlással érhetjük el. Az R sokféle megoldást biztosít ugyanarra a
+problémára, legyen az statisztikai vagy bármilyen más jellegű
+feladat.</p>
 </div>
 
 
@@ -203,19 +242,19 @@ Az R alaptudás megszerzése elegendő magabiztosságot fog nyújtani az adatele
 \BeginKnitrBlock{rmdexercise}<div class="rmdexercise">  
 1. Keressünk olyan statisztikai jellegű témaköröket, amelyekben az R segítségünkre lehet?
 1. Keressünk olyan nem-statisztikai jellegű témaköröket, amelyekben az R segítségünkre lehet?
-1. Nézzük át néhány online elérhető R könyvet, és hasonlítsuk össze az R alaptudás egyes elemeivel! Melyek az átfedő részek, és hol vannak különbségek?
-  
-https://www.r-bloggers.com/the-history-of-r-updated-for-2020/
+1. Nézzünk át néhány online elérhető R könyvet, és hasonlítsuk össze az R alaptudás egyes elemeivel! Melyek az átfedő részek, és hol vannak különbségek?
+1. Melyek a fontosabb lépcsőfokok az R fejlődősében?
   </div>\EndKnitrBlock{rmdexercise}
 
 
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html} [ A fenti feladatok megoldása](#mi-az-r-3-exercise-solution)
 
 
 
 <!--
 ### Jelölési konvenciók
 
-A könyv szövegében a csomagneveket (például **ggplot2**) félkövérrel szedjük, a forráskódok és az állománynevek írógépszerű szöveggel jelennek meg (például `library(ggplot2)` vagy `data/movies.csv`). Ha függvényekre hívatkozunk, mindig használjuk a kerekzárójeleket (például `Desc()`). A dupla kettőspont operátor az objektum elérését biztosítja az adott csomagból (`DescTools::Desc()`). A függvény nevesített argumentumaiban az egyenlőségjelet is szerepeltetjük, például `main=`.
+A könyv szövegében a csomagneveket (például **ggplot2**) félkövérrel szedjük, a forráskódok és az állománynevek írógépszerű szöveggel jelennek meg (például `library(ggplot2)` vagy `data/movies.csv`). Ha függvényekre hivatkozunk, mindig használjuk a kerek zárójeleket (például `Desc()`). A dupla kettőspont operátor az objektum elérését biztosítja az adott csomagból (`DescTools::Desc()`). A függvény nevesített argumentumaiban az egyenlőségjelet is szerepeltetjük, például `main=`.
 
 A szöveges részek közötti forráskódok nem tartalmaznak promptot (`>` vagy `+` jeleket), az outputként megjelenő sorok pedig két kettőskereszttel (`##`) kezdődnek.
 
@@ -224,46 +263,52 @@ Példaképp, a `sessionInfo()` függvény hívását és outputját mutatjuk be,
 
 ```r
 sessionInfo()
-#> R version 4.1.2 (2021-11-01)
+#> R version 4.2.1 (2022-06-23 ucrt)
 #> Platform: x86_64-w64-mingw32/x64 (64-bit)
-#> Running under: Windows 10 x64 (build 19042)
+#> Running under: Windows 10 x64 (build 19044)
 #> 
 #> Matrix products: default
 #> 
 #> locale:
-#> [1] LC_COLLATE=Hungarian_Hungary.1250  LC_CTYPE=Hungarian_Hungary.1250   
-#> [3] LC_MONETARY=Hungarian_Hungary.1250 LC_NUMERIC=C                      
-#> [5] LC_TIME=Hungarian_Hungary.1250    
+#> [1] LC_COLLATE=Hungarian_Hungary.utf8  LC_CTYPE=Hungarian_Hungary.utf8   
+#> [3] LC_MONETARY=Hungarian_Hungary.utf8 LC_NUMERIC=C                      
+#> [5] LC_TIME=Hungarian_Hungary.utf8    
 #> 
 #> attached base packages:
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#>  [1] scales_1.1.1    forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7    
-#>  [5] purrr_0.3.4     readr_2.1.1     tidyr_1.1.4     tibble_3.1.6   
-#>  [9] ggplot2_3.3.5   tidyverse_1.3.1
+#>  [1] scales_1.2.0    forcats_0.5.1   stringr_1.4.0   dplyr_1.0.9    
+#>  [5] purrr_0.3.4     readr_2.1.2     tidyr_1.2.0     tibble_3.1.8   
+#>  [9] ggplot2_3.3.6   tidyverse_1.3.2
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] Rcpp_1.0.7       lubridate_1.8.0  assertthat_0.2.1 digest_0.6.29   
-#>  [5] utf8_1.2.2       R6_2.5.1         cellranger_1.1.0 backports_1.3.0 
-#>  [9] reprex_2.0.1     evaluate_0.14    httr_1.4.2       pillar_1.6.4    
-#> [13] rlang_0.4.12     readxl_1.3.1     rstudioapi_0.13  jquerylib_0.1.4 
-#> [17] rmarkdown_2.11   munsell_0.5.0    broom_0.7.10     compiler_4.1.2  
-#> [21] modelr_0.1.8     xfun_0.25        pkgconfig_2.0.3  htmltools_0.5.2 
-#> [25] downlit_0.4.0    tidyselect_1.1.1 bookdown_0.24    codetools_0.2-18
-#> [29] fansi_0.5.0      crayon_1.4.2     tzdb_0.2.0       dbplyr_2.1.1    
-#> [33] withr_2.4.2      grid_4.1.2       jsonlite_1.7.2   gtable_0.3.0    
-#> [37] lifecycle_1.0.1  DBI_1.1.1        magrittr_2.0.1   cli_3.1.0       
-#> [41] stringi_1.7.6    cachem_1.0.6     fs_1.5.1         xml2_1.3.2      
-#> [45] bslib_0.3.1      ellipsis_0.3.2   generics_0.1.1   vctrs_0.3.8     
-#> [49] tools_4.1.2      glue_1.5.1       hms_1.1.1        fastmap_1.1.0   
-#> [53] yaml_2.2.1       colorspace_2.0-2 rvest_1.0.2      memoise_2.0.1   
-#> [57] knitr_1.36       haven_2.4.3      sass_0.4.0
+#>  [1] lubridate_1.8.0     assertthat_0.2.1    digest_0.6.29      
+#>  [4] utf8_1.2.2          R6_2.5.1            cellranger_1.1.0   
+#>  [7] backports_1.4.1     reprex_2.0.2        evaluate_0.16      
+#> [10] httr_1.4.4          pillar_1.8.0        rlang_1.0.4        
+#> [13] googlesheets4_1.0.1 readxl_1.4.1        fontawesome_0.3.0  
+#> [16] rstudioapi_0.14     jquerylib_0.1.4     rmarkdown_2.15     
+#> [19] googledrive_2.0.0   munsell_0.5.0       broom_1.0.0        
+#> [22] compiler_4.2.1      modelr_0.1.9        xfun_0.32          
+#> [25] pkgconfig_2.0.3     htmltools_0.5.3     downlit_0.4.2      
+#> [28] tidyselect_1.1.2    bookdown_0.28       codetools_0.2-18   
+#> [31] fansi_1.0.3         crayon_1.5.1        tzdb_0.3.0         
+#> [34] dbplyr_2.2.1        withr_2.5.0         grid_4.2.1         
+#> [37] jsonlite_1.8.0      gtable_0.3.0        lifecycle_1.0.1    
+#> [40] DBI_1.1.3           magrittr_2.0.3      cli_3.3.0          
+#> [43] stringi_1.7.8       cachem_1.0.6        fs_1.5.2           
+#> [46] xml2_1.3.3          bslib_0.4.0         ellipsis_0.3.2     
+#> [49] generics_0.1.3      vctrs_0.4.1         tools_4.2.1        
+#> [52] glue_1.6.2          hms_1.1.1           fastmap_1.1.0      
+#> [55] yaml_2.3.5          colorspace_2.0-3    gargle_1.2.0       
+#> [58] BiocManager_1.30.18 rvest_1.0.3         memoise_2.0.1      
+#> [61] knitr_1.39          haven_2.5.0         sass_0.4.2
 ```
 
 -->
 
 [^1]: https://www.r-bloggers.com/magrittr-simplifying-r-code-with-pipes/
 [^2]: https://www.r-bloggers.com/magrittr-the-best-thing-to-have-ever-happened-to-r/
-[^3]: Az R egy nem túl fiatal, a funkcionális programnyelvekhez hasonlóan építkező programozási nyelv, vagyis egy probléma megoldása tipikusan sokszorosan egymásba ágyazott függvényhívások segítségével történik. Ez sok-sok nyitó és záró kerekzárójellel jár együtt, így a parancsaink áttekintése és karbantartása sokszor nehézségekbe ütközik. Ezt kiküszöbölendő az R-ben előszeretettel használnak procedurális eszközöket (például `for` ciklusokat), de a kód olvashatóságát és karbantartását igazán ez sem könnyíti meg.
+[^3]: Az R egy nem túl fiatal, a funkcionális programnyelvekhez hasonlóan építkező programozási nyelv, vagyis egy probléma megoldása tipikusan sokszorosan egymásba ágyazott függvényhívások segítségével történik. Ez sok-sok nyitó és záró kerek zárójellel jár együtt, így a parancsaink áttekintése és karbantartása sokszor nehézségekbe ütközik. Ezt kiküszöbölendő az R-ben előszeretettel használnak procedurális eszközöket (például `for` ciklusokat), de a kód olvashatóságát és karbantartását igazán ez sem könnyíti meg.
 

@@ -1,4 +1,4 @@
-# Leíró statisztika {#leiro-statisztika}
+# Mutatók és táblázatok {#mutatok-tablazatok}
 
 
 
@@ -7,9 +7,399 @@ knitr::include_graphics(path = "images/ch_08_small.png")
 ```
 
 
+## Alap R lehetőségei
+
 ```{block2, type='rmdlevel1'}
 
-Ebben a fejezetben áttekintjük:
+Ebben a fejezetben áttekintjük
+
+* az *Alap R* mutatószámoló és
+* táblázat készítő függvényeit
+* 
   
 ```
+
+
+A leíró statisztika célja az adatstruktúrába való elsődleges betekintés, az adatok eloszlásának felderítése. A leíró statisztika eszközei a statisztikai mérőszámok (mutatók), a táblázatok és a grafikonok. Ebben a fejezetben a mutatókkal és a táblázatokkal foglalkozunk, az ábrák készítése a következő fejezet témája lesz.
+
+### Mutatók
+
+#### Egy változó, egy mutató
+
+A statisztikai mérőszámok vagy mutatók a mintából számolt statisztikai függvények. A két legfontosabb a mintaátlag és a minta szórása. A **MASS** csomag `survey` adattáblája például 237 egyetemista testmagasságát tartalmazza a `Height` oszlopában. Számoljuk ki ezt a két fontos mutatót:
+
+```{r}
+data(survey, package = "MASS") # survey betöltése
+mean(survey$Height, na.rm = T) # testmagasság átlaga
+sd(survey$Height, na.rm = T) # testmagasság szórása
+```
+
+Az `na.rm=T` argumentum megadására szükség van, mivel a `Height` változó tartalmaz hiányzó értékeket, csak így kapjuk meg a mintaátlagot és a minta szórását.
+
+Természetesen további mutatók is számolhatók:
+
+```{r}
+median(survey$Height, na.rm = T) # medián
+var(survey$Height, na.rm = T) # variancia
+min(survey$Height, na.rm = T) # minimum
+max(survey$Height, na.rm = T) # maximum
+range(survey$Height, na.rm = T) # minimum és maximum
+diff(range(survey$Height, na.rm = T)) # terjedelem
+IQR(survey$Height, na.rm = T) # interkvartilis-eltérés
+quantile(survey$Height, na.rm = T) # kvantilisek
+moments::skewness(survey$Height, na.rm = T) # ferdeség
+moments::kurtosis(survey$Height, na.rm = T) # csúcsosság
+```
+
+
+#### Több változó, egy mutató
+
+Sokszor, egyszerre több numerikus változó statisztikai mutatóit szeretnénk meghatározni, ehhez az `apply(MARGIN=2)` vagy az `sapply()` függvényt használhatjuk. Az `apply()` általánosabb, így a `MARGIN=2` segítségével tudjuk az oszloponkénti függvényvégrehajtására utasítani, míg az `sapply()` esetében ez a működés lényege. Most három numerikus változó (kézméret, testmagasság és életkor) legfontosabb statisztikai mutatóit írtajuk ki:
+
+
+```{r}
+# mutatók 3 változóra: apply()
+apply(survey[, c("Wr.Hnd", "Height", "Age")], MARGIN = 2, FUN = mean, na.rm = T)
+apply(survey[, c("Wr.Hnd", "Height", "Age")], MARGIN = 2, FUN = sd, na.rm = T)
+apply(survey[, c("Wr.Hnd", "Height", "Age")], MARGIN = 2, FUN = range, na.rm = T)
+apply(survey[, c("Wr.Hnd", "Height", "Age")], MARGIN = 2, FUN = quantile, na.rm = T)
+
+# mutatók 3 változóra: sapply()
+sapply(survey[, c("Wr.Hnd", "Height", "Age")], FUN = mean, na.rm = T)
+sapply(survey[, c("Wr.Hnd", "Height", "Age")], FUN = sd, na.rm = T)
+sapply(survey[, c("Wr.Hnd", "Height", "Age")], FUN = range, na.rm = T)
+sapply(survey[, c("Wr.Hnd", "Height", "Age")], FUN = quantile, na.rm = T)
+```
+
+
+#### Egy változó, több mutató
+
+Amennyiben egyszerre több statisztikai mutatóra van szükségünk, akkor az *Alap R* lehetőségei közül a `summary()` függvény az első lehetőség. 
+
+
+```{r}
+summary(survey$Wr.Hnd)  # kézméret mutatói
+summary(survey$Height)  # testmagasság mutatói
+summary(survey$Age)     # életkor mutatói
+```
+
+
+#### Mutatók csoportokra
+
+Nagyon fontos lehetőség a mutatók meghatározása különböző csoportokban. Csoportok alatt a faktor által meghatározott, adott faktorszinthez tartozó mintaelemeket értjük. Például a `survey` adattábla nem (`Sex`) faktora két csoportra osztja a 237 elemű mintát.
+
+```{r}
+table(survey$Sex, useNA = "ifany")  # nem faktor eloszlása
+```
+
+A nem szerint meghatározott két csoport azonos elemszámú, 118 személy tartozik a nők csoportjába, és 118 a férfiak csoportjába is. Egy másik faktor, a dohányzási szokás (`Smoke`) már nem mutat egyenletes eloszlást:
+
+```{r}
+table(survey$Smoke, useNA = "ifany")  # dohányzási szokás faktor eloszlása
+```
+
+
+Az erős dohányosok mindössze 11-en vannak, míg a legtöbben a nem dohányzók táborába tartoznak (189 fő).
+
+
+A faktor által meghatározott csoportok nagyon fontosak lehetnek az adatelemzés során. Például kíváncsiak lehetünk a nem faktor két csoportjában (nők és férfiak) a testmagasság átlagára. Az *Alap R* az ilyen jellegű kérdések megválaszolására 3 függvényt is nyújt számunkra: `tapply()`, `aggregate()` és `by()`.
+
+A `tapply()` egyetlen numerikus változó egy faktor egy vagy több csoportjában képes statisztikai mutató meghatározására. Fontos, hogy a statisztikai mutató egyetlen értékkel térjen vissza (pl. `mean()` vagy `sd()`), mert a táblázatos elrendezés az outputban csak így lehetséges, tehát a `range()` és a `quantile()` nem használható.
+
+```{r}
+# mintaátlag csoportokra
+tapply(survey$Wr.Hnd, INDEX = survey$Sex, FUN = mean, na.rm=T)
+tapply(survey$Wr.Hnd, INDEX = survey[,c("Sex", "Smoke")], FUN = mean, na.rm=T)
+tapply(survey$Wr.Hnd, INDEX = survey[,c("Sex", "Smoke", "Exer")], FUN = mean, na.rm=T)
+```
+
+
+A `tapply()` függvényt tipikusan egy vagy két faktor esetén használjuk, a táblázatos output kényelmes áttekintést ad az egyes csoportok statisztikai mutatóiról. A legnagyobb szabadságot az `aggregate()` és a `by()` nyújtja számunkra, ezek használatát érdemes elsajátítani. Paraméterezésük megegyezik (az argumentumok neve nem), csak az outputban térnek el. Az `aggregate()` visszatérési értéke egy *adattábla* típusú objektum, amelyet később kényelmesen felhasználhatunk, a `by()` egy egyszerűbb szöveges listával tér vissza.
+
+```{r}
+# mintaátlag csoportokra
+aggregate(survey[, "Wr.Hnd"], by=survey[, "Sex", drop=F], FUN = mean, na.rm=T)
+by(survey[, "Wr.Hnd"], INDICES = survey[, "Sex", drop=F], FUN = mean, na.rm=T)
+aggregate(survey[, "Wr.Hnd"], by=survey[, c("Sex", "Smoke")], FUN = mean, na.rm=T)
+by(survey[, "Wr.Hnd"], INDICES = survey[, c("Sex", "Smoke")], FUN = mean, na.rm=T)
+aggregate(survey[, "Wr.Hnd"], by=survey[, c("Sex", "Smoke", "Exer")], FUN = mean, na.rm=T)
+by(survey[, "Wr.Hnd"], INDICES = survey[, c("Sex", "Smoke", "Exer")], FUN = mean, na.rm=T)
+```
+
+
+Az `aggregate()` legnagyobb előnye, hogy több numerikus változót megadhatunk az első paraméterükben, a `by()` esetében pedig olyan függvényeket is alkalmazhatunk az egyes csoportokra, amelyek nem egyetlen értékkel térnek vissza.
+
+```{r}
+# mintaátlag csoportokra
+aggregate(survey[,  c("Wr.Hnd", "Height", "Age")], by=survey[, "Sex", drop=F], FUN = mean, na.rm=T)
+aggregate(survey[,  c("Wr.Hnd", "Height", "Age")], by=survey[, c("Sex", "Smoke")], FUN = mean, na.rm=T)
+aggregate(survey[,  c("Wr.Hnd", "Height", "Age")], by=survey[, c("Sex", "Smoke", "Exer")], FUN = mean, na.rm=T)
+
+by(survey[,  "Wr.Hnd"], INDICES = survey[, c("Sex", "Smoke")], FUN = shapiro.test)
+by(survey[,  c("Wr.Hnd", "Height", "Age")], INDICES = survey[, "Sex", drop=F], FUN = summary, na.rm=T)
+```
+
+
+### Táblázatok
+
+
+#### Abszolút gyakoriság
+
+Az eddig látott mutatók a numerikus változók leíró statisztikai leírására szolgáltak. A gyakorisági táblázatokat többnyire a faktor típusú változók jellemzésére használjuk. Az *Alap R* korábban megismert függvényei, a `table()`, `xtabs()` és `ftable()` már biztosítják számunkra a nyers, ún. abszolút gyakorisági táblázatok kiírását.
+
+Egydimenziós táblázatot, az ún. gyakorisági táblázatot a `summary()` függvénnyel is létrehozhatunk. Ha a hívásban faktor argumentumot adunk meg, akkor gyakorisági táblázatot kapunk, amely az egyes faktorszintek mintabeli előfordulási számát adja:
+
+
+```{r}
+summary(survey$W.Hnd)
+```
+
+Láthatjuk, hogy a 237 megkérdezett hallgatóból 18 balkezes, 218 jobbkazes, egy diáknak pedig nem jegyezték fel a kezességét. Hasonló eredményt kapunk, ha a táblázatok létrehozásra szánt `table()` függvényt használjuk, de itt a hiányzó értékek megjelenítéséről már külön gondoskodnunk kell:
+
+```{r}
+table(survey$W.Hnd, useNA = "ifany")  # kezesség gyakorisági táblázata (1D)
+xtabs(~W.Hnd, data = survey, addNA = T)
+```
+
+A már korábban megismert `apply()` vagy `sapply()` segítségével több faktor gyakorisági táblázatát is kiírhatjuk:
+
+```{r}
+sapply(survey[,c("Sex","W.Hnd","Exer","Smoke")], FUN = table, useNA="ifany")
+```
+
+A fenti outputból kiemeljük a `Smoke` változót, amely a hallgatók dohányzási szokását tartalmazza. A változó 4 szintű faktor, melynek értékei: `Never`-nem dohányzik, `Occas`-ritkán dohányzik, `Regul`-rendszeresen dohányzik, `Heavy`-sokat dohányzik. Láthatjuk, hogy a 237 megkérdezett hallgatóból 189 diák nem dohányzik és csak 11 erős dohányos.
+
+
+A `table()` függvényt numerikus argumentum esetén is használhatjuk, ekkor a különböző számok előfordulási gyakoriságát kapjuk. A folytonos kvantitatív változóink, jellemzően, minden mérésnél más és más értéket adnak, így a legtöbbször a `table()` hívásnak nincs értelme folytonos numerikus vektor esetén. Azonban diszkrét numerikus változók esetén hasznos lehet a gyakorisági táblázat megjelenítése, mert ezek értékei sokszor ismétlődnek, de ez természetesen a változó jellegétől is nagy mértékben függ. Most a diákok pulzusára (`Pulse`) hívjuk meg a `table()` függvényt:
+
+```{r}
+table(survey$Pulse, useNA = "ifany")
+xtabs(~Pulse, data = survey, addNA = T)
+```
+
+Leolvashatjuk, hogy leggyakoribb pulzus a 80, hiszen az 18-szor fordul elő, valamint 45 személynek nem ismerjük a pulzusát. A fenti táblázatot áttekinthetőbbé tehetjük, ha az előfordulási értékek szerint rendezzük a cellákat. A rendezésre használjuk a `sort(decreasing=T)` függvényt:
+
+```{r}
+sort(table(survey$Pulse, useNA = "ifany"), decreasing = T)
+```
+
+Láthatjuk, hogy a fenti outputból már könnyen kiolvashatók a legnagyobb és legkisebb gyakoriságú értékek.
+
+Többdimenziós táblázatokat a szokásos módon, több faktor felsorolásával adhatunk meg:
+
+```{r}
+table(survey$Sex, survey$W.Hnd, useNA = "ifany")  # kezesség gyakorisági táblázata (2D)
+ftable(table(survey$Sex, survey$W.Hnd, survey$Exer, useNA = "ifany"))  # kezesség gyakorisági táblázata (3D)
+```
+
+#### Táblázat összesített adatokból
+
+Egydimenziós táblázatokat összesített gyakorisági adatok alapján is létrehozhatunk a `c()` függvény és az `as.table()` segítségével. Tegyük fel, hogy rendelkezésre áll az az információ is a fenti 237 hallgatóról, hogy közülük 137 fővárosi és 100 vidéki.
+
+
+```{r}
+lakhely <- as.table(c(főváros=137, vidék=100))
+lakhely
+as.data.frame(lakhely)
+```
+
+A következő táblázat 3888 szülés előtt lévő hölgy koffein fogyasztásáról és családi állapotáról tartalmaz gyakorisági adatokat. Készítsünk egy mátrixot majd táblázatot a fenti adatokból. 
+
+
+| Családi állapot                | 0   | 1-150 | 151-300 | >300 |
+|--------------------------------|-----|-------|---------|------|
+| Házas                          | 652 | 1537  | 598     | 242  |
+| Elvált, különváltan él, özvegy | 36  | 46    | 38      | 21   |
+| Egyedül él                     | 218 | 327   | 106     | 67   |
+
+
+A `matrix()` függvényt használjuk, az adatokat pedig sor folytonosan adjuk meg az első argumentumban. A könnyebb áttekinthetőség kedvéért, adjunk nevet a soroknak és az oszlopoknak.
+
+```{r}
+m <- matrix(c(652,1537,598,242,36,46,38,21,218, 327,106,67), nrow=3,byrow=T)
+rownames(m) <- c("Házas","Házas.volt","Egyedül.él")
+colnames(m) <- c("0","1-150","151-300",">300")
+m
+```
+
+
+A példában szereplő gyakorisági adatokat sikeresen rögzítettük egy numerikus mátrixba. Azonban akkor lesz belőle R-beli táblázat, ha az `as.table()` függvénnyel átalakítjuk a mátrixunkat.
+
+```{r}
+koff.csalad <- as.table(m)
+koff.csalad
+as.data.frame((koff.csalad))
+```
+
+
+#### Relatív gyakoriság
+
+Az (abszolút) gyakorisági táblázatok mellett relatív gyakorisági, illetve százalékos relatív gyakorisági táblázatra is szükségünk lehet. Ezek létrehozásához a `prob.table()` függvényt használhatjuk. 
+
+```{r}
+kezesseg <- table(survey$W.Hnd)
+prop.table(kezesseg)
+100*prop.table(kezesseg)
+```
+
+A könnyebb értelmezhetőség kedvéért használjuk a `round(digits=1)` függvényt:
+
+```{r}
+round(100*prop.table(kezesseg), digits = 1)
+```
+
+Kereszttáblák (2D táblázatok) esetén a teljes, a soronkénti és az oszloponkénti eloszlás számítására is lehetőséget ad a `prob.table()` függvény.
+
+
+A soronkénti relatív gyakorisághoz a `margin=1`, az oszloponkéntihez a `margin=2` argumentumot használjuk. A példában százalékos relatív gyakorisági táblázatot használunk.
+
+```{r}
+tab <- table(survey$Sex, survey$W.Hnd, useNA = "ifany")
+round(100*prop.table(tab), digits=1)              # teljes
+round(100*prop.table(tab, margin = 1), digits=1)  # soronkénti
+round(100*prop.table(tab, margin = 2), digits=1)  # oszloponkénti
+```
+
+
+Kétdimenziós táblázatok esetén, a marginális eloszlások számítására is van lehetőségünk. Használhatjuk az `apply(FUN=sum)` függvényt, de a direkt erre a célra létrehozott `margin.table()` függvényt is.
+
+```{r}
+apply(koff.csalad, MARGIN=1, FUN=sum)
+apply(koff.csalad, MARGIN=2, FUN=sum)
+margin.table(koff.csalad, margin=1)
+margin.table(koff.csalad, margin=2)
+```
+
+
+
+#### Kumulált gyakorisági táblázatok
+
+
+A relatív gyakorisági táblázatok mellett a kumulált relatív gyakorisági táblázatokat megjelenítését is kérhetjük egydimenziós esetben. Természetesen, ekkor a változónk legalább ordinális skálán mért. A kumulált értékek meghatározására a `cumsum()` függvényt használjuk:
+
+```{r}
+survey$Smoke <- ordered(survey$Smoke, levels=c("Never", "Occas", "Regul", "Heavy"))
+dohanyzas <- table(survey$Smoke)
+cumsum(round(100*prop.table(dohanyzas), digits=0))
+```
+
+
+
+
+## Tidyverse R lehetőségei
+
+
+```{block2, type='rmdlevel2'}
+
+Ebben a fejezetben áttekintjük
+
+* a *Tidyverse R* mutatószámoló és
+* táblázat készítő lehetőségeit
+* 
+  
+```
+
+
+Az R-ben létezik egy `|>` operátor, amely jelentősen megkönnyíti a kód olvasását.
+
+```{r}
+10 |> sqrt()  # sqrt(10)
+
+survey %>%
+  group_by(Sex) %>%
+  summarise(mean_height = mean(Height, na.rm = TRUE))
+
+```
+
+
+
+
+## Haladó lehetőségek
+
+
+```{block2, type='rmdlevel3'}
+
+Ebben a fejezetben áttekintjük
+
+* a mutatók és táblázatok kiírásának kényelmes lehetőségeit
+ 
+  
+```
+
+
+Ebben a fejezetben a **psych**, **DescTools** és a **summarytools** lehetőségeit tekintjük át. Mindhárom csomag rendkívül kényelmessé teszi a mutatók és a gyakorisági táblázatok kiírását. Mindhárom csomag képes több változót kezelni, több faktorra csoportosítva több statisztikai mutatót megjeleníteni, tehát a legnagyobb szabadságot adják a kutató kezébe.
+
+
+
+### Mutatók
+
+#### A teljes adattábla leírása
+
+```{r}
+library(tidyverse)
+survey %>% psych::describe(fast = T)
+DescTools::DescToolsOptions(digits=2)
+survey %>% DescTools::Desc(plotit = F)
+survey %>% summarytools::dfSummary()
+```
+
+#### Több numerikus változó
+
+```{r}
+num.valtozok <- survey[, c("Wr.Hnd", "NW.Hnd", "Height")]
+num.valtozok %>% psych::describe()
+num.valtozok %>% DescTools::Desc(plotit = F)
+num.valtozok %>% summarytools::descr()
+```
+
+
+### Táblázatok
+
+Egydimenziós táblázatok
+
+```{r}
+# faktor
+survey$W.Hnd %>%  DescTools::Desc(plotit = F)
+survey$W.Hnd %>%  summarytools::freq()
+# rendezett faktor
+survey$Smoke %>%  DescTools::Desc(plotit = F)
+survey$Smoke %>%  summarytools::freq()
+```
+
+
+Kétdimenziós táblázatok
+
+
+```{r}
+# faktor
+library(magrittr)
+survey %>%  DescTools::Desc(Sex~W.Hnd, data=., plotit = F)
+survey %$%  summarytools::ctable(x = Sex, y = W.Hnd)
+```
+
+
+#### Mutatók csoportokra
+
+```{r}
+survey$Height %>% psych::describeBy(x = ., g = survey[,c("Sex", "W.Hnd")], mat=T)
+num.valtozok %>% psych::describeBy(x = ., g = survey[,c("Sex", "W.Hnd")], mat=T)
+survey %>%  DescTools::Desc(Height ~ Sex * W.Hnd, data=., plotit = F)
+survey %>%  DescTools::Desc(Height + Age ~ Sex * W.Hnd, data=., plotit = F)
+num.valtozok %>% summarytools::stby(
+  data = .,
+  INDICES = survey[, c("W.Hnd", "Sex")], 
+  FUN = summarytools::descr, 
+  stats = "common" 
+)
+
+```
+
+
+
+Feladatok
+
+RcmdrMisc - numSummary
+jmv - descriptives
+
+
 

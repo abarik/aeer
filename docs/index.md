@@ -2,7 +2,7 @@
 title: "Adatkezelés és egyváltozós elemzések R-ben"
 # subtitle: ""
 author: "Abari Kálmán"
-date: "2021-12-28"
+date: "2022-09-13"
 knit: "bookdown::render_book"
 site: bookdown::bookdown_site
 output: bookdown::bs4_book

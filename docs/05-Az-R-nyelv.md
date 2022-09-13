@@ -2,16 +2,16 @@
 
 <img src="images/ch_05_small.png" width="70%" style="display: block; margin: auto;" />
 
-Az előző fejezetekben megismertük az R környezetet, az *Alap R*, az *RStudio* és a csomagok telepítését, megtanultuk a projektek, parancsállományok és RMarkdown állományok létrehozását. Tudjuk, a különböző környezetekben eltérő módszerekkel hajthatjuk végre az R parancsokat: a konzolban az `ENTER`, a Windows-os *RGui*-ban a `Ctrl+R`, míg az *RStudio*-ban a `Ctrl+Enter` billentyűkombinációt kell használnunk. A parancsok végrehajtása közben érdemes észben tartani, ha a folytatás prompt (`+`) feltűnik, akkor kattintsunk bele a konzolba, és nyomjuk meg az `Esc` billentyűt, így tudunk kilépni a befejezetlen sor szerkesztéséből
+Az előző fejezetekben megismertük az R környezetet, az *Alap R*, az *RStudio* és a csomagok telepítését, megtanultuk a projektek, parancsállományok és RMarkdown állományok létrehozását. Tudjuk, a különböző környezetekben eltérő módszerekkel hajthatjuk végre az R parancsokat: a konzolban az `Enter`, a Windows-os *RGui*-ban a `Ctrl+R`, míg az *RStudio*-ban a `Ctrl+Enter` billentyűkombinációt kell használnunk. A parancsok végrehajtása közben érdemes észben tartani, ha a folytatás prompt (`+`) feltűnik, akkor kattintsunk bele a konzolba, és nyomjuk meg az `Esc` billentyűt, így tudunk kilépni a befejezetlen sor szerkesztéséből
 
-A fejezet példáinak kipróbáláshoz hozzunk létre egy `gyakorlas` nevű új projektet az *RStudio*-ban (`File / New Project`), majd készítsünk egy `gyakorlas.Rmd` RMarkdown állományt (`File / New File / R Markdown`) és egy `gyakorlas.R` parancsállományt (`File / New File / R Script`). A fejezet példáit felváltva gépeljük az RMarkdown állomány R csonkjaiba, illetve a parancsállomány tetszőleges soraiba. A fejezet további részében az R nyelvre koncentrálunk, arra, hogy mit írunk, és nem arra, hogy hová írjuk a parancsokat.
+E fejezet példáinak kipróbáláshoz hozzunk létre egy `gyakorlas` nevű új projektet az *RStudio*-ban (`File / New Project`), majd készítsünk egy `gyakorlas.Rmd` RMarkdown állományt (`File / New File / R Markdown`) és egy `gyakorlas.R` parancsállományt (`File / New File / R Script`). A fejezet példáit egyaránt gépeljük az RMarkdown állomány R csonkjaiba, illetve a parancsállomány egymást követő soraiba. A fejezet további részében az R nyelvre koncentrálunk, arra, hogy mit írunk, és nem arra, hogy hová írjuk a parancsokat.
 
 ## Adatobjektumok
 
 \BeginKnitrBlock{rmdlevel1}<div class="rmdlevel1">
 Ebben a fejezetben:
   
-* áttekintjük az egyszerű számolási lehetőségek R-ben,
+* áttekintjük az egyszerű számolási lehetőségeket R-ben,
 * bevezetjük az aritmetikai operátor és a kifejezés fogalmát,
 * megismerjük az objektum létrehozását és elnevezését,
 * több parancs elhelyezését egy sorban,
@@ -31,9 +31,9 @@ Kezdjük a számszerű adatok megismerését egy egyszerű sor begépelésével.
 #> [1] 4
 ```
 
-Végrehajtás után a konzolban láthatjuk az összeadás eredményét, a 4-et. Az eredmény előtt egy szögletes zárójelben lévő sorszámot is láthatunk (`[1]`), amely bonyolultabb outputokban segít eligazodni. Később az \@ref(szabalyosvektorokalfejezet) fejezetben visszatérünk a `[1]` értelmezésére.
+Végrehajtás után a konzolban láthatjuk az összeadás eredményét, a 4-et. Az eredmény előtt egy szögletes zárójelben lévő sorszámot is láthatunk (`[1]`), amely bonyolultabb outputokban segít eligazodni. Később az \@ref(szabalyosvektorokalfejezet). fejezetben visszatérünk a `[1]` értelmezésére.
 
-Látjuk, ebben az esetben az R úgy viselkedik, mint egy számológép. A parancssorba gépelt algebrai kifejezés értékét kiszámolja és a képernyőn megjeleníti. Természetesen az összeadáson túl más műveletet is használhatunk.
+Látjuk, ebben az esetben az R úgy viselkedik, mint egy számológép. Kiszámolja a parancssorba gépelt algebrai kifejezés értékét, majd a képernyőn megjeleníti. Természetesen az összeadáson túl más műveletet is használhatunk.
 
 
 ```r
@@ -57,7 +57,7 @@ Ezeket a matematikában megszokott algebrai kifejezéseket, az R-ben egyszerűen
 
 * számok, amelyeket *numerikus konstans*oknak\index{numerikus konstans} nevezünk,
 * műveleti jelek, amelyeket *aritmetikai operátor*oknak\index{aritmetikai operátor} nevezünk,
-* és kerekzárójelek.
+* és kerek zárójelek.
 
 A fentiek alapján összetettebb aritmetikai kifejezéseket is megformálhatunk. Az R minden esetben kiszámolja a kifejezések értékét -- azaz *kiértékeli* a kifejezést --, és a kapott értéket megjeleníti a konzolban.
 
@@ -72,26 +72,47 @@ A fentiek alapján összetettebb aritmetikai kifejezéseket is megformálhatunk.
 
 
 
-\begin{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:matoperatorok)Matematikai operátorok precedenciájuk csökkenő sorrendjében</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Operátor </th>
+   <th style="text-align:left;"> Művelet </th>
+   <th style="text-align:left;"> Példa </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">^ **</span> </td>
+   <td style="text-align:left;"> hatványozás </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">2^3;2**3</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">+ - </span> </td>
+   <td style="text-align:left;"> előjelek </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">+3.3;-.5</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">%% %/%</span> </td>
+   <td style="text-align:left;"> maradékos osztás és egész osztás </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">13%%4;15%/%4</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">* /</span> </td>
+   <td style="text-align:left;"> szorzás és osztás </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">2*3;4/2</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">+ - </span> </td>
+   <td style="text-align:left;"> összeadás és kivonás </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">2+3;2-3</span> </td>
+  </tr>
+</tbody>
+</table>
 
-\caption{(\#tab:matoperatorok)Matematikai operátorok precedenciájuk csökkenő sorrendjében}
-\centering
-\begin{tabular}[t]{lll}
-\toprule
-Operátor formája & Művelet & Példa\\
-\midrule
-\cellcolor{gray!6}{\ttfamily{\textasciicircum{} **}} & \cellcolor{gray!6}{hatványozás} & \cellcolor{gray!6}{\ttfamily{2\textasciicircum{}3;2**3}}\\
-\ttfamily{+ - } & előjelek & \ttfamily{+3.3;-.5}\\
-\cellcolor{gray!6}{\ttfamily{\%\% \%/\%}} & \cellcolor{gray!6}{maradékos osztás és egész osztás} & \cellcolor{gray!6}{\ttfamily{13\%\%4;15\%/\%4}}\\
-\ttfamily{* /} & szorzás és osztás & \ttfamily{2*3;4/2}\\
-\cellcolor{gray!6}{\ttfamily{+ - }} & \cellcolor{gray!6}{összeadás és kivonás} & \cellcolor{gray!6}{\ttfamily{2+3;2-3}}\\
-\bottomrule
-\end{tabular}
-\end{table}
+Az aritmetikai kifejezések használata során ne felejtkezzünk el a műveletek alapértelmezett végrehajtási sorrendjéről. A műveletek megjelenítését most az operátorok végzik, melyeknek fontos tulajdonsága, hogy mennyire szorosan kötik magukhoz az adatokat (vagy más néven az operandusokat). Az operátorok ezen fonos tulajdonságát *precedenciának* nevezzük. Az R-ben használható aritmetikai operátorokat a precedenciájuk csökkenő sorrendjében az \@ref(tab:matoperatorok). táblázat tartalmazza.
 
-Az aritmetikai kifejezések használata során ne felejtkezzünk el a műveletek alapértelmezett végrehajtási sorrendjéről. A műveletek megjelenítését most az operátorok végzik, melyeknek fontos tulajdonsága, hogy mennyire szorosan kötik magukhoz az adatokat (vagy más néven az operandusokat). Az operátorok ezen fonos tulajdonságát *precedenciának* nevezzük. Az R-ben használható aritmetikai operátorokat a precedenciájuk csökkenő sorrendjében az \@ref(tab:matoperatorok) táblázat tartalmazza.
-
-Például a hatványozás és az előjel operátor precedenciája eltér egymástól, a hatványozás nagyobb precedenciájú, azaz szorosabban köti magához az adatokat, így végrehajtása megelőzi az előjel operátort. Ha nem vagyunk elég óvatosak, és plusz zárójelek segítségével nem biztosítjuk a kívánt végrehajtási sorrendet, akkor nem kívánt eredményhez juthatunk. A lenti példában láthatjuk, hogy zárójelek nélkül a nagyobb precedenciájú hatványozás az elsőként végrehajtott művelet.
+Például a hatványozás és az előjel operátor precedenciája eltér egymástól, a hatványozás nagyobb precedenciájú, azaz szorosabban köti magához az adatokat, így végrehajtása megelőzi az előjel operátort. Ha nem vagyunk elég óvatosak, és plusz zárójelek segítségével nem biztosítjuk a kívánt végrehajtási sorrendet, akkor "váratlan" eredményhez juthatunk. A lenti példában láthatjuk, hogy zárójelek nélkül a nagyobb precedenciájú hatványozás az elsőként végrehajtott művelet.
 
 
 ```r
@@ -182,8 +203,8 @@ Az objektum memóriában tárolt értékét le is kérdezhetjük. A legegyszerű
 
 
 ```r
-a     # vajon mi az objektum értéke?
-#> [1] 3.333333
+a     # vajon mi az "a" objektum értéke
+#> [1] 3.333
 ```
 
 Objektumok tetszőleges kifejezésben megjelenhetnek, akár egy értékadás jobb oldalán lévő kifejezésben is. A kifejezések kiértékelésében az objektum a memóriában tárolt értékével vesz részt.
@@ -214,7 +235,7 @@ Az objektumok elnevezésére
 
 * betűket, 
 * számjegyeket, 
-* a pont (`.`) és az aláhúzás (`_`) szimbólumokat használhatjuk. 
+* és az aláhúzás (`_`) vagy pont (`.`) szimbólumokat használhatjuk. 
 
 Az objektum neve csak betűvel vagy ponttal kezdődhet, számjeggyel vagy aláhúzással nem. Továbbá a név nem lehet az R-ben már lefoglalt kulcsszó, mint például `if`, `function` vagy `TRUE` (a kulcsszavak listáját a `?Reserved` paranccsal ismerhetjük meg). Hagyományosan a pont karaktert használjuk az objektumnevekben a tagolásra (például `magassag.peter` Péter magasságának tárolására). Az R a magyar ékezetes karakterek használatát is megengedi az objektumnevekben, de csakúgy mint az állományok és könyvtárak elnevezésében, érdemes ezek használatát mellőzni.
 
@@ -261,7 +282,7 @@ A fenti példában egy további apró újdonság is szerepelt. Ha egy parancssor
 ```
 
 
-### Megjegyzések az R-ben {#MegjegyzesazRben}
+### Megjegyzések {#MegjegyzesazRben}
 
 Nagyon sok példában láttunk már magyar nyelvű, magyarázó, értelmező szövegrészeket az R parancsok körül. Ezek az R *megjegyzések*. Megjegyzést az R-ben a kettőskereszt (`#`) karakter használatával vezetünk be. Az R értelmező a kettőskereszttől a sor végéig tartó részt figyelmen kívül hagyja. Itt helyezhetjük el a paranccsal kapcsolatos magyarázatainkat magunk vagy a kódot később olvasók számára. Teljes sorokat, vagy a sorok végét tudjuk így kivonni a végrehajtás alól. 
 
@@ -275,7 +296,7 @@ Nagyon sok példában láttunk már magyar nyelvű, magyarázó, értelmező sz�
 #> [1] 153
 ```
 
-Nem kizárólag magyarázó szövegek kerülhetnek megjegyzésbe, sokszor R parancsok végrehajtását akadályozzuk meg ezzel a módszerrel. Úgy kerülhetjük el egy parancs végrehajtását, hogy nem kell kitörölnünk a parancsállományból vagy az RMarkdown állományból, egyszerűen csak megjegyzésbe kell tennünk őket. Emlékezzünk vissza, hogy az \@ref(Csomagoktelepitese) fejezetben a csomagok telepítésért felelős parancsok esetében kifezetten javasoltuk a megjegyzések használatát:
+Nem kizárólag magyarázó szövegek kerülhetnek megjegyzésbe, sokszor R parancsok végrehajtását akadályozzuk meg ezzel a módszerrel. Úgy kerülhetjük el egy parancs végrehajtását, hogy nem kell kitörölnünk a parancsállományból vagy az RMarkdown állományból, egyszerűen csak megjegyzésbe kell tennünk őket. Emlékezzünk vissza, hogy az \@ref(Csomagoktelepitese). fejezetben a csomagok telepítésért felelős parancsok esetében kifezetten javasoltuk a megjegyzések használatát:
 
 
 ```r
@@ -287,12 +308,23 @@ getXKCD(1769)              # webképregény megjelenítése
 ```
 
 
-Végül megemlítjük, hogy az *RStuio*-ban egyszerre több kijelölt sort tudunk megjegyzésbe tenni, vagy onnan kivenni a `Ctrl+Shift+c` segítségével.
+Végül megemlítjük, hogy az *RStudio*-ban egyszerre több kijelölt sort tudunk megjegyzésbe tenni, vagy onnan kivenni a `Ctrl+Shift+C` segítségével.
 
 ### Összefoglalás {#az-r-nyelv-1-summary}
 
 <div class="rmdsummary">
-<p>Egyszerű kifejezéseket építhetünk numerikus konstansok (számok), operátorok és kerekzárójelek segítségével. A legfontosabb matematikai operátorok a négy alapművelet és a hatványozás. A kifejezés kiértékelése balról jobbra sorrendben történik, de ezt felülírja a kerekzárójelek használata és az operátorok precedenciája. Egy kifejezés értékét eltárolhatjuk a memória speciális területén, a munkamemóriában. Ehhez az értékeadó operátorral létre kell hoznunk egy új objektumot. Az objektum egy név-érték páros. Az objektum létrehozása után az objektum neve tetszőleges kifejezés adat részében szerepelhet. Több parancsot a pontosvesszővel (<code>;</code>) írhatunk egy sorba. Megjegyzéseket a kettőskereszt (<code>#</code>) segítségével helyezthetünk el.</p>
+<p>Egyszerű kifejezéseket építhetünk numerikus konstansok (számok),
+operátorok és kerek zárójelek segítségével. A legfontosabb matematikai
+operátorok a négy alapművelet és a hatványozás. A kifejezés kiértékelése
+balról jobbra sorrendben történik, de ezt felülírhatja a kerek zárójelek
+használata és az operátorok precedenciája. Egy kifejezés értékét
+eltárolhatjuk a memória speciális területén, a munkamemóriában. Ehhez az
+értékadó operátorral (<code>&lt;-</code>) létre kell hoznunk egy új
+objektumot. Az objektum egy név-érték páros. Az objektum létrehozása
+után az objektum neve megjelenhet egy tetszőleges kifejezés adat
+részében. Több parancsot a pontosvesszővel (<code>;</code>) írhatunk egy
+sorba. Megjegyzéseket a kettőskereszt (<code>#</code>) segítségével
+helyezhetünk el.</p>
 </div>
 
 
@@ -303,10 +335,11 @@ Végül megemlítjük, hogy az *RStuio*-ban egyszerre több kijelölt sort tudun
 1. Gondoljuk át, hogy a `.342e1` név miért nem lehet érvényes objektumnév? Próbáljuk ki a `make.names(".342e1")` parancsot, majd tanulmányozzuk a `?make.names` leírást!
 1. Magyarázzuk meg a `make.names(c("", "", ""))` és a `make.names(c("", "", ""), unique = T)` parancsok közötti különbséget!
 1. Gondoljuk át, hogy egy parancsállomány mely pontjain érdemes feltétlenül megjegyzéseket használni!
-1. Jelentősen segíthetjük a navigációt az RStudio parancsállományaiban, ha bizonyos megjegyzések végére ezt írjuk: `----` (négy mínusz jel). Hogyan használhatjuk ezt a lehetőséget az *RStudio*-ban, és milyen előnyei vannak?
-1. Az *RStudio*-ban parancsállomány (`.R`) szerkesztése közben próbáljuk ki a `Ctrl+Shift+R` billentyűparancsot, és a hozzá kapcsolódó `Shift+Alt+J` billentyűparancsot is. Mi a jelentése az `Alt+L`, `Shift+Alt+L`, `Alt+O` és `Shift+Alt+O` billentyűparancsoknak? A most megismert funkciók hogyan válthatók ki RMarkdown (`.Rmd`) állomány szerkesztése közben?
-  
+1. Jelentősen segíthetjük a navigációt az *RStudio* parancsállományaiban, ha bizonyos megjegyzések végére ezt írjuk: ` ----` (szóköz és négy mínusz jel). Hogyan használhatjuk ezt a lehetőséget az *RStudio*-ban, és milyen előnyei vannak?
+1. Az *RStudio*-ban parancsállomány (`.R`) szerkesztése közben próbáljuk ki a `Ctrl+Alt+R` billentyűparancsot, és a hozzá kapcsolódó `Shift+Alt+J` billentyűparancsot is. Mi a jelentése az `Alt+L`, `Shift+Alt+L`, `Alt+O` és `Shift+Alt+O` billentyűparancsoknak? A most megismert funkciók hogyan válthatók ki RMarkdown (`.Rmd`) állomány szerkesztése közben?
   </div>\EndKnitrBlock{rmdexercise}
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-1-exercise-solution)
 
 ## Függvények
 
@@ -324,7 +357,7 @@ Az aritmetikai kifejezéseinkben használható operátorok nem teszik lehetővé
 
 ```r
 2^0.5
-#> [1] 1.414214
+#> [1] 1.414
 ```
 
 Az R azonban más lehetőséget is biztosít a négyzetgyök kiszámítására és ez az `sqrt()` függvény.
@@ -332,7 +365,7 @@ Az R azonban más lehetőséget is biztosít a négyzetgyök kiszámítására �
 
 ```r
 sqrt(2)
-#> [1] 1.414214
+#> [1] 1.414
 ```
 
 A függvények valamilyen utasítássorozatot hajtanak végre és a számítás eredményét szolgáltatják. Esetünkben az `sqrt()` függvény egy szám (pozitív) négyzetgyökét számolja ki, annak a számnak a négyzetgyökét, amely a kerek zárójelek között szerepel. Tehát az R a paraméterben megadott 2 értékre meghívja az `sqrt()` függvényt, ami visszatér a 2 négyzetgyökével.
@@ -350,35 +383,77 @@ A függvény neve ugyanazoknak a szabályoknak engedelmeskedik, amelyeket az obj
 Egy függvény különböző hívásainál az előforduló argumentumok száma és azok sorrendje igen változatos képet mutathat. Elöljáróban elmondhatjuk, hogy a függvények argumentumai alapértelmezett értékkel is rendelkezhetnek, így ezek az argumentumok elhagyhatók. Továbbá, a függvények argumentumai névvel is rendelkeznek, amelyeket ha a függvény hívásánál felhasználjuk, az argumentumok sorrendje tetszőleges lehet.
 
 
-Először tekintsük át az R alapvető matematikai függvényeit (\@ref(tab:matfuggvenyek) táblázat). Nézzük meg részletesebben a `log()` függvényt. Ha kikérjük a súgóját `?log` parancs begépelésével, akkor megtudhatjuk, hogy ez a legáltalánosabb logaritmus függvény, tetszőleges alap esetén hívható. Számunkra most a legfontosabb a súgónak az a sora, amely a logaritmus függvény használatát mutatja: `log(x, base=exp(1))`. 
+Először tekintsük át az R alapvető matematikai függvényeit (\@ref(tab:matfuggvenyek). táblázat). Nézzük meg részletesebben a `log()` függvényt. Ha kikérjük a súgóját a `?log` parancs begépelésével, akkor megtudhatjuk, hogy ez a legáltalánosabb logaritmus függvény, tetszőleges alap esetén hívható. Számunkra most a legfontosabb a súgónak az a sora, amely a logaritmus függvény használatát mutatja: `log(x, base=exp(1))`. 
 
 
 
-\begin{table}
-
-\caption{(\#tab:matfuggvenyek)Az R alapvető matematikai függvényei}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{lll}
-\toprule
-Függvény & Leírás & Példa\\
-\midrule
-\cellcolor{gray!6}{\ttfamily{abs(x)}} & \cellcolor{gray!6}{abszolútérték függvény} & \cellcolor{gray!6}{\ttfamily{abs(-1)}}\\
-\ttfamily{sign(x)} & előjel függvény & \ttfamily{sign(pi)}\\
-\cellcolor{gray!6}{\ttfamily{sqrt(x)}} & \cellcolor{gray!6}{négyzetgyök függvény} & \cellcolor{gray!6}{\ttfamily{sqrt(9+16)}}\\
-\ttfamily{exp(x)} & exponenciális függvény & \ttfamily{exp(1)}\\
-\cellcolor{gray!6}{\ttfamily{log(x,base=exp(1))}} & \cellcolor{gray!6}{logaritmus függvény} & \cellcolor{gray!6}{\ttfamily{log(exp(3));log(8,10)}}\\
-\addlinespace
-\ttfamily{log10(x);log2(x)} & 10-es és 2-es alapú logaritmus & \ttfamily{log10(1000);log2(256)}\\
-\cellcolor{gray!6}{\ttfamily{cos(x);sin(x);tan(x)}} & \cellcolor{gray!6}{trigonometrikus függvények} & \cellcolor{gray!6}{\ttfamily{cos(pi);sin(0);tan(0)}}\\
-\ttfamily{round(x,digits=0)} & kerekítés adott tizedesre & \ttfamily{round(c(1.5,-1.5))}\\
-\cellcolor{gray!6}{\ttfamily{floor(x)}} & \cellcolor{gray!6}{x-nél kisebb, legnagyobb egész} & \cellcolor{gray!6}{\ttfamily{floor(c(1.5,-1.5))}}\\
-\ttfamily{ceiling(x)} & x-nél nagyobb, legkisebb egész & \ttfamily{ceiling(c(1.5,-1.5))}\\
-\addlinespace
-\cellcolor{gray!6}{\ttfamily{trunc(x)}} & \cellcolor{gray!6}{x-hez közelebbi egész x és 0 között} & \cellcolor{gray!6}{\ttfamily{trunc(c(1.5,-1.5))}}\\
-\bottomrule
-\end{tabular}}
-\end{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:matfuggvenyek)Az R alapvető matematikai függvényei</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Függvény </th>
+   <th style="text-align:left;"> Leírás </th>
+   <th style="text-align:left;"> Példa </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">abs(x)</span> </td>
+   <td style="text-align:left;"> abszolútérték függvény </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">abs(-1)</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sign(x)</span> </td>
+   <td style="text-align:left;"> előjel függvény </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sign(pi)</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sqrt(x)</span> </td>
+   <td style="text-align:left;"> négyzetgyök függvény </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sqrt(9+16)</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">exp(x)</span> </td>
+   <td style="text-align:left;"> exponenciális függvény </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">exp(1)</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">log(x,base=exp(1))</span> </td>
+   <td style="text-align:left;"> logaritmus függvény </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">log(exp(3));log(8,10)</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">log10(x);log2(x)</span> </td>
+   <td style="text-align:left;"> 10-es és 2-es alapú logaritmus </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">log10(1000);log2(256)</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">cos(x);sin(x);tan(x)</span> </td>
+   <td style="text-align:left;"> trigonometrikus függvények </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">cos(pi);sin(0);tan(0)</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">round(x,digits=0)</span> </td>
+   <td style="text-align:left;"> kerekítés adott tizedesre </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">round(c(1.5,-1.5))</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">floor(x)</span> </td>
+   <td style="text-align:left;"> x-nél kisebb, legnagyobb egész </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">floor(c(1.5,-1.5))</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">ceiling(x)</span> </td>
+   <td style="text-align:left;"> x-nél nagyobb, legkisebb egész </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">ceiling(c(1.5,-1.5))</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">trunc(x)</span> </td>
+   <td style="text-align:left;"> x-hez közelebbi egész x és 0 között </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">trunc(c(1.5,-1.5))</span> </td>
+  </tr>
+</tbody>
+</table>
 
 
 Ebből kiolvasható, hogy a `log()` függvénynek 2 argumentuma (más néven paramétere) van. Az elsőt `x`-nek, a másodikat `base`-nek nevezik. A második paraméter alapértelmezett értékkel is rendelkezik, tehát ez a paraméter a hívásnál elhagyható, míg az `x=` argumentum megadása kötelező. A `base=` paraméter értéke könnyen kideríthető az 
@@ -386,17 +461,17 @@ Ebből kiolvasható, hogy a `log()` függvénynek 2 argumentuma (más néven par
 
 ```r
 exp(1)    #  Euler-féle szám, a természetes logaritmus alapja 
-#> [1] 2.718282
+#> [1] 2.718
 ```
 
-parancsból. Ezt az irracionális számot a matematikában *e*-vel jelöljük, és Euler-féle számnak nevezzük. Ha nem határozzuk meg a második paramétert, akkor a `log()` függvény természetes alappal (`base=exp(1)`) számítja ki az `x` logaritmusát.
+parancsból. Ezt az irracionális számot a matematikában *e*-vel jelöljük, és Euler-féle számnak nevezzük, ez a természetes logaritmus alapja. Ha nem határozzuk meg a második paramétert, akkor a `log()` függvény ezzel a természetes alappal (`base=exp(1)`) számítja ki az `x` logaritmusát.
 
 Ezek alapján 2 természetes alapú logaritmusát a 
 
 
 ```r
 log(2)    # 2 természetes alapú logaritmusa
-#> [1] 0.6931472
+#> [1] 0.6931
 ```
 
 
@@ -405,7 +480,7 @@ függvényhívás adja meg. Azt is megtehetjük, hogy felhasználjuk hívásnál
 
 ```r
 log(x=2)   # 2 természetes alapú logaritmusa
-#> [1] 0.6931472
+#> [1] 0.6931
 ```
 
 A fenti sor természetesen ugyanúgy a 2 természetes alapú logaritmusát szolgáltatja, csak most explicit módon közöltük, hogy az aktuális paraméterben szereplő 2-es értéket az `x=` nevű formális paraméternek feleltetjük meg. Ez most felesleges gépelést jelentett és általában is elmondhatjuk, hogy matematikai függvények esetében az oly gyakori `x=` argumentumnevet szokás szerint nem írjuk ki a függvényhívás során.
@@ -457,7 +532,7 @@ log(base=10, 100); log(10, x=100)  # 100 10-es alapú logaritmusa 2x
 #> [1] 2
 ```
 
-Ha az argumentumok nevesítése nélkül cseréljük fel az aktuális paramétereket, akkor természetesen nem várt eredményt kapunk, mert a 10 100-as alapú logaritmusa lesz az eredmény.
+Ha az argumentumok nevesítése nélkül cseréljük fel az aktuális paramétereket, akkor természetesen nem a várt eredményt kapjuk, mert a 10 100-as alapú logaritmusa lesz az eredmény.
 
 
 ```r
@@ -490,10 +565,10 @@ Eddig a függvények aktuális paramétereiként csak numerikus konstansokat has
 
 
 ```r
-alap <- 10; log(exp(1)); log(exp(4), base=alap); log(2*exp(2), b=alap/2)
+alap <- 10; log(exp(1)); log(exp(4),base=alap); log(2*exp(2),b=alap/2)
 #> [1] 1
-#> [1] 1.737178
-#> [1] 1.673346
+#> [1] 1.737
+#> [1] 1.673
 ```
 
 A fenti példa a következő numerikus konstansokkal történő hívásoknak felel meg:
@@ -502,15 +577,15 @@ A fenti példa a következő numerikus konstansokkal történő hívásoknak fel
 ```r
 log(2.718282); log(54.59815, base=10); log(14.77811, base=5)
 #> [1] 1
-#> [1] 1.737178
-#> [1] 1.673346
+#> [1] 1.737
+#> [1] 1.673
 ```
 
 A függvények sokféle csoportja létezik az R-ben, a most látott matematikai függvények osztálya csak egy a sok közül. A következő fejezetekben függvények más csoportjait is megismerjük.
 
 ### A kifejezés fogalma
 
-Elérkezett az idő, hogy a kifejezés fogalmát pontosíthassuk: egy konstans, egy objektum vagy egy függvényhívás önmagában kifejezés, de ezek operátorokkal és kerekzárójelekkel helyesen összefűzött sorozata is kifejezés.
+Elérkezett az idő, hogy a kifejezés fogalmát pontosíthassuk: **egy konstans, egy objektum vagy egy függvényhívás önmagában kifejezés, de ezek operátorokkal és kerek zárójelekkel helyesen összefűzött sorozata is kifejezés**.
 
 Az R nyelv parancsai, vagy más néven utasításai lényegében kifejezések. Az R nyelvben egy parancs végrehajtása lényegében egy kifejezés kiértékelését jelenti, és a legtöbb esetben a kifejezés értékének megjelenítését a konzolban.
 
@@ -539,33 +614,42 @@ A kifejezés fogalmának gyakorlásához nézzünk egy példát. A másodfokú e
 egyutthato.a <- 1
 egyutthato.b <- -5
 egyutthato.c <- 4
-D <- sqrt(egyutthato.b^2-4*egyutthato.a*egyutthato.c) # diszkrimináns
+D <- sqrt(egyutthato.b^2-4*egyutthato.a*egyutthato.c)
 (-egyutthato.b+D)/(2*egyutthato.a)   # 1. gyök
 #> [1] 4
 (-egyutthato.b-D)/(2*egyutthato.a)   # 2. gyök
 #> [1] 1
 ```
 
-A fenti hat sor mindegyike egy-egy kifejezés. Az első három sorban lévő kifejezéseknek nincs outputja a konzolban, céljuk új objektumok létrehozása, és maguk a kifejezések csupán értékadó operátort, objektumnevet és konstanst tartalmaznak. A negyedik sor kifejezése szintén output nélkül hajtódik végre, és itt is új objektum jön létre, a kifejezés több összetevőt tartalmaz: objektumneveket, függvényhívást, matematikai operátorokat és konstansokat. Az ötödik és hatodik sorban lévő kifejezések értékei a kiértékelés után megjelennek az outputban, és objektumnevekből, matematikai operátorokból, kerekzárójelekből és konstansokból épülnek fel. 
+A fenti hat sor mindegyike egy-egy kifejezés. Az első három sorban lévő kifejezéseknek nincs outputja a konzolban, céljuk új objektumok létrehozása, és maguk a kifejezések csupán értékadó operátort, objektumnevet és konstanst tartalmaznak. A negyedik sor kifejezése szintén output nélkül hajtódik végre, és itt is új objektum jön létre, a kifejezés több összetevőt tartalmaz: objektumneveket, függvényhívást, matematikai operátorokat és konstansokat. Az ötödik és hatodik sorban lévő kifejezések értékei a kiértékelés után megjelennek az outputban, és objektumnevekből, matematikai operátorokból, kerek zárójelekből és konstansokból épülnek fel. 
 
 ### Összefoglalás {#az-r-nyelv-2-summary}
 
 <div class="rmdsummary">
-<p>A függvényobjektumok (vagy röviden függvények) előre definiált utasítások sorozatát hajtják végre, és egy visszatérési értéket szolgáltatnak. A visszatérési érték meghatározását a függvény bemenő paraméterei, az argumentumok is befolyásolják. Minden argumentumnak van neve, és opcionálisan rendelkezhetnek alapértelmezett értékkel is. Az R-rel való munka nem más, mint kifejezések létrehozása és végrehajtása, vagyis kiértékelése. A kifejezés fogalma: egy konstans, egy objektum vagy egy függvényhívás önmagában kifejezés, de ezek operátorokkal és kerekzárójelekkel helyesen összefűzött sorozata is kifejezés. A kifejezések kiértékelése során az eredmény megjelenhet a konzolban, de látható output nélkül is végbemehet a kifejezés végrehajtása.</p>
+<p>A függvényobjektumok (vagy röviden függvények) előre definiált
+utasítások sorozatát hajtják végre, és egy visszatérési értéket
+szolgáltatnak. A visszatérési érték meghatározását a függvény bemenő
+paraméterei, azaz az argumentumok is befolyásolják. Minden argumentumnak
+van neve, és rendelkezhetnek alapértelmezett értékkel is. Az R-rel való
+munka nem más, mint kifejezések létrehozása és végrehajtása, vagyis
+kiértékelése. A kifejezés fogalma: egy konstans, egy objektum vagy egy
+függvényhívás önmagában kifejezés, de ezek operátorokkal és kerek
+zárójelekkel helyesen összefűzött sorozata is kifejezés. A kifejezések
+kiértékelése során az eredmény megjelenhet a konzolban, de látható
+output nélkül is végbemehet a kifejezés végrehajtása.</p>
 </div>
 
 ### Feladatok {#az-r-nyelv-2-exercise}
 
 \BeginKnitrBlock{rmdexercise}<div class="rmdexercise">
-1. Tekintsük át az \@ref(tab:matfuggvenyek) táblázat utolsó oszlopában szereplő R függvényeket. Próbáljuk megjósolni a függvények visszatérési értékét. Végezzünk ellenőrzést: gépeljük be, és hajtsuk végre a matematikai függvényeket! Egészítsük ki a begépelt matematikai függvényeket az argumentumok nevével, mindegyik argumentumnak adjunk nevet az \@ref(tab:matfuggvenyek) táblázat első oszlopa alapján! 
+1. Tekintsük át az \@ref(tab:matfuggvenyek). táblázat utolsó oszlopában szereplő R függvényeket. Próbáljuk megjósolni a függvények visszatérési értékét. Végezzünk ellenőrzést: gépeljük be, és hajtsuk végre a matematikai függvényeket! Egészítsük ki a begépelt matematikai függvényeket az argumentumok nevével, mindegyik argumentumnak adjunk nevet az \@ref(tab:matfuggvenyek). táblázat első oszlopa alapján! 
 1. Az előző feladatban a matematikai függvények gépelése során milyen *RStudio* kényelmi funkciókat fedeztünk fel. Soroljunk fel legalább hármat!
 1. Az aranymetszés arányait tartalmazó épületek, képzőművészeti alkotások máig nagy esztétikai értékkel bírnak. Határozzuk meg ezt az arányt a $\phi=\frac{1+\sqrt{5}}{2}$
  képlet segítségével! Egy A/4-es oldalra kb. 47 sort írhatunk 12-es betűmérettel, és kb. 35 sort 16-os betűmérettel. Egy üres lap hanyadik sorába írnánk címet 12-es és 16-os betűméret esetén? Próbáljuk ki mindezt egy szövegszerkesztőben is! 
-1. A trigonometrikus függvények argumentumában radinánban kell megadni a szög értékét, és nem fokban. Ezt figyelembe véve határozzuk meg a 0, 30, 45, 60, 90 és 180 fok szinuszát, koszinuszát és tangensét!
-  
+1. A trigonometrikus függvények argumentumában radiánban kell megadni a szög értékét, és nem fokban. Ezt figyelembe véve határozzuk meg a 0, 30, 45, 60, 90 és 180 fok szinuszát, koszinuszát és tangensét!
   </div>\EndKnitrBlock{rmdexercise}
 
-
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-2-exercise-solution)
 
 ## Adatszerkezetek
 
@@ -580,7 +664,7 @@ Ebben a fejezetben:
 
 Kezdünk egyre mélyebre ásni az R nyelvben. Megismertük már az adatobjektum, függvény és kifejezés fogalmát. Ezek birtokában már bátran belevághatunk könyvünk kulcsfontosságú fejezetébe, az adatszerkezetek tanulmányozásába. Legyünk alaposak az itt szereplő témakörök áttekintésében, és lehetőleg oldjunk meg minden kitűzött feladatot. Később ez sokszorosan megtérül.
 
-Minden statisztikai programcsomag adatokkal dolgozik. Az R-ben nevekkel ellátott objektumokban tároljuk ezeket az adatokat. Lényegében minden tevékenység ezen objektumok létrehozása, módosítása és lekérdezése köré csoportosítható. Ezeket a műveleteket az R-ben az operátorok és függvények képviselik. Láttuk, adatokból (objektumokból), operátorokból és függvényekből kifejezéseket építünk, és hajtunk végre -- így foglalható össze minden egyes tevékenység az R-ben. 
+Minden statisztikai programcsomag adatokkal dolgozik. Az R-ben nevekkel ellátott objektumokban tároljuk ezeket az adatokat. Lényegében minden tevékenység ezen objektumok létrehozása, módosítása és lekérdezése köré csoportosítható. Ezeket a műveleteket az R-ben az operátorok és a függvények végzik. Láttuk, adatokból (objektumokból), operátorokból és függvényekből kifejezéseket építünk, és hajtunk végre -- így foglalható össze minden egyes tevékenység az R-ben. 
 
 Ebben a fejezetben a kifejezések adat részére összpontosítunk, hiszen minden adatelemzési munka kiinduló pontja maga az adat. Eddig csak számszerű (numerikus) adatokkal találkoztunk, és azok közül is csak az egész számok leírására fókuszáltunk. Adatfeldolgozási folyamatainkban a mért adatok azonban a numerikus mellett karakteres formában is előfordulnak, valamint az R-ben egy harmadik adattípus, a logikai is fontos szerepet kap. Összefoglalva, három R alaptípus lesz fontos számunkra az adatfeldolgozás során:
 
@@ -600,27 +684,38 @@ Mért adatokat közvetlenül az R-be konstansok segítségével írhatunk be. A 
 A numerikus konstansok többféle alakban is megjelenhetnek az R-ben. Az *integer* szóval az egész számok tárolását végző konstansra hivatkozunk, a *double* konstansok pedig törtrészt is tartalmazhatnak, de ez nem kötelező. Ha nem érdekes, hogy a szám *integer* vagy *double*, akkor egyszerűen a numerikus (R-ben *numeric*) elnevezést használjuk.
 
 
-\begin{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:numkonstansok)Numerikus konstansok írása</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Numerikus konstans formája </th>
+   <th style="text-align:left;"> Leírás </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">1, -1, 2, 100, 3.5, .4</span> </td>
+   <td style="text-align:left;"> pozitív és negatív double számok </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">1L, -1L, 2L, 100L</span> </td>
+   <td style="text-align:left;"> pozitív és negatív integer számok az ’L’ utótaggal </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">1.2e3, 3e+4, .6e-2, 4e1L</span> </td>
+   <td style="text-align:left;"> exponenciális alakú double és integer számok </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">0xef, 0XF01, -0xEf03, 0xd1L</span> </td>
+   <td style="text-align:left;"> hexadecimális double és integer számok </td>
+  </tr>
+</tbody>
+</table>
 
-\caption{(\#tab:numkonstansok)Numerikus konstansok írása}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{ll}
-\toprule
-Numerikus konstans formája & Leírás\\
-\midrule
-\cellcolor{gray!6}{\ttfamily{1, -1, 2, 100, 3.5, .4}} & \cellcolor{gray!6}{pozitív és negatív double számok}\\
-\ttfamily{1L, -1L, 2L, 100L} & pozitív és negatív integer számok az ’L’ utótaggal\\
-\cellcolor{gray!6}{\ttfamily{1.2e3, 3e+4, .6e-2, 4e1L}} & \cellcolor{gray!6}{exponenciális alakú double és integer számok}\\
-\ttfamily{0xef, 0XF01, -0xEf03, 0xd1L} & hexadecimális double és integer számok\\
-\bottomrule
-\end{tabular}}
-\end{table}
 
+Az \@ref(tab:numkonstansok). táblázatban látható, hogy *integer* értékek írásához szükséges az `L` utótag használata, egyébként *double*-ként kezeli az R a számot, még akkor is ha nem adtunk meg törtrészt. 
 
-Az \@ref(tab:numkonstansok) táblázatban látható, hogy *integer* értékek írásához szükséges az `L` utótag használata, egyébként *double*-ként kezeli az R a számot, még akkor is ha nem adtunk meg törtrészt. 
-
-Fontos szabály, hogy a tizedesvessző alakja az R-ben a pont. A nulla egészrészű tizedestörtek esetében az értéktelen nullát elhagyhatjuk.
+Fontos szabály, hogy a tizedesvessző alakja az R-ben a pont. A nulla egész részű tizedes törtek esetében az értéktelen nullát elhagyhatjuk.
 
 
 
@@ -651,16 +746,16 @@ Az exponenciális alakú számok nagy előnye, hogy a nagyon kis, illetve nagyon
 
 ```r
 0.0000000000000000000000000016726         # proton tömege (kg)
-#> [1] 1.6726e-27
+#> [1] 1.673e-27
 0.00000000000000000000000000000091093822  # elektron tömege (kg)
-#> [1] 9.109382e-31
+#> [1] 9.109e-31
 100000000        # ennyi fele kell figyelni egy diáknak (százmillió)
 #> [1] 1e+08
 5970000000000000000000000                 # A Föld tömege (kg)
 #> [1] 5.97e+24
 ```
 
-Az R automatikusan exponenciális alakra vált túl kicsi vagy túl nagy számok konzolbeli megjelenítésénél. Ezt a viselkedést az R egyik globális opciójának beállításával tudjuk némileg szabályozni. A globális opciókat az `options()` függvénnyel tudjuk állítani az R-ben (`?options`), amelyben most a `scipen=` paramétert kell megadnunk. Minél nagyobb pozitív értéket adunk meg, annál jobban törekszik az R a számok fix alakú megjelenítésére, negatív érték megadásánál pedig ugyanez igaz az exponenciális alakra. 
+Az R automatikusan exponenciális alakra vált túl kicsi vagy túl nagy számok konzolbeli megjelenítésénél. Ezt a viselkedést az R egyik globális opciójának beállításával tudjuk szabályozni. A globális opciókat az `options()` függvénnyel tudjuk állítani az R-ben (`?options`), amelyben most a `scipen=` paramétert kell megadnunk. Minél nagyobb pozitív értéket adunk meg, annál jobban törekszik az R a számok fix alakú megjelenítésére, negatív érték megadásánál pedig ugyanez igaz az exponenciális alakra. 
 
 
 ```r
@@ -692,7 +787,7 @@ Aritmetikai műveleteinkben rendszerint double típusú számokat, 10-es számre
 #> [1] -82.04
 ```
 
-A számok megjelenését a konzolban még egy globális opció befolyásolja. A `digits` megszabja, hány értékes jegyre pontosan jelenjenek meg a számaink a konzolban. Lehetséges értékei az 1-22 tartományba esnek, alapértelmezés szerint 7 az értéke. A beállított érték csak egy ajánlás az R számára, és főképp tizedestörtek esetén okozhat meglepetést, ha túl kicsire állítjuk a `digits` értékét.
+A számok megjelenését a konzolban még egy globális opció befolyásolja. A `digits` megszabja, hány értékes jegyre pontosan jelenjenek meg a számaink a konzolban. Lehetséges értékei az 1-22 tartományba esnek, alapértelmezés szerint 7 az értéke. A beállított érték csak egy ajánlás az R számára, és főképp tizedes törtek esetén okozhat meglepetést, ha túl kicsire állítjuk a `digits` értékét.
 
 
 ```r
@@ -733,29 +828,46 @@ r"(Látni távol kis falucska tornyát.)"
 
 Karakteres konstansok készítésekor a tetszőleges karaktersorozatunkat dupla (`"`) vagy egyszeres (`'`) idézőjellel kell körbevennünk, de az R 4.0.0-ás verziójától az `r"(tetszőleges_karaktersorozat)"` forma is elérhetővé vált. Láthatjuk, hogy az R a dupla idézőjelet részesíti előnyben az output megjelenítése során.
 
-Egy karakteres konstans tetszőleges karaktert (betűt, számjegyet, írásjeleket, szóközt stb.) tartalmazhat, egyedül azt a határolójelet kell elkerülnünk, amelyet az illető karakteres konstans létrehozásánál használtuk.  
+Egy karakteres konstans tetszőleges karaktert (betűt, számjegyet, írásjeleket, szóközt stb.) tartalmazhat, de az első két megadási forma esetében azt a határolójelet el kell elkerülnünk, amelyet az illető karakteres konstans létrehozásánál használtuk. Látjuk, hogy az `r"(tetszőleges_karaktersorozat)"` forma adja a legnagyobb szabadságot, de a legtöbbször a dupla  (`"`) idézőjeles formával találkozunk.
 
-A karakteres konstansok tartalmazhatnak ún. escape szekvenciákat, olyan backslash jellel (`\`, fordított perjel) kezdődő karaktersorozatokat, amelyeket speciálisan értelmez az R. A legfontosabb escape szekvenciákat és jelentésüket az \@ref(tab:escapes) táblázat tartalmazza.
+A karakteres konstansok tartalmazhatnak ún. escape szekvenciákat, olyan backslash jellel (`\`, fordított perjel) kezdődő karaktersorozatokat, amelyeket speciálisan értelmez az R. A legfontosabb escape szekvenciákat és jelentésüket az \@ref(tab:escapes). táblázat tartalmazza.
 
 
-\begin{table}
-
-\caption{(\#tab:escapes)Néhány escape szekvencia}
-\centering
-\begin{tabular}[t]{ll}
-\toprule
-Escape szekvencia & Jelentése\\
-\midrule
-\cellcolor{gray!6}{\ttfamily{\textbackslash{}t}} & \cellcolor{gray!6}{tabulátor}\\
-\ttfamily{\textbackslash{}r} & kocsi vissza karakter\\
-\cellcolor{gray!6}{\ttfamily{\textbackslash{}n}} & \cellcolor{gray!6}{új sor karakter}\\
-\ttfamily{\textbackslash{}"} & dupla idézőjel\\
-\cellcolor{gray!6}{\ttfamily{\textbackslash{}'}} & \cellcolor{gray!6}{szimpla idézőjel}\\
-\addlinespace
-\ttfamily{\textbackslash{}\textbackslash{}} & backslash karakter\\
-\bottomrule
-\end{tabular}
-\end{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:escapes)Néhány escape szekvencia</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Escape szekvencia </th>
+   <th style="text-align:left;"> Jelentése </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">\\t</span> </td>
+   <td style="text-align:left;"> tabulátor </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">\\r</span> </td>
+   <td style="text-align:left;"> kocsi vissza karakter </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">\\n</span> </td>
+   <td style="text-align:left;"> új sor karakter </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">\"</span> </td>
+   <td style="text-align:left;"> dupla idézőjel </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">\'</span> </td>
+   <td style="text-align:left;"> szimpla idézőjel </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">\\</span> </td>
+   <td style="text-align:left;"> backslash karakter </td>
+  </tr>
+</tbody>
+</table>
 
 
 Természetesen, karakteres objektumokat is létrehozhatunk.
@@ -769,35 +881,70 @@ nev; foglalkozas; lakohely
 #> [1] "Érd"
 ```
 
-Karakteres operátor az R-ben nincs, de számos karakterkezelő függvény segíti a sztringek kezelését (\@ref(tab:karfuggvenyek) táblázat).
+Karakteres operátor az R-ben nincs, de számos karakterkezelő függvény segíti a sztringek kezelését (\@ref(tab:karfuggvenyek). táblázat).
 
 
-\begin{table}
-
-\caption{(\#tab:karfuggvenyek)Néhány karakterkezelő függvény}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{lll}
-\toprule
-Függvény & Leírás & Példa\\
-\midrule
-\cellcolor{gray!6}{\ttfamily{paste();paste0(sep="")}} & \cellcolor{gray!6}{sztringek összefűzése} & \cellcolor{gray!6}{\ttfamily{paste("a","b",sep="=")}}\\
-\ttfamily{nchar(x)} & karakterszrting hossza & \ttfamily{nchar("alma")}\\
-\cellcolor{gray!6}{\ttfamily{substr(x,start,stop)}} & \cellcolor{gray!6}{sztring egy része} & \cellcolor{gray!6}{\ttfamily{substr("alma", 3, 5)}}\\
-\ttfamily{tolower(x)} & kisbetűsre konvertál & \ttfamily{tolower("Kiss Géza")}\\
-\cellcolor{gray!6}{\ttfamily{toupper(x)}} & \cellcolor{gray!6}{nagybetűsre konvertál} & \cellcolor{gray!6}{\ttfamily{toupper("Kiss Géza")}}\\
-\addlinespace
-\ttfamily{chartr(old,new,x)} & karakterek cseréje & \ttfamily{chartr("it","ál","titik")}\\
-\cellcolor{gray!6}{\ttfamily{cat(sep=" ")}} & \cellcolor{gray!6}{kiíratás} & \cellcolor{gray!6}{\ttfamily{cat("alma","fa\textbackslash{}n",sep="")}}\\
-\ttfamily{grep();grepl();regexpr()} & részsztringek keresése & \ttfamily{grepl(pattern="lm",x="alma")}\\
-\cellcolor{gray!6}{\ttfamily{sub();gsub()}} & \cellcolor{gray!6}{részsztringek cseréje} & \cellcolor{gray!6}{\ttfamily{gsub("lm",repl="nyj",x="alma")}}\\
-\bottomrule
-\end{tabular}}
-\end{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:karfuggvenyek)Néhány karakterkezelő függvény</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Függvény </th>
+   <th style="text-align:left;"> Leírás </th>
+   <th style="text-align:left;"> Példa </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">paste();paste0(sep="")</span> </td>
+   <td style="text-align:left;"> sztringek összefűzése </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">paste("a","b",sep="=")</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">nchar(x)</span> </td>
+   <td style="text-align:left;"> karakterszrting hossza </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">nchar("alma")</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">substr(x,start,stop)</span> </td>
+   <td style="text-align:left;"> sztring egy része </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">substr("alma", 3, 5)</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">tolower(x)</span> </td>
+   <td style="text-align:left;"> kisbetűsre konvertál </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">tolower("Kiss Géza")</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">toupper(x)</span> </td>
+   <td style="text-align:left;"> nagybetűsre konvertál </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">toupper("Kiss Géza")</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">chartr(old,new,x)</span> </td>
+   <td style="text-align:left;"> karakterek cseréje </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">chartr("it","ál","titik")</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">cat(sep=" ")</span> </td>
+   <td style="text-align:left;"> kiíratás </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">cat("alma","fa\n",sep="")</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">grep();grepl();regexpr()</span> </td>
+   <td style="text-align:left;"> részsztringek keresése </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">grepl(pattern="lm",x="alma")</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sub();gsub()</span> </td>
+   <td style="text-align:left;"> részsztringek cseréje </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">gsub("lm",repl="nyj",x="alma")</span> </td>
+  </tr>
+</tbody>
+</table>
 
 #### Logikai konstansok
 
-Az eddigiekben megismert numerikus és karakteres konstansok nagyon sokfélék lehetnek, de ugyanígy a numerikus és karakteres objektumokhoz nagyon sok lehetséges numerikus és karakteres érték rendelhető. A logikai adattípus ezektől lényegesen egyszerűbb típus, mivel összesen két érték tárolására van módunk. Ez a logikai igaz és a logikai hamis érték, amelyek az R nyelvben a `TRUE` és a `FALSE` logikai értékeket jelentik. Az R a logikai értékek írását a `T` és `F` globális változók bevezetésével segíti, ezek induló értéke a `TRUE` és a `FALSE` logikai érték.
+Az eddigiekben megismert numerikus és karakteres konstansok nagyon sokfélék lehetnek, de ugyanígy a numerikus és karakteres objektumokhoz nagyon sok lehetséges numerikus és karakteres érték rendelhető. A logikai adattípus ezektől lényegesen egyszerűbb típus, mivel itt összesen két érték tárolására van módunk. Ez a logikai *igaz* és a logikai *hamis* érték, amelyek az R nyelvben a `TRUE` és a `FALSE` logikai értékeket jelentik. Az R a logikai értékek írását a `T` és `F` globális változók bevezetésével segíti, ezek induló értéke a `TRUE` és a `FALSE` logikai érték.
 
 Ezeket a logikai konstansokat értékadásban is szerepeltethetjük, így logikai objektumokat hozhatunk létre.
 
@@ -810,54 +957,118 @@ fiu; van.kocsija; hazas
 #> [1] TRUE
 ```
 
-Logikai értékeket vagy objektumokat relációs operátorok segítségével is létrehozhatunk (\@ref(tab:reloperatorok) táblázat).
+Logikai értékeket vagy objektumokat relációs operátorok segítségével is létrehozhatunk (\@ref(tab:reloperatorok). táblázat).
 
-\begin{table}
-
-\caption{(\#tab:reloperatorok)Relációs operátorok}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{llll}
-\toprule
-Operátor formája & Művelet & Példa & Példa értéke\\
-\midrule
-\cellcolor{gray!6}{\ttfamily{<}} & \cellcolor{gray!6}{kisebb} & \cellcolor{gray!6}{\ttfamily{1<2;"alma"<"körte"}} & \cellcolor{gray!6}{\ttfamily{TRUE TRUE}}\\
-\ttfamily{>} & nagyobb & \ttfamily{3>(1+2);"abc">"ab"} & \ttfamily{FALSE TRUE}\\
-\cellcolor{gray!6}{\ttfamily{<=}} & \cellcolor{gray!6}{kisebb egyenlő} & \cellcolor{gray!6}{\ttfamily{1<=-.3;"él"<="elő"}} & \cellcolor{gray!6}{\ttfamily{FALSE TRUE}}\\
-\ttfamily{>=} & nagyobb egyenlő & \ttfamily{3/4>=7/9;"aki">="Ági"} & \ttfamily{FALSE TRUE}\\
-\cellcolor{gray!6}{\ttfamily{==}} & \cellcolor{gray!6}{egyenlő} & \cellcolor{gray!6}{\ttfamily{20==2e1;"Len"=="len"}} & \cellcolor{gray!6}{\ttfamily{TRUE FALSE}}\\
-\addlinespace
-\ttfamily{!=} & nem egyenlő & \ttfamily{exp(1)!=pi;"Len"!="len"} & \ttfamily{TRUE TRUE}\\
-\cellcolor{gray!6}{\ttfamily{\%in\%}} & \cellcolor{gray!6}{tartalmazás} & \cellcolor{gray!6}{\ttfamily{c(8, 12) \%in\% 1:10}} & \cellcolor{gray!6}{\ttfamily{TRUE FALSE}}\\
-\bottomrule
-\end{tabular}}
-\end{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:reloperatorok)Relációs operátorok</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Operátor formája </th>
+   <th style="text-align:left;"> Művelet </th>
+   <th style="text-align:left;"> Példa </th>
+   <th style="text-align:left;"> Példa értéke </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">&lt;</span> </td>
+   <td style="text-align:left;"> kisebb </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">1&lt;2;"alma"&lt;"körte"</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">TRUE TRUE</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">&gt;</span> </td>
+   <td style="text-align:left;"> nagyobb </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">3&gt;(1+2);"abc"&gt;"ab"</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">FALSE TRUE</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">&lt;=</span> </td>
+   <td style="text-align:left;"> kisebb egyenlő </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">1&lt;=-.3;"él"&lt;="elő"</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">FALSE TRUE</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">&gt;=</span> </td>
+   <td style="text-align:left;"> nagyobb egyenlő </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">3/4&gt;=7/9;"aki"&gt;="Ági"</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">FALSE TRUE</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">==</span> </td>
+   <td style="text-align:left;"> egyenlő </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">20==2e1;"Len"=="len"</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">TRUE FALSE</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">!=</span> </td>
+   <td style="text-align:left;"> nem egyenlő </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">exp(1)!=pi;"Len"!="len"</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">TRUE TRUE</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">%in%</span> </td>
+   <td style="text-align:left;"> tartalmazás </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">c(8, 12) %in% 1:10</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">TRUE FALSE</span> </td>
+  </tr>
+</tbody>
+</table>
 
 Numerikus és karakteres adatok is lehetnek a relációs operátorok bemenő adatai. Numerikus adatok esetén a számok nagysága, karakteres adatok esetén az ábécében elfoglalt hely és a sztringek hossza (lexikografikus sorrend) alapján végzi az R az összehasonlítást. A sztringek lexikografikus összehasonlítása, magyar területi beállítások esetén, a magyar ékezetes karaktereket is helyesen kezeli.
 
-A logikai értékkel visszatérő kifejezéseket (egyszerű) logikai kifejezéseknek nevezzük. Ezekből az egyszerű logikai kifejezésekből a logikai operátorok segítségével összetett logikai kifejezéseket hozhatunk létre (\@ref(tab:logoperatorok) táblázat).
+A logikai értékkel visszatérő kifejezéseket (egyszerű) logikai kifejezéseknek nevezzük. Ezekből az egyszerű logikai kifejezésekből a logikai operátorok segítségével összetett logikai kifejezéseket hozhatunk létre (\@ref(tab:logoperatorok). táblázat).
 
-\begin{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:logoperatorok)Logikai operátorok</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Operátor </th>
+   <th style="text-align:left;"> Művelet </th>
+   <th style="text-align:left;"> Példa </th>
+   <th style="text-align:left;"> Példa értéke </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">!</span> </td>
+   <td style="text-align:left;"> logikai NEM </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">!(1&lt;2); !T; !F</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">FALSE FALSE TRUE</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">&amp;</span> </td>
+   <td style="text-align:left;"> logikai ÉS </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">T &amp; T; T &amp; F; F &amp; T; F &amp; F</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">TRUE FALSE FALSE FALSE</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">|</span> </td>
+   <td style="text-align:left;"> logikai VAGY </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">T | T; T | F; F | T; F | F</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">TRUE TRUE TRUE FALSE</span> </td>
+  </tr>
+</tbody>
+</table>
 
-\caption{(\#tab:logoperatorok)Logikai operátorok}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{llll}
-\toprule
-Operátor & Művelet & Példa & Példa értéke\\
-\midrule
-\cellcolor{gray!6}{\ttfamily{!}} & \cellcolor{gray!6}{logikai NEM} & \cellcolor{gray!6}{\ttfamily{!(1<2); !T; !F}} & \cellcolor{gray!6}{\ttfamily{FALSE FALSE TRUE}}\\
-\ttfamily{\&} & logikai ÉS & \ttfamily{T \& T; T \& F; F \& T; F \& F} & \ttfamily{TRUE FALSE FALSE FALSE}\\
-\cellcolor{gray!6}{\ttfamily{|}} & \cellcolor{gray!6}{logikai VAGY} & \cellcolor{gray!6}{\ttfamily{T | T; T | F; F | T; F | F}} & \cellcolor{gray!6}{\ttfamily{TRUE TRUE TRUE FALSE}}\\
-\bottomrule
-\end{tabular}}
-\end{table}
 
-
-#### Részösszefoglalás {#az-r-nyelv-3-1-summary}
+#### Összefoglalás {#az-r-nyelv-3-1-summary}
 
 <div class="rmdsummary">
-<p>Az adatfeldolgozás során többnyire számokkal és szövegekkel dolgozunk. Az R a numerikus és a karakteres adatok írásának szabályait pontosan rögzíti. Numerikus konstansok írása a matematikában megszokott módon történik (például <code>12</code>, <code>-24</code>, <code>12e+3</code>, <code>0xabc3</code>), azonban fontos megjegyeznünk, hogy a tizedestörtek esetében pontot kell használnunk az egész és a törtrész elválasztására (például <code>12.34</code>, <code>-0.04</code>, <code>3.12e+12</code>). Karakteres konstansok esetében a következő formákat használhatjuk: <code>"tetszőleges karakterek"</code>, <code>'tetszőleges karakterek'</code>, és <code>r"(tetszőleges karakterek)"</code>. A logikai konstansok az adatmanipuláció során nyújtanak segítséget, két leheséges értékük a logikai igaz és hamis: a <code>TRUE</code>, <code>FALSE</code> vagy rövidebben a <code>T</code>, <code>F</code>.</p>
+<p>Az adatfeldolgozás során többnyire számokkal és szövegekkel
+dolgozunk. Az R a numerikus és a karakteres adatok írásának szabályait
+pontosan rögzíti. Numerikus konstansok írása a matematikában megszokott
+módon történik (például <code>12</code>, <code>-24</code>,
+<code>12e+3</code>, <code>0xabc3</code>), azonban fontos megjegyeznünk,
+hogy a tizedestörtek esetében pontot kell használnunk az egész és a
+törtrész elválasztására (például <code>12.34</code>, <code>-0.04</code>,
+<code>3.12e+12</code>). Karakteres konstansok esetében a következő
+formákat használhatjuk: <code>"tetszőleges karakterek"</code>,
+<code>'tetszőleges karakterek'</code>, és
+<code>r"(tetszőleges karakterek)"</code>. A logikai konstansok az
+adatmanipuláció során nyújtanak segítséget, két leheséges értékük a
+logikai igaz és hamis: a <code>TRUE</code>, <code>FALSE</code> vagy
+rövidebben a <code>T</code>, <code>F</code>.</p>
 </div>
 
 #### Feladatok {#az-r-nyelv-3-1-exercise}
@@ -868,14 +1079,19 @@ Operátor & Művelet & Példa & Példa értéke\\
 1. Az aranymetszés arányszámát ($\phi=\frac{1+\sqrt{5}}{2}$) írassuk a konzolba legalább 8 tizedes pontossággal!
 1. Az `r"(tetszőleges karakterek)"` formájú karakteres konstans megadásnak több válozata is létezik, soroljunk fel még legalább öt lehetőséget (`?Quotes`)! Milyen előnyökkel rendelkezik ez a megadási forma az idézőjelek és a fordított perjel tekintetében? 
 1. Helyezzünk el idézőjeleket karakteres konstansokban, mindhárom megadási forma mellett!
-1. Próbáljuk ki az \@ref(tab:karfuggvenyek) táblázat karakterkezelő függvényeit! Gépeljük be az utolsó oszlopban lévő példákat, és vizsgáljuk meg a függvények visszatérési értékét.
-1. Próbáljuk ki az \@ref(tab:reloperatorok) táblázat relációs operátorait! Gépeljük be a példákat és ellenőrizzük az eredményeket.
-1. A logikai operátorok működéséről teljes képet kaphatunk az \@ref(tab:logoperatorok) táblázatból. Próbáljuk ki ezeket a parancsokat is!
+1. Próbáljuk ki az \@ref(tab:karfuggvenyek). táblázat karakterkezelő függvényeit! Gépeljük be az utolsó oszlopban lévő példákat, és vizsgáljuk meg a függvények visszatérési értékét.
+1. Próbáljuk ki az \@ref(tab:reloperatorok). táblázat relációs operátorait! Gépeljük be a példákat és ellenőrizzük az eredményeket.
+1. A logikai operátorok működéséről teljes képet kaphatunk az \@ref(tab:logoperatorok). táblázatból. Próbáljuk ki ezeket a parancsokat is!
 
 </div>\EndKnitrBlock{rmdexercise}
 
 
-### Adatszerkezetek áttekintése
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-3-1-exercise-solution)
+
+
+
+### Áttekintés
 
 Az előző fejezetben láttuk, hogy az R-ben leírható értékek alapvetően 4 típusba sorolhatók. Ezek a *double*, az *integer*,  a *karakteres* és a *logikai* alaptípusok. Ezen értékek felhasználásával nagyon egyszerűen tudunk objektumokat létrehozni. Ezek az objektumok, mindjárt látjuk, az R legalapvetőbb adatszerkezetének, a *vektor*nak az egyelemű változatai. 
 
@@ -913,7 +1129,7 @@ Az adatelemzési problémáink megoldásához egyszerre több adatérték feldol
 * *lista* -  Tetszőleges típusú objektumokat egymás után sorolunk fel, egy dimenzió mentén.
 * *adattábla* - Tetszőleges típusú, de azonos elemszámú objektumokat egymás után sorolunk fel. Tipikusan azonos hosszúságú vektorokat vagy faktorokat teszünk egymás mellé, és így egy kétdimenziós szerkezetet kapunk, amelynek vannak sorai és oszlopai.
 
-Az \@ref(fig:adatszerkezetek-1) ábra összefoglalja az adatszerkezetek fenti tulajdonságait. Beszélünk numerikus (double vagy integer), karakteres és logikai vektorokról, melyek egydimenziósak és homogének, azaz azonos típusú adatokat tartalmaznak. Ugyanez igaz a mátrixokra, csak két dimenzióban, sorokkal és oszlopokkal. A faktor egy integer vektor (azaz egydimenziós és homogén), azonban külön nyilvántartást vezet arról, hogy az egyes integer értékeknek milyen címke felel meg. Az adattábla lesz a legfontosabb adatszerkezet számunkra: kétdimenziós, de oszlopai homogének, hiszen ezek vektorok (numerikus, karakteres vagy logikai) vagy faktorok lehetnek. A lista a legszabadabb adatszerkezet, egydimenziós, de elemei bármilyen adtszerkezethez tartozhatnak. Például az \@ref(fig:adatszerkezetek-1) ábrán egy 8 elemű lista jelenik meg, amelynek első eleme egy numerikus vektor, utolsó eleme pedig egy adattábla. 
+Az \@ref(fig:adatszerkezetek-1) ábra összefoglalja az adatszerkezetek fenti tulajdonságait. Beszélünk numerikus (double vagy integer), karakteres és logikai vektorokról, melyek egydimenziósak és homogének, azaz azonos típusú adatokat tartalmaznak. Ugyanez igaz a mátrixokra, csak két dimenzióban, sorokkal és oszlopokkal. A faktor egy integer vektor (azaz egydimenziós és homogén), azonban külön nyilvántartást vezet arról, hogy az egyes integer értékeknek milyen címke felel meg. Az adattábla lesz a legfontosabb adatszerkezet számunkra: kétdimenziós, de oszlopai homogének, hiszen ezek vektorok (numerikus, karakteres vagy logikai) vagy faktorok lehetnek. A lista a legszabadabb adatszerkezet, egydimenziós, de elemei bármilyen adatszerkezethez tartozhatnak. Például az \@ref(fig:adatszerkezetek-1). ábrán egy 8 elemű lista jelenik meg, amelynek első eleme egy numerikus vektor, utolsó eleme pedig egy adattábla. 
 
 <div class="figure" style="text-align: center">
 <a href="" target="_blank"><img src="images/adatszerkezetek_abra.png" alt="Az R legfontosabb adatszerkezetei" width="85%" /></a>
@@ -921,33 +1137,87 @@ Az \@ref(fig:adatszerkezetek-1) ábra összefoglalja az adatszerkezetek fenti tu
 </div>
 
 
-Az \@ref(tab:adatszerkezetek) táblázatban más szempontból mutatjuk be az adatszerkezeteket: példát mutatunk adott típusú (adatszerkezetű) objektumok létrehozására, és közöljük, hogy a `typeof()` és a `class()` milyen outputot szolgáltat az így létrehozott objektumok esetében.
+Az \@ref(tab:adatszerkezetek). táblázatban más szempontból mutatjuk be az adatszerkezeteket: példát mutatunk adott típusú (adatszerkezetű) objektumok létrehozására, és közöljük, hogy a `typeof()` és a `class()` milyen outputot szolgáltat az így létrehozott objektumok esetében.
 
-\begin{table}
-
-\caption{(\#tab:adatszerkezetek)Adatszerkezetek}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{llll}
-\toprule
-Adatszerkezet & Létrehozó parancs & typeof(x) & class(x)\\
-\midrule
-\cellcolor{gray!6}{double vektor} & \cellcolor{gray!6}{\ttfamily{c(12, 14)}} & \cellcolor{gray!6}{\ttfamily{double}} & \cellcolor{gray!6}{\ttfamily{numeric}}\\
-integer vektor & \ttfamily{c(12L, 14L)} & \ttfamily{integer} & \ttfamily{integer}\\
-\cellcolor{gray!6}{karakteres vektor} & \cellcolor{gray!6}{\ttfamily{c('a','az','egy')}} & \cellcolor{gray!6}{\ttfamily{character}} & \cellcolor{gray!6}{\ttfamily{character}}\\
-logikai vektor & \ttfamily{c(T, TRUE,FALSE,F)} & \ttfamily{logical} & \ttfamily{logical}\\
-\cellcolor{gray!6}{double mátrix} & \cellcolor{gray!6}{\ttfamily{matrix(1.3,nrow=2,ncol=3)}} & \cellcolor{gray!6}{\ttfamily{double}} & \cellcolor{gray!6}{\ttfamily{matrix array}}\\
-\addlinespace
-integer mátrix & \ttfamily{matrix(1L,nrow=2,ncol=3)} & \ttfamily{integer} & \ttfamily{matrix array}\\
-\cellcolor{gray!6}{karakteres mátrix} & \cellcolor{gray!6}{\ttfamily{matrix('az',nrow=2,ncol=3)}} & \cellcolor{gray!6}{\ttfamily{character}} & \cellcolor{gray!6}{\ttfamily{matrix array}}\\
-logikai mátrix & \ttfamily{matrix(F,nrow=2,ncol=3)} & \ttfamily{logical} & \ttfamily{matrix array}\\
-\cellcolor{gray!6}{faktor} & \cellcolor{gray!6}{\ttfamily{factor(c('D','D','ND'))}} & \cellcolor{gray!6}{\ttfamily{integer}} & \cellcolor{gray!6}{\ttfamily{factor}}\\
-lista & \ttfamily{list(A='Pék',B=1:2)} & \ttfamily{list} & \ttfamily{list}\\
-\addlinespace
-\cellcolor{gray!6}{adattábla} & \cellcolor{gray!6}{\ttfamily{data.frame(id=c('a','b'),pont=c(4,9))}} & \cellcolor{gray!6}{\ttfamily{list}} & \cellcolor{gray!6}{\ttfamily{data.frame}}\\
-\bottomrule
-\end{tabular}}
-\end{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:adatszerkezetek)Adatszerkezetek</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Adatszerkezet </th>
+   <th style="text-align:left;"> Létrehozó parancs </th>
+   <th style="text-align:left;"> typeof(x) </th>
+   <th style="text-align:left;"> class(x) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> double vektor </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">c(12, 14)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">double</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">numeric</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> integer vektor </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">c(12L, 14L)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">integer</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">integer</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> karakteres vektor </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">c('a','az','egy')</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">character</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">character</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> logikai vektor </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">c(T, TRUE,FALSE,F)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">logical</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">logical</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> double mátrix </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">matrix(1.3,nrow=2,ncol=3)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">double</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">matrix array</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> integer mátrix </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">matrix(1L,nrow=2,ncol=3)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">integer</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">matrix array</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> karakteres mátrix </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">matrix('az',nrow=2,ncol=3)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">character</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">matrix array</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> logikai mátrix </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">matrix(F,nrow=2,ncol=3)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">logical</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">matrix array</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> faktor </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">factor(c('D','D','ND'))</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">integer</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">factor</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> lista </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">list(A='Pék',B=1:2)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">list</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">list</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> adattábla </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">data.frame(id=c('a','b'), pont=c(4,9))</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">list</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">data.frame</span> </td>
+  </tr>
+</tbody>
+</table>
 
 
 <!-- 
@@ -962,24 +1232,38 @@ A következő alfejezetekben részletesen áttekintjük a *vektor*, a *mátrix*,
 * hogyan tesztelhetjük, hogy az adott típusú objektumról van-e szó,
 * hogyan konvertálhatunk más adatszerkezetekből ilyen típusú objektumot,
 * milyen műveletekben vehet részt,
-* hogya érhetjük el az objektum részeit, azaz hogyan indexelhetjük az objektumokat.
+* hogyan érhetjük el az objektum részeit, azaz hogyan indexelhetjük az objektumokat.
 
-#### Részösszefoglalás {#az-r-nyelv-4-summary}
+#### Összefoglalás {#az-r-nyelv-4-summary}
 
 <div class="rmdsummary">
-<p>A különböző típusú konstansokat objektumok létrehozására használhatjuk fel. A statisztikában egy objektumok értéke több konstas egymásutánja. A legegyszerűbb adatszerkezet az R-ben a <em>vektor</em>, amelyben tetszőlegesen sok, azonos típusú értéket helyezhetünk el egy dimenzió mentén. A <em>faktor</em> és a <em>lista</em> is egydimenziós, míg a <em>mátrix</em> és az <em>adattábla</em> kétdimenziós. A <em>faktor</em> integer vektor, amelyben a számoknak címkéket feleltetünk meg. A <em>lista</em> elemi tetszőleges típusúak lehetnek. A <em>mátrix</em> ugyanúgy homogén, minta a <em>vektor</em> és a <em>faktor</em>. Az <em>adattábla</em> felfogható azonos elemszámú vektorok/faktorok listájának.</p>
+<p>A különböző típusú konstansokat objektumok létrehozására
+használhatjuk fel. A statisztikában egy objektumok értéke több konstans
+egymásutánja. A legegyszerűbb adatszerkezet az R-ben a <em>vektor</em>,
+amelyben tetszőlegesen sok, azonos típusú értéket helyezhetünk el egy
+dimenzió mentén. A <em>faktor</em> és a <em>lista</em> is egydimenziós,
+míg a <em>mátrix</em> és az <em>adattábla</em> kétdimenziós. A
+<em>faktor</em> integer vektor, amelyben a számoknak címkéket
+feleltetünk meg. A <em>lista</em> elemi tetszőleges típusúak lehetnek. A
+<em>mátrix</em> ugyanúgy homogén, minta a <em>vektor</em> és a
+<em>faktor</em>. Az <em>adattábla</em> felfogható azonos elemszámú
+vektorok/faktorok listájának.</p>
 </div>
 
 #### Feladatok {#az-r-nyelv-4-exercise}
 
 \BeginKnitrBlock{rmdexercise}<div class="rmdexercise">
-1. Próbáljuk ki az \@ref(tab:adatszerkezetek) táblázatban szereplő példákat. Hozzuk létre a különböző típusú objektumokat és vizsgáljuk meg a `typeof()` és `class()` függvényekkel az objektumok típusát.
+1. Próbáljuk ki az \@ref(tab:adatszerkezetek). táblázatban szereplő példákat. Hozzuk létre a különböző típusú objektumokat és vizsgáljuk meg a `typeof()` és `class()` függvényekkel az objektumok típusát.
 
 </div>\EndKnitrBlock{rmdexercise}
 
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-4-exercise-solution)
+
+
 ### Vektor
 
-Az R legalapvetőbb adatszerkezete a *vektor*. A vektort egymás melletti (vagy alatti) cellákban tárolt értékek sorozataként képzelhetjük el (\@ref(fig:adatszerkezetek-1) ábra), mely értékek mindegyike azonos típusú. Így azt mondhatjuk, hogy a vektor azonos típusú (egynemű, homogén) adatok egydimenziós együttese. A vektor fontos jellemzője, hogy homogén, tehát a vektort alkotó értékek vagy kizárólag *integer*, vagy kizárólag *double*, vagy kizárólag *karakteres*, vagy kizárólag *logikai* típusúak lehetnek.
+Az R legalapvetőbb adatszerkezete a *vektor*. A vektort egymás melletti (vagy alatti) cellákban tárolt értékek sorozataként képzelhetjük el (\@ref(fig:adatszerkezetek-1). ábra), mely értékek mindegyike azonos típusú. Így azt mondhatjuk, hogy a vektor azonos típusú (egynemű, homogén) adatok egydimenziós együttese. A vektor fontos jellemzője, hogy homogén, tehát a vektort alkotó értékek vagy kizárólag *integer*, vagy kizárólag *double*, vagy kizárólag *karakteres*, vagy kizárólag *logikai* típusúak lehetnek.
 
 ####  Vektor létrehozása
 
@@ -1080,7 +1364,7 @@ uj.v <- c(0, regi.v.1, 4, 5, 6, regi.v.2, 10, c(11, 12)); uj.v
 A fenti példában létrehozott `uj.v` 13 elemű numerikus vektor összerakásához felhasználtunk két 3 elemű vektort és egy kételemű vektort is.
 
 
-Vektorok létrehozása során még egy érdekes lehetőségről érdemes szót ejteni. A `c()` függvényben a vektor egyes elemeit elnevezhetjük, és ezek a nevek az outputban is meg fognak jelenni. Az elemek elnevezéséhez írjünk egy nevet és egy egyenlőségjelet az argumentumként használt elem elé. Ha a név nem egyetlen szó (vagyis tartalmaz szóközt), akkor a karakterkonstansok megadásánál látott három módszer valamelyikét használhatjuk (tehát a dupla és szimpla idézőjeleket és az `r"()"` konstrukciót), vagy a backtick (`) szimbólumot. Ezzel a módszerrel például a naponta tanulással töltött időnket úgy rögzíthetjük, hogy az output "beszédesebb" lesz, több információt tartalmaz. 
+Vektorok létrehozása során még egy érdekes lehetőségről érdemes szót ejteni. A `c()` függvényben a vektor egyes elemeit elnevezhetjük, és ezek a nevek az outputban is meg fognak jelenni. Az elemek elnevezéséhez írjunk egy nevet és egy egyenlőségjelet az argumentumként használt elem elé. Ha a név nem egyetlen szó (vagyis tartalmaz szóközt), akkor a karakterkonstansok megadásánál látott három módszer valamelyikét használhatjuk (tehát a dupla és szimpla idézőjeleket és az `r"()"` konstrukciót), vagy a backtick (`) szimbólumot. Ezzel a módszerrel például a naponta tanulással töltött időnket úgy rögzíthetjük, hogy az output "beszédesebb" lesz, több információt tartalmaz. 
 
 
 ```r
@@ -1092,7 +1376,7 @@ tan.ido <- c(Hétfő=35, "Kedd délelőtt"=50, `Kedd délután`=45); tan.ido
 #>            35            50            45
 ```
 
-A vektorelemek nevei lekérdezhetők a `names()` függvénnyel. Amennyiben   értékeadás bal oldalán szerepeltetjük, a vektor elemneveit módosítani tudjuk. 
+A vektorelemek nevei lekérdezhetők a `names()` függvénnyel. Amennyiben az értékadás bal oldalán szerepeltetjük, a vektor elemneveit tudjuk módosítani. 
 
 
 ```r
@@ -1107,7 +1391,7 @@ tan.ido
 
 #### Szabályos vektorok létrehozása {#szabalyosvektorokalfejezet}
 
-Ha egy vektor elemi szabályos rendben követik egymást, akkor szabályos vektorokról beszélünk. Ilyen lehet például a következő három numerikus vektor és két karakteres vektor.
+Ha egy vektor elemei szabályos rendben követik egymást, akkor szabályos vektorokról beszélünk. Ilyen lehet például a következő három numerikus vektor és két karakteres vektor.
 
 
 ```r
@@ -1115,41 +1399,44 @@ c(1, 2, 3, 4, 5); c(1, 3, 5, 7); c(1, 1, 1, 2, 2, 2)
 c("férfi", "nő", "férfi", "nő"); c("f.1", "f.2", "f.3")
 ```
 
-Szabályos numerikus vektorokat hozhatunk létre a kettőspont (`:`) operátorral vagy a `seq()` függvénnyel. Az így létrehozott vektorok ugyanis valamilyen számtani sorozat egymást követő elemei, vagyis az egymás mellett lévő elemek különbsége állandó.
+Szabályos numerikus vektorokat hozhatunk létre a kettőspont (`:`) operátorral vagy a `seq()` függvénnyel. Az így létrehozott vektorok ugyanis valamilyen számtani sorozat egymást követő elemei, vagyis az egymás mellett lévő elemek különbsége (a lépésköz) állandó.
+
+##### A kettőspont operátor.
 
 A legegyszerűbb vektorlétrehozási mód a kettőspont (`:`) operátor, ahol az egymást követő elemek távolsága 1 vagy -1. Általános alakja: `start:stop`.
 
 
 ```r
-1:10
+1:10    # a lépésköz +1, növekvő sorozat
 #>  [1]  1  2  3  4  5  6  7  8  9 10
-10:1
+10:1    # a lépésköz -1, csökkenő sorozat
 #>  [1] 10  9  8  7  6  5  4  3  2  1
--1.5:5
+-1.5:5  # a lépésköz +1, növekvő sorozat
 #> [1] -1.5 -0.5  0.5  1.5  2.5  3.5  4.5
-10.5:3
+10.5:3  # a lépésköz -1, csökkenő sorozat
 #> [1] 10.5  9.5  8.5  7.5  6.5  5.5  4.5  3.5
 ```
 
 Látható, hogy az így létrehozott vektorok lehetnek csökkenő vagy növekvő rendezettségűek, valamint tört értékeket is használhatunk operandusként. A sorozat nem feltétlenül a kettőspont utáni értékig tart, mindössze annyi igaz, hogy a sorozat vége a `stop` értéknél mindig kisebb egyenlő (vagy nagyobb egyenlő, csökkenő sorozat esetén).
 
-Hosszabb numerikus vektorokat is könnyűszerrel létrehozhatunk. A `101:140` parancs hatására 40 elemet hozunk létre. Hosszabb vektorok outputjában könnyebben el tudunk igazodni a sorok elején lévő `[x]` konstrukció segítségével: minden sorban a sor első eleme a vektor `x.` eleme. A lenti otputban szereplő `[17]` például azt mutatja, hogy a sor elején lévő 117 a 40 elemű vektor 17. eleme.
+Hosszabb numerikus vektorokat is könnyűszerrel létrehozhatunk. A `101:140` parancs hatására 40 elemet hozunk létre. Hosszabb vektorok outputjában könnyebben el tudunk igazodni a sorok elején lévő `[x]` konstrukció segítségével: minden sorban a sor első eleme a vektor `x.` eleme. A lenti outputban szereplő `[17]` például azt mutatja, hogy a sor elején lévő 117 a 40 elemű vektor 17. eleme.
 
 
 
 ```r
-101:140
+101:140  # a lépésköz +1, növekvő sorozat
 #>  [1] 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116
 #> [17] 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132
 #> [33] 133 134 135 136 137 138 139 140
 ```
 
+##### A `seq()` függvény
 
 A `seq()` függvény nagyobb szabadságot ad a numerikus sorozatok generálására. Legegyszerűbb használata esetén a kettőspont (`:`) operátort kapjuk vissza:
 
 
 ```r
-seq(1, 10)
+seq(1, 10) # a lépésköz +1, növekvő sorozat
 #>  [1]  1  2  3  4  5  6  7  8  9 10
 ```
 
@@ -1157,54 +1444,57 @@ A `seq()` függvény használatához négy argumentum nevét és jelentését ke
 
 
 ```r
-seq(from=1, to=10, by=2)
+seq(from=1, to=10, by=2)           # a lépésköz +2, növekvő sorozat
 #> [1] 1 3 5 7 9
-seq(from=1, to=10, length.out=5)
+seq(from=1, to=10, length.out=5)   # a lépésköz +2.25, növekvő sorozat
 #> [1]  1.00  3.25  5.50  7.75 10.00
-seq(to=10, by=1.3, length.out=5)
-#> [1]  4.8  6.1  7.4  8.7 10.0
-seq(from=1, by=1.3, length.out=5)
+seq(to=10, by=-1.3, length.out=5)  # a lépésköz -1.3, csökkenő sorozat
+#> [1] 15.2 13.9 12.6 11.3 10.0
+seq(from=1, by=1.3, length.out=5)  # a lépésköz +1.3, növekvő sorozat
 #> [1] 1.0 2.3 3.6 4.9 6.2
 ```
 
-A `seq_along()` függvénnyel szintén tudunk 1-től induló, 1-es lépésközű sorozatot alkotni, amelynek utolsó értéke, a paraméterben megadott vektor elemszáma.
+A `seq_along()` függvénnyel szintén tudunk 1-től induló, +1-es lépésközű sorozatot alkotni, amelynek utolsó értéke, a paraméterben megadott vektor elemszáma.
 
 
 ```r
 x <- c("Hétfő", "Kedd", "Szerda"); y <- 11:20
-seq_along(x)
+seq_along(x) # numerikus vektor 1-től, +1-es lépésközzel, 3 elemű
 #> [1] 1 2 3
-seq_along(y)
+seq_along(y) # numerikus vektor 1-től, +1-es lépésközzel, 10 elemű
 #>  [1]  1  2  3  4  5  6  7  8  9 10
 ```
+
+
+##### A `rep()` függvény
 
 Tetszőleges típusú vektor létrehozására használhatjuk a `rep()` függvényt, amely egy létező vektor értékeit ismétli meg. A `rep()` első paramétere az ismétlendő vektor, a `times=` pedig az ismétlések számát adja meg.
 
 
 ```r
-rep(2, times=3)
+rep(2, times=3)            # számot ismétlünk 3-szor
 #> [1] 2 2 2
-rep(c(2, 0, -2), times=3)
+rep(c(2, 0, -2), times=3)  # numerikus vektort ismétlünk 3-szor
 #> [1]  2  0 -2  2  0 -2  2  0 -2
-rep("nap", times=3)
+rep("nap", times=3)        # sztringet ismétlünk 3-szor
 #> [1] "nap" "nap" "nap"
-rep(c(F, T, T), times=3)
+rep(c(F, T, T), times=3)   # logikai vektort ismétlünk 3-szor
 #> [1] FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE
 ```
 
 A fenti példában mindenhol háromszor ismételtük meg az első paramétert, méghozzá úgy, hogy az R egymás után sorolta fel őket.
 
-Egy vektor ismétlésének van egy másik esete is, amikor az elemeit sorban egyenként véve végezzük el az ismétlést. Ekkor nem a `times=` paramétert, hanem az `each=` argumentumot kell használnunk a függvény hívásánál.
+Egy vektor ismétlésének van egy másik esete is, amikor az elemeit sorban egyenként véve végezzük el az ismétlést (helyben ismétlés). Ekkor nem a `times=` paramétert, hanem az `each=` argumentumot kell használnunk a függvény hívásánál.
 
 
 ```r
-rep(2, each=3)
+rep(2, each=3)            # számot ismétlünk 3-szor
 #> [1] 2 2 2
-rep(c(2, 0, -2), each=3)
+rep(c(2, 0, -2), each=3)  # numerikus vektort elemeit ismételjük 3-szor
 #> [1]  2  2  2  0  0  0 -2 -2 -2
-rep("nap", each=3)
+rep("nap", each=3)        # sztringet ismétlünk 3-szor
 #> [1] "nap" "nap" "nap"
-rep(c(F,T,T), each=3)
+rep(c(F,T,T), each=3)     # logikai vektor elemeit ismételjük 3-szor
 #> [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
 ```
 
@@ -1214,55 +1504,69 @@ Utolsó esetként elemenként szeretnénk ismételni, de eltérő ismétlésszá
 
 
 ```r
-rep(c(2, 3, 4), times=c(1, 2, 3))
+rep(c(2, 3, 4), times=c(1, 2, 3))    # numerikus vektort elemeit ismételjük
 #> [1] 2 3 3 4 4 4
-rep(c("nap", "part"), times=c(2, 3))
+rep(c("nap", "part"), times=c(2, 3)) # karakteres vektort elemeit ismételjük
 #> [1] "nap"  "nap"  "part" "part" "part"
-rep(c(T, F, T), times=c(2, 3, 4))
+rep(c(T, F, T), times=c(2, 3, 4))    # logikai vektort elemeit ismételjük
 #> [1]  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
 ```
 
-Végezetül bemutatjuk, hogy az `each=` és az egyelemű értékkel rendelkező `times=` egyszerre is alkalmazható. Ekkor előszőr a helyben ismétlés (`each=`), majd az így kapott vektor teljes ismétlése következik (`times=`). 
+Végezetül bemutatjuk, hogy az `each=` és az egyelemű értékkel rendelkező `times=` egyszerre is alkalmazható. Ekkor először a helyben ismétlés (`each=`), majd az így kapott vektor teljes ismétlése következik (`times=`). 
 
 
 ```r
-rep(1:5, each=2, times=3)
+rep(1:5, each=2, times=3) # kombinált ismétlés
 #>  [1] 1 1 2 2 3 3 4 4 5 5 1 1 2 2 3 3 4 4 5 5 1 1 2 2 3 3 4 4 5 5
 ```
 
-Szabályos karakteres vektor létrehozására használhatjuk a `paste0()` függvényt. Egy előtaghoz (például `f.`) hozzáfűzhetünk 10 különböző számot, amely így egy 10 elemű karakteres vektort eredményez. 
+
+##### A `paste()` függvény
+
+Szabályos karakteres vektor létrehozására használhatjuk a `paste()` függvényt. Egy előtaghoz (például `f`) hozzáfűzhetünk 10 különböző számot, amely így egy 10 elemű karakteres vektort eredményez. 
 
 
 ```r
-paste0("f.", 1:10)
-#>  [1] "f.1"  "f.2"  "f.3"  "f.4"  "f.5"  "f.6"  "f.7"  "f.8"  "f.9"  "f.10"
+paste("f", 1:10) # 10 elemű sztring vektor
+#>  [1] "f 1"  "f 2"  "f 3"  "f 4"  "f 5"  "f 6"  "f 7"  "f 8"  "f 9"  "f 10"
 ```
+
+Láthatjuk, hogy az `f` karakter és a számok közé egy szóköz került, de ezt a `sep=` argumentummal megváltoztathatjuk:
+
+
+```r
+paste("f", 1:10, sep="-") # gondolatjel az elválasztó
+#>  [1] "f-1"  "f-2"  "f-3"  "f-4"  "f-5"  "f-6"  "f-7"  "f-8"  "f-9"  "f-10"
+paste("f", 1:10, sep="")  # nincs elválasztó
+#>  [1] "f1"  "f2"  "f3"  "f4"  "f5"  "f6"  "f7"  "f8"  "f9"  "f10"
+```
+
 
 A `collapse=` argumentum használatával, akár egyetlen karakteres értékbe is összeolvaszthatjuk a fenti elemeket. Az argumentumban az összevonásnál használt elválasztó karaktert adjuk meg.
 
 
 ```r
-paste0("f.", 1:10, collapse = "_")
-#> [1] "f.1_f.2_f.3_f.4_f.5_f.6_f.7_f.8_f.9_f.10"
+paste("f", 1:10, sep="-", collapse="_") # gondolatjel az elválasztó, egy sztring
+#> [1] "f-1_f-2_f-3_f-4_f-5_f-6_f-7_f-8_f-9_f-10"
 ```
 
-Az eddigiek összefoglalásaként nézzünk példát különbüző típusú és elemhosszú vektorok létrehozására.
+Az eddigiek összefoglalásaként nézzünk példát különböző típusú és elemhosszú vektorok létrehozására.
 
 
 ```r
-y <- 12L                        # y 1 elemű integer vektor
-y <- 12                         # y 1 elemű double
-y <- "Bízz magadban!"           # y 1 elemű karakteres
-y <- TRUE                       # y 1 elemű logikai
-y <- c(23.8, -5)                # y 2 elemű double
-y <- c("H", "K")                # y 2 elemű karakteres
-y <- c(T, FALSE)                # y 2 elemű logikai
-y <- c(1, 2, 3, 4, 5)           # y 5 elemű double
-y <- 1:5                        # y 5 elemű integer
-y <- seq(from=9, to=100, by=2)  # y 46 elemű double
-y <- rep(c("H", "K"), times=10) # y 20 elemű karakteres
-z <- seq_along(y)               # z 20 elemű integer
-y <- paste0("év.", 2001:2020)   # y 20 elemű karakteres
+y <- 12L                        # 1 elemű integer vektor
+y <- 12                         # 1 elemű double vektor
+y <- "Bízz magadban!"           # 1 elemű karakteres vektor
+y <- TRUE                       # 1 elemű logikai vektor
+y <- c(23.8, -5)                # 2 elemű double vektor
+y <- c("H", "K")                # 2 elemű karakteres vektor
+y <- c(T, FALSE)                # 2 elemű logikai vektor
+y <- c(1, 2, 3, 4, 5)           # 5 elemű double vektor
+y <- 1:5                        # 5 elemű integer vektor
+y <- seq(from=9, to=100, by=2)  # 46 elemű double vektor
+y <- rep(c("H", "K"), times=10) # 20 elemű karakteres vektor
+z <- seq_along(y)               # 20 elemű integer vektor
+y <- paste("év", 2001:2020)     # 20 elemű karakteres vektor
 ```
 
 
@@ -1272,57 +1576,55 @@ Amint az előzőekben láttuk, az R rendszer legalapvetőbb adattárolási szerk
 
 
 ```r
-c(1, 2) + c(3, 4)
+c(1, 2) + c(3, 4) # két vektor összeadása
 #> [1] 4 6
 ```
 
-
-A két fenti vektort a parancssorban hoztuk létre a `c()` függvénnyel. Az összeadás eredménye egy 2 elemű vektor. Az eredményvektor az 1+3 és a 2+4 műveletek alapján jött létre, vagyis az összeadás operandusaiban szereplő vektor azonos sorszámú elemeire hajtotta végre a kijelölt műveletet az R.
+A két fenti vektort a parancssorban hoztuk létre a `c()` függvénnyel. Az összeadás eredménye egy 2 elemű vektor. Az eredményvektor az `1+3` és a `2+4` műveletek alapján jött létre, vagyis az összeadás operandusaiban szereplő vektor azonos sorszámú elemeire hajtotta végre a kijelölt műveletet az R.
 
 Két vektor összeadásánál természetesen használhatunk objektumneveket is:
 
 
 ```r
 x <- c(1, 2, 3); y <- c(2, 3, 4)
-x + y
+x + y # két vektor összeadása
 #> [1] 3 5 7
 ```
 
-Itt az eredményvektor 3 elemű, és a komponensenkénti műveletvégrehajtás szabályainak megfelelően az 1+2, 2+3 és a 3+4 összeadások eredménye lesz a 3 új elem.
+Itt az eredményvektor 3 elemű, és a komponensenkénti művelet végrehajtás szabályainak megfelelően az `1+2`, `2+3` és a `3+4` összeadások eredménye lesz a 3 új elem.
 
 Az összeadás műveletet tetszőleges operátorral felcserélhetjük, használhatjuk az összes aritmetikai, relációs és logikai operátort.
 
 
 
 ```r
-c(1,2) - c(2,3)
+c(1,2) - c(2,3) # két vektor összeadása 
 #> [1] -1 -1
 x <- c(1, 2, 3); y <- c(2, 3, 4)
-x-y
+x - y           # két vektor különbsége
 #> [1] -1 -1 -1
-x*y
+x * y           # két vektor szorzata
 #> [1]  2  6 12
-x/y
+x / y           # két vektor hányadosa
 #> [1] 0.5000000 0.6666667 0.7500000
-x^y
+x ^ y           # x az y-adikon
 #> [1]  1  8 81
-x==y
+x == y          # x egyenlő y-nal?
 #> [1] FALSE FALSE FALSE
-x<y
+x < y           # x kisebb, mint y?
 #> [1] TRUE TRUE TRUE
 ```
 
-
-A fenti műveletek közül a hatványozás végrehajtása tűnhet kicsit szokatlannak, itt ugyanis egy 3 elemű vektort, mint alapot egy 3 elemű másik vektorra, mint kitevőre emeljük. Ha azonban a komponensenkénti végrehajtás szabályát észben tartjuk, akkor világos, hogy az eredményvektor az 1^2, 2^3 és a 3^4 eredménye.  
+A fenti műveletek közül a hatványozás végrehajtása tűnhet kicsit szokatlannak, itt ugyanis egy 3 elemű vektort, mint alapot egy 3 elemű másik vektorra, mint kitevőre emeljük. Ha azonban a komponensenkénti végrehajtás szabályát észben tartjuk, akkor világos, hogy az eredményvektor az `1^2`, `2^3` és a `3^4` eredménye.  
 A komponensenkénti végrehajtás szabálya a logikai operátorokra is érvényes.
 
 
 ```r
-!c(T, T, F, F)
+!c(T, T, F, F)                 # logikai NEM egy vektorra
 #> [1] FALSE FALSE  TRUE  TRUE
-c(T, T, F, F) & c(T, F, T, F)
+c(T, T, F, F) & c(T, F, T, F)  # logikai ÉS két vektorral
 #> [1]  TRUE FALSE FALSE FALSE
-c(T, T, F, F) | c(T, F, T, F)
+c(T, T, F, F) | c(T, F, T, F)  # logikai VAGY két vektorral
 #> [1]  TRUE  TRUE  TRUE FALSE
 ```
 
@@ -1330,33 +1632,37 @@ A vektorok közötti műveletek legegyszerűbb esetét tekintettük át eddig, a
 
 
 ```r
-c(1, 2)+5
+c(1, 2) + 5  # két eltérő elemszámú vektor összeadása 
 #> [1] 6 7
 ```
 
-A fenti példában egy 2 elemű és egy 1 elemű vektort adunk össze. A rövidebb vektort még egyszer megismételve már az `c(5, 5)` vektort kapjuk, így a kijelölt összeadás minden fennakadás nélkül végrehajtható. Az eredményvektor az 1+5 és a 2+5 összeadások eredménye lesz.
+A fenti példában egy 2 elemű és egy 1 elemű vektort adunk össze. A rövidebb vektort még egyszer megismételve már az `c(5, 5)` vektort kapjuk, így a kijelölt összeadás minden fennakadás nélkül végrehajtható. Az eredményvektor az `1+5` és a `2+5` összeadások eredménye lesz.
 
 Most egy 2 elemű és egy 3 elemű vektort adunk össze.
 
 
 ```r
-c(1, 2) + c(3, 4, 5)
+c(1, 2) + c(3, 4, 5)  # két eltérő elemszámú vektor összeadása 
 #> Warning in c(1, 2) + c(3, 4, 5) :
 #>   longer object length is not a multiple of shorter object length
 #> [1] 4 6 6
 ```
 
-A rövidebbik vektort még egyszer megismételve a `c(1, 2, 1, 2)` vektort kapjuk, de mivel nincs szükség minden elemére, ezért figyelmeztető üzenetet kapunk. Az eredményvektor az 1+3, 2+4 és a 1+5 összeadások eredménye lesz. A következő példában már nincs figyelmeztetés, hiszen a rövidebb vektort egész számszor, pontosan kétszer kellett megismételni a koordinátánkénti műveletvégrehajtáshoz.
+A rövidebbik vektort még egyszer megismételve a `c(1, 2, 1, 2)` vektort kapjuk, de mivel nincs szükség minden elemre, ezért figyelmeztető üzenetet kapunk. Az eredményvektor az `1+3`, `2+4` és az `1+5` összeadások eredménye lesz.  
+A következő példában már nincs figyelmeztetés, hiszen a rövidebb vektort egész számszor, pontosan kétszer kellett megismételni a koordinátánkénti művelet végrehajtáshoz.
 
 
 ```r
-c(1, 2)+c(3, 4, 5, 6)
+c(1, 2) + c(3, 4, 5, 6)  # két eltérő elemszámú vektor összeadása 
 #> [1] 4 6 6 8
 ```
 
-Foglaljuk össze a vektoraritmetka szabályait: azonos elemszámú vektorok között az azonos pozícióban lévő vektorelemek között hajtódik végre a kijelölt művelet (vagyis koordinátánkénti végrehajtás történik), különböző elemszámú vektorok esetében pedig először a rövidebbik vektor ismétléssel kiegészül a hosszabbik vektor hosszára, és ezt követi a koordintánkénti végrehajtás.
+Foglaljuk össze a vektoraritmetika szabályait: 
 
-Az operátorokon túl az \@ref(tab:matfuggvenyek) táblázatban szereplő matematikai függvények is támogatják a vektor paramétert. Ekkor nem egyetlen értékkel térnek vissza, hanem a bemenő vektor minden elemére kiszámolt függvényértékek vektorával.
+* azonos elemszámú vektorok között az azonos pozícióban lévő vektorelemek között hajtódik végre a kijelölt művelet (vagyis koordinátánkénti végrehajtás történik), 
+* különböző elemszámú vektorok esetében pedig először a rövidebbik vektor ismétléssel kiegészül a hosszabbik vektor hosszára, és ezt követi a koordinátánkénti végrehajtás.
+
+Az operátorokon túl az \@ref(tab:matfuggvenyek). táblázatban szereplő matematikai függvények is támogatják a vektor paramétert. Ekkor nem egyetlen értékkel térnek vissza, hanem a bemenő vektor minden elemére kiszámolt függvényértékek vektorával.
 
 
 ```r
@@ -1370,34 +1676,84 @@ x <- 1.3:10; round(x)          # 9 szám egészre kerekítve
 
 #### Függvények vektorokkal
 
-Az előző fejezetben láttuk, hogy a matematikai függvények vektor argumentumot is elfogadnak, és a vektor minden elemére kiszámolják a függvényértéket. Míg a `log(x=16, base=2)` függvényhívás a matematikában megszokot módon egyetlen bemenő értékhez (16) egyetlen kimenő éréket szolgáltat (4), addig az R lehetőségeit jobban kihasználó `log(x = c(1, 2, 4, 8, 16), base=2)` függvényhívás négy bemenő értékből (`c(1, 2, 4, 8, 16)`) négy kimenő érték `c(0, 1, 2, 3, 4)` állít elő. A függvények és a vektorok kapcsolatának azonban van egy másik aspektusa, amely szorosan kötődik a statisztikai műveletek végrehajtásához.
+Az előző fejezetben láttuk, hogy a matematikai függvények vektor argumentumot is elfogadnak, és a vektor minden elemére kiszámolják a függvényértéket. Míg a `log(x=16, base=2)` függvényhívás a matematikában megszokott módon egyetlen bemenő értékhez (16) egyetlen kimenő éréket szolgáltat (4), addig az R lehetőségeit jobban kihasználó `log(x = c(1, 2, 4, 8, 16), base=2)` függvényhívás négy bemenő értékből (`c(1, 2, 4, 8, 16)`) négy kimenő érték `c(0, 1, 2, 3, 4)` állít elő. A függvények és a vektorok kapcsolatának azonban van egy másik aspektusa, amely szorosan kötődik a statisztikai műveletek végrehajtásához.
 
-Az R-ben számos függvény olyan vektort vár az argumentumában, amely nem egy elemet, hanem tipikusan több tizet vagy százat tartalmaz. Ezeket a függvényeket vektor alapú függvényeknek nevezzük, és az R statisztikai mutatókat számoló függvényei is ebbe a csoportba tartoznak. A vektor alapú függvényekre az jellemző, hogy a bemenő vektor elemeivel egy előre definiált műveletsorozatot hajtanak végre, például összadják a vektor elemeit, kiszámolják az elemek átlagát vagy szórását, és visszatérési értékként ezt az összeget, átlagot vagy szórást szolgáltatja. A legfontosabb vektor alapú függvényeket az \@ref(tab:statfuggvenyek) táblázat tartalmazza.
+Az R függvények egy nagy csoportja eleve olyan vektort vár az argumentumába, amely több tíz vagy több száz elemet tartalmaz, és tipikusan egyetlen értékkel tér vissza. Ezeket a függvényeket vektor alapú függvényeknek nevezzük, és ebbe a csoportba tartoznak az R statisztikai mutatókat számoló függvényei is. A vektor alapú függvényekre az jellemző, hogy a bemenő vektor elemeivel egy előre definiált műveletsorozatot hajtanak végre, például összeadják a vektor elemeit, kiszámolják az elemek átlagát vagy szórását, és visszatérési értékként ezt az összeget, átlagot vagy szórást szolgáltatják. A legfontosabb vektor alapú függvényeket az \@ref(tab:statfuggvenyek). táblázat tartalmazza.
 
 
-\begin{table}
-
-\caption{(\#tab:statfuggvenyek)Függvények vektorokkal}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{llll}
-\toprule
-Függvény & Leírás & Példa & Példa értéke\\
-\midrule
-\cellcolor{gray!6}{\ttfamily{max(x)}} & \cellcolor{gray!6}{az x vektor legnagyobb eleme} & \cellcolor{gray!6}{\ttfamily{max(1:10)}} & \cellcolor{gray!6}{\ttfamily{10}}\\
-\ttfamily{min(x)} & az x vektor legkisebb eleme & \ttfamily{min(11:20)} & \ttfamily{11}\\
-\cellcolor{gray!6}{\ttfamily{sum(x)}} & \cellcolor{gray!6}{x elemeinek összege} & \cellcolor{gray!6}{\ttfamily{sum(1:5)}} & \cellcolor{gray!6}{\ttfamily{15}}\\
-\ttfamily{prod(x)} & x elemeinek szorzata & \ttfamily{prod(1:5)} & \ttfamily{120}\\
-\cellcolor{gray!6}{\ttfamily{mean(x)}} & \cellcolor{gray!6}{x számtani közepe (mintaátlag)} & \cellcolor{gray!6}{\ttfamily{mean(1:10)}} & \cellcolor{gray!6}{\ttfamily{5.5}}\\
-\addlinespace
-\ttfamily{median(x)} & x mediánja & \ttfamily{median(1:10)} & \ttfamily{5.5}\\
-\cellcolor{gray!6}{\ttfamily{range(x)}} & \cellcolor{gray!6}{x legkisebb és legnagyobb eleme} & \cellcolor{gray!6}{\ttfamily{range(1:10)}} & \cellcolor{gray!6}{\ttfamily{1 10}}\\
-\ttfamily{sd(x)} & az x minta szórása & \ttfamily{sd(1:10)} & \ttfamily{3.03}\\
-\cellcolor{gray!6}{\ttfamily{var(x)}} & \cellcolor{gray!6}{az x minta varianciája} & \cellcolor{gray!6}{\ttfamily{var(1:10)}} & \cellcolor{gray!6}{\ttfamily{9.17}}\\
-\ttfamily{cor(x,y)} & korreláció x és y között & \ttfamily{cor(1:10,11:20)} & \ttfamily{1}\\
-\bottomrule
-\end{tabular}}
-\end{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:statfuggvenyek)Függvények vektorokkal</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Függvény </th>
+   <th style="text-align:left;"> Leírás </th>
+   <th style="text-align:left;"> Példa </th>
+   <th style="text-align:left;"> Példa értéke </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">max(x)</span> </td>
+   <td style="text-align:left;"> az x vektor legnagyobb eleme </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">max(1:10)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">10</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">min(x)</span> </td>
+   <td style="text-align:left;"> az x vektor legkisebb eleme </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">min(11:20)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">11</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sum(x)</span> </td>
+   <td style="text-align:left;"> x elemeinek összege </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sum(1:5)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">15</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">prod(x)</span> </td>
+   <td style="text-align:left;"> x elemeinek szorzata </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">prod(1:5)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">120</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">mean(x)</span> </td>
+   <td style="text-align:left;"> x számtani közepe (mintaátlag) </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">mean(1:10)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">5.5</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">median(x)</span> </td>
+   <td style="text-align:left;"> x mediánja </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">median(1:10)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">5.5</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">range(x)</span> </td>
+   <td style="text-align:left;"> x legkisebb és legnagyobb eleme </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">range(1:10)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">1 10</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sd(x)</span> </td>
+   <td style="text-align:left;"> az x minta szórása </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">sd(1:10)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">3.03</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">var(x)</span> </td>
+   <td style="text-align:left;"> az x minta varianciája </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">var(1:10)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">9.17</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">cor(x,y)</span> </td>
+   <td style="text-align:left;"> korreláció x és y között </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">cor(1:10,11:20)</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">1</span> </td>
+  </tr>
+</tbody>
+</table>
 
 
 #### Típusok kezelése
@@ -1407,13 +1763,13 @@ Minden R vektor típusa a négy alaptípus egyike lehet: *double*, *integer*, *k
 
 ```r
 x.d <- c(3.5, 4.1, 9.2)  # új objektum - double vektor
-is.double(x.d)           # x.d vajon double?
+is.double(x.d)           # x.d vajon double
 #> [1] TRUE
-is.integer(x.d)          # x.d vajon integer?
+is.integer(x.d)          # x.d vajon integer
 #> [1] FALSE
-is.character(x.d)        # x.d vajon karakteres?  
+is.character(x.d)        # x.d vajon karakteres
 #> [1] FALSE
-is.logical(x.d)          # x.d vajon logikai?
+is.logical(x.d)          # x.d vajon logikai
 #> [1] FALSE
 ```
 
@@ -1430,6 +1786,8 @@ as.character(1:5)               # integer vektorból karakteres
 as.logical(0:3)                 # integer vektorból logikai
 #> [1] FALSE  TRUE  TRUE  TRUE
 ```
+
+Karakteres értékből könnyen kaphatunk számot, például a `"2.9"` vagy `"3"` esetén, viszont az `"a"` karakter esetében `NA` érték kerül az integer vektorba, ahogyan ezt a fenti példában is láthatjuk.
 
 
 #### Az `NA` hiányzó érték
@@ -1450,7 +1808,7 @@ Egy `NA` érték jelenlétét a vektorban az `is.na()` függvénnyel tudjuk kimu
 
 
 ```r
-x <- c(1, NA, 3, 4, NA)    # két NA numerikus vektorban
+x <- c(1, NA, 3, 4, NA)    # két NA a numerikus vektorban
 is.na(x)                   # két TRUE a logikai vektorban
 #> [1] FALSE  TRUE FALSE FALSE  TRUE
 ```
@@ -1459,7 +1817,7 @@ Hiányzó értékeket is tartalmazó vektor esetén néhány vektor alapú függ
 
 
 ```r
-mean(c(1:10,NA))
+mean(c(2, NA, 3, 4, 2, 5))  # NA-t tartalmazó vektor átlaga NA
 #> [1] NA
 ```
 
@@ -1468,8 +1826,8 @@ Ha kíváncsiak vagyunk az `NA` értéken kívüli elemek átlagára, akkor egy 
 
 
 ```r
-mean(c(1:10,NA), na.rm=T)
-#> [1] 5.5
+mean(c(2, NA, 3, 4, 2, 5), na.rm=T)  # NA-t tartalmazó vektor átlaga már nem NA
+#> [1] 3.2
 ```
 
 
@@ -1479,17 +1837,17 @@ Az R-ben a numerikus műveletek eredménye -- a matematikai értelmezéstől sok
 
 
 ```r
-1/0               
+1/0                 # ez a matematikában nem értelmes, de R-ben Inf
 #> [1] Inf
 log(0)
 #> [1] -Inf
 exp(Inf)
 #> [1] Inf
-mean(c(1,2,Inf))
+mean(c(1, 2, Inf))
 #> [1] Inf
 ```
 
-Néhány esetben a numerikus kifejezések eredménye nem értelmezhető számként, ezt az R-ben a `NaN` ("Not a Number") jelöli. Ilyen kifejezések például:
+Néhány esetben a numerikus kifejezések eredménye nem értelmezhető számként, ezt az R-ben a `NaN` (`Not a Number`) jelöli. Ilyen kifejezések például:
 
 
 ```r
@@ -1501,19 +1859,18 @@ Inf/Inf
 #> [1] NaN
 ```
 
-
 Egy kifejezés véges vagy végtelen voltát az `is.finite()` vagy `is.infinite()` függvényekkel tesztelhetjük. A `NaN` értékre az `is.nan()` függvénnyel kérdezhetünk rá. Figyeljük meg, a `NaN` értékre, mind az `is.nan()`, mind az `is.na()` függvény `TRUE` értéket ad.
 
 
 ```r
 x <- c(1, NA, NaN, Inf, -Inf)
-is.na(x)
+is.na(x)           # melyik elem hiányzó
 #> [1] FALSE  TRUE  TRUE FALSE FALSE
-is.nan(x)
+is.nan(x)          # melyik elem nem szám
 #> [1] FALSE FALSE  TRUE FALSE FALSE
-is.infinite(x)
+is.infinite(x)     # melyik elem végtelen
 #> [1] FALSE FALSE FALSE  TRUE  TRUE
-is.finite(x)
+is.finite(x)       # melyik elem véges
 #> [1]  TRUE FALSE FALSE FALSE FALSE
 ```
 
@@ -1543,7 +1900,7 @@ y                  # y értékének kiírása
 #>  [1] 12 13 14 15 16 17 18 19 20 21
 ```
 
-Az `y` vektor 10 elemű, a `11:20` értékekkel hoztuk létre. A második sorban azonban megváltoztatjuk az `y` értékét, mert újra az értékadás bal oldalán szerepel az `y` objektum. Az `y` új értéke az értékadás jobb oldalán szereplő kifejezés értéke lesz, azaz a `y+1` összeadás eredménye, ami nem más mint a `12:21`. Az `y` értékének megjelenítésével ellenőrizhetjük, hogy valóban a `12:21` elemek kerülnek a konzolba.
+Az `y` vektor 10 elemű, a `11:20` értékekkel hoztuk létre. A második sorban azonban megváltoztatjuk az `y` értékét, mert újra az értékadás bal oldalán szerepel az `y` objektum. Az `y` új értéke az értékadás jobb oldalán szereplő kifejezés értéke lesz, azaz a `y+1` összeadás eredménye, ami nem más, mint a `12:21`. Az `y` értékének megjelenítésével ellenőrizhetjük, hogy valóban a `12:21` elemek kerülnek a konzolba.
 
 A fenti példában `y` minden értékét megváltoztattuk. Az eredeti `11:20` helyett az új érték `12:21`. Az `y` vektor minden egyes eleme megváltozott, például ahol 11 volt, ott most 12 van, ahol 12 volt ott most 13. Ha szükség van az eredeti és az új `y` értékekre akkor kicsit módosítanunk kell az eddigi sorokon.
 
@@ -1559,7 +1916,8 @@ z.uj                  # z.uj értékének kiírása
 
 A `z` vektor is 10 elemű, a `11:20` a kezdőértéke, és jól látható, hogy a fenti sorok hatására ez nem is változik meg, hiszen a `z` újra már nem jelenik meg értékadás bal oldalán. Értékadás jobb oldalán viszont felbukkan, a második sorban a `z.uj` objektum létrehozásához használtuk fel `z` értékét. Az `z` és `z.uj` objektumok értékének kiírásával ellenőrizhetjük, hogy a `z` továbbra is biztonságosan tárolja a `11.20` értékeket, de a `z.uj`-ban a kívánt `12:21` módosított értékek is megtalálhatók. A további munkafázisokban így az eredeti és a módosított értékek is elérhetők lesznek, ami újdonság, mert az előző példákban ez a lehetőség nem volt elérhető. Az `x` objektumot használó példában csak az eredeti, az `y` vektoros példában csak a módosított értékeket tudnánk a későbbiekben használni.
 
-Összefoglalva az eddigieket, két tanulságot vonhatunk le. Egyfelől, a vektorműveleteknek csak akkor lesz "maradandó" hatása, ha objektumban őrizzük a számítás eredményét, azaz értékadást használunk. Ez az objektum lehet a kindulásként használt erdeti objektum (`y <- y + 1`), de biztonságosabb ha új objektumot hozunk létre az új értékek számára  (`z.uj <- z + 1`), mert így az eredeti értékeket a jövőben is tudjuk használni. Másfelől, ezek a példák ráirányítják a figyelmet a vektoraritmetika egy nagyszerű jellemzőjére: a vektorműveletek megadása független a vektor hosszától, nem lesz bonyolultabb egy vektorművelet, például az `x+1` összeadás ha `x` nem 10 elemű, hanem mondjuk 100 hosszú. Az összeadás művelet parancsa 100 elemű vektor esetén is csupán `x+1`, azonban a háttérben nem 10, hanem 100 összeadás történik. Akár 10, akár 100 elemű az `x`, az összes elemre az `x` segítségével hivatkozhatunk, és az `x+1` összeadás az `x` összes eleméhez hozzáad 1-et. De mit tegyünk, ha nincs szükségem `x` összes elemére, vagy nem szeretném `x` összes elemét megnövelni 1-gyel, csak néhányat. Ekkor indexelést kell használnunk.
+Összefoglalva az eddigieket, két tanulságot vonhatunk le. Egyfelől, a vektorműveleteknek csak akkor lesz "maradandó" hatása, ha objektumban őrizzük a számítás eredményét, azaz értékadást használunk. Ez az objektum lehet a kiindulásként használt eredeti objektum (`y <- y + 1`), de biztonságosabb ha új objektumot hozunk létre az új értékek számára  (`z.uj <- z + 1`), mert így az eredeti értékeket a jövőben is tudjuk használni. Másfelől, ezek a példák ráirányítják a figyelmet a vektoraritmetika egy nagyszerű jellemzőjére: a vektorműveletek megadása független a vektor hosszától, nem lesz bonyolultabb egy vektorművelet, például az `x+1` összeadás ha `x` nem 10 elemű, hanem mondjuk 100 hosszú. Az összeadás művelet parancsa 100 elemű vektor esetén is csupán `x+1`, azonban a háttérben nem 10, hanem 100 összeadás történik. Akár 10, akár 100 elemű az `x`, az összes elemre az `x` segítségével hivatkozhatunk, és az `x+1` összeadás az `x` összes eleméhez hozzáad 1-et.  
+De mit tegyünk, ha nincs szükségünk `x` összes elemére, vagy nem szeretném `x` összes elemét megnövelni 1-gyel, csak néhányat. Ekkor *indexelést* kell használnunk.
 
 Az adatfeldolgozás során gyakori, hogy a vektor egyes elemeit külön-külön szeretnénk elérni, lekérdezni vagy módosítani. A vektor egy tetszőleges részét, egy vagy több elemét az *indexelés* művelettel érhetjük el, melynek eredménye szintén vektor lesz. Az index operátor jele a szögletes zárójel (`[]`) az R-ben, amit a vektor neve után kell írnunk. Vektorok indexelésének általános alakja:
 
@@ -1602,7 +1960,9 @@ x
 #>  [1]  11 100 200  14  15  16  17  18  19  20
 ```
 
-Itt először a második elemet 100-ra cseréljük, majd a harmadikat a második kétszeresére. A változást ellenőrizhetjük a konzolban. Ha az `x` vektort az elemszámánál nagyobb indexszel próbáljuk elérni, akkor `NA` értéket kapunk:
+Itt először a második elemet 100-ra cseréljük, majd a harmadikat a második kétszeresére. A változást ellenőrizhetjük a konzolban. 
+
+Ha az `x` vektort az elemszámánál nagyobb indexszel próbáljuk elérni, akkor `NA` értéket kapunk:
 
 
 
@@ -1618,9 +1978,9 @@ Vektorokat azonban nem csak egy elemű indexvektorokkal indexelhetünk, hanem k�
 x <- 11:20 
 x[c(1, 3, 5)]               # x vektor 1., 3. és 5. eleme
 #> [1] 11 13 15
-x[c(3, 5, 3, 1)]            # x vektor 3., 5. 3. és 1. eleme
+x[c(3, 5, 3, 1)]            # x vektor 3., 5., 3. és 1. eleme
 #> [1] 13 15 13 11
-x[3:6]                      # x vektor 3., 4., 5., és 6. eleme
+x[3:6]                      # x vektor 3., 4., 5. és 6. eleme
 #> [1] 13 14 15 16
 y <- c(3,7)
 x[y]                        # x vektor 3. és 7. eleme
@@ -1629,9 +1989,9 @@ x[seq(from=2, to=10, by=2)] # x vektor páros indexű elemei
 #> [1] 12 14 16 18 20
 ```
 
-A fenti példákban látható, hogy az indexelés során létrejött vektorok elemszáma az indexvektor elemszámával egyenlő. Egy indexet akár többször is felsorolhatunk, és tetszőleges sorrend megengedett. A szöglegetes zárójelben lévő indexvektort helyben is elkészíthetjük a `c()` és `seq()` függvénnyel (vagy bármilyen más vektorlétrehozó függvénnyel), vagy a kettőspont (`:`) operátorral, de korábban létrehozott objektumot is használhatunk indexelésre (`x[y]`).
+A fenti példákban látható, hogy az indexelés során létrejött vektorok elemszáma az indexvektor elemszámával egyenlő. Egy indexet akár többször is felsorolhatunk, és tetszőleges sorrend megengedett. A szögletes zárójelben lévő indexvektort helyben is elkészíthetjük a `c()` és `seq()` függvénnyel (vagy bármilyen más vektorlétrehozó függvénnyel), vagy a kettőspont (`:`) operátorral, de korábban létrehozott objektumot is használhatunk indexelésre (`x[y]`).
 
-Az indexelés során több vektorelemet egy lépésben is tudunk módosítani. Az indexelt elemek kaphatnak azonos vagy különböző értéket. Itt is a vektoraritmetikai szabályai kezdenek működni.
+Az indexelés során több vektorelemet egy lépésben is tudunk módosítani. Az indexelt elemek kaphatnak azonos vagy különböző értéket. Itt is a vektoraritmetika szabályai működnek.
 
 
 ```r
@@ -1643,7 +2003,7 @@ x
 #>  [1] 110 120 130   0   0   0 170 180 170  20
 ```
 
-A fenti példában az `x` vektor három-három elemét módosítjuk az egyes értékadások során. Az értékadó operátor (`<-`) engedelmeskedik a vektoraritmetika szabályainak, azaz az értékadás bal és jobb oldalán szereplő vektorokat tekinthetjük két olyan vektornak, amelyek között műveletet szeretnénk végrehajtani. Az első értékadásban azonos elemszámú a két vektor, a koordintánkénti értékadás azonnal megtörténik (`x[c(1, 2, 3)] <- c(110, 120, 130)`). A másik két értékadásban különbözik a két vektor elemszáma, így először ismétléssel kiegészül a jobb oldali, rövidebbik vektor, majd ezután következhet a koordinátánkénti végrehajtás.
+A fenti példában az `x` vektor három-három elemét módosítjuk az egyes értékadások során. Az értékadó operátor (`<-`) engedelmeskedik a vektoraritmetika szabályainak, azaz az értékadás bal és jobb oldalán szereplő vektorokat tekinthetjük két olyan vektornak, amelyek között műveletet szeretnénk végrehajtani. Az első értékadásban azonos elemszámú a két vektor, a koordinátánkénti értékadás azonnal megtörténik (`x[c(1, 2, 3)] <- c(110, 120, 130)`). A másik két értékadásban különbözik a két vektor elemszáma, így először ismétléssel kiegészül a jobb oldali, rövidebbik vektor, majd ezután következhet a koordinátánkénti végrehajtás.
 
 Egy vektor indexe mindig egész szám, de az R megengedi, hogy tört értékeket tartalmazó indexvektort szerepeltessünk az index operátorban, ekkor az egész részét veszi az indexeknek, egyszerűen csonkolja őket.
 
@@ -1696,9 +2056,9 @@ Látható, hogy a kívánt elem eléréséhez, például Bori matematika teljes�
 
 ##### Indexelés logikai vektorokkal
 
-Vektorok indexeléséhez logikai vektorokat is használhatunk. Első pillanatban kényelmetlennek, sőt feleslegesnek tűnik majd ez a lehetőség, de a következő fejezetben, a vektorok szűrésénél, magunk is meggyőződhetünk e módszer káprázatos erejéről
+Vektorok indexeléséhez logikai vektorokat is használhatunk. Első pillanatban kényelmetlennek, sőt feleslegesnek tűnik ez a lehetőség, de a következő fejezetben, a vektorok szűrésénél, magunk is meggyőződhetünk e módszer káprázatos erejéről
 
-A logikai indexvektor működése nagyon egyszerű. Hossza az indexelenedő vektor hosszával egyenlő, és a `TRUE` logikai értékkel jelezzük, hogy az adott pozíción lévő elemet el akarjuk érni, a `FALSE` értékkel pedig azt, hogy nincs szükség arra az elemre.
+A logikai indexvektor működése nagyon egyszerű. Hossza az indexelendő vektor hosszával egyenlő, és a `TRUE` logikai értékkel jelezzük, hogy az adott pozíción lévő elemet el akarjuk érni, a `FALSE` értékkel pedig azt, hogy nincs szükség arra az elemre.
 
 
 ```r
@@ -1758,20 +2118,19 @@ Legyünk óvatosak, ha az indexvektor tartalmaz `NA` értéket, akkor az eredmé
 
 ```r
 x <- 11:15
-x[c(1, NA, 2)]          # x 1. eleme, NA, és x 2. eleme
+x[c(1, NA, 2)]          # x 1. eleme, NA és x 2. eleme
 #> [1] 11 NA 12
 x[c(1, NA, 2)] <- 100   # x 1. és 2. elemének módosítása
 x
 #> [1] 100 100  13  14  15
 ```
 
-Kerüljük az értékadást `NA`-t tartalmazó indexvektor használata esetén. A fenti példában az értékadás ugyan nem jelez hibát, és ellenőrizhetjük, hogy valóban megtörtént az első két vektorelem módosítása. Azonban az értékadás jobb oldalán a több elemű vektor már nem engedélyezett, például az `x[c(1, NA, 2)] <- c(100, 200)` értékadás hibaüzenethez vezet. Összefoglalva, minden esetben ellenőrizzük, hogy az indexvektortunk tartalmaz-e `NA` hiányzó értéket.   
+Kerüljük az értékadást `NA`-t tartalmazó indexvektor használata esetén. A fenti példában az értékadás ugyan nem jelez hibát, és ellenőrizhetjük, hogy valóban megtörtént az első két vektorelem módosítása. Azonban az értékadás jobb oldalán a több elemű vektor már nem engedélyezett, például az `x[c(1, NA, 2)] <- c(100, 200)` értékadás hibaüzenethez vezet. Összefoglalva, minden esetben ellenőrizzük, hogy az indexvektorunk tartalmaz-e `NA` hiányzó értéket.   
 
 
 #### Vektor szűrése
 
-Eddig a vektorok elemeit pozíciójuk alapján értük el. Akár sorszámot, elemnevet vagy megfelelő pozícióban lévő logkai igaz/hamis értéket használtunk indexelésre, végső soron az számított, hogy az adott elem hol található a vektorelemek egydimenziós sorában. Ebben a fejezetben egy teljes más kiinduló pontot használni
-unk a vektorelemek elérésére és ez a vektor tartalma lesz, vagyis a vektorelem konkrét értéke (és nem a pozíciója). 
+Eddig a vektorok elemeit pozíciójuk alapján értük el. Akár sorszámot, elemnevet vagy megfelelő pozícióban lévő logikai igaz/hamis értéket használtunk indexelésre, végső soron az számított, hogy az adott elem hol található a vektorelemek egydimenziós sorában. Ebben a fejezetben egy teljes más kiinduló pontot használunk a vektorelemek elérésére és ez a vektor tartalma lesz, vagyis a vektorelem konkrét értéke (és nem a pozíciója). 
 
 Bővítsük ki a matematika pontszámokat tartalmazó vektorunkat, rögzítsük hat tanuló eredményét. 
 
@@ -1800,7 +2159,7 @@ x[c(F, T, F, F, F, T)]   # indexelés logikai vektorral
 
 A fenti sorok az eddigiekhez képest semmilyen újdonságot nem tartalmaznak, lényegében összefoglalják a pozíció alapú indexelésről tanultakat. Felmerülhet bennünk a kérdés, ha `x` nem hat elemű, hanem 60 vagy esetleg 600, akkor mennyi esélyünk lenne az indexelt kifejezések előállítására. Nem sok.
 
-Adódik azonban egy másik lehetőség, ami közvetlenül abból indul ki, hogy 36 pontnál nagyobb vektorelemeket keressük. Logikai művelettel ezt a következőképp fogalmazhatjuk meg.
+Adódik azonban egy másik lehetőség, amely közvetlenül abból indul ki, hogy a 36 pontnál nagyobb vektorelemeket keressük. Logikai művelettel ezt a következőképp fogalmazhatjuk meg.
 
 
 ```r
@@ -1809,9 +2168,9 @@ x > 36        # relációs művelet, logikai vektort eredményez
 #> FALSE  TRUE FALSE FALSE FALSE  TRUE
 ```
 
-Korábban láttuk, hogy ez a művelet a vektoraritmetikai szabályainak engedelmeskedve két lépésben értelmezhető: (1) mivel különböző elemhosszú a két vektor, `x` hat elemű, a 36 egy elemű, először a jobb oldal is hat elemű lesz (`c(36, 36, 36, 36, 36, 36)`), majd (2) koordinátánként a relációs művelet végrehajtásra kerül, azaz x minden eleméről döntés születik, hogy nagyobb-e mint 36. A relációs művelet eredménye egy hat elemű logikai vektor, amely pontosan ott `TRUE`, ahol az illető `x` elem nagyobb 36-nál, minden más helyen pedig `FALSE`. Esetünkben a Bori és Ili elemeknél jelenik meg a `TRUE`, vagyis a 2. és 6. pozícióban. Vegyük észre, hogy ez pontosan az a logikai vektor, mint amit mi hoztunk létre korábban a pozíció alapú indexelés egyik példájaként (`x[c(F, T, F, F, F, T)]`).
+Korábban láttuk, hogy ez a művelet a vektoraritmetikai szabályainak engedelmeskedve két lépésben értelmezhető: (1) mivel különböző elemhosszú a két vektor, `x` hat elemű, a 36 egy elemű, először a jobb oldal is hat elemű lesz (`c(36, 36, 36, 36, 36, 36)`), majd (2) koordinátánként a relációs művelet végrehajtásra kerül, azaz `x` minden eleméről döntés születik, hogy nagyobb-e, mint 36. A relációs művelet eredménye egy hat elemű logikai vektor, amely pontosan ott `TRUE`, ahol az illető `x` elem nagyobb 36-nál, minden más helyen pedig `FALSE`. Esetünkben a Bori és Ili elemeknél jelenik meg a `TRUE`, vagyis a 2. és 6. pozícióban. Vegyük észre, hogy ez pontosan az a logikai vektor, mint amit korábban hoztunk létre a pozíció alapú indexelés egyik példájaként (`x[c(F, T, F, F, F, T)]`).
 
-A relációs művelet eredményét, mint logikai vektort kiválóan fel tudjuk használni az indexelésben a 36 pontnál nagyobb vektorelemek eléréséhez. 
+A relációs művelet eredményét, mint logikai vektort, kiválóan fel tudjuk használni az indexelésben a 36 pontnál nagyobb vektorelemek eléréséhez. 
 
 
 ```r
@@ -1824,29 +2183,29 @@ A fenti sor az első példa szűrésre. A szűrés lényegében logikai vektorra
 
 A szűrés nagyszerűen kezeli a vektorhosszal kapcsolatban korábban felvetett problémánkat. Ha az `x` nem hat, hanem 60 vagy 600 elemű, akkor is az `x[x>36]` végzi a 36-nál nagyobb elemek leválogatását.
 
-Próbáljuk ki a szűrést nagyobb elemszám esetén is. Generáljunk 60 véletlen értékeket a 0-40 értéktartományból, úgy mintha 60 tanuló matematika pontszáma állna rendelkezésre. A `sample()` függvény az `x=` argumentumában megadott értékekből, a `size=`-ban megadott darabszámnyit állít elő. A `replace=T` argumentummal gondoskodunk arról, hogy egy érték többször is szerpelhessen az eredményvektorban.
+Próbáljuk ki a szűrést nagyobb elemszám esetén is. Generáljunk 60 véletlen értékeket a 0-40 értéktartományból, úgy mintha 60 tanuló matematika pontszáma állna rendelkezésre. A `sample()` függvény az `x=` argumentumában megadott értékekből, a `size=`-ban megadott darabszámnyit állít elő. A `replace=T` argumentummal gondoskodunk arról, hogy egy érték többször is szerepelhessen az eredményvektorban.
 
 
 ```r
 pontszamok <- sample(x = 0:40, size = 60, replace = T) # véletlen értékek
-pontszamok[1:10]               # ponszamok vektor első 10 eleme
-#>  [1] 33 15 27 12  5 35  8  5  3 40
-pontszamok[pontszamok > 36]    # pontszamok vektor szűrése
-#> [1] 40 40 37 37 40
+pontszamok[1:10]               # vektor első 10 eleme
+#>  [1]  7 37 22  1 20 16  6 36 20 26
+pontszamok[pontszamok > 36]    # vektor szűrése
+#> [1] 37 39 37 37 40 38 39 37
 ```
 
-A `pontszamok` vektor 60 elemű, az első 10 értékét a képenyőn láthatjuk. A 36-nál nagyobb elemek megjelenítését szűréssel végeztük. Látható, hogy a szűrés nem lett bonyolultabb a vektor hosszának növekedésével.
+A `pontszamok` vektor 60 elemű, az első 10 értékét a képernyőn láthatjuk. A 36-nál nagyobb elemek megjelenítését szűréssel végeztük. Látható, hogy a szűrés nem lett bonyolultabb a vektor hosszának növekedésével.
 
-Más relációs operátorokat (\@ref(tab:reloperatorok) táblázat) is használhatunk a szűrésben, sőt logikai operátorok (\@ref(tab:logoperatorok) táblázat) segítségével tetszőleges természetes nyelven megfogalmazott feltételt át tudunk fordítani R logikai kifejezésbe. A logikai operátorokat tartalmazó logikai kifejezésket *összetett logikai kifejezés*eknek nevezzük. Írassuk ki a pontszámokat 36 és 39 között, majd 3 és 6 között, és végül mindezeket együtt.
+Más relációs operátorokat (\@ref(tab:reloperatorok). táblázat) is használhatunk a szűrésben, sőt logikai operátorok (\@ref(tab:logoperatorok). táblázat) segítségével tetszőleges természetes nyelven megfogalmazott feltételt át tudunk fordítani R logikai kifejezésbe. A logikai operátorokat tartalmazó logikai kifejezéseket *összetett logikai kifejezés*eknek nevezzük. Írassuk ki a pontszámokat 36 és 39 között, majd 3 és 6 között, és végül mindezeket együtt.
 
 
 ```r
 pontszamok[pontszamok>=36 & pontszamok<=39]
-#> [1] 37 37
+#> [1] 37 36 39 37 37 38 39 37
 pontszamok[pontszamok>=3 & pontszamok<=6]
-#> [1] 5 5 3 3 5 4 5
+#> [1] 6 3 3 6
 pontszamok[(pontszamok>=36 & pontszamok<=39) | (pontszamok>=3 & pontszamok<=6)]
-#> [1]  5  5  3 37  3  5 37  4  5
+#>  [1] 37  6 36 39 37  3  3 37  6 38 39 37
 ```
 
 Időnként szükségünk lehet arra az információra, hogy a vektorban melyik pozícióban vannak a feltételnek eleget tevő vektorelemek. Erre a feladatra a `which()` függvényt használhatjuk. A `which()` függvény bemenő paraméterként egy logikai vektort vár, visszatérési értéke pedig a `TRUE` logikai értékek indexe lesz.
@@ -1856,25 +2215,31 @@ Térjünk vissza a matematika pontszámokhoz.
 
 ```r
 x <- c('Peti'=35, 'Bori'=37, 'Éva'=33, 'Pál'=21, 'Gergő'=34, 'Ili'=40)
-which(x > 36)         
+which(x > 36)             # hol vannak 36-nál nagyobb elemek
 #> Bori  Ili 
 #>    2    6
-which(36 <= x & x <= 39)
+which(36 <= x & x <= 39)  # hol vannak 36-39 közötti elemek
 #> Bori 
 #>    2
-which(x == 21)
+which(x == 21)            # hol van a 21-es elem
 #> Pál 
 #>   4
-which(x != 21)
+which(x != 21)            # hol van nem 21-es elem
 #>  Peti  Bori   Éva Gergő   Ili 
 #>     1     2     3     5     6
 ```
 
 Az outputokban nem látjuk a tanulók pontszámát, tehát nem a szűrés a `which()` célja, azoknak a vektorelemeknek az indexét látjuk, amelyek az egyszerű vagy összetett logikai kifejezéseknek eleget tesznek.
 
-Végezetül tekintsük át a szűrés és az értékadás kapcsolatát. Az adatelemzés során előfordulhat, hogy bizonyos feltételnek eleget tevő elemeket módosítani szeretnénk. Például, ha egy vektorban előzetesen a hiányzó értékeket 99-cel jelöljük, akkor a későbbi hibamentes elemzéshez `NA`-ra kell módosítanunk ezeket az értékekek.
+Végezetül tekintsük át a szűrés és az értékadás kapcsolatát. Az adatelemzés során előfordulhat, hogy bizonyos feltételnek eleget tevő elemeket módosítani szeretnénk. Például, ha egy vektorban előzetesen a hiányzó értékeket 99-cel jelöljük, akkor a későbbi hibamentes elemzéshez `NA`-ra kell módosítanunk ezeket az értékeket.
 
 
+```r
+x <- c(11, 3, 99, 4, 99)   # nyers vektor, a 99 jelentése hiányzó érték
+x[x == 99] <- NA           # 99 átírása NA-ra
+x
+#> [1] 11  3 NA  4 NA
+```
 
 Az `x` így már helyes módon tartalmazza a hiányzó értékeket. Ha esetleg később kiderül ezeknek az elemeknek a tényleges értéke, akkor az `NA`-t kell helyettesítenünk új értékekkel. Vigyázzunk, az `x == NA` kifejezés helytelen a hiányzó értékek tesztelésére, erre az `is.na()` függvényt kell használnunk. 
 
@@ -1882,13 +2247,12 @@ Az `x` így már helyes módon tartalmazza a hiányzó értékeket. Ha esetleg k
 ```r
 x[is.na(x)] <- c(5, 7)    # hiányzó értékek módosítása
 x
-#>  Peti  Bori   Éva   Pál Gergő   Ili 
-#>    35    37    33    21    34    40
+#> [1] 11  3  5  4  7
 ```
 
 Az `x` vektorban két hiányzó érték volt, így a fenti értékadás jobb oldalán két elemű vektort használunk. Ha mindkét hiányzó értéket azonos számmal szeretnénk felülírni, akkor elegendő lenne a `x[is.na(x)] <- 7` kifejezés is.
 
-Korábban már említettük a (\@ref(indexelesspecna) alfejeztben, hogy kerüljük az értékadást `NA`-t tartalmazó indexvektor használata esetén. Azonban nem minden esetben tudunk kitérni az ilyen esetek elől. Növeljük meg a hiányzó értékeket tartalmazó `x` vektor azon elemeit 1-gyel, amelyek 36-nál kisebbek! A nyilvánvalónak látszó `x[x < 36] <- x[x < 36] + 1` parancs helytelen, hibaüzenetet ad. Az értékadás mindkét oldalán szükséges az `& !is.na(x)` hozzáfűzése a meglévő logikai kifejezéshez. 
+Korábban már említettük a (\@ref(indexelesspecna). alfejezetben, hogy kerüljük az értékadást `NA`-t tartalmazó indexvektor használata esetén. Azonban nem minden esetben tudunk kitérni az ilyen esetek elől. Növeljük meg a hiányzó értékeket tartalmazó `x` vektor azon elemeit 1-gyel, amelyek 36-nál kisebbek! A nyilvánvalónak látszó `x[x < 36] <- x[x < 36] + 1` parancs helytelen, hibaüzenetet ad. Az értékadás mindkét oldalán a logikai kifejezésekhez fűzzük hozzá a `& !is.na(x)` kifejezést, így tudjuk az `NA` értékeket eltávolítani az értékadás mindkét oldaláról. 
 
 
 ```r
@@ -1902,8 +2266,7 @@ Egy vektor elemeit növekvő vagy csökkenő sorrendbe rendezhetjük. Az R-ben a
 
 
 ```r
-x <- c(1:5, 5:3)
-x
+x <- c(1:5, 5:3); x
 #> [1] 1 2 3 4 5 5 4 3
 sort(x)               # x elemei növekvő sorrendben
 #> [1] 1 2 3 3 4 4 5 5
@@ -1919,12 +2282,13 @@ A vektor rendezésének másik módja az `order()` függvényhez kapcsolódik. A
 
 
 ```r
-x <- c(1:5, 5:3)
-order(x)
+x <- c(1:5, 5:3); x
+#> [1] 1 2 3 4 5 5 4 3
+order(x)                    # indexekkel tér vissza
 #> [1] 1 2 3 8 4 7 5 6
-x[order(x)]
+x[order(x)]                 # azonos a sort(x)-szel
 #> [1] 1 2 3 3 4 4 5 5
-x[order(x, decreasing=T)];
+x[order(x, decreasing=T)]   # azonos a sort(x, decreasing=T)-val
 #> [1] 5 5 4 4 3 3 2 1
 ```
 
@@ -1932,10 +2296,29 @@ Az `order()` függvény esetében is használhatjuk a `decreasing=` paramétert,
 
 A numerikus vektorokon túl a karakteres és logikai vektorokat is sorba rendezhetjük a `sort()` és `order()` függvényekkel.
 
-#### Részösszefoglalás {#az-r-nyelv-5-summary}
+#### Összefoglalás {#az-r-nyelv-5-summary}
 
 <div class="rmdsummary">
-<p>Gratulálunk! Maratoni alfejezetünk végigolvasásával jelentős lépést tett meg az Olvasó a magabiztos R ismeretek megszerzéséhez. A vektor minden adatelemzési munka alapja, biztos kezelése kulcsfontosságú. Tetszőleges vektor létrehozásához a <code>c()</code> függvényt használhatjuk, és az elemeket akár nevesíthetjük is. Szabályos vektort a <code>seq()</code>, <code>seq_along()</code> és a <code>rep()</code> függvénnyel, vagy a kettőspont (<code>:</code>) operátorral készíthetünk. Megbeszéltük a vektorok közötti műveletek végrehajtásának fő szabályát: ismétléssel hozzuk azonos hosszra a vektorokat ha szükséges, majd koordinátánként végezzük el a kívánt műveletet. A vektorokat támogatják a matematikai függvények is, minden vektorelemre meghívódik a függvény. A statisztikai függvények szintén vektort várnak, de többnyire egy értéket szolgáltatnak. A vektorok típusának tesztelése az <code>is.*()</code>, a konvertálása pedig az <code>as.*()</code> függvényekkel történik.</p>
+<p>Gratulálunk! Maratoni alfejezetünk végigolvasásával jelentős lépést
+tett meg az Olvasó a magabiztos R ismeretek megszerzéséhez. A vektor
+minden adatelemzési munka alapja, biztos kezelése kulcsfontosságú.
+Tetszőleges vektor létrehozásához a <code>c()</code> függvényt
+használhatjuk, és az elemeket akár nevesíthetjük is. Szabályos vektort a
+<code>seq()</code>, <code>seq_along()</code>, <code>rep()</code> és a
+<code>paste()</code> függvénnyel, vagy a kettőspont (<code>:</code>)
+operátorral készíthetünk. Megbeszéltük a vektorok közötti műveletek
+végrehajtásának fő szabályát: ismétléssel hozzuk azonos hosszra a
+vektorokat ha szükséges, majd koordinátánként végezzük el a kívánt
+műveletet. A vektorokat támogatják a matematikai függvények is, minden
+vektorelemre meghívódik a függvény. A statisztikai függvények szintén
+vektort várnak, de többnyire egy értéket szolgáltatnak. A vektorok
+típusának tesztelése az <code>is.*()</code>, a konvertálása pedig az
+<code>as.*()</code> függvényekkel történik. A vektorok indexelésével
+(<code>vektor[indexvektor]</code>) a vektor elemeit pozíció alapján, a
+vektorok szűrésével (<code>vektor[logikai-indexvektor]</code>) a vektor
+elemeit érték alapján érhetjük el vagy módosíthatjuk. A vektorok
+rendezését a <code>sort()</code> és az <code>order()</code> függvénnyel
+is elvégezhetjük.</p>
 </div>
 
 #### Feladatok {#az-r-nyelv-5-exercise}
@@ -1956,17 +2339,22 @@ A numerikus vektorokon túl a karakteres és logikai vektorokat is sorba rendezh
 1. Hozzuk létre azt a numerikus vektort, amely a 2, 3, 5 elemeket helyben megismétli úgy, hogy a 2-őt 4-szer, a 3-at 5-ször és az 5-öt 7-szer ismétli meg! Hány elemű az így létrejött vektor?
 1. Szabályos vektorok létrehozásának van egy korábban még nem említett módja: a `sequence()` függvény. Ismerjük meg a súgóból ezt a függvényt, és értelmezzük a `sequence(4)` és `sequence(c(4,5))` függvényhívásokat!
 1. Vektorok létrehozásának számos módját megismertük ebben a fejezetben, de elemek megadása nélkül, vagy akár nulla hosszúsággal is létrehozhatunk vektort. A `double()`, `integer()`, `character()` és `logical()` függvények közvetlenül az adott típusnak megfelelő vektort hozzák létre. A súgó tanulmányozásával állítsunk elő 0 és 10 elemű vektor objektumokat mind a négy típus esetén.
-1. Próbáljuk ki az \@ref(tab:statfuggvenyek) táblázatban szereplő példákat.
-
+1. Próbáljuk ki az \@ref(tab:statfuggvenyek). táblázatban szereplő példákat.
+1. Hozzuk létre a `'Peti'=5, 'Bori'=NA, 'Éva'=3, 'Pál'=NA, 'Gergő'=5, 'Ili'=4` adatokat tartalmazó vektort, majd rendezzük, indexeljük az első és az utolsó elemét, válogassuk le az 5-ös értékeket, csökkentsük mindegyik értéket 1-gyel, csak az 5-öket csökkentsük 1-gyel.
 </div>\EndKnitrBlock{rmdexercise}
+
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-5-exercise-solution)
+
+
 
 ### Mátrix
 
-A mátrix adatszerkezet egyetlen lényeges dologban különbözik a vektortól, a mátrix kétdimenziós, sorokba és oszlopokba szervezi az elemeket, míg a vektor egydimenziós (érdemes visszalapozni a \@ref(fig:adatszerkezetek-1) ábrához). A mátrix ugyanúgy homogén, mint a vektor, ennek megfelelően beszélünk *double*, *integer*, *karakteres* és *logikai* mátrixokról.
+A mátrix adatszerkezet egyetlen lényeges dologban különbözik a vektortól: a mátrix kétdimenziós, sorokba és oszlopokba szervezi az elemeket, míg a vektor egydimenziós (érdemes visszalapozni a \@ref(fig:adatszerkezetek-1). ábrához). A mátrix ugyanúgy homogén, mint a vektor, ennek megfelelően beszélünk *double*, *integer*, *karakteres* és *logikai* mátrixokról.
 
 #### Mátrix létrehozása
 
-Mátrix létrehozásához a `matrix()` függvényt használjuk ki, amely egy kiinduló vektor elemeit használja fel a mátrix feltöltéséhez. A `data=` argumentumban kell megadnunk ezt a vektort, majd az `nrow=` és/vagy `ncol=` argumentumokban közöljük a sorok és oszlopok számát.  
+Mátrix létrehozásához a `matrix()` függvényt használjuk, amely egy kiinduló vektor elemeit használja fel a mátrix feltöltéséhez. A `data=` argumentumban kell megadnunk a kiinduló vektort, majd az `nrow=` és/vagy `ncol=` argumentumokban közöljük a sorok és oszlopok számát.  
 
 
 ```r
@@ -1999,13 +2387,13 @@ x
 #> [4,]    4    8   12   16   20    4    8   12   16    20
 ```
 
-Az `ncol=5` szerepeltetése nem jelent változást az előző példához képest, az `x` mátrix 4 sort és 5 oszlopot fog tartalmazni, rövidebben 4 $\times$ 5-ös. A következő sorban az `ncol=10` argumentum már egy 40 elemű mátrix létrehozását kezdeményezi, így az `1:20` vektor ismétlésével állnak elő a szükséges elemek. (Figyelmeztetést kapunk, ha a szükséges mátrixelemszám eléréséhez nem egész számszor kell ismételni a kiinduló vektort, de a mátrix ebben az esetben is létre fog jönni.)
+Az `ncol=5` szerepeltetése nem jelent változást az előző példához képest, az `x` mátrix 4 sort és 5 oszlopot fog tartalmazni, rövidebben 4 $\times$ 5-ös. A következő sorban az `ncol=10` argumentum már egy 40 elemű mátrix létrehozását kezdeményezi (4 $\times$ 10-es), így az `1:20` vektor ismétlésével állnak elő a szükséges elemek. (Figyelmeztetést kapunk, ha a szükséges mátrixelemszám eléréséhez nem egész számszor kell ismételni a kiinduló vektort, de a mátrix ebben az esetben is létre fog jönni.)
 
-A fenti példában azt is megfigyelhetjük, hogy a 20 elemű vektorból oszlopfolytonosan jön létre a mátrix, vagyis először az első oszlop töltődik fel a vektorelemekkel, majd a második, és így tovább. Ha sorfolytonosan szeretnénk a bemenő vektor elemeiből mátrixot képezni, akkor a `byrow=` paramétert igazra kell állítanunk.
+A fenti példában azt is megfigyelhetjük, hogy a 20 elemű vektorból oszlop-folytonosan jön létre a mátrix, vagyis először az első oszlop töltődik fel a vektorelemekkel, majd a második, és így tovább. Ha sor-folytonosan szeretnénk a bemenő vektor elemeiből mátrixot képezni, akkor a `byrow=` paramétert igazra kell állítanunk.
 
 
 ```r
-x <- matrix(1:12, nrow=3, byrow=T)    # 3x4-es integer mátrix
+x <- matrix(1:12, nrow=3, byrow=T)  # 3x4-es integer mátrix, sor-folytonosan
 x
 #>      [,1] [,2] [,3] [,4]
 #> [1,]    1    2    3    4
@@ -2041,9 +2429,9 @@ x
 #>        sor.2      0      0      0
 ```
 
-A `dimnames=` argumentum a dimenzió-, sor- és oszlopneveket listába rendezve várja. A listákról a \@ref(listadefalf) fejezetben olvashatunk. A sor- és oszlopnevek megadásánál tartsuk be az objektumok elnevezésével kapcsolatos szabályokat, azaz betűvel kezdjünk, kerüljük a szóközt és egyéb írásjeleket, de tagolásra a pontot használjuk.  
+A `dimnames=` argumentum a dimenzió-, sor- és oszlopneveket listába rendezve várja. A listákról a \@ref(listadefalf). fejezetben olvashatunk. A sor- és oszlopnevek megadásánál tartsuk be az objektumok elnevezésével kapcsolatos szabályokat, azaz betűvel kezdjünk, kerüljük a szóközt és egyéb írásjeleket, tagolásra a pontot használjuk.  
 
-Létező mátrix esetén a `rownames()` és a `colnames(x)` függvényekkel tudjuk a sor- és oszlopneveket lekérdezni, illetve módosítani.
+Létező mátrix esetén a `rownames()` és a `colnames()` függvényekkel tudjuk a sor- és oszlopneveket lekérdezni, illetve módosítani. Az egyes dimenziónevek módosítására a `names(dimnames(x))` konstrukciót használhatjuk.
 
 
 ```r
@@ -2058,6 +2446,12 @@ x
 #> 1. dim. neve o.1 o.2 o.3
 #>       eset.1   0   0   0
 #>       eset.2   0   0   0
+names(dimnames(x)) <- c("esetek", "oszlopok") # dimenziónevek módosítása
+x
+#>         oszlopok
+#> esetek   o.1 o.2 o.3
+#>   eset.1   0   0   0
+#>   eset.2   0   0   0
 ```
 
 
@@ -2066,9 +2460,10 @@ x
 A mátrixok indexelése nagyon hasonló a vektorok indexeléséhez. Itt is az index operátort (`[]`) kell használnunk, de a két dimenzió miatt vesszővel választjuk el a sorra és az oszlopra vonatkozó indexeket. Mátrix indexelésének általános alakja:
 
 ```markdown
-mátrix[sorindexvektor, oszlopindexvektor] # az eredmény egy mátrix vagy egy vektor
+# mátrix indexelése, az eredmény egy mátrix vagy egy vektor
+mátrix[sor-indexvektor, oszlop-indexvektor]
 ```
-A sorinedexvektorra és az oszlopindexvektorra ugyanazok a szabályok érvényesek, mint vektor esetén az indexvektorra. Használhatunk numerikus, karakteres és logikai egy vagy több elemű vektort, numerikus idexeknél negatív értéket, és természetesen el is hagyhatjuk az egyes dimenziók indexvektorait. Nézzünk ezekre néhány példát.
+A sor-indexvektorra és az oszlop-indexvektorra ugyanazok a szabályok érvényesek, mint vektor esetén az indexvektorra. Használhatunk numerikus, karakteres és logikai egy vagy több elemű vektort, numerikus indexeknél negatív értéket, és természetesen el is hagyhatjuk az egyes dimenziók indexvektorait. Nézzünk ezekre néhány példát.
 
 
 ```r
@@ -2077,21 +2472,21 @@ x
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]    1    2    3    4    5
 #> [2,]    6    7    8    9   10
-x[2, 3]                     # 1 elem elérése, vektor output
+x[2, 3]                 # 1 elem elérése, vektor output
 #> [1] 8
-x[2, c(1,4)]                # 2 elem elérése, vektor
+x[2, c(1,4)]            # 2 elem elérése, vektor output
 #> [1] 6 9
-x[, c(1,4)]                 # 4 elem elérése, 2x2-es mátrix 
+x[, c(1,4)]             # 4 elem elérése, 2x2-es mátrix output
 #>      [,1] [,2]
 #> [1,]    1    4
 #> [2,]    6    9
-x[, -c(1,4)]                # 6 elem elérése, 2x3-as mátrix
+x[, -c(1,4)]            # 6 elem elérése, 2x3-as mátrix output
 #>      [,1] [,2] [,3]
 #> [1,]    2    3    5
 #> [2,]    7    8   10
-x[1, ]                      # 5 elem elérése, vektor
+x[1, ]                  # 5 elem elérése, vektor output
 #> [1] 1 2 3 4 5
-x[c(2, 1), c(T, F, T)]      # 6 elem elérése, 2x3-as mátrix
+x[c(2, 1), c(T, F, T)]  # 6 elem elérése, 2x3-as mátrix output
 #>      [,1] [,2] [,3]
 #> [1,]    6    8    9
 #> [2,]    1    3    4
@@ -2104,13 +2499,13 @@ A mátrix indexelése során a kapott új adatszerkezetek elveszthetik a kétdim
 x[2, 3, drop=F]             # 1 elem elérése, 1x1-es mátrix output
 #>      [,1]
 #> [1,]    8
-x[2, c(1,4), drop=F]        # 2 elem elérése, 1x2-es mátrix 
+x[2, c(1,4), drop=F]        # 2 elem elérése, 1x2-es mátrix output
 #>      [,1] [,2]
 #> [1,]    6    9
-x[2, , drop=F]              # 5 elem elérése, 1x5-ös mátrix
+x[2, , drop=F]              # 5 elem elérése, 1x5-ös mátrix output
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]    6    7    8    9   10
-x[, 3, drop=F]              # 2 elem elérése, 2x1-es mátrix
+x[, 3, drop=F]              # 2 elem elérése, 2x1-es mátrix output
 #>      [,1]
 #> [1,]    3
 #> [2,]    8
@@ -2122,24 +2517,24 @@ Amennyiben a mátrixunk sor- és oszlopnevekkel is rendelkezik, akkor ezeket is 
 ```r
 x <- matrix(1:10, nrow=2, ncol=5, byrow=T)
 rownames(x) <- c("eset1", "eset2")
-colnames(x) <- paste0("sz.", 1:5)
+colnames(x) <- paste("v", 1:5, sep=".")
 x
-#>       sz.1 sz.2 sz.3 sz.4 sz.5
-#> eset1    1    2    3    4    5
-#> eset2    6    7    8    9   10
-x["eset1", c("sz.2", "sz.1")]     # 2 elem elérése, vektor output
-#> sz.2 sz.1 
-#>    2    1
-x[1:2, c("sz.2", "sz.1")]         # 4 elem elérése, 2x2-es mátrix
-#>       sz.2 sz.1
-#> eset1    2    1
-#> eset2    7    6
-x["eset2", paste0("sz.", 1:3)]    # 3 elem elérése, vektor
-#> sz.1 sz.2 sz.3 
-#>    6    7    8
-x["eset1", c(T,F), drop=F]        # 3 elem elérése, 1x3-as mátrix
-#>       sz.1 sz.3 sz.5
-#> eset1    1    3    5
+#>       v.1 v.2 v.3 v.4 v.5
+#> eset1   1   2   3   4   5
+#> eset2   6   7   8   9  10
+x["eset1", c("v.2", "v.1")]           # 2 elem elérése, vektor output
+#> v.2 v.1 
+#>   2   1
+x[1:2, c("v.2", "v.1")]               # 4 elem elérése, 2x2-es mátrix
+#>       v.2 v.1
+#> eset1   2   1
+#> eset2   7   6
+x["eset2", paste("v", 1:3, sep=".")]  # 3 elem elérése, vektor
+#> v.1 v.2 v.3 
+#>   6   7   8
+x["eset1", c(T,F), drop=F]            # 3 elem elérése, 1x3-as mátrix
+#>       v.1 v.3 v.5
+#> eset1   1   3   5
 ```
 
 
@@ -2182,7 +2577,7 @@ colMeans(x)     # oszlopátlagok, a tantárgyak átlaga
 #> 4.400000 4.366667 3.666667 4.466667
 ```
 
-Általánosabb megoldás, ha az `apply()` függvényt használjuk, amelyben a mátrix soraira vagy oszlopaira vonatkozó függvényt mi határozzuk meg, így az összegzésen és az átlagszámításon kívül más függvényket is elérhetünk. Az `apply()` első paramétere maga a mátrix, a második helyen pedig 1 vagy 2 áll, attól függően, hogy a mátrix soraira (1) vagy oszlopaira (2) akarjuk a harmadik paraméterben szereplő függvényt alkalmazni.
+Általánosabb megoldás, ha az `apply()` függvényt használjuk, amelyben a mátrix soraira vagy oszlopaira vonatkozó függvényt mi határozzuk meg, így az összegzésen és az átlagszámításon kívül más függvényeket is elérhetünk. Az `apply()` első paramétere maga a mátrix, a második helyen pedig 1 vagy 2 áll, attól függően, hogy a mátrix soraira (1) vagy oszlopaira (2) akarjuk a harmadik paraméterben szereplő függvényt alkalmazni.
 
 
 ```r
@@ -2204,6 +2599,25 @@ apply(x, 2, sd)      # oszloponkénti szórások
 apply(x, 2, min)     # oszloponkénti minimumok
 #>  matek magyar  angol   ének 
 #>    3.7    3.8    2.9    4.2
+```
+
+Hiányzó értékek esetén a fenti függvények `NA` értéket adnak eredményül, így itt is szükséges az `na.rm=T` argumentum szerepeltetése.
+
+
+```r
+x["Pál", "matek"] <- NA     # módosítjuk Pál matek jegyét hiányzóra
+rowMeans(x)                 # Pálnál NA lesz   
+#>   Pál   Ili   Éva 
+#>    NA 3.825 4.275
+apply(x, 1, mean)           # Pálnál NA lesz   
+#>   Pál   Ili   Éva 
+#>    NA 3.825 4.275
+rowMeans(x, na.rm=T)        # így jó Pálnál is   
+#>      Pál      Ili      Éva 
+#> 4.866667 3.825000 4.275000
+apply(x, 1, mean, na.rm=T)  # így jó Pálnál is
+#>      Pál      Ili      Éva 
+#> 4.866667 3.825000 4.275000
 ```
 
 
@@ -2258,13 +2672,13 @@ Tetszőleges pozícióba beszúrhatunk egy oszlopot vagy egy sort. Ehhez első l
 
 
 ```r
-cbind(x, 13:16)[, c(1,2,4,3)]
+cbind(x, 13:16)[, c(1,2,4,3)]   # oszlopvektor hozzáfűzése, majd oszlopok indexelése
 #>      [,1] [,2] [,3] [,4]
 #> [1,]    1    5   13    9
 #> [2,]    2    6   14   10
 #> [3,]    3    7   15   11
 #> [4,]    4    8   16   12
-rbind(x, -1)[c(1, 2, 3, 5, 4),]
+rbind(x, -1)[c(1, 2, 3, 5, 4),] # sorvektor hozzáfűzése, majd sorok indexelése
 #>      [,1] [,2] [,3]
 #> [1,]    1    5    9
 #> [2,]    2    6   10
@@ -2273,13 +2687,18 @@ rbind(x, -1)[c(1, 2, 3, 5, 4),]
 #> [5,]    4    8   12
 ```
 
-
 Hasznos lehetőség összesítő sorok vagy oszlopok mátrixhoz fűzése és elnevezése:
 
 
 ```r
-x <- rbind(x,apply(x,2,mean))
-rownames(x) <- c(1:4,"átlag")
+x <- matrix(1:12, nrow=4, ncol=3); x
+#>      [,1] [,2] [,3]
+#> [1,]    1    5    9
+#> [2,]    2    6   10
+#> [3,]    3    7   11
+#> [4,]    4    8   12
+x <- rbind(x,apply(x,2,mean))  # átlag sor hozzáfűzése
+rownames(x) <- c(1:4,"átlag")  # az új sor nevének átírása
 x
 #>       [,1] [,2] [,3]
 #> 1      1.0  5.0  9.0
@@ -2305,10 +2724,17 @@ y <- x[, c(1, 3)]             # a 2. oszlop törlése
 y <- x[c(1, 3), ]             # az 2. és a 4. sor törlése
 ```
 
-#### Részösszefoglalás {#az-r-nyelv-6-summary}
+#### Összefoglalás {#az-r-nyelv-6-summary}
 
 <div class="rmdsummary">
-<p>A mátrix homogén kétdimenziós adatszerkezet, és többnyire a <code>matrix()</code> függvénnyel hozzuk létre. Indexelése a <code>[]</code> operátorral történik, ahol sor- és oszlopindex megadásra van lehetőségünk.</p>
+<p>A mátrix homogén kétdimenziós adatszerkezet, és többnyire a
+<code>matrix()</code> függvénnyel hozzuk létre, de használhatjuk a
+<code>cbind()</code> és <code>rbind()</code> függvényeket is. Mátrix
+indexelése a <code>[,]</code> operátorral történik, ahol sor- és
+oszlopindex megadásra van lehetőségünk. A mátrix sorain vagy oszlopain
+külön-külön is tudunk műveleteket végezni az <code>apply()</code>
+függvénnyel, a sor- és oszlopneveket a <code>rownames()</code> és a
+<code>colnames()</code> függvénnyel kezelhetjük.</p>
 </div>
 
 #### Feladatok {#az-r-nyelv-6-exercise}
@@ -2318,22 +2744,23 @@ y <- x[c(1, 3), ]             # az 2. és a 4. sor törlése
 1. Hozzunk létre egy 3 $\times$ 4-es karakteres mátrixot, amely 12 különbüző keresztnevet tartalmaz!
 1. Hozzunk létre egy 3 $\times$ 4-es logikai mátrixot, amelynek 1. és 3. sora `TURE` a 2. sora pedig `FALSE` értékeket tartalmaz!
 1. Mátrixok indexelésére olyan speciális indexmátrix is használható, amelynek két oszlopa van, és az elérendő elemek sor- és oszlopkoordinátáit tartalmazza. Mutassunk példát erre a `mátrix[indexmátrix]` alakú mátrixindexelésre!
-  
-
 </div>\EndKnitrBlock{rmdexercise}
+
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-6-exercise-solution)
 
 
 ### Faktor
 
-A faktor adattípus nagyon hasonló a vektorhoz, ugyanis minden faktor egy speciális *integer* vektor, a faktor tehát homogén és egydimenziós adatszerkezet. Faktorokat elsősorban kategorikus változók értékeinek tárolására használjuk, ilyen például a személyek neme vagy iskolai végzettsége. A faktor egy lényeges ponton több mint egy egyszerű *integer* vektor. A faktor karbantart egy összerendelést az 1-gyel kezdődő numerikus egészek és a faktor lehetséges karakteres értékei, a címkék között (az \@ref(fig:adatszerkezetek-1) ábrán ezt egy piros kis téglalappal jelöltük). Egy faktorelem értéke csak ezekből a címkékből kerülhet ki, ami nagy fokú védelmet jelent számunkra az adatkezelés során. Ha például létrehozunk egy faktort az (1-`"férfi"`, 2-`"nő"`) összerendeléssel, akkor egy faktorelem csak a `"férfi"` vagy `"nő"` címkéket veheti fel, más értéket nem (az `NA` hiányzó érték termésetesen lehet faktorelem értéke). A munka során mindig a címkékkel találkozunk, a háttérben lévő numerikus egészek csak ritkán kapnak szerepet. 
+A faktor adattípus nagyon hasonló a vektorhoz, ugyanis minden faktor egy speciális *integer* vektor, a faktor tehát homogén és egydimenziós adatszerkezet. Faktorokat elsősorban kategorikus változók értékeinek tárolására használjuk, ilyen például a személyek neme vagy iskolai végzettsége. A faktor egy lényeges ponton több mint egy egyszerű *integer* vektor. A faktor karbantart egy összerendelést az 1-gyel kezdődő numerikus egészek és a faktor lehetséges karakteres értékei, a címkék között (az \@ref(fig:adatszerkezetek-1). ábrán ezt egy piros kis téglalappal jelöltük). Egy faktorelem értéke csak ezekből a címkékből kerülhet ki, ami nagy fokú védelmet jelent számunkra az adatkezelés során. Ha például létrehozunk egy faktort az (1-`"férfi"`, 2-`"nő"`) összerendeléssel, akkor egy faktorelem csak a `"férfi"` vagy `"nő"` címkéket veheti fel, más értéket nem (az `NA` hiányzó érték természetesen lehet faktorelem értéke is). A munka során mindig a címkékkel találkozunk, a háttérben lévő numerikus egészek csak ritkán kapnak szerepet. 
 
 #### Faktor létrehozása
 
-A faktorokat jellemzően karakteres vagy numerikus vektorokból hozzuk létre a `factor()` függvény segítségével. A faktor létrehozásánál mindig gondoskodjunk a faktor lehetséges értékeinek, vagyis a faktor címkéiknek megadásáról. A címkéket néha (faktor)szinteknek (levels) is nevezzük. Mivel a kategorikus változóink lehetséges értékei többnyire ismertek az adatkezelés elején, a faktorszintek felsorolása nem okozhat nehézséget. Most hozzunk létre egy faktort, amely öt személy nemét tartalmazza.
+A faktorokat jellemzően karakteres vagy numerikus vektorokból hozzuk létre a `factor()` függvénnyel. A faktor létrehozásánál mindig gondoskodjunk a faktor lehetséges értékeinek, vagyis a faktor címkéiknek megadásáról. A címkéket néha (faktor)szinteknek (levels) is nevezzük. Mivel a kategorikus változóink lehetséges értékei többnyire ismertek az adatkezelés elején, a faktorszintek felsorolása nem okozhat nehézséget. Most hozzunk létre egy faktort, amely öt személy nemét tartalmazza.
 
 
 ```r
-x <- c("férfi", "férfi", "nő", "férfi", "nő")  # karakteres vektor lérehozása
+x <- c("férfi", "férfi", "nő", "férfi", "nő")  # karakteres vektor létrehozása
 x.f <- factor(x, levels=c("férfi", "nő"))      # faktor létrehozása
 x.f                                            # faktor kiíratása
 #> [1] férfi férfi nő    férfi nő   
@@ -2356,7 +2783,7 @@ x.f
 
 A fenti `x.f` faktor ugyanannak az 5 személynek a nemét tartalmazza, de az összerendelést a `levels=c("nő", "férfi")` paraméterrel (1-`"nő"`, 2-`"férfi"`)-re változtattuk. Láthatjuk, a címkék sorrendje a faktor értékeitől független, mégis fontos szerepet kap majd a táblázatok és ábrák megjelenítésénél, tehát érdemes rá odafigyelni.
 
-A `levels=` argumentum szerepeltetése a `factor()` függvényben sok kellemtlenségtől kímélhet meg minket. Ha elhagyjuk, akkor a `factor()` függvény a karakteres vektorban aktuálisan rendelkezésre álló értékekből konstruálja meg a faktort. Nézzünk erre három esetet.
+A `levels=` argumentum szerepeltetése a `factor()` függvényben sok kellemetlenségtől kímélhet meg minket. Ha elhagyjuk, akkor a `factor()` függvény a karakteres vektorban aktuálisan rendelkezésre álló értékekből konstruálja meg a faktort. Nézzünk erre három esetet.
 
 
 ```r
@@ -2402,11 +2829,28 @@ x <- c(1, 1, 0, 1, 0)     # numerikus vektor létrehozása, 0-nő, 1-férfi
 #> Levels: férfi nő
 ```
 
-A fenti példában látható, hogy a `levels=` értékeinek sorrendje vezérli az elnevezést, a 0 mindkét esetben `"nő"`, az 1 `"férfi"` címkéhez fog vezetni. Az `x.f.1` és `x.f.2` faktorok mindössze a háttérben lévő összerendelésben különböznek, első esetben az (1-`"nő"`, 2-`"férfi"`), míg második esetben az (1-`"férfi"`, 2-`"nő"`) lesz a faktorszintek sorrendje.
+A fenti példában látható, hogy a `levels=` értékeinek sorrendje vezérli az elnevezést, a 0 mindkét esetben `"nő"`, az 1 `"férfi"` címkéhez fog vezetni. Az `x.f.1` és `x.f.2` faktorok mindössze a háttérben lévő összerendelésben különböznek, első esetben az (1-`"nő"`, 2-`"férfi"`), míg második esetben az (1-`"férfi"`, 2-`"nő"`) lesz a faktorszintek sorrendje. Vegyük észre, hogy az eredeti 0 (`nő`) és 1 (`férfi`) értékek a faktorban már eltűnnek, szerepüket a címkék veszik át (`nő`, `férfi`) és az azok alapját jelentő 1-től sorszámozott integer vektorok. 
+
+#### Rendezett faktor
+
+A kategorikus változók két csoportját különböztetjük meg, a nominális változókat -- ilyen volt az eddig látott *nem* változó --, és az ordinális változókat. Ez utóbbira példa az iskolai végzettség, mert ennek lehetséges értékei (alap, közép és felső értékekkel) sorba rendezhetők. Ha a változó szintjei közötti rendezettséget szeretnénk az R-ben is kifejezni, akkor rendezett faktort érdemes használni. Az eddigi `factor()` függvény is alkalmas az `ordered = T` argumentum használatával, de az `ordered()` függvényt is használhatjuk rendezett faktor létrehozására. 
+
+
+```r
+# rendezett faktor létrehozása
+x <- c("felső", "közép", "alap", "közép", "felső")
+x.f <- ordered(x = x, levels=c("alap", "közép", "felső"))
+x.f
+#> [1] felső közép alap  közép felső
+#> Levels: alap < közép < felső
+```
+
+Az `ordered()` függvénnyel létrehozott rendezett faktor outputjában a szintek között a rendezettséget a kisebb (`<`) jelek teszik hangsúlyossá, de a függvény használata nem tér el a korábban látott `factor()` függvénytől.
+
 
 #### Szabályos faktor létrehozása
 
-Ismétlést tartalmazó faktorokat a `gl()` függvénnyel is létrehozhatunk. Tipikusan a szintek (`n=`) számát, az ismétlések számát (`k=`) és a címkéket (`labels=`) szoktuk megadni.
+Ismétlést tartalmazó faktorokat a `gl()` függvénnyel is létrehozhatunk. Tipikusan a szintek (`n=`) számát, az ismétlések számát (`k=`) és a címkéket (`labels=`) szoktuk megadni. Rendezett faktort az `ordered = T` argumentummal készíthetünk.
 
 
 ```r
@@ -2416,11 +2860,14 @@ Ismétlést tartalmazó faktorokat a `gl()` függvénnyel is létrehozhatunk. Ti
 (x.f <- gl(n = 3, k = 2, labels=c("alap", "közép", "felső")))
 #> [1] alap  alap  közép közép felső felső
 #> Levels: alap közép felső
+(x.f <- gl(n = 3, k = 2, labels=c("alap", "közép", "felső"), ordered=T))
+#> [1] alap  alap  közép közép felső felső
+#> Levels: alap < közép < felső
 ```
 
 #### Faktor indexelése és szűrése
 
-Faktor indexelése a `[]` operátorral történik. Indexvektorként numerikus, karakteres és logikai vektorokat is használhatunk. Faktor indexelésének átalános alakja:
+Faktor indexelése a `[]` operátorral történik. Indexvektorként numerikus, karakteres és logikai vektorokat is használhatunk. Faktor indexelésének általános alakja:
 
 ```markdown
 faktor[indexvektor]     # az eredmény egy faktor
@@ -2453,9 +2900,9 @@ x.f[x.f != "D"]    # x szűrése (a nem dohányzók)
 #> Levels: ND D
 ```
 
-Az indexelés eredménye minden esetben egy faktor lesz, amelynek szintjei alapesetben megegyeznek az eredeti faktor szintjeivel. A `drop=T` argumentum a nem használt címkéket eltávolítja a faktorszintek közül. Logika kifejezéseket is használhatunk az indexelés során, azaz szűrést is végezhetünk, de vegyük figyelembe, hogy faktor esetén csak két relációs operátor használható, az egyenlő (`==`) és nem egyenlő (`!=`). 
+Az indexelés eredménye minden esetben egy faktor lesz, amelynek szintjei alapesetben megegyeznek az eredeti faktor szintjeivel. A `drop=T` argumentum a nem használt címkéket eltávolítja a faktorszintek közül. Logika kifejezéseket is használhatunk az indexelés során, azaz szűrést is végezhetünk. 
 
-Indexelt faktor természetesen érékadás bal oldalán is szereplhet. A faktor adatszerkezet megvéd minket az értékadások során, hiszen egy faktorelem csak a faktorszintekben szereplő értékek egyikét veheti fel.
+Indexelt faktor természetesen érékadás bal oldalán is szerepelhet. A faktor adatszerkezet megvéd minket az értékadások során, hiszen egy faktorelem csak a faktorszintekben szereplő értékek egyikét veheti fel.
 
 
 
@@ -2474,7 +2921,7 @@ Mivel a `"nem dohányzik"` címke nem szerepel a faktorszintek között, az `x.f
 
 #### Faktorok kezelése
 
-A faktorok kényelmes használatát két további függvény segíti. Az `nlevels()` függvénnyel a faktorszintek számát ismerhetjük meg, a `levels()` függvénnyel lekérdezhetők és módosíthatók a faktorszintek. Nézzünk egy példát az iskolai végzettségel kapcsolatban. Összesen 7 személyről tudjuk, hogy alap-, közép- vagy felsőfokú végzettségű, de az egyszerűbb rögzítés miatt indulásként ezt az információt számokkal kódoltuk (1-alap, 2-közép, 3-felső).   
+A faktorok kényelmes használatát két további függvény segíti. Az `nlevels()` függvénnyel a faktorszintek számát ismerhetjük meg, a `levels()` függvénnyel pedig lekérdezhetők és módosíthatók a faktorszintek. Nézzünk egy példát az iskolai végzettséggel kapcsolatban. Összesen 7 személyről tudjuk, hogy alap-, közép- vagy felsőfokú végzettségű, de az egyszerűbb rögzítés miatt indulásként ezt az információt számokkal kódoltuk (1-alap, 2-közép, 3-felső).   
 
 
 ```r
@@ -2498,10 +2945,20 @@ isk.vegz.f                              # a faktor értéke
 
 Az `isk.vegz.f` faktort az `"1"`, `"2"` és `"3"` címkékkel hoztuk létre, de később a `levels()` függvénnyel beszédesebb faktorszinteket hoztunk létre.
 
-#### Részösszefoglalás {#az-r-nyelv-7-summary}
+#### Összefoglalás {#az-r-nyelv-7-summary}
 
 <div class="rmdsummary">
-<p>A faktor olyan <em>integer</em> vektor, amely az 1-től sorszámozott értékeihez egy-egy karakteres címkét rendel. Ezek a címkék alkotják a faktorelemek lehetséges értékeit, amelyeket másnéven faktorszinteknek is neveznek. A faktor létrehozásához a <code>factor()</code> függvényt használjuk, és karakteres vektor konstansaiból vagy numerikus vektor címkeként kezelt számértékeiből jönnek létre a faktor lehetséges értékei.</p>
+<p>A faktor olyan <em>integer</em> vektor, amely az 1-től sorszámozott
+értékeihez egy-egy karakteres címkét rendel. Ezek a címkék alkotják a
+faktorelemek lehetséges értékeit, amelyeket más néven faktorszinteknek
+is neveznek. A faktor létrehozásához a <code>factor()</code> függvényt
+használjuk és karakteres vektor konstansaiból vagy numerikus vektor
+címkeként kezelt számértékeiből jönnek létre a faktor lehetséges
+értékei. Rendezett faktorok szintjei között létezik egy természetes
+rendezettség, létrehozásukhoz az <code>ordered()</code> függvényt
+használjuk. Az <code>nlevels()</code> függvény a faktorszintek számát
+adja meg, míg a <code>levels()</code> a szintek nevének lekérdezését és
+módosítását szolgálja.</p>
 </div>
 
 #### Feladatok {#az-r-nyelv-7-exercise}
@@ -2509,18 +2966,19 @@ Az `isk.vegz.f` faktort az `"1"`, `"2"` és `"3"` címkékkel hoztuk létre, de 
 \BeginKnitrBlock{rmdexercise}<div class="rmdexercise">
 1. Hozzuk létre azt a karakteres vektort, amely a férfi, nő karakteres konstansokat, úgy helyezi el egymás mellett, hogy a 7 darab férfi érték után 13 db nő címke következik! Hány elemű az így létrejött vektor?
 1. Egy vizsgálatban az első 10 személy neme férfi, a többi 8 neme nő volt. Hozzuk létre azt a faktort, amely leírja a neme változót!
-1. Egy vizsgálatban városi ("V") és falusi ("F") fiatalok vettek részt! A megkérdezettek településtípusa rendre a következő volt: F, F, V, F , V, V, V, F. Hozzuk létre azt a faktort, amely leírja a településtípus változót!
+1. Egy vizsgálatban városi ("V") és falusi ("F") fiatalok vettek részt! A megkérdezettek településtípusa rendre a következő volt: F, F, V, F, V, V, V, F. Hozzuk létre azt a faktort, amely leírja a településtípus változót!
 1. Egy vizsgálatban a dohányzási szokást egy kétértékű skálán mérték: 0-nem dohányzik; 1-dohányzik. A megkérdezettek dohányzási szokása a következő volt: 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0. Hozzuk létre azt a faktort, amely leírja a dohányzási szokás változót!
 
 </div>\EndKnitrBlock{rmdexercise}
 
 
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-7-exercise-solution)
 
 
 
 ### Lista {#listadefalf}
 
-Az eddig megismert vektor, mátrix és faktor adatszerkezet mindegyike homogén volt, csak azonos típusú értékek tárolására használhatjuk őket. A lista típusú adatokban különböző adatszerkezetű elemeket is felsorolhatunk, de sem a típusra, sem a méretre nincs korlátozás. Egy listaelem lehet vektor, mátrix, faktor, adattábla vagy akár egy másik lista is (\@ref(fig:adatszerkezetek-1) ábra). Látható, hogy a lista az R legszabadabb adatszerkezete, egydimenziós, és a célja a logikailag összetartozó, de szerkezetileg különböző adatok tárolása. 
+Az eddig megismert vektor, mátrix és faktor adatszerkezet mindegyike homogén volt, csak azonos típusú értékek tárolására használhatjuk őket. A lista típusú adatokban különböző adatszerkezetű elemeket is felsorolhatunk, de sem a típusra, sem a méretre nincs korlátozás. Egy listaelem lehet vektor, mátrix, faktor, adattábla vagy akár egy másik lista is (\@ref(fig:adatszerkezetek-1). ábra). Látható, hogy a lista az R legszabadabb adatszerkezete, egydimenziós, és fő célja a logikailag összetartozó, de szerkezetileg különböző adatok tárolása. 
 
 #### Lista létrehozása
 
@@ -2565,7 +3023,7 @@ x
 
 #### Lista indexelése
 
-Egy lista indexelése a már megszokot `[]` indexoperátorral történik, amelyben továbbra is lehetőségünk van numerikus, karakteres és logikai indexvektor megadására is. 
+Egy lista indexelése a már megszokott `[]` indexoperátorral történik, amelyben továbbra is lehetőségünk van numerikus, karakteres és logikai indexvektor megadására is. 
 
 
 ```r
@@ -2642,7 +3100,7 @@ lista$elemnév          # az eredmény a lista egy eleme
 
 #### Művelet a listaelemekkel
 
-Egy lista mindem elemével az `lapply()` vagy az `sapply()` függvény segítségével hajthatunk végre műveletet. 
+Egy lista minden elemével az `lapply()` vagy az `sapply()` függvény segítségével hajthatunk végre műveletet. 
 
 
 ```r
@@ -2662,10 +3120,14 @@ sapply(X=x, FUN=length) # az x lista minden elemének a hossza egy vektorba
 
 Az `lapply()` a bemenő lista elemszámával egyező méretű listával tér vissza, melynek értékei az második paraméterben szereplő függvény visszatérési értékei. Az `sapply()` hasonlóan jár el, de a visszatérési értéke egy vektor.
 
-#### Részösszefoglalás {#az-r-nyelv-8-summary}
+#### Összefoglalás {#az-r-nyelv-8-summary}
 
 <div class="rmdsummary">
-<p>A lista az R legszabadabb adatszerkezete, egydimenziós és inhomogén. Listát a <code>list()</code> függvénnyel hozhatunk létre, melynek argumentumában tetszőleges adatszerkezetű objektumokat felsorolhatunk, ezek alkotják a lista egyes elemeit. Lista indexelése a <code>[]</code>, <code>[[]]</code> és <code>$</code> operátorokkal is lehetséges.</p>
+<p>A lista az R legszabadabb adatszerkezete, egydimenziós és inhomogén.
+Listát a <code>list()</code> függvénnyel hozhatunk létre, melynek
+argumentumában tetszőleges adatszerkezetű objektumokat felsorolhatunk,
+ezek alkotják a lista egyes elemeit. Lista indexelése a <code>[]</code>,
+<code>[[]]</code> és <code>$</code> operátorokkal is lehetséges.</p>
 </div>
 
 #### Feladatok {#az-r-nyelv-8-exercise}
@@ -2678,12 +3140,12 @@ Az `lapply()` a bemenő lista elemszámával egyező méretű listával tér vis
 </div>\EndKnitrBlock{rmdexercise}
 
 
-
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-8-exercise-solution)
 
 
 ### Adattábla
 
-Az adattábla (data frame) az R legfontosabb adatszerkezete, központi szerepet játszik az adatfeldolgozásban, lényegében minden statisztikai munka kiindulópontja. Inhomogén, kétdimenziós szerkezet, sorok és oszlopok alkotják, alapvetően azonos hosszúságú vektorokból és faktorokból épül fel (\@ref(fig:adatszerkezetek-1) ábra). Az adattábla egyesíti a mátrix és a lista adatszerkezet előnyeit. Az adattábla kétdimenziós, mint a mátrix, és inhomogén, mint a lista. Ha mátrixként tekintünk az adattáblára, akkor sorokból és oszlopokból áll, ha listaként, akkor azonos hosszúságú (oszlop)vektorok/faktorok egydimenziós sorozata.
+Az *adattábla* (*data frame*) az R legfontosabb adatszerkezete, központi szerepet játszik az adatfeldolgozásban, lényegében minden statisztikai munka kiindulópontja. Inhomogén, kétdimenziós szerkezet, sorok és oszlopok alkotják, alapvetően azonos hosszúságú vektorokból és faktorokból épül fel (\@ref(fig:adatszerkezetek-1). ábra). Az adattábla egyesíti a mátrix és a lista adatszerkezet előnyeit. Az adattábla kétdimenziós, mint a mátrix, és inhomogén, mint a lista. Ha mátrixként tekintünk az adattáblára, akkor sorokból és oszlopokból áll, ha listaként, akkor azonos hosszúságú (oszlop)vektorok/faktorok egydimenziós sorozata.
 
 #### Adattábla létrehozása
 
@@ -2702,7 +3164,7 @@ df      # adattábla kiírása
 #> 3 Lajos   29
 ```
 
-A fenti `df` adattáblát egy 3 elemű karakteres vektorból, és egy 3 elemű numerikus vektorból hoztuk létre. A `data.frame()` függvénynek ezt a két vektort adtuk meg, ennek megfelelően két oszlopa lesz az adattáblának. Mindkét vektor 3 elemű, így 3 sor lesz a `df`-ben. Adattábálánk így 3 $\times$ 2-es. Mindkét argumentumokat elneveztük (`nev`, `pont`), ezekből oszlopnevek lesznek. Az oszlopok elnevezéséhez az objektumokneveknél használt szabályokat vegyük figyelembe (\@ref(objektumelnevezes) fejezet), és ne használjunk ékezetes karaktereket és szóközt. A fenti outputból kiolvasható, hogy az adattábla sornevekkel is rendelkezik, ezek automatikusan jönnek létre 1-től kezdődő sorszámmal. 
+A fenti `df` adattáblát egy 3 elemű karakteres vektorból, és egy 3 elemű numerikus vektorból hoztuk létre. A `data.frame()` függvénynek ezt a két vektort adtuk meg, ennek megfelelően két oszlopa lesz az adattáblának. Mindkét vektor 3 elemű, így 3 sor lesz a `df`-ben. Adattáblánk így 3 $\times$ 2-es. Mindkét argumentumot elneveztük (`nev`, `pont`), ezekből oszlopnevek lesznek. Az oszlopok elnevezéséhez az objektumneveknél használt szabályokat vegyük figyelembe (\@ref(objektumelnevezes). fejezet), és ne használjunk ékezetes karaktereket és szóközt. A fenti outputból kiolvasható, hogy az adattábla sornevekkel is rendelkezik, ezek automatikusan jönnek létre 1-től kezdődő sorszámmal. 
 
 Ha a `data.frame()` függvényben a paraméterek hossza nem azonos, akkor a rövidebb vektorok és faktorok ismétléssel kiegészülnek a leghosszabb oszlop hosszára. Az ismétlés azonban csak egész számszor lehetséges, egyébként hibaüzenetet kapunk.
 
@@ -2728,7 +3190,7 @@ A példában egy 6 sorból és 3 oszlopból álló adattáblát készítettünk 
 
 #### Adattábla felépítése
 
-Adattábláink ritkán olyan kicsik, mint a fenti `df` vagy `df2`. Sokszor több tucat sorból és oszlopból állnak, így az adattábla áttekintésére nem az adattáblát tároló objektum értékének képernyőre írása a legszerencsésebb. Kényelmesebb, ha az *RStudio* adatbázis ablakában jelenítjük meg az adattábla tartalmát, amit a *Környezet* panel megfelelő adatbázisnevén való kattintással és vagy a `View()` parancssal kezdeményezhetünk. Próbáljuk ki a `View(df)` és `View(df2)` függvényhívásokat. 
+Adattábláink ritkán olyan kicsik, mint a fenti `df` vagy `df2`. Sokszor több tucat sorból és oszlopból állnak, így az adattábla áttekintésére nem az adattáblát tároló objektum értékének képernyőre írása a legszerencsésebb. Kényelmesebb, ha az *RStudio* adatbázis ablakában jelenítjük meg az adattábla tartalmát, amit a *Környezet* panel megfelelő adatbázisnevén való kattintással és vagy a `View()` paranccsal kezdeményezhetünk. Próbáljuk ki a `View(df)` és `View(df2)` függvényhívásokat. 
 
 Hasznos információ szolgáltat az `str()`\index{str()} függvény is, amely az adattábla szerkezetéről ad felvilágosítást.
 
@@ -2757,7 +3219,7 @@ A `rownames()` a sorok nevét, a `colnames()` és a `names()` az oszlopok nevét
 
 
 ```r
-rownames(df) <- paste0(1:3, ".szemely")   # soroknevek módosítása
+rownames(df) <- paste0(1:3, ".szemely")   # sornevek módosítása
 names(df) <- c("X","Y")                   # oszlopnevek módosítása
 df
 #>               X  Y
@@ -2766,7 +3228,7 @@ df
 #> 3.szemely Lajos 29
 ```
 
-A `length()` függvény az oszlopok számával tér vissza. Az `nrow()` és az `ncol()` a sor- és oszlopok számával tér vissza.
+A `length()` függvény az oszlopok számával tér vissza. Az `nrow()` és az `ncol()` a sor és oszlopok számával tér vissza.
 
 
 ```r
@@ -2783,7 +3245,7 @@ Az adattáblák indexelése a mátrixok és a listáknál megtanult indexelési 
 
 ```markdown
 adattábla[sorindexvektor, oszlopindexvektor] # adattábla, vektor vagy faktor 
-adattábla[sorindexvektor]                    # adattábla
+adattábla[oszlopindexvektor]                 # adattábla
 adattábla$oszlopnév                          # vektor vagy faktor                    
 ```
  
@@ -2855,7 +3317,7 @@ df2[c(T, F), c("tipus", "pont.1")]  # páratlan sorok 1. és 2. oszlop
 
 Karakteres vektorok tipikusan oszlopindexekben fordulnak elő, logikai vektorok pedig, később látjuk, az adattábla szűrésénél kapnak fontos szerepet.
 
-Ha az adattáblára listaként tekintünk, akkor `[]` operátorban egyetlen indexvektort is szerepltethetünk, amely az adattábla oszlopoit indexeli, és minden esetben adattáblát szolgáltat, még akkor is, ha az adattábla egyetlen oszlopát érjük el.   
+Ha az adattáblára listaként tekintünk, akkor `[]` operátorban egyetlen indexvektort is szerepeltethetünk, amely az adattábla oszlopait indexeli, és minden esetben adattáblát szolgáltat, még akkor is, ha az adattábla egyetlen oszlopát érjük el.   
 
 
 ```r
@@ -2922,7 +3384,7 @@ df2$pont.2[1:3]            # df2-ből vektor, majd vektor
 #> [1] 1 2 3
 ```
 
-Ne feljetsük el, hogy adattábla indexelése során a lekért elemek módosítására is lehetőségünk van, és a vektoraritmetika szabályai továbbra is teljesülnek.
+Ne felejtsük el, hogy adattábla indexelése során a lekért elemek módosítására is lehetőségünk van, és a vektoraritmetika szabályai továbbra is teljesülnek.
 
 
 ```r
@@ -2952,7 +3414,7 @@ df2[df2$tipus == "A", ]                      # az A típusú sorok leválogatás
 df3 <- df2[df2$pont.1<8 & df2$pont.2>2, 2:3] # összetett logikai kifejezés
 ```
 
-Az első szűrésünk az adattábla `"A"` címkékkel rendelkező sorait válogatta le, de csak képernyőn olvashatók ezek a sorok. A második szűrés eredményét azonab megőrizzük egy új `df3` objektumban, és látható, hogy a `pont.1` és a `pont.2` numerikus vektorokra vonatkozó összetett logikai kifejezéssel végezzük.  
+Az első szűrésünk az adattábla `"A"` címkékkel rendelkező sorait válogatta le, de csak képernyőn olvashatók ezek a sorok. A második szűrés eredményét azonban megőrizzük egy új `df3` objektumban, és látható, hogy a `pont.1` és a `pont.2` numerikus vektorokra vonatkozó összetett logikai kifejezéssel végezzük.  
 
 #### Adattáblák sorainak rendezése
 
@@ -2985,20 +3447,36 @@ df2[order(df2$pont.1, df2$pont.2, decreasing=T), ]
 #> 1     A      6      2
 ```
 
-#### Részösszefoglalás {#az-r-nyelv-9-summary}
+####Összefoglalás {#az-r-nyelv-9-summary}
 
 <div class="rmdsummary">
-<p>Az adattábla minden statisztikai munka kiindulópontja. Kétdimenziós, inhomogén szerkezet, de mivel azonos hosszú vektorok vagy faktorok listájának is tekinthető, oszlopaiban homogén adatszerkezet. Létrehozása a <code>data.frame()</code> függvénnyel lehetséges, ahol az argumentumban az oszlopokat alkotó vektorokat és faktorokat kell felsorolni. Az adattábla indexelése a mátrixoknál és a listáknál tanultak alapján lehetséges.</p>
+<p>Az adattábla minden statisztikai munka kiindulópontja. Kétdimenziós,
+inhomogén szerkezet, de mivel azonos hosszú vektorok vagy faktorok
+listájának is tekinthető, oszlopaiban homogén adatszerkezet. Létrehozása
+a <code>data.frame()</code> függvénnyel lehetséges, ahol az
+argumentumban az oszlopokat alkotó vektorokat és faktorokat kell
+felsorolni. Az adattábla indexelése a mátrixoknál és a listáknál
+tanultak alapján lehetséges.</p>
 </div>
 
 #### Feladatok {#az-r-nyelv-9-exercise}
 
 \BeginKnitrBlock{rmdexercise}<div class="rmdexercise">  
 1. Hozzunk létre egy 30 $\times$ 3-as adattáblát, `csoport`, `matematika` és `magyar` oszlopnevekkel. A `csoport` változó legyen egy `5.a`, `5.b` és `5.c` címkéket tetszőleges sorrendben tartalmazó faktor, a `matematika` és a `magyar` pedig 1-5 osztályzatokat tartalmazó numerikus vektor.
-
+1. Írassuk ki a **MASS** csomag `survey` adattáblájának 3. sorában az 5. oszlopban lévő értéket!
+1. Írassuk ki a **MASS** csomag `survey` adattáblájának 3. és 6. sorában sorában az 5. oszlopban lévő értékeket! Az adattábla típus maradjon meg!
+1. Írassuk ki a **MASS** csomag `survey` adattáblájának 3. és 6. sorából az összes adatértéket!
+1. Írassuk ki a **MASS** csomag `survey` adattábla `Pulse` oszlopát háromféle módszerrel! 
+1. Írassuk ki a **MASS** csomag `survey` adattábla `Pulse` változójának első 3 elemét háromféle módszerrel!
+1. A **HSAUR3** csomag `Forbes2000` adattáblája 2000 vállalat adatát tartalmazza! Határozzuk meg a magyar cégek nevét és helyezését (`country` oszlop alapján)! Írassuk ki a képernyőre a 10 legnagyobb piaci értékkel (`marketvalue` oszlop) rendelkező cég nevét és piaci értékét! Határozzuk meg a legkisebb profittal (`profits` oszlop) rendelkező 5 cég minden adatát! Határozzuk meg a legnagyobb profittal (`profits` oszlop) rendelkező 10 amerikai vagy japán cég nevét, országát és profitját!  
+  
   </div>\EndKnitrBlock{rmdexercise}
 
-## További adatszerkezetek és függvények
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-9-exercise-solution)
+
+
+## További adatszerkezetek
 
 \BeginKnitrBlock{rmdlevel2}<div class="rmdlevel2">
 Ebben a fejezetben:
@@ -3016,37 +3494,82 @@ Az R legfontosabb adatszerkezetit megismertük az előző fejezetben. Az adatele
 * *időtartam* - Egyetlen *double* érték, amelynek különböző mértékegységekben mutatja két időpont közötti különbséget.
 * *tibble* - Speciális adattábla, amely a `Tidyverse R` része, és megkönnyíti az adatok kezelését.   
 
-Az \@ref(tab:adatszerkezetek) táblázatban már korábban bemutattuk az R legfontosabb adatszerkezeteit, aZ \@ref(tab:adatszerkezetek2) táblázat azokat az új  adatszerkezeteket sorlja fel, amelyeket ebben a fejezetben mutatunk be. Most is közöljük, hogy a `typeof()` és a `class()` milyen outputot szolgáltat az egyes adatszerkezetek esetén.
+Az \@ref(tab:adatszerkezetek). táblázatban már korábban bemutattuk az R legfontosabb adatszerkezeteit, aZ \@ref(tab:adatszerkezetek2). táblázat azokat az új adatszerkezeteket sorolja fel, amelyeket ebben a fejezetben mutatunk be. Most is közöljük, hogy a `typeof()` és a `class()` milyen outputot szolgáltat az egyes adatszerkezetek esetén.
 
-\begin{table}
-
-\caption{(\#tab:adatszerkezetek2)Adatszerkezetek (folytatás)}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{llll}
-\toprule
-Adatszerkezet & Létrehozó parancs & typeof(x) & class(x)\\
-\midrule
-\cellcolor{gray!6}{integer tömb} & \cellcolor{gray!6}{\ttfamily{array(2L,dim=c(2,3,5))}} & \cellcolor{gray!6}{\ttfamily{integer}} & \cellcolor{gray!6}{\ttfamily{array}}\\
-double tömb & \ttfamily{array(2,dim=c(2,3,5))} & \ttfamily{double} & \ttfamily{array}\\
-\cellcolor{gray!6}{karakteres tömb} & \cellcolor{gray!6}{\ttfamily{array('a',dim=c(2,3,5))}} & \cellcolor{gray!6}{\ttfamily{character}} & \cellcolor{gray!6}{\ttfamily{array}}\\
-logikai tömb & \ttfamily{array(T,dim=c(2,3,5))} & \ttfamily{logical} & \ttfamily{array}\\
-\cellcolor{gray!6}{táblázat} & \cellcolor{gray!6}{\ttfamily{table(sample(1:10, 100, T))}} & \cellcolor{gray!6}{\ttfamily{integer}} & \cellcolor{gray!6}{\ttfamily{table}}\\
-\addlinespace
-dátum & \ttfamily{as.Date('1971-05-09')} & \ttfamily{double} & \ttfamily{Date}\\
-\cellcolor{gray!6}{dátum-idő} & \cellcolor{gray!6}{\ttfamily{as.POSIXct('2018-08-01 22:00','UTC')}} & \cellcolor{gray!6}{\ttfamily{double}} & \cellcolor{gray!6}{\ttfamily{POSIXct POSIXt}}\\
-időtartam & \ttfamily{as.difftime(7,units='days')} & \ttfamily{double} & \ttfamily{difftime}\\
-\cellcolor{gray!6}{tibble} & \cellcolor{gray!6}{\ttfamily{tibble(x=1:3,y=letters[1:3])}} & \cellcolor{gray!6}{\ttfamily{list}} & \cellcolor{gray!6}{\ttfamily{tbl\_df tbl data.frame}}\\
-\bottomrule
-\end{tabular}}
-\end{table}
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>(\#tab:adatszerkezetek2)Adatszerkezetek (folytatás)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Adatszerkezet </th>
+   <th style="text-align:left;"> Létrehozó parancs </th>
+   <th style="text-align:left;"> typeof(x) </th>
+   <th style="text-align:left;"> class(x) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> integer tömb </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">array(2L,dim=c(2,3,5))</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">integer</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">array</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> double tömb </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">array(2,dim=c(2,3,5))</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">double</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">array</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> karakteres tömb </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">array('a',dim=c(2,3,5))</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">character</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">array</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> logikai tömb </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">array(T,dim=c(2,3,5))</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">logical</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">array</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> táblázat </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">table(sample(1:10, 100, T))</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">integer</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">table</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> dátum </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">as.Date('1971-05-09')</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">double</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">Date</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> dátum-idő </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">as.POSIXct('2018-08-01 22:00','UTC')</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">double</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">POSIXct POSIXt</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> időtartam </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">as.difftime(7,units='days')</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">double</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">difftime</span> </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tibble </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">tibble(x=1:3,y=letters[1:3])</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">list</span> </td>
+   <td style="text-align:left;"> <span style="   font-family: monospace;  ">tbl_df tbl data.frame</span> </td>
+  </tr>
+</tbody>
+</table>
 
 ### Tömbök és táblázatok
 
-A tömb a mátrix általánosításával nyerhető adatszerkezet. Az azonos típusú adatokat a mátrix két dimenzió mentén rendezi össze. Azonban három vagy több dimenzió mentén is elvégezhető ez az összerendezés. Így nyerjük a három vagy több dimenziós tömböket. A mátrix két dimenziós tömbnek is tekinthető (vagy a vektor egy egy dimenziós tömbnek). A táblázat a tömbökhöz nagyon hasonló adatszerkezet, de tipikusan számlálással nyert  *integer* értékeket rögzítünk bennük. A tömbökhöz hasonlóan lehetnek egy, két, vagy több dimenziósok.
+A *tömb* a mátrix általánosításával nyerhető adatszerkezet. Az azonos típusú adatokat a mátrix két dimenzió mentén rendezi össze. Azonban három vagy több dimenzió mentén is elvégezhető ez az összerendezés. Így nyerjük a három vagy több dimenziós tömböket. A mátrix két dimenziós tömbnek is tekinthető (vagy a vektor egy egy dimenziós tömbnek). A *táblázat* a tömbökhöz nagyon hasonló adatszerkezet, de tipikusan számlálással nyert  *integer* értékeket rögzítünk bennük. A tömbökhöz hasonlóan lehetnek egy, két, vagy több dimenziósak.
 
 
-#### Tömb és táblázat létrehozása
+#### Tömb létrehozása és indexelése
 
 Az `array()` függvénnyel egyszerűen hozhatunk létre tömböt. A függvény a `data=` argumentumban megadott vektor elemeit a `dim=` argumentumban megadott dimenzió-méretek mentén rendezi össze.      
 
@@ -3067,252 +3590,398 @@ x
 #> [2,]    8   10   12
 ```
   
-Fenti 3 dimenziós *integer* tömb 2 $\times$ 3 $\times$ 2-es, azaz 2 sorból, 3 oszlopból és 2 lapból áll. Természetesen *double*, *karakteres* és *logikai* tömbök is hasonló módszerrel hozhatók létre. 
+A háromdimenziós *integer* tömb 2 $\times$ 3 $\times$ 2-es, azaz 2 sorból, 3 oszlopból és 2 lapból áll. Természetesen *double*, *karakteres* és *logikai* tömbök is hasonló módszerrel hozhatók létre, csak a `data=` értéket kell megfelelően megválasztani.
 
-Tekintsünk egy másik példát.
+A tömb kiíratása során az indexoperátorokban (`[]`) szereplő sorszámok segítségével igazodhatunk el az elemek között. A háromdimenziós `x` tömb dimenziói a sorok, oszlopok és a lapok. A 12 elemet két lapon a ` , , 1` és a ` , , 2` nevű lapokon, két-két sorba `[1, ]`, `[2, ]` és három-három oszlopba `[ ,1]`, `[ ,2]`, `[ ,3]` rendezve sorolja fel az R. A második lapon a 2. sor 1. eleméhez meg kell találnunk a ` , , 2` lapot, a `[2, ]` sort és az `[ ,1]` oszlopot, ami esetünkben a 8.
+
+
+A tömbök indexelése a mátrixokhoz hasonló, csak a dimenziószámnak megfelelő számú indexvektort kell használhatunk. Ha `x` 3 dimenziós, akkor az `x[1,3,2]` egy lehetséges példa indexelésére, ahol az első sor harmadik oszlopában lévő elemre gondolunk, a második lapról. Emlékezhetünk, hogy kétdimenziós mátrixok esetén csak a sor és oszlop azonosító indexekre volt szükségünk (például `x[2,3]`), míg 4 vagy afeletti dimenziószámok esetén természetesen 4 vagy több, vesszővel elválasztott indexet kell megadnunk.
+
+
+#### Táblázat létrehozása
+
+Táblázatokat a `table()` függvénnyel hozhatunk létre, tipikusan kategorikus adatokból, vagyis faktor típusú objektumokból. A **MASS** csomag `survey` adattáblája több faktor oszlopot is tartalmaz, ezt használjuk a továbbiakban.
 
 
 ```r
-x <- array(data=1:20, dim=c(4, 5))
-x
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1    5    9   13   17
-#> [2,]    2    6   10   14   18
-#> [3,]    3    7   11   15   19
-#> [4,]    4    8   12   16   20
+data("survey", package = "MASS")  # a survey betöltése
+str(survey)
+#> 'data.frame':	237 obs. of  12 variables:
+#>  $ Sex   : Factor w/ 2 levels "Female","Male": 1 2 2 2 2 1 2 1 2 2 ...
+#>  $ Wr.Hnd: num  18.5 19.5 18 18.8 20 18 17.7 17 20 18.5 ...
+#>  $ NW.Hnd: num  18 20.5 13.3 18.9 20 17.7 17.7 17.3 19.5 18.5 ...
+#>  $ W.Hnd : Factor w/ 2 levels "Left","Right": 2 1 2 2 2 2 2 2 2 2 ...
+#>  $ Fold  : Factor w/ 3 levels "L on R","Neither",..: 3 3 1 3 2 1 1 3 3 3 ...
+#>  $ Pulse : int  92 104 87 NA 35 64 83 74 72 90 ...
+#>  $ Clap  : Factor w/ 3 levels "Left","Neither",..: 1 1 2 2 3 3 3 3 3 3 ...
+#>  $ Exer  : Factor w/ 3 levels "Freq","None",..: 3 2 2 2 3 3 1 1 3 3 ...
+#>  $ Smoke : Factor w/ 4 levels "Heavy","Never",..: 2 4 3 2 2 2 2 2 2 2 ...
+#>  $ Height: num  173 178 NA 160 165 ...
+#>  $ M.I   : Factor w/ 2 levels "Imperial","Metric": 2 1 NA 2 2 1 1 2 2 2 ...
+#>  $ Age   : num  18.2 17.6 16.9 20.3 23.7 ...
+```
+
+Egydimenziós gyakorisági táblázat létrehozásához egyetlen faktort használunk a `table()` argumentumában. Érdemes a `useNA="ifany"` argumentumot is használni, amely a faktorban lévő hiányzó értékek számát adja meg, amennyiben van hiányzó érték a változóban.
+
+
+```r
+table(survey$Sex, useNA = "ifany")  # egydimenziós gyakorisági táblázat
+#> 
+#> Female   Male   <NA> 
+#>    118    118      1
+```
+
+Az output első sorában az egydimenziós táblázat (integer vektor) elemeinek a nevét olvashatjuk, melyek a `Sex` faktor lehetséges értékeit és a hiányzó értékek címkéjét jelentik. A táblázat második sorában lévő számok az egyes címkék előfordulási gyakoriságát jelentik a faktorban. Ebben a kutatásban (`?survey`) 118 nőt és 118 férfit kérdeztek meg, egyetlen személynek nem ismerjük a nemét.
+
+Kétdimenziós gyakorisági táblázat készítéséhez két faktorra van szükség. A nem (`Sex`) mellett a kezességet (`W.Hnd`) is bevontuk a vizsgálatba:
+
+
+```r
+# kétdimenziós gyakorisági táblázat
+table(survey$Sex, survey$W.Hnd, useNA = "ifany")
+#>         
+#>          Left Right <NA>
+#>   Female    7   110    1
+#>   Male     10   108    0
+#>   <NA>      1     0    0
+```
+
+A kétdimenziós gyakorisági táblázat (integer mátrix) sornevei és oszlopnevei segítenek értelmezni a gyakorisági értékeket. A 7 például a balkezes nők számát jelenti a mintában.
+
+Három vagy magasabb dimenziószámú táblázatokat is hasonlóan készíthetünk: egyre több faktort vonunk be a `table()` függvénybe. Háromdimenziós gyakorisági táblázatra mutatunk példát az `Exer` faktor bevonásával.
+
+
+```r
+# háromdimenziós gyakorisági táblázat
+table(survey$Sex, survey$W.Hnd, survey$Exer, useNA = "ifany")  
+#> , ,  = Freq
+#> 
+#>         
+#>          Left Right <NA>
+#>   Female    3    45    1
+#>   Male      3    62    0
+#>   <NA>      1     0    0
+#> 
+#> , ,  = None
+#> 
+#>         
+#>          Left Right <NA>
+#>   Female    1    10    0
+#>   Male      2    11    0
+#>   <NA>      0     0    0
+#> 
+#> , ,  = Some
+#> 
+#>         
+#>          Left Right <NA>
+#>   Female    3    55    0
+#>   Male      5    35    0
+#>   <NA>      0     0    0
 ```
 
 
-Tehát ha `x` például 3 dimenziós, akkor az `x[1,3,2]` egy lehetséges példa indexelésére, ahol az első sor harmadik oszlopában lévő elemre gondolunk, a második lapról. A kétdimenziós mátrixok esetén csak a sor és oszlop azonosító indexre van szükségünk (például `x[2,3]`), 4 vagy afeletti dimenziószámok esetén természetesen 4 vagy több, vesszővel elválasztott indexre.
-
-
-
-Az egydimenziós vektor többdimenziós megfelelője a tömb (array). A tömb a vektorhoz hasonlóan homogén adatszerkezet, amely a `dim` attribútummal is rendelkezik. Egy vektort könnyen átalakíthatunk például egy 3 dimenziós tömbbé a `dim()` függvény segítségével:
+A háromdimenziós vagy afeletti táblázatok esetében az `ftable()` kétdimenziós ábrázolással segíti a gyakorisági adatok értelmezését.
 
 
 ```r
-x <- 1:8; is.vector(x)
-#> [1] TRUE
-dim(x) <- c(2,2,2); is.vector(x); is.array(x)
-#> [1] FALSE
-#> [1] TRUE
-attributes(x)
-#> $dim
-#> [1] 2 2 2
-x
-#> , , 1
-#> 
-#>      [,1] [,2]
-#> [1,]    1    3
-#> [2,]    2    4
-#> 
-#> , , 2
-#> 
-#>      [,1] [,2]
-#> [1,]    5    7
-#> [2,]    6    8
+tab3 <- table(survey$Sex, survey$W.Hnd, survey$Exer)
+ftable(tab3)  # háromdimenziós táblázat két dimenzióban
+#>               Freq None Some
+#>                             
+#> Female Left      3    1    3
+#>        Right    45   10   55
+#> Male   Left      3    2    5
+#>        Right    62   11   35
+tab4 <- table(survey$Sex, survey$W.Hnd, survey$Exer, survey$Smoke)
+ftable(tab4)  # négydimenziós táblázat két dimenzióban
+#>                    Heavy Never Occas Regul
+#>                                           
+#> Female Left  Freq      0     2     1     0
+#>              None      0     1     0     0
+#>              Some      0     3     0     0
+#>        Right Freq      3    36     4     2
+#>              None      0     9     1     0
+#>              Some      2    47     3     3
+#> Male   Left  Freq      0     2     1     0
+#>              None      0     1     0     1
+#>              Some      1     3     1     0
+#>        Right Freq      4    45     6     7
+#>              None      1     7     2     0
+#>              Some      0    31     0     4
 ```
 
-Az `x` vektorból egy háromdimenziós tömböt hoztunk létre. Az `is.vector()` és az `is.array()` függvények eligazítanak az objektum adatszerkezetével kapcsolatban, vektor, illetve tömb paraméter esetén logikai igaz értéket adnak. A tömb kiíratása során az indexoperátorokban szereplő sorszámok segítségével igazodhatunk el az elemek között. A háromdimenziós `x` tömb dimenziói a sorok, oszlopok és a lapok. A 8 elemet két lapon a ` , , 1` és a ` , , 2` nevű lapokon két-két sorba `[1, ]`, `[2, ]` és két-két oszlopba `[ ,1]`, `[ ,2]` rendezve sorolja fel az R. A második lapon a 2. sor 1. eleméhez meg kell találnunk a ` , , 2` lapot, a `[2, ]` sort és az `[ ,1]` oszlopot, ami esetünkben a 6.
+A `table()` függvény helyett használhatjuk az `xtabs()` függvényt is, amely támogatja a kicsit kényelmesebb formula argumentumot. Az R formula olyan kifejezés, amely tartalmaz egy tilde (`~`) karaktert, és annak két oldalán rendszerint egy adattábla oszlopnevei jelennek meg. A `table()` és az `xtabs()` általános használata a következő:
+
+```markdown
+table(df$változó_1, df$változó_2, ..., df$változó_n)
+xtabs(~változó_1 + változó_2 + ... + változó_n, data=df)
+```
+
+Az `xtabs()` használatára mutatunk 3 példát. Figyeljük meg, hogy a hiányzó értékek megjelenítéséhez itt az `addNA=T` argumentumot kell használnunk. Az `xtabs()` függvény speciális formulájának bal oldala üres, jobb oldalán pedig a faktor változók `+` karakterrel vannak összekapcsolva.
 
 
+```r
+xtabs(~Sex, data=survey, addNA = T)             # 1D gyakorisági táblázat
+#> Sex
+#> Female   Male   <NA> 
+#>    118    118      1
+xtabs(~Sex+W.Hnd, data=survey, addNA = T)       # 2D gyakorisági táblázat
+#>         W.Hnd
+#> Sex      Left Right <NA>
+#>   Female    7   110    1
+#>   Male     10   108    0
+#>   <NA>      1     0    0
+xtabs(~Sex+W.Hnd+Exer, data=survey, addNA = T)  # 3D gyakorisági táblázat
+#> , , Exer = Freq
+#> 
+#>         W.Hnd
+#> Sex      Left Right <NA>
+#>   Female    3    45    1
+#>   Male      3    62    0
+#>   <NA>      1     0    0
+#> 
+#> , , Exer = None
+#> 
+#>         W.Hnd
+#> Sex      Left Right <NA>
+#>   Female    1    10    0
+#>   Male      2    11    0
+#>   <NA>      0     0    0
+#> 
+#> , , Exer = Some
+#> 
+#>         W.Hnd
+#> Sex      Left Right <NA>
+#>   Female    3    55    0
+#>   Male      5    35    0
+#>   <NA>      0     0    0
+```
 
 
+#### Táblázatok átalakítása
+
+Korábban megismertük az `as.*()` kezdetű függvényeket, amelyek egyszerű típuskonverziót végeznek. A gyakorisági táblázatokat gyakran szeretnénk vektor, mátrix, tömb, vagy még gyakrabban adattábla típusban rögzíteni. Ezek az átalakítások az `as.vector()`, `as.matrix()`, `as.array()`, valamint az `as.data.frame()` függvénnyel könnyen elvégezhetők.
 
 
 
 ```r
-library(MASS)
-tab1 <- table(survey$Sex)
-tab1
-#> 
-#> Female   Male 
-#>    118    118
-typeof(tab1)
-#> [1] "integer"
-class(tab1)
-#> [1] "table"
-dim(tab1)
-#> [1] 2
-
-tab2 <- table(survey$Sex, survey$Clap)
-tab2
+tab1 <- table(survey$Sex, useNA = "ifany")       # 1D gyakorisági táblázat
+tab2 <- table(survey$Sex, survey$W.Hnd, useNA = "ifany")              # 2D   
+tab3 <- table(survey$Sex, survey$W.Hnd, survey$Exer, useNA = "ifany") # 3D  
+(vekt <- as.vector(tab1))     # 1D táblázatból vektor
+#> [1] 118 118   1
+(mat <- as.matrix(tab2))      # 2D táblázatból mátrix
 #>         
-#>          Left Neither Right
-#>   Female   21      24    73
-#>   Male     18      25    74
-typeof(tab2)
-#> [1] "integer"
-class(tab2)
-#> [1] "table"
-dim(tab2)
-#> [1] 2 3
-
-tab3 <- table(survey$Sex, survey$Clap, survey$Exer)
-tab3
+#>          Left Right <NA>
+#>   Female    7   110    1
+#>   Male     10   108    0
+#>   <NA>      1     0    0
+(tomb <- as.array(tab3))      # 3D táblázatból 3D tömb
 #> , ,  = Freq
 #> 
 #>         
-#>          Left Neither Right
-#>   Female   11      17    21
-#>   Male      8      16    41
+#>          Left Right <NA>
+#>   Female    3    45    1
+#>   Male      3    62    0
+#>   <NA>      1     0    0
 #> 
 #> , ,  = None
 #> 
 #>         
-#>          Left Neither Right
-#>   Female    3       1     7
-#>   Male      3       4     6
+#>          Left Right <NA>
+#>   Female    1    10    0
+#>   Male      2    11    0
+#>   <NA>      0     0    0
 #> 
 #> , ,  = Some
 #> 
 #>         
-#>          Left Neither Right
-#>   Female    7       6    45
-#>   Male      7       5    27
-typeof(tab3)
-#> [1] "integer"
-class(tab3)
-#> [1] "table"
-dim(tab3)
-#> [1] 2 3 3
-ftable(tab3)
-#>                 Freq None Some
-#>                               
-#> Female Left       11    3    7
-#>        Neither    17    1    6
-#>        Right      21    7   45
-#> Male   Left        8    3    7
-#>        Neither    16    4    5
-#>        Right      41    6   27
-
-as.array(tab1)
-#> 
-#> Female   Male 
-#>    118    118
-as.array(tab2)
-#>         
-#>          Left Neither Right
-#>   Female   21      24    73
-#>   Male     18      25    74
-as.array(tab3)
-#> , ,  = Freq
-#> 
-#>         
-#>          Left Neither Right
-#>   Female   11      17    21
-#>   Male      8      16    41
-#> 
-#> , ,  = None
-#> 
-#>         
-#>          Left Neither Right
-#>   Female    3       1     7
-#>   Male      3       4     6
-#> 
-#> , ,  = Some
-#> 
-#>         
-#>          Left Neither Right
-#>   Female    7       6    45
-#>   Male      7       5    27
-
-as.vector(tab1)
-#> [1] 118 118
-as.matrix(tab2)
-#>         
-#>          Left Neither Right
-#>   Female   21      24    73
-#>   Male     18      25    74
-as.array(tab3)
-#> , ,  = Freq
-#> 
-#>         
-#>          Left Neither Right
-#>   Female   11      17    21
-#>   Male      8      16    41
-#> 
-#> , ,  = None
-#> 
-#>         
-#>          Left Neither Right
-#>   Female    3       1     7
-#>   Male      3       4     6
-#> 
-#> , ,  = Some
-#> 
-#>         
-#>          Left Neither Right
-#>   Female    7       6    45
-#>   Male      7       5    27
-
-as.data.frame(tab1)
+#>          Left Right <NA>
+#>   Female    3    55    0
+#>   Male      5    35    0
+#>   <NA>      0     0    0
+(df1 <- as.data.frame(tab1))  # 1D táblázatból adattábla
 #>     Var1 Freq
 #> 1 Female  118
 #> 2   Male  118
-as.data.frame(tab2)
-#>     Var1    Var2 Freq
-#> 1 Female    Left   21
-#> 2   Male    Left   18
-#> 3 Female Neither   24
-#> 4   Male Neither   25
-#> 5 Female   Right   73
-#> 6   Male   Right   74
-as.data.frame(tab3)
-#>      Var1    Var2 Var3 Freq
-#> 1  Female    Left Freq   11
-#> 2    Male    Left Freq    8
-#> 3  Female Neither Freq   17
-#> 4    Male Neither Freq   16
-#> 5  Female   Right Freq   21
-#> 6    Male   Right Freq   41
-#> 7  Female    Left None    3
-#> 8    Male    Left None    3
-#> 9  Female Neither None    1
-#> 10   Male Neither None    4
-#> 11 Female   Right None    7
-#> 12   Male   Right None    6
-#> 13 Female    Left Some    7
-#> 14   Male    Left Some    7
-#> 15 Female Neither Some    6
-#> 16   Male Neither Some    5
-#> 17 Female   Right Some   45
-#> 18   Male   Right Some   27
+#> 3   <NA>    1
+(df2 <- as.data.frame(tab2))  # 2D táblázatból adattábla
+#>     Var1  Var2 Freq
+#> 1 Female  Left    7
+#> 2   Male  Left   10
+#> 3   <NA>  Left    1
+#> 4 Female Right  110
+#> 5   Male Right  108
+#> 6   <NA> Right    0
+#> 7 Female  <NA>    1
+#> 8   Male  <NA>    0
+#> 9   <NA>  <NA>    0
+(df3 <- as.data.frame(tab3))  # 3D táblázatból adattábla
+#>      Var1  Var2 Var3 Freq
+#> 1  Female  Left Freq    3
+#> 2    Male  Left Freq    3
+#> 3    <NA>  Left Freq    1
+#> 4  Female Right Freq   45
+#> 5    Male Right Freq   62
+#> 6    <NA> Right Freq    0
+#> 7  Female  <NA> Freq    1
+#> 8    Male  <NA> Freq    0
+#> 9    <NA>  <NA> Freq    0
+#> 10 Female  Left None    1
+#> 11   Male  Left None    2
+#> 12   <NA>  Left None    0
+#> 13 Female Right None   10
+#> 14   Male Right None   11
+#> 15   <NA> Right None    0
+#> 16 Female  <NA> None    0
+#> 17   Male  <NA> None    0
+#> 18   <NA>  <NA> None    0
+#> 19 Female  Left Some    3
+#> 20   Male  Left Some    5
+#> 21   <NA>  Left Some    0
+#> 22 Female Right Some   55
+#> 23   Male Right Some   35
+#> 24   <NA> Right Some    0
+#> 25 Female  <NA> Some    0
+#> 26   Male  <NA> Some    0
+#> 27   <NA>  <NA> Some    0
+```
 
-m <- matrix(1:12, ncol=4)
-m
-#>      [,1] [,2] [,3] [,4]
-#> [1,]    1    4    7   10
-#> [2,]    2    5    8   11
-#> [3,]    3    6    9   12
-as.data.frame(m)
-#>   V1 V2 V3 V4
-#> 1  1  4  7 10
-#> 2  2  5  8 11
-#> 3  3  6  9 12
-as.table(m)
-#>    A  B  C  D
-#> A  1  4  7 10
-#> B  2  5  8 11
-#> C  3  6  9 12
 
-d <- as.data.frame(tab2)
-as.matrix(xtabs(Freq~Var1+Var2, data=d))
+Az ellenkező irányú átalakítás is érdekes lehet, vagyis amikor egy-, két- vagy háromdimenziós tömbökből gyakorisági táblázatot képezünk (`as.table()` függvény), de főképp amikor az adattáblában létező gyakorisági adatokat táblázattá alakítjuk. Itt érdemes az `xtabs(Freq~Változó_1+Változó_2+...+Változó_n, data=df)` függvényhívást használni, ahol a tilde (`~`) előtti oszlop az adattábla gyakorisági adatait tartalmazza, a jobbra lévő változók pedig lényegében a faktor változókat nevezik meg.
+
+
+
+```r
+as.table(vekt) # vektorból 1D táblázat
+#>   A   B   C 
+#> 118 118   1
+as.table(mat)  # mátrixból 2D táblázat
+#>         
+#>          Left Right <NA>
+#>   Female    7   110    1
+#>   Male     10   108    0
+#>   <NA>      1     0    0
+as.table(tomb) # tömbből 3D táblázat  
+#> , ,  = Freq
+#> 
+#>         
+#>          Left Right <NA>
+#>   Female    3    45    1
+#>   Male      3    62    0
+#>   <NA>      1     0    0
+#> 
+#> , ,  = None
+#> 
+#>         
+#>          Left Right <NA>
+#>   Female    1    10    0
+#>   Male      2    11    0
+#>   <NA>      0     0    0
+#> 
+#> , ,  = Some
+#> 
+#>         
+#>          Left Right <NA>
+#>   Female    3    55    0
+#>   Male      5    35    0
+#>   <NA>      0     0    0
+xtabs(Freq~Var1, data=df1)           # adattáblából 1D táblázat
+#> Var1
+#> Female   Male 
+#>    118    118
+xtabs(Freq~Var1+Var2, data=df2)      # adattáblából 2D táblázat
 #>         Var2
-#> Var1     Left Neither Right
-#>   Female   21      24    73
-#>   Male     18      25    74
-xtabs(Freq~Var1+Var2, data=d)
+#> Var1     Left Right
+#>   Female    7   110
+#>   Male     10   108
+xtabs(Freq~Var1+Var2+Var3, data=df3) # adattáblából 3D táblázat
+#> , , Var3 = Freq
+#> 
 #>         Var2
-#> Var1     Left Neither Right
-#>   Female   21      24    73
-#>   Male     18      25    74
+#> Var1     Left Right
+#>   Female    3    45
+#>   Male      3    62
+#> 
+#> , , Var3 = None
+#> 
+#>         Var2
+#> Var1     Left Right
+#>   Female    1    10
+#>   Male      2    11
+#> 
+#> , , Var3 = Some
+#> 
+#>         Var2
+#> Var1     Left Right
+#>   Female    3    55
+#>   Male      5    35
+```
+
+
+Érdekes lehet egy harmadik eset is, amikor a gyakorisági adatok állnak rendelkezésre (táblázatos vagy adattábla formátumban) és el szeretnénk készíteni ennek a nyers adatokat tartalmazó adattábla megfelelőjét. Vegyük a legbonyolultabb eddig tárgyalt esetet, és legyen a `tab3` a kiinduló pontunk, amely egy táblázat. A táblázatot a korábban tanult módszerrel gyakoriságokat tartalmazó adattáblává alakítjuk, majd eseteket (nyers adatokat) tartalmazó adattáblává.
+
+
+```r
+tab3 <- table(survey$Sex, survey$W.Hnd, survey$Exer, useNA = "ifany")  
+ftable(tab3) # 3D gyakorisági táblázat kiterítve
+#>               Freq None Some
+#>                             
+#> Female Left      3    1    3
+#>        Right    45   10   55
+#>        NA        1    0    0
+#> Male   Left      3    2    5
+#>        Right    62   11   35
+#>        NA        0    0    0
+#> NA     Left      1    0    0
+#>        Right     0    0    0
+#>        NA        0    0    0
+df3 <- as.data.frame(df3) # adattáblából 3D táblázat
+df3
+#>      Var1  Var2 Var3 Freq
+#> 1  Female  Left Freq    3
+#> 2    Male  Left Freq    3
+#> 3    <NA>  Left Freq    1
+#> 4  Female Right Freq   45
+#> 5    Male Right Freq   62
+#> 6    <NA> Right Freq    0
+#> 7  Female  <NA> Freq    1
+#> 8    Male  <NA> Freq    0
+#> 9    <NA>  <NA> Freq    0
+#> 10 Female  Left None    1
+#> 11   Male  Left None    2
+#> 12   <NA>  Left None    0
+#> 13 Female Right None   10
+#> 14   Male Right None   11
+#> 15   <NA> Right None    0
+#> 16 Female  <NA> None    0
+#> 17   Male  <NA> None    0
+#> 18   <NA>  <NA> None    0
+#> 19 Female  Left Some    3
+#> 20   Male  Left Some    5
+#> 21   <NA>  Left Some    0
+#> 22 Female Right Some   55
+#> 23   Male Right Some   35
+#> 24   <NA> Right Some    0
+#> 25 Female  <NA> Some    0
+#> 26   Male  <NA> Some    0
+#> 27   <NA>  <NA> Some    0
+# az átalakítás 2 sora:
+df.long <- df3[rep(row.names(df3), df3$Freq), c("Var1", "Var2", "Var3")]
+rownames(df.long) <- seq_along(rownames(df.long))
+head(df.long)  # az első 6 sor kiírása
+#>     Var1 Var2 Var3
+#> 1 Female Left Freq
+#> 2 Female Left Freq
+#> 3 Female Left Freq
+#> 4   Male Left Freq
+#> 5   Male Left Freq
+#> 6   Male Left Freq
 ```
 
 ### Dátum és idő
  
 Az adatelemzés során a dátumok kezelésének két fő oka lehet, egyrészt szűrésekben használhatjuk őket, például adott dátum vagy időpont előtti, utáni vagy közötti sorok leválogatásában, másrészt statisztikai elemzések is irányulhatnak két dátum vagy időpont között eltelt időtartamra.
-
 
 #### Dátum kezelése
 
@@ -3320,16 +3989,18 @@ Amennyiben le akarjuk kérdezni az aktuális dátumot, akkor a `Sys.Date()` füg
 
 
 ```r
-datum.1 <- Sys.Date()    # aktuális dátum, dátum típusú objektum
-datum.1                  # datum.1 kiírása
-#> [1] "2021-12-28"
-class(datum.1)           # datum.1 típusa
+datum <- Sys.Date()    # aktuális dátum, dátum típusú objektum
+datum                  # datum kiírása
+#> [1] "2022-09-09"
+typeof(datum)          # datum típusa
+#> [1] "double"
+class(datum)           # datum típusa
 #> [1] "Date"
-unclass(datum.1)         # datum.1 alapja
-#> [1] 18989
+unclass(datum)         # datum alapja
+#> [1] 19244
 ```
 
-Láthatjuk, hogy a `datum.1` objektum *dátum* (*Date*) típusú annak ellenére, hogy az objektum értéke a képernyőn kettős idézőjelek között jelenik meg. A *dátum* típus alapja egy *double* szám van, amely az 1970. 01. 01. óta eltelt napok számát tartalmazza, ahogyan az `unclass(datum.1)` ezt számunkra meg is mutatja. Világos, hogy az a *double* érték lehet nulla vagy negatív is.
+Láthatjuk, hogy a `datum` objektum *dátum* (*Date*) típusú annak ellenére, hogy az objektum értéke a képernyőn kettős idézőjelek között jelenik meg. A *dátum* típus alapja egy *double* szám van, amely az 1970. 01. 01. óta eltelt napok számát tartalmazza, ahogyan az `unclass(datum)` ezt számunkra meg is mutatja. Világos, hogy az a *double* érték lehet nulla vagy negatív is.
 
 
 ```r
@@ -3343,115 +4014,7 @@ unclass(as.Date("1960-01-01")) # a double szám negatív
 
 ##### Dátum létrehozása karakteres adatból
 
-Dátumot legtöbb esetben karakteres konstansból hozunk létre az `as.Date()` függvény segítségével. A dátumok változatos formában jelenhetnek meg, a szabványos `"2019-02-12"` alak mellett sok olyan forma létezik, amelyben elválasztó karakterként a perjel vagy a pont szerepel, valamint az év-hó-nap hármas sorrendje is változhat. A konkrét dátum értelmézéséhez az `as.Date()` függvény `format=` argumentumát kell helyesen beállítani. A használható kódokat a \@ref(tab:datumkodok) táblázat tartalmazza. 
-
-
-```r
-as.Date("2020-04-12")   # szabványos, nem kell format= argumentum
-#> [1] "2020-04-12"
-as.Date("2020/04/12")   # szabványos, nem kell format= argumentum
-#> [1] "2020-04-12"
-as.Date("04/12/2020", format="%m/%d/%Y")          # amerikai stílus
-#> [1] "2020-04-12"
-as.Date("12.04.2020", format="%d.%m.%Y")          # brit stílus
-#> [1] "2020-04-12"
-as.Date("2019. 04. 12.", format="%Y. %m. %d.")    # magyar stílus
-#> [1] "2019-04-12"
-Sys.getlocale("LC_TIME")                          # a helyi beállítás magyar?
-#> [1] "Hungarian_Hungary.1250"
-as.Date("2019. ápr. 12.", format="%Y. %b %d.")    # rövid mqgyar hónapnévvel
-#> [1] "2019-04-12"
-as.Date("2019. április 12.", format="%Y. %B %d.") # magyar hónapnévvel
-#> [1] "2019-04-12"
-lct <- Sys.getlocale("LC_TIME")                   # helyi beállítás mentése
-Sys.setlocale("LC_TIME", "C")                     # észak-amerikai beállítás 
-#> [1] "C"
-as.Date("Apr 12, 2020", format="%b %d, %Y")       # rövid angol hónapnévvel
-#> [1] "2020-04-12"
-as.Date("12 April 2020", format="%d %B %Y")       # angol hónapnévvel
-#> [1] "2020-04-12"
-Sys.setlocale("LC_TIME", lct)  # magyar helyi beállítás visszatöltése  
-#> [1] "Hungarian_Hungary.1250"
-```
-
-Magyar számítógépes környezetben a helyi beállítás (locale) alapértelmezés szerint magyar, ennek megfelelően a magyar hónapnevekkel dolgozik az `as.Date()` függvény. A `Sys.getlocale("LC_TIME")` paranccsak vizsgálhatjuk meg, hogy milyen környezetben dolgozunk. A `Sys.setlocale("LC_TIME", "C")` utasítás észak-amerikai beállításokra vált, így angol hónapnevek felismerésére nyílik lehetőség.
-
-##### Dátum létrehozása numerikus adatokból
-
-Dátumot a szeparáltan létező numerikus év, hónap, nap információkból is létrehozhatunk. Ehhez először az `ISOdate()` függvénnyel időpontot állítunk elő, majd az `as.Date()`-tel dátumot. Ezzel a módszerrel egyszerre több dátumot is előállíthatunk.  
-
-
-```r
-as.Date(ISOdate(year = 2020, month = 4, day = 12))
-#> [1] "2020-04-12"
-as.Date(ISOdate(year = 2020, month = 1:4, day = 12))
-#> [1] "2020-01-12" "2020-02-12" "2020-03-12" "2020-04-12"
-```
-
-##### Dátum konvertálása karakteres
-
-Sokszor a dátumokat speciális karaktersorozatként szeretnénk látni speciális alakjára, 
-
-
-```r
-(datum.2 <- as.Date("04/12/2020", format = "%m/%d/%Y"))
-#> [1] "2020-04-12"
-format(datum.2, "%Y. %m. %d.")
-#> [1] "2020. 04. 12."
-format(datum.2, "%Y. %B %d.")
-#> [1] "2020. április 12."
-format(datum.2, "%Y. %b %d.")
-#> [1] "2020. ápr. 12."
-```
-
-
-
-
-```r
-datum.2
-#> [1] "2020-04-12"
-(ido.1 <- as.POSIXlt(datum.2))
-#> [1] "2020-04-12 UTC"
-ido.1$year + 1900
-#> [1] 2020
-ido.1$mon + 1
-#> [1] 4
-ido.1$mday
-#> [1] 12
-```
-
-
-
-
-```r
-as.Date("2061. július 26", format="%Y. %B %d")
-#> [1] "2061-07-26"
-
-library(anytime)
-anytime::anydate("2061. július 26")
-#> [1] NA
-
-
-library(lubridate)
-ymd(c("2061-07-26", "2061/07/26", "2061 July 26", 
-      "2061. július 26", "2061 máj. 26"))
-#> [1] "2061-07-26" "2061-07-26" "2061-07-26" "2061-07-26" "2061-05-26"
-dmy(c("26-07-2061", "2061/07/26", "2061 July 26", 
-      "26 July, 2061", "26. júl. 2061."))
-#> [1] "2061-07-26" NA           NA           "2061-07-26" "2061-07-26"
-
-ymd_hms("2061-07-26 12:12:32")
-#> [1] "2061-07-26 12:12:32 UTC"
-
-parse_date_time("2020. June 12", orders = "Ymd", locale="Hungarian_Hungary.1250")
-#> [1] "2020-06-12 UTC"
-
-class(Sys.getlocale("LC_TIME"))
-#> [1] "character"
-
-# A Halley-üstökös visszatérése utoljára 1986-ban járt a Naprendszerünkben, így az előrejelzések szerint legközelebb 2061. július 26
-```
-
+Dátumot legtöbb esetben karakteres konstansból hozunk létre az `as.Date()` függvény segítségével. A dátumok változatos formában jelenhetnek meg, a szabványos `"2019-02-12"` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)) alak mellett sok olyan forma létezik, amelyben elválasztó karakterként a perjel vagy a pont szerepel, valamint az év-hó-nap hármas sorrendje is változhat. A konkrét dátum értelmezéséhez az `as.Date()` függvény `format=` argumentumát kell helyesen beállítani. A használható kódokat a \@ref(tab:datumkodok). táblázat tartalmazza. 
 
 Table: (\#tab:datumkodok) Formátumkódok a dátumokban
 
@@ -3473,443 +4036,273 @@ Table: (\#tab:datumkodok) Formátumkódok a dátumokban
 +-------------+------------------------+
 
 
-##### Két dátum közt eltelt idő
+```r
+as.Date("2020-04-12")   # szabványos, nem kell format= argumentum
+#> [1] "2020-04-12"
+as.Date("2020/04/12")   # szabványos, nem kell format= argumentum
+#> [1] "2020-04-12"
+as.Date("04/12/2020", format="%m/%d/%Y")          # amerikai stílus
+#> [1] "2020-04-12"
+as.Date("12.04.2020", format="%d.%m.%Y")          # brit stílus
+#> [1] "2020-04-12"
+as.Date("2020. 04. 12.", format="%Y. %m. %d.")    # magyar stílus
+#> [1] "2020-04-12"
+```
+
+Látható, hogy a szabványos esetekben nem szükséges a `format=` argumentum használata, de a formátumkódokkal tetszőleges sztringet *dátum* típusúvá alakíthatunk. A hónapnevek megjelenése azonban nyelvfüggő, ezért itt a R verziónk helyi beállításaira is figyelni kell.
 
 
 ```r
-(diff.1 <- difftime(datum.1, datum.2, units = "secs"))
-#> Time difference of 5.4e+07 secs
-unclass(diff.1)
-#> [1] 5.4e+07
-#> attr(,"units")
-#> [1] "secs"
-(diff.2 <- difftime(datum.1, datum.2, units = "mins"))
-#> Time difference of 9e+05 mins
-unclass(diff.2)
-#> [1] 9e+05
-#> attr(,"units")
-#> [1] "mins"
-(diff.3 <- difftime(datum.1, datum.2, units = "hours"))
-#> Time difference of 15000 hours
-(diff.4 <- difftime(datum.1, datum.2, units = "days"))
-#> Time difference of 625 days
-(diff.5 <- difftime(datum.1, datum.2, units = "weeks"))
-#> Time difference of 89.28571 weeks
-as.numeric(diff.1)
-#> [1] 5.4e+07
-as.numeric(diff.2)
-#> [1] 9e+05
-as.numeric(diff.3)
-#> [1] 15000
-as.numeric(diff.4)
-#> [1] 625
-as.numeric(diff.5)
-#> [1] 89.28571
+Sys.getlocale("LC_TIME")                          # a helyi beállítás magyar?
+#> [1] "Hungarian_Hungary.utf8"
+as.Date("2020. ápr. 12.", format="%Y. %b %d.")    # rövid magyar hónapnévvel
+#> [1] "2020-04-12"
+as.Date("2020. április 12.", format="%Y. %B %d.") # magyar hónapnévvel
+#> [1] "2020-04-12"
+```
+
+Magyar számítógépes környezetben a helyi beállítás (`?locales`) alapértelmezés szerint magyar, ennek megfelelően a magyar hónapnevekkel dolgozik az `as.Date()` függvény, így a fenti konverziók a kívánt eredményt adják. A `Sys.getlocale("LC_TIME")` paranccsal vizsgálhatjuk meg, hogy milyen környezetben dolgozunk. A `Sys.setlocale("LC_TIME", "C")` utasítás észak-amerikai beállításokra vált az R, az angol hónapnevek felismerésére így nyílik lehetőség:
+
+
+```r
+lct <- Sys.getlocale("LC_TIME")                   # helyi beállítás mentése
+Sys.setlocale("LC_TIME", "C")                     # észak-amerikai beállítás 
+#> [1] "C"
+as.Date("Apr 12, 2020", format="%b %d, %Y")       # rövid angol hónapnévvel
+#> [1] "2020-04-12"
+as.Date("12 April 2020", format="%d %B %Y")       # angol hónapnévvel
+#> [1] "2020-04-12"
+Sys.setlocale("LC_TIME", lct)  # magyar helyi beállítás visszatöltése  
+#> [1] "Hungarian_Hungary.utf8"
 ```
 
 
+##### Dátum létrehozása numerikus adatokból
 
-#### Idő kezelése
-
-
+Dátumot a szeparáltan létező numerikus év, hónap, nap információkból is létrehozhatunk. Ehhez először az `ISOdate()` függvénnyel időpontot állítunk elő, majd az `as.Date()`-tel dátumot. Ezzel a módszerrel egyszerre több dátumot is előállíthatunk.  
 
 
 ```r
-ido.1 <- Sys.time()
-ido.1
-#> [1] "2021-12-28 22:36:56 CET"
-unclass(ido.1)
-#> [1] 1640727417
+as.Date(ISOdate(year = 2020, month = 4, day = 12))   # dátum előállítása
+#> [1] "2020-04-12"
+as.Date(ISOdate(year = 2020, month = 1:4, day = 12)) # dátumok előállítása
+#> [1] "2020-01-12" "2020-02-12" "2020-03-12" "2020-04-12"
+```
 
-ido.2 <- as.POSIXct("2020-12-02 22:12:23", tz = "Europe/Budapest")
+##### Dátum konvertálása
 
+Ha már van egy *dátum* típusú objektumunk, akkor azt változatos módon jeleníthetjük meg a `format()` függvény segítségével, amely egyszerű karakteres adattal tér vissza.
+
+
+```r
+(datum <- as.Date("04/12/2020", format = "%m/%d/%Y"))
+#> [1] "2020-04-12"
+format(datum, format="%Y. %m. %d.") # magyar dátum
+#> [1] "2020. 04. 12."
+format(datum, format="%Y. %B %d.")  # magyar dátum
+#> [1] "2020. április 12."
+format(datum, format="%Y. %b %d.")  # magyar dátum
+#> [1] "2020. ápr. 12."
+format(datum, format="%Y-%m")       # csak az év és a hónap
+#> [1] "2020-04"
+format(datum, format="%Y")          # csak az év
+#> [1] "2020"
 ```
 
 
+#### Dátum-idő kezelése
 
+A  *dátum-idő* (*POSIXct* típus) olyan *double* érték, amelynek jelentése az `1970-01-01` óta eltelt másodpercek száma. Az aktuális dátum és idő lekérdezése `Sys.time()` függvénnyel lehetséges, és ez az általunk *dátum-idő* típusnak tekintett *POSIXct* objektummal tér vissza:
 
 
 
 ```r
-Sys.timezone()
-#> [1] "Europe/Prague"
-datum.ido.1 <- Sys.time()
-datum.ido.2 <- as.POSIXct("2018-12-02 22:12:23", tz = "Europe/Budapest")
-difftime(datum.ido.1, datum.ido.2, units="min")
-#> Time difference of 1615705 mins
+ido <- Sys.time()     # pontos dátum-idő, POSIXct típusú objektum
+ido                   # ido kírása
+#> [1] "2022-09-09 20:23:11 CEST"
+typeof(ido)           # ido típusa
+#> [1] "double"
+class(ido)            # ido típusa
+#> [1] "POSIXct" "POSIXt"
+unclass(ido)          # ido alapja
+#> [1] 1662747791
+```
+
+A fentiek alapján úgy tűnhet, hogy a *POSIXct* objektum egész másodperceket tárol csupán, de ez nem így van. Az alapértelmezett megjelenítéseken módosítva láthatóvá válnak a tört másodpercek is: 
 
 
-as.POSIXct(strptime("2019.09.06. 16:34:17", "%Y.%m.%d. %H:%M:%S"))
-#> [1] "2019-09-06 16:34:17 CEST"
+
+```r
+op <- options(digits.secs = 6, digits = 16)
+ido             # POSIXct kiírása változott digits.sec=6 miatt
+#> [1] "2022-09-09 20:23:11.208062 CEST"
+unclass(ido)    # double kiírása változott digits=6 miatt
+#> [1] 1662747791.208063
+options(op)     # alapértelmezések visszaállítása
+```
+
+A *POSIXct* objektumok másik érdekessége az időzóna tárolása, amely alapértelmezés szerint a magyar környezetben futó R helyi beállításainak megfelelően közép-európai (CEST) időt jelent. A saját rendszerünk időzónája a `Sys.timezone()` függvénnyel kérdezhető le, a lehetséges időzónákat az `OlsonNames()` függvény listázza. A legtöbb esetben ezzel nem kell foglalkoznunk, nemzetközi kutatások esetében azonban fontos lehet ismerni az időzóna váltás lehetőségét. 
+
+Egyik lehetőség, hogy eleve a kívánt időzónának megfelelő időpontokkal dolgozunk. Ekkor a `Sys.setenv()` függvénnyel beállíthatjuk a kívánt időzónát, amely a legtöbb esetben a a koordinált világidő (UTC) vagy másképp a greenwichi középidő (GMT). Tudjuk, hogy a magyarországi időzóna téli időszámításkor közép-európai idő (CET, UTC+1), nyáron közép-európai nyári idő (CEST, UTC+2).
 
 
+```r
+tz <- Sys.timezone()  # helyi időzóna mentése
+Sys.setenv(TZ="UTC")  # UTC (GMT) időzóna beállítása
+Sys.time()            # pontos dátum-idő lekérése UTC szerint
+#> [1] "2022-09-09 18:23:11 UTC"
+Sys.setenv(TZ=tz)     # alapértelmezett időzóna visszaállítása
+```
 
-as.POSIXct(strptime("2010-10-31 01:30:00", "%Y-%m-%d %H:%M:%S"))
-#> [1] "2010-10-31 01:30:00 CEST"
-OlsonNames()
-#>   [1] "Africa/Abidjan"                   "Africa/Accra"                    
-#>   [3] "Africa/Addis_Ababa"               "Africa/Algiers"                  
-#>   [5] "Africa/Asmara"                    "Africa/Asmera"                   
-#>   [7] "Africa/Bamako"                    "Africa/Bangui"                   
-#>   [9] "Africa/Banjul"                    "Africa/Bissau"                   
-#>  [11] "Africa/Blantyre"                  "Africa/Brazzaville"              
-#>  [13] "Africa/Bujumbura"                 "Africa/Cairo"                    
-#>  [15] "Africa/Casablanca"                "Africa/Ceuta"                    
-#>  [17] "Africa/Conakry"                   "Africa/Dakar"                    
-#>  [19] "Africa/Dar_es_Salaam"             "Africa/Djibouti"                 
-#>  [21] "Africa/Douala"                    "Africa/El_Aaiun"                 
-#>  [23] "Africa/Freetown"                  "Africa/Gaborone"                 
-#>  [25] "Africa/Harare"                    "Africa/Johannesburg"             
-#>  [27] "Africa/Juba"                      "Africa/Kampala"                  
-#>  [29] "Africa/Khartoum"                  "Africa/Kigali"                   
-#>  [31] "Africa/Kinshasa"                  "Africa/Lagos"                    
-#>  [33] "Africa/Libreville"                "Africa/Lome"                     
-#>  [35] "Africa/Luanda"                    "Africa/Lubumbashi"               
-#>  [37] "Africa/Lusaka"                    "Africa/Malabo"                   
-#>  [39] "Africa/Maputo"                    "Africa/Maseru"                   
-#>  [41] "Africa/Mbabane"                   "Africa/Mogadishu"                
-#>  [43] "Africa/Monrovia"                  "Africa/Nairobi"                  
-#>  [45] "Africa/Ndjamena"                  "Africa/Niamey"                   
-#>  [47] "Africa/Nouakchott"                "Africa/Ouagadougou"              
-#>  [49] "Africa/Porto-Novo"                "Africa/Sao_Tome"                 
-#>  [51] "Africa/Timbuktu"                  "Africa/Tripoli"                  
-#>  [53] "Africa/Tunis"                     "Africa/Windhoek"                 
-#>  [55] "America/Adak"                     "America/Anchorage"               
-#>  [57] "America/Anguilla"                 "America/Antigua"                 
-#>  [59] "America/Araguaina"                "America/Argentina/Buenos_Aires"  
-#>  [61] "America/Argentina/Catamarca"      "America/Argentina/ComodRivadavia"
-#>  [63] "America/Argentina/Cordoba"        "America/Argentina/Jujuy"         
-#>  [65] "America/Argentina/La_Rioja"       "America/Argentina/Mendoza"       
-#>  [67] "America/Argentina/Rio_Gallegos"   "America/Argentina/Salta"         
-#>  [69] "America/Argentina/San_Juan"       "America/Argentina/San_Luis"      
-#>  [71] "America/Argentina/Tucuman"        "America/Argentina/Ushuaia"       
-#>  [73] "America/Aruba"                    "America/Asuncion"                
-#>  [75] "America/Atikokan"                 "America/Atka"                    
-#>  [77] "America/Bahia"                    "America/Bahia_Banderas"          
-#>  [79] "America/Barbados"                 "America/Belem"                   
-#>  [81] "America/Belize"                   "America/Blanc-Sablon"            
-#>  [83] "America/Boa_Vista"                "America/Bogota"                  
-#>  [85] "America/Boise"                    "America/Buenos_Aires"            
-#>  [87] "America/Cambridge_Bay"            "America/Campo_Grande"            
-#>  [89] "America/Cancun"                   "America/Caracas"                 
-#>  [91] "America/Catamarca"                "America/Cayenne"                 
-#>  [93] "America/Cayman"                   "America/Chicago"                 
-#>  [95] "America/Chihuahua"                "America/Coral_Harbour"           
-#>  [97] "America/Cordoba"                  "America/Costa_Rica"              
-#>  [99] "America/Creston"                  "America/Cuiaba"                  
-#> [101] "America/Curacao"                  "America/Danmarkshavn"            
-#> [103] "America/Dawson"                   "America/Dawson_Creek"            
-#> [105] "America/Denver"                   "America/Detroit"                 
-#> [107] "America/Dominica"                 "America/Edmonton"                
-#> [109] "America/Eirunepe"                 "America/El_Salvador"             
-#> [111] "America/Ensenada"                 "America/Fort_Nelson"             
-#> [113] "America/Fort_Wayne"               "America/Fortaleza"               
-#> [115] "America/Glace_Bay"                "America/Godthab"                 
-#> [117] "America/Goose_Bay"                "America/Grand_Turk"              
-#> [119] "America/Grenada"                  "America/Guadeloupe"              
-#> [121] "America/Guatemala"                "America/Guayaquil"               
-#> [123] "America/Guyana"                   "America/Halifax"                 
-#> [125] "America/Havana"                   "America/Hermosillo"              
-#> [127] "America/Indiana/Indianapolis"     "America/Indiana/Knox"            
-#> [129] "America/Indiana/Marengo"          "America/Indiana/Petersburg"      
-#> [131] "America/Indiana/Tell_City"        "America/Indiana/Vevay"           
-#> [133] "America/Indiana/Vincennes"        "America/Indiana/Winamac"         
-#> [135] "America/Indianapolis"             "America/Inuvik"                  
-#> [137] "America/Iqaluit"                  "America/Jamaica"                 
-#> [139] "America/Jujuy"                    "America/Juneau"                  
-#> [141] "America/Kentucky/Louisville"      "America/Kentucky/Monticello"     
-#> [143] "America/Knox_IN"                  "America/Kralendijk"              
-#> [145] "America/La_Paz"                   "America/Lima"                    
-#> [147] "America/Los_Angeles"              "America/Louisville"              
-#> [149] "America/Lower_Princes"            "America/Maceio"                  
-#> [151] "America/Managua"                  "America/Manaus"                  
-#> [153] "America/Marigot"                  "America/Martinique"              
-#> [155] "America/Matamoros"                "America/Mazatlan"                
-#> [157] "America/Mendoza"                  "America/Menominee"               
-#> [159] "America/Merida"                   "America/Metlakatla"              
-#> [161] "America/Mexico_City"              "America/Miquelon"                
-#> [163] "America/Moncton"                  "America/Monterrey"               
-#> [165] "America/Montevideo"               "America/Montreal"                
-#> [167] "America/Montserrat"               "America/Nassau"                  
-#> [169] "America/New_York"                 "America/Nipigon"                 
-#> [171] "America/Nome"                     "America/Noronha"                 
-#> [173] "America/North_Dakota/Beulah"      "America/North_Dakota/Center"     
-#> [175] "America/North_Dakota/New_Salem"   "America/Nuuk"                    
-#> [177] "America/Ojinaga"                  "America/Panama"                  
-#> [179] "America/Pangnirtung"              "America/Paramaribo"              
-#> [181] "America/Phoenix"                  "America/Port-au-Prince"          
-#> [183] "America/Port_of_Spain"            "America/Porto_Acre"              
-#> [185] "America/Porto_Velho"              "America/Puerto_Rico"             
-#> [187] "America/Punta_Arenas"             "America/Rainy_River"             
-#> [189] "America/Rankin_Inlet"             "America/Recife"                  
-#> [191] "America/Regina"                   "America/Resolute"                
-#> [193] "America/Rio_Branco"               "America/Rosario"                 
-#> [195] "America/Santa_Isabel"             "America/Santarem"                
-#> [197] "America/Santiago"                 "America/Santo_Domingo"           
-#> [199] "America/Sao_Paulo"                "America/Scoresbysund"            
-#> [201] "America/Shiprock"                 "America/Sitka"                   
-#> [203] "America/St_Barthelemy"            "America/St_Johns"                
-#> [205] "America/St_Kitts"                 "America/St_Lucia"                
-#> [207] "America/St_Thomas"                "America/St_Vincent"              
-#> [209] "America/Swift_Current"            "America/Tegucigalpa"             
-#> [211] "America/Thule"                    "America/Thunder_Bay"             
-#> [213] "America/Tijuana"                  "America/Toronto"                 
-#> [215] "America/Tortola"                  "America/Vancouver"               
-#> [217] "America/Virgin"                   "America/Whitehorse"              
-#> [219] "America/Winnipeg"                 "America/Yakutat"                 
-#> [221] "America/Yellowknife"              "Antarctica/Casey"                
-#> [223] "Antarctica/Davis"                 "Antarctica/DumontDUrville"       
-#> [225] "Antarctica/Macquarie"             "Antarctica/Mawson"               
-#> [227] "Antarctica/McMurdo"               "Antarctica/Palmer"               
-#> [229] "Antarctica/Rothera"               "Antarctica/South_Pole"           
-#> [231] "Antarctica/Syowa"                 "Antarctica/Troll"                
-#> [233] "Antarctica/Vostok"                "Arctic/Longyearbyen"             
-#> [235] "Asia/Aden"                        "Asia/Almaty"                     
-#> [237] "Asia/Amman"                       "Asia/Anadyr"                     
-#> [239] "Asia/Aqtau"                       "Asia/Aqtobe"                     
-#> [241] "Asia/Ashgabat"                    "Asia/Ashkhabad"                  
-#> [243] "Asia/Atyrau"                      "Asia/Baghdad"                    
-#> [245] "Asia/Bahrain"                     "Asia/Baku"                       
-#> [247] "Asia/Bangkok"                     "Asia/Barnaul"                    
-#> [249] "Asia/Beirut"                      "Asia/Bishkek"                    
-#> [251] "Asia/Brunei"                      "Asia/Calcutta"                   
-#> [253] "Asia/Chita"                       "Asia/Choibalsan"                 
-#> [255] "Asia/Chongqing"                   "Asia/Chungking"                  
-#> [257] "Asia/Colombo"                     "Asia/Dacca"                      
-#> [259] "Asia/Damascus"                    "Asia/Dhaka"                      
-#> [261] "Asia/Dili"                        "Asia/Dubai"                      
-#> [263] "Asia/Dushanbe"                    "Asia/Famagusta"                  
-#> [265] "Asia/Gaza"                        "Asia/Harbin"                     
-#> [267] "Asia/Hebron"                      "Asia/Ho_Chi_Minh"                
-#> [269] "Asia/Hong_Kong"                   "Asia/Hovd"                       
-#> [271] "Asia/Irkutsk"                     "Asia/Istanbul"                   
-#> [273] "Asia/Jakarta"                     "Asia/Jayapura"                   
-#> [275] "Asia/Jerusalem"                   "Asia/Kabul"                      
-#> [277] "Asia/Kamchatka"                   "Asia/Karachi"                    
-#> [279] "Asia/Kashgar"                     "Asia/Kathmandu"                  
-#> [281] "Asia/Katmandu"                    "Asia/Khandyga"                   
-#> [283] "Asia/Kolkata"                     "Asia/Krasnoyarsk"                
-#> [285] "Asia/Kuala_Lumpur"                "Asia/Kuching"                    
-#> [287] "Asia/Kuwait"                      "Asia/Macao"                      
-#> [289] "Asia/Macau"                       "Asia/Magadan"                    
-#> [291] "Asia/Makassar"                    "Asia/Manila"                     
-#> [293] "Asia/Muscat"                      "Asia/Nicosia"                    
-#> [295] "Asia/Novokuznetsk"                "Asia/Novosibirsk"                
-#> [297] "Asia/Omsk"                        "Asia/Oral"                       
-#> [299] "Asia/Phnom_Penh"                  "Asia/Pontianak"                  
-#> [301] "Asia/Pyongyang"                   "Asia/Qatar"                      
-#> [303] "Asia/Qostanay"                    "Asia/Qyzylorda"                  
-#> [305] "Asia/Rangoon"                     "Asia/Riyadh"                     
-#> [307] "Asia/Saigon"                      "Asia/Sakhalin"                   
-#> [309] "Asia/Samarkand"                   "Asia/Seoul"                      
-#> [311] "Asia/Shanghai"                    "Asia/Singapore"                  
-#> [313] "Asia/Srednekolymsk"               "Asia/Taipei"                     
-#> [315] "Asia/Tashkent"                    "Asia/Tbilisi"                    
-#> [317] "Asia/Tehran"                      "Asia/Tel_Aviv"                   
-#> [319] "Asia/Thimbu"                      "Asia/Thimphu"                    
-#> [321] "Asia/Tokyo"                       "Asia/Tomsk"                      
-#> [323] "Asia/Ujung_Pandang"               "Asia/Ulaanbaatar"                
-#> [325] "Asia/Ulan_Bator"                  "Asia/Urumqi"                     
-#> [327] "Asia/Ust-Nera"                    "Asia/Vientiane"                  
-#> [329] "Asia/Vladivostok"                 "Asia/Yakutsk"                    
-#> [331] "Asia/Yangon"                      "Asia/Yekaterinburg"              
-#> [333] "Asia/Yerevan"                     "Atlantic/Azores"                 
-#> [335] "Atlantic/Bermuda"                 "Atlantic/Canary"                 
-#> [337] "Atlantic/Cape_Verde"              "Atlantic/Faeroe"                 
-#> [339] "Atlantic/Faroe"                   "Atlantic/Jan_Mayen"              
-#> [341] "Atlantic/Madeira"                 "Atlantic/Reykjavik"              
-#> [343] "Atlantic/South_Georgia"           "Atlantic/St_Helena"              
-#> [345] "Atlantic/Stanley"                 "Australia/ACT"                   
-#> [347] "Australia/Adelaide"               "Australia/Brisbane"              
-#> [349] "Australia/Broken_Hill"            "Australia/Canberra"              
-#> [351] "Australia/Currie"                 "Australia/Darwin"                
-#> [353] "Australia/Eucla"                  "Australia/Hobart"                
-#> [355] "Australia/LHI"                    "Australia/Lindeman"              
-#> [357] "Australia/Lord_Howe"              "Australia/Melbourne"             
-#> [359] "Australia/North"                  "Australia/NSW"                   
-#> [361] "Australia/Perth"                  "Australia/Queensland"            
-#> [363] "Australia/South"                  "Australia/Sydney"                
-#> [365] "Australia/Tasmania"               "Australia/Victoria"              
-#> [367] "Australia/West"                   "Australia/Yancowinna"            
-#> [369] "Brazil/Acre"                      "Brazil/DeNoronha"                
-#> [371] "Brazil/East"                      "Brazil/West"                     
-#> [373] "Canada/Atlantic"                  "Canada/Central"                  
-#> [375] "Canada/Eastern"                   "Canada/Mountain"                 
-#> [377] "Canada/Newfoundland"              "Canada/Pacific"                  
-#> [379] "Canada/Saskatchewan"              "Canada/Yukon"                    
-#> [381] "CET"                              "Chile/Continental"               
-#> [383] "Chile/EasterIsland"               "Cuba"                            
-#> [385] "CST6CDT"                          "EET"                             
-#> [387] "Egypt"                            "Eire"                            
-#> [389] "EST"                              "EST5EDT"                         
-#> [391] "Etc/GMT"                          "Etc/GMT-0"                       
-#> [393] "Etc/GMT-1"                        "Etc/GMT-10"                      
-#> [395] "Etc/GMT-11"                       "Etc/GMT-12"                      
-#> [397] "Etc/GMT-13"                       "Etc/GMT-14"                      
-#> [399] "Etc/GMT-2"                        "Etc/GMT-3"                       
-#> [401] "Etc/GMT-4"                        "Etc/GMT-5"                       
-#> [403] "Etc/GMT-6"                        "Etc/GMT-7"                       
-#> [405] "Etc/GMT-8"                        "Etc/GMT-9"                       
-#> [407] "Etc/GMT+0"                        "Etc/GMT+1"                       
-#> [409] "Etc/GMT+10"                       "Etc/GMT+11"                      
-#> [411] "Etc/GMT+12"                       "Etc/GMT+2"                       
-#> [413] "Etc/GMT+3"                        "Etc/GMT+4"                       
-#> [415] "Etc/GMT+5"                        "Etc/GMT+6"                       
-#> [417] "Etc/GMT+7"                        "Etc/GMT+8"                       
-#> [419] "Etc/GMT+9"                        "Etc/GMT0"                        
-#> [421] "Etc/Greenwich"                    "Etc/UCT"                         
-#> [423] "Etc/Universal"                    "Etc/UTC"                         
-#> [425] "Etc/Zulu"                         "Europe/Amsterdam"                
-#> [427] "Europe/Andorra"                   "Europe/Astrakhan"                
-#> [429] "Europe/Athens"                    "Europe/Belfast"                  
-#> [431] "Europe/Belgrade"                  "Europe/Berlin"                   
-#> [433] "Europe/Bratislava"                "Europe/Brussels"                 
-#> [435] "Europe/Bucharest"                 "Europe/Budapest"                 
-#> [437] "Europe/Busingen"                  "Europe/Chisinau"                 
-#> [439] "Europe/Copenhagen"                "Europe/Dublin"                   
-#> [441] "Europe/Gibraltar"                 "Europe/Guernsey"                 
-#> [443] "Europe/Helsinki"                  "Europe/Isle_of_Man"              
-#> [445] "Europe/Istanbul"                  "Europe/Jersey"                   
-#> [447] "Europe/Kaliningrad"               "Europe/Kiev"                     
-#> [449] "Europe/Kirov"                     "Europe/Lisbon"                   
-#> [451] "Europe/Ljubljana"                 "Europe/London"                   
-#> [453] "Europe/Luxembourg"                "Europe/Madrid"                   
-#> [455] "Europe/Malta"                     "Europe/Mariehamn"                
-#> [457] "Europe/Minsk"                     "Europe/Monaco"                   
-#> [459] "Europe/Moscow"                    "Europe/Nicosia"                  
-#> [461] "Europe/Oslo"                      "Europe/Paris"                    
-#> [463] "Europe/Podgorica"                 "Europe/Prague"                   
-#> [465] "Europe/Riga"                      "Europe/Rome"                     
-#> [467] "Europe/Samara"                    "Europe/San_Marino"               
-#> [469] "Europe/Sarajevo"                  "Europe/Saratov"                  
-#> [471] "Europe/Simferopol"                "Europe/Skopje"                   
-#> [473] "Europe/Sofia"                     "Europe/Stockholm"                
-#> [475] "Europe/Tallinn"                   "Europe/Tirane"                   
-#> [477] "Europe/Tiraspol"                  "Europe/Ulyanovsk"                
-#> [479] "Europe/Uzhgorod"                  "Europe/Vaduz"                    
-#> [481] "Europe/Vatican"                   "Europe/Vienna"                   
-#> [483] "Europe/Vilnius"                   "Europe/Volgograd"                
-#> [485] "Europe/Warsaw"                    "Europe/Zagreb"                   
-#> [487] "Europe/Zaporozhye"                "Europe/Zurich"                   
-#> [489] "GB"                               "GB-Eire"                         
-#> [491] "GMT"                              "GMT-0"                           
-#> [493] "GMT+0"                            "GMT0"                            
-#> [495] "Greenwich"                        "Hongkong"                        
-#> [497] "HST"                              "Iceland"                         
-#> [499] "Indian/Antananarivo"              "Indian/Chagos"                   
-#> [501] "Indian/Christmas"                 "Indian/Cocos"                    
-#> [503] "Indian/Comoro"                    "Indian/Kerguelen"                
-#> [505] "Indian/Mahe"                      "Indian/Maldives"                 
-#> [507] "Indian/Mauritius"                 "Indian/Mayotte"                  
-#> [509] "Indian/Reunion"                   "Iran"                            
-#> [511] "Israel"                           "Jamaica"                         
-#> [513] "Japan"                            "Kwajalein"                       
-#> [515] "Libya"                            "MET"                             
-#> [517] "Mexico/BajaNorte"                 "Mexico/BajaSur"                  
-#> [519] "Mexico/General"                   "MST"                             
-#> [521] "MST7MDT"                          "Navajo"                          
-#> [523] "NZ"                               "NZ-CHAT"                         
-#> [525] "Pacific/Apia"                     "Pacific/Auckland"                
-#> [527] "Pacific/Bougainville"             "Pacific/Chatham"                 
-#> [529] "Pacific/Chuuk"                    "Pacific/Easter"                  
-#> [531] "Pacific/Efate"                    "Pacific/Enderbury"               
-#> [533] "Pacific/Fakaofo"                  "Pacific/Fiji"                    
-#> [535] "Pacific/Funafuti"                 "Pacific/Galapagos"               
-#> [537] "Pacific/Gambier"                  "Pacific/Guadalcanal"             
-#> [539] "Pacific/Guam"                     "Pacific/Honolulu"                
-#> [541] "Pacific/Johnston"                 "Pacific/Kanton"                  
-#> [543] "Pacific/Kiritimati"               "Pacific/Kosrae"                  
-#> [545] "Pacific/Kwajalein"                "Pacific/Majuro"                  
-#> [547] "Pacific/Marquesas"                "Pacific/Midway"                  
-#> [549] "Pacific/Nauru"                    "Pacific/Niue"                    
-#> [551] "Pacific/Norfolk"                  "Pacific/Noumea"                  
-#> [553] "Pacific/Pago_Pago"                "Pacific/Palau"                   
-#> [555] "Pacific/Pitcairn"                 "Pacific/Pohnpei"                 
-#> [557] "Pacific/Ponape"                   "Pacific/Port_Moresby"            
-#> [559] "Pacific/Rarotonga"                "Pacific/Saipan"                  
-#> [561] "Pacific/Samoa"                    "Pacific/Tahiti"                  
-#> [563] "Pacific/Tarawa"                   "Pacific/Tongatapu"               
-#> [565] "Pacific/Truk"                     "Pacific/Wake"                    
-#> [567] "Pacific/Wallis"                   "Pacific/Yap"                     
-#> [569] "Poland"                           "Portugal"                        
-#> [571] "PRC"                              "PST8PDT"                         
-#> [573] "ROC"                              "ROK"                             
-#> [575] "Singapore"                        "Turkey"                          
-#> [577] "UCT"                              "Universal"                       
-#> [579] "US/Alaska"                        "US/Aleutian"                     
-#> [581] "US/Arizona"                       "US/Central"                      
-#> [583] "US/East-Indiana"                  "US/Eastern"                      
-#> [585] "US/Hawaii"                        "US/Indiana-Starke"               
-#> [587] "US/Michigan"                      "US/Mountain"                     
-#> [589] "US/Pacific"                       "US/Samoa"                        
-#> [591] "UTC"                              "W-SU"                            
-#> [593] "WET"                              "Zulu"                            
-#> attr(,"Version")
-#> [1] "2021e"
+A másik lehetőség, hogy már egy létező *POSIXct* objektumon végzünk időzóna konverziót, amely így az objektum óra (vagy egyéb) részét is érintheti.
 
-datum.1 > datum.2
-#> [1] TRUE
-datum.ido.1 <= datum.ido.2
+
+```r
+ido <- Sys.time()  # pontos dátum-idő, helyi beállításnak megfelelően
+ido.utc <- as.POSIXct(format(ido, tz="UTC"), tz="UTC")  # konverzió UTC-re
+ido        # helyi időzónával
+#> [1] "2022-09-09 20:23:11 CEST"
+ido.utc    # UTC-vel
+#> [1] "2022-09-09 18:23:11 UTC"
+```
+
+
+##### Dátum-idő létrehozása karakteres adatból
+
+Amennyiben karakteres formában rendelkezésre áll egy időpont, akkor mindössze az egyes komponensek jelentését kell elmagyaráznunk az `as.POSIXct()` függvény `format=` argumentumában. Szabványos idő megadása esetén (([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601))) ezt el is hagyhatjuk.
+
+
+```r
+as.POSIXct("2022-06-02 22:12:23", tz = "Europe/Budapest")  # szabványos idő
+#> [1] "2022-06-02 22:12:23 CEST"
+as.POSIXct("2019.09.06. 16 34 17", format="%Y.%m.%d. %H %M %S", tz="UTC")
+#> [1] "2019-09-06 16:34:17 UTC"
+```
+
+
+A dátum értelmezéséhez használt kódok köre (\@ref(tab:datumkodok). táblázat) kibővül a \@ref(tab:datumidokodok). táblázatban szereplő időre vonatkozó kódokkal, így ezeket is használhatjuk a *POSIXct* objektum létrehozása során. Teljes listát az `?strptime` súgójában olvashatunk.
+
++-------------+------------------------+
+|Formátum kód | Jelentés               |
++=============+========================+
+| %H          | óra (00-23)            |
++-------------+------------------------+
+| %I          | óra (01-12)            |
++-------------+------------------------+
+| %M          | perc (00-59) neve      |
++-------------+------------------------+
+| %p          | AM/PM jelzése          |
++-------------+------------------------+
+| %S          | másodperc (00-59)      |
++-------------+------------------------+
+| %Z          | időzóna (csak output)  |
++-------------+------------------------+
+
+
+##### Dátum-idő létrehozása numerikus adatokból
+
+Dátum-időt szeparáltan létező információkból is létrehozhatunk. Ehhez az `ISOdatetime()` függvényt kell használni, ahol minden egyes komponens egyesével felsorolható:
+
+
+```r
+# POSIXct objektum a dátum-idő tárolására
+ISOdatetime(year=2022, month=7, day=3, 
+            hour=11, min=12, sec=3, tz = "Europe/Budapest")
+#> [1] "2022-07-03 11:12:03 CEST"
+```
+
+##### Dátum-idő konvertálása
+
+A *POSIXct* objektum *dátum* típusúvá konvertálható az `as.Date()` függvénnyel, illetve a `format()` függvény segítségével tetszőleges formájú karakteres dátumot/időt nyerhetünk ki az objektumból.
+
+
+```r
+ido <- Sys.time()  # pontos dátum-idő, helyi beállításnak megfelelően
+ido                # dátum-idő objektum
+#> [1] "2022-09-09 20:23:11 CEST"
+as.Date(ido)       # dátum objektum
+#> [1] "2022-09-09"
+format(ido, format="%Y. %m. %d.")              # magyar dátum
+#> [1] "2022. 09. 09."
+format(ido, format="%Y. %B %d. %H.%M.%S")      # magyar dátum-idő
+#> [1] "2022. szeptember 09. 20.23.11"
+format(ido, format="%Y. %b %d. %H:%M:%S")      # magyar dátum-idő
+#> [1] "2022. szept. 09. 20:23:11"
+format(ido, format="%Y. %m. %d. %H:%M:%S %Z")  # magyar dátum-idő
+#> [1] "2022. 09. 09. 20:23:11 CEST"
+```
+
+#### Műveletek és az időtartam
+
+A többnyire szöveges formában megjelenő dátumok és dátum-idők R objektummá alakításának a legnagyobb haszna, hogy a *Date* és *POSIXct* objektumokkal számos műveletet hajthatunk végre. Lehetőségünk van például különböző dátumok összehasonlítására, kivonására, léptetésére, vagy ábrákon a tengelyeket címkézhetjük dátum objektumokkal. Két dátum (vagy dátum-idő) különbsége az időtartam, amelyet a kivonás (`-`) operátorral, vagy a `difftime()` függvénnyel is előállíthatunk. Utóbbi nagyobb szabadságot ad, mert rendelkezik egy `unit=` argumentummal az időtartam mértékegységének megadására, így értéke lehet a `"secs"`, `"mins"`, `"hours"`, `"days"` vagy `"weeks"` is.
+
+
+```r
+Sys.Date() - as.Date("2001-03-17")          # születésnap óta eltelt idő napokban
+#> Time difference of 7846 days
+difftime(Sys.Date(), as.Date("2001-03-17")) # ua.
+#> Time difference of 7846 days
+difftime(Sys.Date(), as.Date("2001-03-17"), unit="hours") # órákban
+#> Time difference of 188304 hours
+as.numeric(difftime(Sys.Date(), as.Date("2001-03-17"), unit="hours")) # számként
+#> [1] 188304
+```
+
+Ne feledjük, hogy az időtartam is egy típus az R-ben (*difftime* osztály), ahogyan a következő sorokban ez megfigyelhetjük:
+
+
+```r
+difft <- difftime(Sys.Date(), as.Date("2001-03-17"), unit="hours")
+typeof(difft)   # difft típusa
+#> [1] "double"
+class(difft)    # difft típusa
+#> [1] "difftime"
+unclass(difft)  # difft alapja
+#> [1] 188304
+#> attr(,"units")
+#> [1] "hours"
+```
+
+A `difftime()` működik dátum-idővel is, és természetesen két dátum vagy időpont között a szokásos műveletek is elvégezhetők. A Google Űrlap időbélyeg oszlopából rögzítettünk két adatot és elvégeztünk néhány műveletet köztük:
+
+
+```r
+idobelyeg.1 <- as.POSIXct("2022.04.06. 11:11:33", 
+                          format="%Y.%m.%d. %H:%M:%S", tz="UTC")
+idobelyeg.2 <- as.POSIXct("2022.04.06. 12:06:35", 
+                          format="%Y.%m.%d. %H:%M:%S", tz="UTC")
+idobelyeg.1 == idobelyeg.2  # nem egyenlőek
 #> [1] FALSE
-
-unclass(datum.ido.1)
-#> [1] 1640727417
+idobelyeg.1 < idobelyeg.2   # az első időbélyeg a korábbi
+#> [1] TRUE
+# hány másodperc telt el a két válasz között
+as.numeric(difftime(idobelyeg.2, idobelyeg.1, unit="sec"))
+#> [1] 3302
 ```
 
 
-sec
-Seconds (0–61)
 
-min
-Minutes (0–59)
+#### Összefoglalás {#az-r-nyelv-12-summary}
 
-hour
-Hours (0–23)
-
-mday
-Day of the month (1–31)
-
-mon
-Month (0–11)
-
-year
-Years since 1900
-
-wday
-Day of the week (0–6, 0 = Sunday)
-
-yday
-Day of the year (0–365)
-
-isdst
-Daylight Saving Time flag
-
-
-
-
-### Részösszefoglalás {#az-r-nyelv-12-summary}
 
 <div class="rmdsummary">
-
+<p>A dátumokat <em>Date</em> a dátum-időket <em>POSIXct</em> objektumban
+tároljuk az R-ben, melyekkel a szokásos dátumkezelő műveletek már
+könnyen elvégezhetők. Időtartamot, vagyis két dátum vagy időpont közötti
+különbséget a <code>difftime()</code> függvénnyel határozhatunk meg.</p>
 </div>
 
-### Feladatok {#az-r-nyelv-12-exercise}
+#### Feladatok {#az-r-nyelv-12-exercise}
 
 \BeginKnitrBlock{rmdexercise}<div class="rmdexercise">  
 1. Konvertáljuk dátummá a következő két sztringet: `"6November2020"`, `"2013-02-29"`! Utóbbi esetben mi lehet a hiba oka?
 1. A `seq()` függvény `from=` és `to=` argumentuma a dátum típusú objektumokkal is működik. A `by=` argumentum értéke ilyenkor lehet numerikus (ekkor napokat jelent), de lehet `x weeks`, `x months` vagy `x years`, ahol `x` nullánál nagyobb egész lehet. Hozzunk létre egy dátum-vektort 2020 összes hétfőjének dátumával! 
+1. A Halley-üstökös utoljára 1986-ban járt a Naprendszerünkben, így az előrejelzések szerint legközelebb 2061. július 26-ban tér vissza. Rögzítsük ezt dátumként, és számoljuk ki, hány napotot kell még várni az üstökös érkezésére.
 </div>\EndKnitrBlock{rmdexercise}
 
 
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#az-r-nyelv-12-exercise-solution)
 
-<!-- as.Date("6November2020","%d%B%Y") -->
-
-<!-- d1<-as.Date("2020-01-06") -->
-<!-- d2<-as.Date("2020-12-28") -->
-
-<!-- x<-seq(from=d1, to=d2, by="weeks") -->
-<!-- typeof(x) -->
-<!-- class(x) -->
 
                                                                                        
 ### Tibble
@@ -3922,7 +4315,7 @@ library(tidyverse)
 x <- rep(c('A','B'), times=4); y <- rep(6:9, times=2); z <- 1:8
 df <- tibble(nev=x, pont.1=y, pont.2=z)
 df
-#> # A tibble: 8 x 3
+#> # A tibble: 8 × 3
 #>   nev   pont.1 pont.2
 #>   <chr>  <int>  <int>
 #> 1 A          6      1
@@ -3958,7 +4351,7 @@ A tibble és a data frame típusú objektumok között az átjárhatóságot az 
 
 ```r
 as_tibble(df)
-#> # A tibble: 8 x 3
+#> # A tibble: 8 × 3
 #>   nev   pont.1 pont.2
 #>   <chr>  <int>  <int>
 #> 1 A          6      1
@@ -3996,7 +4389,7 @@ Melyek a data frame és a tibble közötti különbségek? Már három eltérés
 
 ```r
 tibble(a=c("a", "b", "c"), p=1)
-#> # A tibble: 3 x 2
+#> # A tibble: 3 × 2
 #>   a         p
 #>   <chr> <dbl>
 #> 1 a         1
@@ -4010,7 +4403,7 @@ A második különbség, hogy a tibble a létrehozás során nem végez automati
 
 ```r
 str(df)
-#> tibble [8 x 3] (S3: tbl_df/tbl/data.frame)
+#> tibble [8 × 3] (S3: tbl_df/tbl/data.frame)
 #>  $ nev   : chr [1:8] "A" "B" "A" "B" ...
 #>  $ pont.1: int [1:8] 6 7 8 9 6 7 8 9
 #>  $ pont.2: int [1:8] 1 2 3 4 5 6 7 8
@@ -4025,7 +4418,7 @@ A negyedik eltérés a tibble indexeléséhez kötődik. Az `[` operátor haszn�
 
 ```r
 df[, 2]
-#> # A tibble: 8 x 1
+#> # A tibble: 8 × 1
 #>   pont.1
 #>    <int>
 #> 1      6
@@ -4037,12 +4430,12 @@ df[, 2]
 #> 7      8
 #> 8      9
 df[1, ]
-#> # A tibble: 1 x 3
+#> # A tibble: 1 × 3
 #>   nev   pont.1 pont.2
 #>   <chr>  <int>  <int>
 #> 1 A          6      1
 df[1, 2]
-#> # A tibble: 1 x 1
+#> # A tibble: 1 × 1
 #>   pont.1
 #>    <int>
 #> 1      6
@@ -4079,25 +4472,25 @@ A munkaterületről objektumot az `rm()` paranccsal távolíthatunk el, példáu
 ```r
 rm(fib.0)         # fib.0 törlése
 ls()
-#>  [1] "a"               "alap"            "d"               "D"              
-#>  [5] "datum.1"         "datum.2"         "datum.ido.1"     "datum.ido.2"    
-#>  [9] "df"              "df2"             "df3"             "diff.1"         
-#> [13] "diff.2"          "diff.3"          "diff.4"          "diff.5"         
-#> [17] "egyutthato.a"    "egyutthato.b"    "egyutthato.c"    "eset.1"         
-#> [21] "eset.2"          "eset.3"          "fib.1"           "fib.2"          
-#> [25] "fiu"             "foglalkozas"     "hazas"           "ido.1"          
-#> [29] "ido.2"           "import_example"  "isk.vegz"        "isk.vegz.f"     
-#> [33] "iteletek"        "lakohely"        "lct"             "m"              
-#> [37] "magassag"        "nev"             "nevek"           "obj.double"     
-#> [41] "obj.integer"     "obj.karakteres"  "obj.logikai"     "peter.bmi"      
-#> [45] "peter.magassaga" "peter.sulya"     "pontszamok"      "pulzus.atlag"   
-#> [49] "Pulzus.atlag"    "regi.v.1"        "regi.v.2"        "szamok"         
-#> [53] "tab1"            "tab2"            "tab3"            "table.kiir"     
-#> [57] "tan.ido"         "tipus"           "uj.v"            "v.d"            
-#> [61] "v.i"             "v.k"             "v.l"             "van.kocsija"    
-#> [65] "x"               "x.d"             "x.f"             "x.f.1"          
-#> [69] "x.f.2"           "x.f.3"           "y"               "z"              
-#> [73] "z.uj"
+#>  [1] "a"               "alap"            "D"               "datum"          
+#>  [5] "df"              "df.long"         "df1"             "df2"            
+#>  [9] "df3"             "difft"           "egyutthato.a"    "egyutthato.b"   
+#> [13] "egyutthato.c"    "eset.1"          "eset.2"          "eset.3"         
+#> [17] "fib.1"           "fib.2"           "fiu"             "foglalkozas"    
+#> [21] "hazas"           "ido"             "ido.utc"         "idobelyeg.1"    
+#> [25] "idobelyeg.2"     "import_example"  "isk.vegz"        "isk.vegz.f"     
+#> [29] "iteletek"        "lakohely"        "lct"             "magassag"       
+#> [33] "mat"             "nev"             "nevek"           "obj.double"     
+#> [37] "obj.integer"     "obj.karakteres"  "obj.logikai"     "op"             
+#> [41] "peter.bmi"       "peter.magassaga" "peter.sulya"     "pontszamok"     
+#> [45] "pulzus.atlag"    "Pulzus.atlag"    "regi.v.1"        "regi.v.2"       
+#> [49] "survey"          "szamok"          "tab1"            "tab2"           
+#> [53] "tab3"            "tab4"            "table.kiir"      "tan.ido"        
+#> [57] "tipus"           "tomb"            "tz"              "uj.v"           
+#> [61] "v.d"             "v.i"             "v.k"             "v.l"            
+#> [65] "van.kocsija"     "vekt"            "x"               "x.d"            
+#> [69] "x.f"             "x.f.1"           "x.f.2"           "x.f.3"          
+#> [73] "y"               "z"               "z.uj"
 ```
 
 a `fib.0` objektumot távolította el, így az `ls()` eredményében ez nem is szerepel. Az összes munkaterület-objektum eltávolítása a
@@ -4172,7 +4565,7 @@ search()
 ## [10] "Autoloads"         "package:base"  
 ```
 
-A fenti példában a **MASS** és a **foreign** csomag betöltését és annak hatását követhetjük nyomon a `search()` függvény ouputjára. Egy csomag betöltése azt jelenti, hogy a csomagban lévő függvények és objektumok a memóriába kerültek, azokat a parancsainkban ezután szabadon felhasználhatjuk.
+A fenti példában a **MASS** és a **foreign** csomag betöltését és annak hatását követhetjük nyomon a `search()` függvény outputjára. Egy csomag betöltése azt jelenti, hogy a csomagban lévő függvények és objektumok a memóriába kerültek, azokat a parancsainkban ezután szabadon felhasználhatjuk.
 
 Egy adott csomagban (esetünkben a **foreign** csomagban) lévő függvények és objektumok a
 
@@ -4209,7 +4602,7 @@ detach(package:MASS)
 ```
 
 
-Ha a használni kívánt csomag még nincs telepítve a számítógépünkre, akkor az \@ref(Csomagok_telepitese) fejezetben ismertetett módok egyikét válasszuk, attól függően, hogy a csomag melyik tárhelyről érhető el.
+Ha a használni kívánt csomag még nincs telepítve a számítógépünkre, akkor az \@ref(Csomagok_telepítése). fejezetben ismertetett módok egyikét válasszuk, attól függően, hogy a csomag melyik tárhelyről érhető el.
 
 A CRAN-ról elérhető csomagok közül telepítsük fel a **DescTools** és **psych** csomagokat:
 
@@ -4254,7 +4647,9 @@ parancsot.
 
 
 
-## Objektumok és típusok
+## Haladó nyelvi elemek
+
+### Objektumok és típusok
 
 Az R-ben használható objektumok név-érték párok, vagyis minden objektumnak van neve és értéke. Objektumok alatt ebben a könyvben az adatobjektumokat értjük, bár már említettünk, hogy valójában a függvények is objektumoknak tekinthetők az R-ben, hiszen a függvénynek is van neve, és értéke, az utóbbi pedig utasítások sorozata. Az R-ben minden objektum, például az eddig vizsgált vektorok, attribútumokkal is rendelkezhetnek. Az attribútumok név-értek párok, amelyek speciális tulajdonságokkal ruházzák fel az objektumunkat. Például a `names` nevű attribútummal a vektor egyes elemeit nevezhetjük el. Későbbiekben látjuk a `dim`, `dimnames`, `level` és `class` attribútumok jelentőségét is.
 
@@ -4474,7 +4869,7 @@ class(x)
 
 x <- Sys.Date()-as.Date("2020-03-12")
 x
-#> Time difference of 656 days
+#> Time difference of 911 days
 attributes(x)
 #> $class
 #> [1] "difftime"
@@ -4515,7 +4910,7 @@ x <- table(sample(LETTERS[1:3], 100, replace = T))
 x
 #> 
 #>  A  B  C 
-#> 44 24 32
+#> 37 32 31
 attributes(x)
 #> $dim
 #> [1] 3
@@ -4545,7 +4940,7 @@ names(x)
 #> [1] "a" "b" "C"
 x
 #>  a  b  C 
-#> 44 24 32
+#> 37 32 31
 ```
 
 
@@ -4595,7 +4990,7 @@ Az adattáblák alaptípusa `list`, osztálytípusa pedig `data.frame` a hossza 
 
 
 
-[^1]: Más programozási nyelvekben az "objektum" helyett a "változó" elnevezést használják, de a változó fogalma már foglalt a statisztikában, így mi is az objektumot használjuk.
+[^1]: Más programozási nyelvekben az "objektum" helyett a "változó" elnevezést használják, de a változó fogalma már foglalt a statisztikában, így szerencsésebb a memóriában tárolt adatokra objektumként hivatkozni.
 [^2]: További értékadás operátorok a `->`, `<<-`, `->>` és a `=`. Ezeket nem használjuk ebben a könyvben.
 
 

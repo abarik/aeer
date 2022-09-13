@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>E Próbák röviden | Adatkezelés és egyváltozós elemzések R-ben</title>
+<meta name="author" content="Abari Kálmán">
+<meta name="description" content='A könyvben szereplő próba összes próba bemutatása. library(tidyverse) library(broom) library(knitr) library(apa) # install.packages("devtools") #...'>
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="E Próbák röviden | Adatkezelés és egyváltozós elemzések R-ben">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://abarik.github.io/aeer/probak.html">
+<meta property="og:image" content="https://abarik.github.io/aeer/images/cover.jpg">
+<meta property="og:description" content='A könyvben szereplő próba összes próba bemutatása. library(tidyverse) library(broom) library(knitr) library(apa) # install.packages("devtools") #...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="E Próbák röviden | Adatkezelés és egyváltozós elemzések R-ben">
+<meta name="twitter:description" content='A könyvben szereplő próba összes próba bemutatása. library(tidyverse) library(broom) library(knitr) library(apa) # install.packages("devtools") #...'>
+<meta name="twitter:image" content="https://abarik.github.io/aeer/images/cover.jpg">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/tabwid-1.0.0/tabwid.css" rel="stylesheet">
+<link href="libs/tabwid-1.0.0/scrool.css" rel="stylesheet">
+<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-68765210-2', 'auto');
+      ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Adatkezelés és egyváltozós elemzések R-ben</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Üdvözöljük</a></li>
+<li><a class="" href="eloszo.html">Előszó</a></li>
+<li><a class="" href="itt-kezdodik.html"><span class="header-section-number">1</span> Itt kezdődik</a></li>
+<li><a class="" href="mi-az-r.html"><span class="header-section-number">2</span> Mi az R?</a></li>
+<li><a class="" href="az-r-telepitese.html"><span class="header-section-number">3</span> Az R telepítése</a></li>
+<li><a class="" href="munka-az-r-ben.html"><span class="header-section-number">4</span> Munka az R-ben</a></li>
+<li><a class="" href="az-r-nyelv.html"><span class="header-section-number">5</span> Az R nyelv</a></li>
+<li><a class="" href="beolvasas.html"><span class="header-section-number">6</span> Beolvasás</a></li>
+<li><a class="" href="adatmanipulacio.html"><span class="header-section-number">7</span> Adatmanipuláció</a></li>
+<li><a class="" href="mutatok-tablazatok.html"><span class="header-section-number">8</span> Mutatók és táblázatok</a></li>
+<li><a class="" href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></li>
+<li><a class="" href="hipotezisvizsgalatok.html"><span class="header-section-number">10</span> Hipotézisvizsgálatok</a></li>
+<li><a class="" href="publikacio.html"><span class="header-section-number">11</span> Publikáció</a></li>
+<li class="book-part">Függelék</li>
+<li><a class="" href="megoldasok.html"><span class="header-section-number">A</span> Megoldások</a></li>
+<li><a class="" href="hagyom%C3%A1nyos-grafika.html"><span class="header-section-number">B</span> Hagyományos grafika</a></li>
+<li><a class="" href="szinek.html"><span class="header-section-number">C</span> Színek</a></li>
+<li><a class="" href="oravazlat-az-r-tanitasahoz.html"><span class="header-section-number">D</span> Óravázlat az R tanításához</a></li>
+<li><a class="active" href="probak.html"><span class="header-section-number">E</span> Próbák röviden</a></li>
+<li><a class="" href="irodalomjegyzek.html">Irodalomjegyzék</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/abarik/aeer">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="probak" class="section level1" number="16">
+<h1>
+<span class="header-section-number">E</span> Próbák röviden<a class="anchor" aria-label="anchor" href="#probak"><i class="fas fa-link"></i></a>
+</h1>
+<p>A könyvben szereplő próba összes próba bemutatása.</p>
+<div class="sourceCode" id="cb654"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/">broom</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dgromer/apa">apa</a></span><span class="op">)</span></span>
+<span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="co"># devtools::install_github('achetverikov/apastats',subdir='apastats')</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">apastats</span><span class="op">)</span></span>
+<span><span class="co"># devtools::install_github("rempsyc/rempsyc")</span></span>
+<span><span class="co"># library(rempsyc)</span></span>
+<span><span class="co"># install.packages("papaja")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/crsh/papaja">papaja</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://andrisignorell.github.io/DescTools/">DescTools</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/alanarnholt/BSDA">BSDA</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">nonpar</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TeachingDemos</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ardata-fr.github.io/flextable-book/">flextable</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">survey</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 'data.frame':    237 obs. of  12 variables:</span></span>
+<span><span class="co">#&gt;  $ Sex   : Factor w/ 2 levels "Female","Male": 1 2 2 2 2 1 2 1 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ Wr.Hnd: num  18.5 19.5 18 18.8 20 18 17.7 17 20 18.5 ...</span></span>
+<span><span class="co">#&gt;  $ NW.Hnd: num  18 20.5 13.3 18.9 20 17.7 17.7 17.3 19.5 18.5 ...</span></span>
+<span><span class="co">#&gt;  $ W.Hnd : Factor w/ 2 levels "Left","Right": 2 1 2 2 2 2 2 2 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ Fold  : Factor w/ 3 levels "L on R","Neither",..: 3 3 1 3 2 1 1 3 3 3 ...</span></span>
+<span><span class="co">#&gt;  $ Pulse : int  92 104 87 NA 35 64 83 74 72 90 ...</span></span>
+<span><span class="co">#&gt;  $ Clap  : Factor w/ 3 levels "Left","Neither",..: 1 1 2 2 3 3 3 3 3 3 ...</span></span>
+<span><span class="co">#&gt;  $ Exer  : Factor w/ 3 levels "Freq","None",..: 3 2 2 2 3 3 1 1 3 3 ...</span></span>
+<span><span class="co">#&gt;  $ Smoke : Factor w/ 4 levels "Heavy","Never",..: 2 4 3 2 2 2 2 2 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ Height: num  173 178 NA 160 165 ...</span></span>
+<span><span class="co">#&gt;  $ M.I   : Factor w/ 2 levels "Imperial","Metric": 2 1 NA 2 2 1 1 2 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ Age   : num  18.2 17.6 16.9 20.3 23.7 ...</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>OutDec<span class="op">=</span><span class="st">","</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># egymintás u-próba</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu">BSDA</span><span class="fu">::</span><span class="fu"><a href="https://alanarnholt.github.io/BSDA/reference/z.test.html">z.test</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">survey</span><span class="op">$</span><span class="va">Wr.Hnd</span>, mu <span class="op">=</span> <span class="fl">16</span>, sigma.x <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> </span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  One-sample z-Test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  survey$Wr.Hnd</span></span>
+<span><span class="co">#&gt; z = 14, p-value &lt;2e-16</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true mean is not equal to 16</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  18,29 19,05</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; mean of x </span></span>
+<span><span class="co">#&gt;     18,67</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="11%">
+<col width="13%">
+<col width="10%">
+<col width="11%">
+<col width="13%">
+<col width="23%">
+<col width="15%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">estimate</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">18,67</td>
+<td align="right">13,67</td>
+<td align="right">0</td>
+<td align="right">18,29</td>
+<td align="right">19,05</td>
+<td align="left">One-sample z-Test</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb655"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$M = 18,67$, 95\\% CI $[18,29, 19,05]$, $z = 13,67$, $p &lt; 0,001$"</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://davidgohel.github.io/flextable/reference/as_flextable.html">as_flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<template id="986c0264-0a5c-453f-ab3f-491098ad72c1"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style>
+<div class="tabwid">
+<style>.cl-ec81b54c{}.cl-ec760f4e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ec763d70{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ec763d7a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ec769842{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76984c{width:65.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769856{width:60.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769860{width:114.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76986a{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76986b{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769874{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769875{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76987e{width:60.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76987f{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769888{width:65.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769889{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76988a{width:114.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769892{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769893{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec769894{width:60.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76989c{width:114.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76989d{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76989e{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec76989f{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec7698a6{width:65.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-ec81b54c">
+<thead><tr style="overflow-wrap:break-word;">
+<td class="cl-ec76989f"><p class="cl-ec763d70"><span class="cl-ec760f4e">estimate</span></p></td>
+<td class="cl-ec769893"><p class="cl-ec763d70"><span class="cl-ec760f4e">statistic</span></p></td>
+<td class="cl-ec76989e"><p class="cl-ec763d70"><span class="cl-ec760f4e">p.value</span></p></td>
+<td class="cl-ec769894"><p class="cl-ec763d70"><span class="cl-ec760f4e">conf.low</span></p></td>
+<td class="cl-ec7698a6"><p class="cl-ec763d70"><span class="cl-ec760f4e">conf.high</span></p></td>
+<td class="cl-ec76989c"><p class="cl-ec763d7a"><span class="cl-ec760f4e">method</span></p></td>
+<td class="cl-ec76989d"><p class="cl-ec763d7a"><span class="cl-ec760f4e">alternative</span></p></td>
+</tr></thead>
+<tbody><tr style="overflow-wrap:break-word;">
+<td class="cl-ec76986a"><p class="cl-ec763d70"><span class="cl-ec760f4e">18.7</span></p></td>
+<td class="cl-ec769874"><p class="cl-ec763d70"><span class="cl-ec760f4e">13.7</span></p></td>
+<td class="cl-ec76986b"><p class="cl-ec763d70"><span class="cl-ec760f4e">0.0000</span><span class="cl-ec760f4e">***</span></p></td>
+<td class="cl-ec769856"><p class="cl-ec763d70"><span class="cl-ec760f4e">18.3</span></p></td>
+<td class="cl-ec76984c"><p class="cl-ec763d70"><span class="cl-ec760f4e">19.1</span></p></td>
+<td class="cl-ec769860"><p class="cl-ec763d7a"><span class="cl-ec760f4e">One-sample z-Test</span></p></td>
+<td class="cl-ec769842"><p class="cl-ec763d7a"><span class="cl-ec760f4e">two.sided</span></p></td>
+</tr></tbody>
+<tfoot><tr style="overflow-wrap:break-word;"><td colspan="7" class="cl-ec76987f"><p class="cl-ec763d7a"><span class="cl-ec760f4e">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05</span></p></td></tr></tfoot>
+</table></div>
+</div></template><div class="flextable-shadow-host" id="16d42e96-68c3-457a-985a-456af0576a38"></div>
+<script>
+var dest = document.getElementById("16d42e96-68c3-457a-985a-456af0576a38");
+var template = document.getElementById("986c0264-0a5c-453f-ab3f-491098ad72c1");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+
+# egymintás t-próba
+test.result  
+#&gt;  One Sample t-test
+#&gt; 
+#&gt; data:  survey$Wr.Hnd
+#&gt; t = 22, df = 235, p-value &lt;2e-16
+#&gt; alternative hypothesis: true mean is not equal to 16
+#&gt; 95 percent confidence interval:
+#&gt;  18,43 18,91
+#&gt; sample estimates:
+#&gt; mean of x 
+#&gt;     18,67
+test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="10%">
+<col width="11%">
+<col width="9%">
+<col width="11%">
+<col width="10%">
+<col width="11%">
+<col width="20%">
+<col width="13%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">estimate</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">parameter</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">18,67</td>
+<td align="right">21,82</td>
+<td align="right">0</td>
+<td align="right">235</td>
+<td align="right">18,43</td>
+<td align="right">18,91</td>
+<td align="left">One Sample t-test</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb656"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$M = 18,67$, 95\\% CI $[18,43, 18,91]$, $t(235) = 21,82$, $p &lt; 0,001$"</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://davidgohel.github.io/flextable/reference/as_flextable.html">as_flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<template id="12110c95-a91a-467f-b9a7-7c2e94e3ce99"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style>
+<div class="tabwid">
+<style>.cl-ecbc48ba{}.cl-ecb0e7ae{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ecb102f2{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ecb10310{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ecb13eca{width:65.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13ed4{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13ede{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13edf{width:60.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13ee0{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13ee8{width:109.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13ee9{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13ef2{width:70.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13ef3{width:60.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13ef4{width:65.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13efc{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13efd{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13efe{width:70.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f06{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f07{width:109.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f10{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f11{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f12{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f13{width:60.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f1a{width:65.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f1b{width:109.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f1c{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f1d{width:70.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecb13f24{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-ecbc48ba">
+<thead><tr style="overflow-wrap:break-word;">
+<td class="cl-ecb13f12"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">estimate</span></p></td>
+<td class="cl-ecb13f1c"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">statistic</span></p></td>
+<td class="cl-ecb13f24"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">p.value</span></p></td>
+<td class="cl-ecb13f1d"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">parameter</span></p></td>
+<td class="cl-ecb13f13"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">conf.low</span></p></td>
+<td class="cl-ecb13f1a"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">conf.high</span></p></td>
+<td class="cl-ecb13f1b"><p class="cl-ecb10310"><span class="cl-ecb0e7ae">method</span></p></td>
+<td class="cl-ecb13f11"><p class="cl-ecb10310"><span class="cl-ecb0e7ae">alternative</span></p></td>
+</tr></thead>
+<tbody><tr style="overflow-wrap:break-word;">
+<td class="cl-ecb13ede"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">18.7</span></p></td>
+<td class="cl-ecb13ee9"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">21.8</span></p></td>
+<td class="cl-ecb13ee0"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">0.0000</span><span class="cl-ecb0e7ae">***</span></p></td>
+<td class="cl-ecb13ef2"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">235.0</span></p></td>
+<td class="cl-ecb13edf"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">18.4</span></p></td>
+<td class="cl-ecb13eca"><p class="cl-ecb102f2"><span class="cl-ecb0e7ae">18.9</span></p></td>
+<td class="cl-ecb13ee8"><p class="cl-ecb10310"><span class="cl-ecb0e7ae">One Sample t-test</span></p></td>
+<td class="cl-ecb13ed4"><p class="cl-ecb10310"><span class="cl-ecb0e7ae">two.sided</span></p></td>
+</tr></tbody>
+<tfoot><tr style="overflow-wrap:break-word;"><td colspan="8" class="cl-ecb13efd"><p class="cl-ecb10310"><span class="cl-ecb0e7ae">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05</span></p></td></tr></tfoot>
+</table></div>
+</div></template><div class="flextable-shadow-host" id="4c368589-e6c5-4e5b-8e1a-9255d6d452fc"></div>
+<script>
+var dest = document.getElementById("4c368589-e6c5-4e5b-8e1a-9255d6d452fc");
+var template = document.getElementById("12110c95-a91a-467f-b9a7-7c2e94e3ce99");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+
+
+# előjel-próba
+test.result  
+#&gt;  One-sample Sign-Test
+#&gt; 
+#&gt; data:  survey$Pulse
+#&gt; S = 192, number of differences = 192, p-value &lt;2e-16
+#&gt; alternative hypothesis: true median is not equal to 0
+#&gt; 96,4 percent confidence interval:
+#&gt;  71 76
+#&gt; sample estimates:
+#&gt; median of the differences 
+#&gt;                      72,5
+test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="8%">
+<col width="9%">
+<col width="7%">
+<col width="9%">
+<col width="15%">
+<col width="16%">
+<col width="20%">
+<col width="11%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">estimate</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">parameter</th>
+<th align="right">conf.low.lwr.ci</th>
+<th align="right">conf.high.upr.ci</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">72,5</td>
+<td align="right">192</td>
+<td align="right">0</td>
+<td align="right">192</td>
+<td align="right">71</td>
+<td align="right">76</td>
+<td align="left">One-sample Sign-Test</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb657"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$S = 192,00$, $p &lt; 0,001$"</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://davidgohel.github.io/flextable/reference/as_flextable.html">as_flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<template id="04cdf247-9e1a-4f3b-bf97-a83c1ddc74fe"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style>
+<div class="tabwid">
+<style>.cl-ecf899e6{}.cl-eceb5a1a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-eceb8508{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-eceb851c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ecebd1de{width:95.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd1f2{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd1fc{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd1fd{width:89pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd206{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd207{width:130.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd208{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd210{width:70.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd211{width:89pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd212{width:95.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd213{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd21a{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd21b{width:70.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd224{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd225{width:130.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd226{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd22e{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd22f{width:62.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd238{width:89pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd239{width:95.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd23a{width:130.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd23b{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd242{width:70.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ecebd243{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-ecf899e6">
+<thead><tr style="overflow-wrap:break-word;">
+<td class="cl-ecebd22f"><p class="cl-eceb8508"><span class="cl-eceb5a1a">estimate</span></p></td>
+<td class="cl-ecebd23b"><p class="cl-eceb8508"><span class="cl-eceb5a1a">statistic</span></p></td>
+<td class="cl-ecebd243"><p class="cl-eceb8508"><span class="cl-eceb5a1a">p.value</span></p></td>
+<td class="cl-ecebd242"><p class="cl-eceb8508"><span class="cl-eceb5a1a">parameter</span></p></td>
+<td class="cl-ecebd238"><p class="cl-eceb8508"><span class="cl-eceb5a1a">conf.low.lwr.ci</span></p></td>
+<td class="cl-ecebd239"><p class="cl-eceb8508"><span class="cl-eceb5a1a">conf.high.upr.ci</span></p></td>
+<td class="cl-ecebd23a"><p class="cl-eceb851c"><span class="cl-eceb5a1a">method</span></p></td>
+<td class="cl-ecebd22e"><p class="cl-eceb851c"><span class="cl-eceb5a1a">alternative</span></p></td>
+</tr></thead>
+<tbody><tr style="overflow-wrap:break-word;">
+<td class="cl-ecebd1fc"><p class="cl-eceb8508"><span class="cl-eceb5a1a">72.5</span></p></td>
+<td class="cl-ecebd208"><p class="cl-eceb8508"><span class="cl-eceb5a1a">192.0</span></p></td>
+<td class="cl-ecebd206"><p class="cl-eceb8508"><span class="cl-eceb5a1a">0.0000</span><span class="cl-eceb5a1a">***</span></p></td>
+<td class="cl-ecebd210"><p class="cl-eceb8508"><span class="cl-eceb5a1a">192.0</span></p></td>
+<td class="cl-ecebd1fd"><p class="cl-eceb8508"><span class="cl-eceb5a1a">71.0</span></p></td>
+<td class="cl-ecebd1de"><p class="cl-eceb8508"><span class="cl-eceb5a1a">76.0</span></p></td>
+<td class="cl-ecebd207"><p class="cl-eceb851c"><span class="cl-eceb5a1a">One-sample Sign-Test</span></p></td>
+<td class="cl-ecebd1f2"><p class="cl-eceb851c"><span class="cl-eceb5a1a">two.sided</span></p></td>
+</tr></tbody>
+<tfoot><tr style="overflow-wrap:break-word;"><td colspan="8" class="cl-ecebd21a"><p class="cl-eceb851c"><span class="cl-eceb5a1a">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05</span></p></td></tr></tfoot>
+</table></div>
+</div></template><div class="flextable-shadow-host" id="71cdc43d-bfac-4dd4-9bed-82a2eff2ef7e"></div>
+<script>
+var dest = document.getElementById("71cdc43d-bfac-4dd4-9bed-82a2eff2ef7e");
+var template = document.getElementById("04cdf247-9e1a-4f3b-bf97-a83c1ddc74fe");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+
+# Wilcoxon-próba
+test.result  
+#&gt;  Wilcoxon signed rank test with continuity correction
+#&gt; 
+#&gt; data:  survey$Pulse
+#&gt; V = 18528, p-value &lt;2e-16
+#&gt; alternative hypothesis: true location is not equal to 0
+test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="12%">
+<col width="9%">
+<col width="63%">
+<col width="14%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">18528</td>
+<td align="right">0</td>
+<td align="left">Wilcoxon signed rank test with continuity correction</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb658"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$V = 18,528,00$, $p &lt; 0,001$"</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://davidgohel.github.io/flextable/reference/as_flextable.html">as_flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<template id="c6e919ca-ebe8-4fca-a38f-5b06e3396d9b"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style>
+<div class="tabwid">
+<style>.cl-ed2714e2{}.cl-ed1a9fe6{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ed1aba62{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ed1aba6c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ed1aef6e{width:269.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef78{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef79{width:63.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef82{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef83{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef84{width:269.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef8c{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef8d{width:63.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef8e{width:71.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef96{width:63.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aef97{width:67pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed1aefa0{width:269.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-ed2714e2">
+<thead><tr style="overflow-wrap:break-word;">
+<td class="cl-ed1aef96"><p class="cl-ed1aba62"><span class="cl-ed1a9fe6">statistic</span></p></td>
+<td class="cl-ed1aef97"><p class="cl-ed1aba62"><span class="cl-ed1a9fe6">p.value</span></p></td>
+<td class="cl-ed1aefa0"><p class="cl-ed1aba6c"><span class="cl-ed1a9fe6">method</span></p></td>
+<td class="cl-ed1aef8e"><p class="cl-ed1aba6c"><span class="cl-ed1a9fe6">alternative</span></p></td>
+</tr></thead>
+<tbody><tr style="overflow-wrap:break-word;">
+<td class="cl-ed1aef79"><p class="cl-ed1aba62"><span class="cl-ed1a9fe6">18,528.0</span></p></td>
+<td class="cl-ed1aef82"><p class="cl-ed1aba62"><span class="cl-ed1a9fe6">0.0000</span><span class="cl-ed1a9fe6">***</span></p></td>
+<td class="cl-ed1aef6e"><p class="cl-ed1aba6c"><span class="cl-ed1a9fe6">Wilcoxon signed rank test with continuity correction</span></p></td>
+<td class="cl-ed1aef78"><p class="cl-ed1aba6c"><span class="cl-ed1a9fe6">two.sided</span></p></td>
+</tr></tbody>
+<tfoot><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-ed1aef8d"><p class="cl-ed1aba6c"><span class="cl-ed1a9fe6">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05</span></p></td></tr></tfoot>
+</table></div>
+</div></template><div class="flextable-shadow-host" id="26e889f1-13cd-4be5-a5a2-4d137739e47b"></div>
+<script>
+var dest = document.getElementById("26e889f1-13cd-4be5-a5a2-4d137739e47b");
+var template = document.getElementById("c6e919ca-ebe8-4fca-a38f-5b06e3396d9b");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+
+# Khí-négyzet próba az egymintás varianciára
+test.result  
+#&gt;  One sample Chi-squared test for variance
+#&gt; 
+#&gt; data:  survey$Wr.Hnd
+#&gt; X-squared = NA, df = 236, p-value = NA
+#&gt; alternative hypothesis: true variance is not equal to 100
+#&gt; 95 percent confidence interval:
+#&gt;  NA NA
+#&gt; sample estimates:
+#&gt; var of survey$Wr.Hnd 
+#&gt;                   NA
+# test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+# test.result %&gt;% papaja::apa_print() %&gt;% `[[`("full_result")
+# test.result %&gt;% as_flextable()
+
+test.result  $statistic
+#&gt; Chi-Squared 
+#&gt;       8,297 
+#&gt; 
+#&gt; $parameters
+#&gt;  df 
+#&gt; 235 
+#&gt; 
+#&gt; $p.value
+#&gt; [1] 3,033e-123
+#&gt; 
+#&gt; $estimate
+#&gt; variance 
+#&gt;    3,531 
+#&gt; 
+#&gt; $null.value
+#&gt; variance 
+#&gt;      100 
+#&gt; 
+#&gt; $alternative
+#&gt; [1] "two.sided"
+#&gt; 
+#&gt; $method
+#&gt; [1] "Chi-Squared Test on Variance"
+#&gt; 
+#&gt; $data.name
+#&gt; [1] "survey$Wr.Hnd"
+#&gt; 
+#&gt; $conf.int
+#&gt;   LCL   UCL 
+#&gt; 2,970 4,267 
+#&gt; attr(,"conf.level")
+#&gt; [1] 0,95
+#&gt; 
+#&gt; attr(,"class")
+#&gt; [1] "htestEnvStats"
+# test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+# test.result %&gt;% papaja::apa_print() %&gt;% `[[`("full_result")
+# test.result %&gt;% as_flextable()
+
+
+# Khí-négyzet próba a valószínűségre
+test.result  
+#&gt;  One sample Chi-squared test for variance
+#&gt; 
+#&gt; data:  survey$Wr.Hnd
+#&gt; X-squared = NA, df = 236, p-value = NA
+#&gt; alternative hypothesis: true variance is not equal to 100
+#&gt; 95 percent confidence interval:
+#&gt;  NA NA
+#&gt; sample estimates:
+#&gt; var of survey$Wr.Hnd 
+#&gt;                   NA
+# test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+# test.result %&gt;% papaja::apa_print() %&gt;% `[[`("full_result")
+
+
+# Shapiro-Wilk-próba
+test.result  
+#&gt;  Shapiro-Wilk normality test
+#&gt; 
+#&gt; data:  survey$Pulse
+#&gt; W = 0,99, p-value = 0,09
+test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="left">method</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">0,9874</td>
+<td align="right">0,0863</td>
+<td align="left">Shapiro-Wilk normality test</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb659"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$W = 0,99$, $p = 0,086$"</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://davidgohel.github.io/flextable/reference/as_flextable.html">as_flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<template id="16153942-43fd-4cd5-b01c-66517656c188"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style>
+<div class="tabwid">
+<style>.cl-ed55393a{}.cl-ed4ac6a8{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ed4ae124{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ed4ae138{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ed4b1748{width:151.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed4b1752{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed4b175c{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed4b175d{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed4b1766{width:151.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed4b1767{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed4b1768{width:151.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed4b1770{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed4b1771{width:63.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-ed55393a">
+<thead><tr style="overflow-wrap:break-word;">
+<td class="cl-ed4b1770"><p class="cl-ed4ae124"><span class="cl-ed4ac6a8">statistic</span></p></td>
+<td class="cl-ed4b1771"><p class="cl-ed4ae124"><span class="cl-ed4ac6a8">p.value</span></p></td>
+<td class="cl-ed4b1768"><p class="cl-ed4ae138"><span class="cl-ed4ac6a8">method</span></p></td>
+</tr></thead>
+<tbody><tr style="overflow-wrap:break-word;">
+<td class="cl-ed4b175c"><p class="cl-ed4ae124"><span class="cl-ed4ac6a8">1.0</span></p></td>
+<td class="cl-ed4b1752"><p class="cl-ed4ae124"><span class="cl-ed4ac6a8">0.0863</span><span class="cl-ed4ac6a8">  .</span></p></td>
+<td class="cl-ed4b1748"><p class="cl-ed4ae138"><span class="cl-ed4ac6a8">Shapiro-Wilk normality test</span></p></td>
+</tr></tbody>
+<tfoot><tr style="overflow-wrap:break-word;"><td colspan="3" class="cl-ed4b1767"><p class="cl-ed4ae138"><span class="cl-ed4ac6a8">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05</span></p></td></tr></tfoot>
+</table></div>
+</div></template><div class="flextable-shadow-host" id="6ab45ffb-58e4-4d32-9aa2-5a124fb32eee"></div>
+<script>
+var dest = document.getElementById("6ab45ffb-58e4-4d32-9aa2-5a124fb32eee");
+var template = document.getElementById("16153942-43fd-4cd5-b01c-66517656c188");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+
+
+# Kolmogorov-Szmirnov-próba
+test.result  
+#&gt;  Lilliefors (Kolmogorov-Smirnov) normality test
+#&gt; 
+#&gt; data:  survey$Pulse
+#&gt; D = 0,073, p-value = 0,01
+test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="left">method</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">0,073</td>
+<td align="right">0,0145</td>
+<td align="left">Lilliefors (Kolmogorov-Smirnov) normality test</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb660"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># test.result %&gt;% papaja::apa_print() %&gt;% `[[`("full_result")</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://davidgohel.github.io/flextable/reference/as_flextable.html">as_flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<template id="44399303-bf0e-41e4-a8d4-2733cd6fc85c"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style>
+<div class="tabwid">
+<style>.cl-ed7f64da{}.cl-ed74653a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ed749df2{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ed749dfc{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ed74f7ac{width:242.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed74f7c0{width:64.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed74f7ca{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed74f7cb{width:64.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed74f7cc{width:242.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed74f7d4{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed74f7d5{width:242.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed74f7de{width:57.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ed74f7df{width:64.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-ed7f64da">
+<thead><tr style="overflow-wrap:break-word;">
+<td class="cl-ed74f7de"><p class="cl-ed749df2"><span class="cl-ed74653a">statistic</span></p></td>
+<td class="cl-ed74f7df"><p class="cl-ed749df2"><span class="cl-ed74653a">p.value</span></p></td>
+<td class="cl-ed74f7d5"><p class="cl-ed749dfc"><span class="cl-ed74653a">method</span></p></td>
+</tr></thead>
+<tbody><tr style="overflow-wrap:break-word;">
+<td class="cl-ed74f7ca"><p class="cl-ed749df2"><span class="cl-ed74653a">0.1</span></p></td>
+<td class="cl-ed74f7c0"><p class="cl-ed749df2"><span class="cl-ed74653a">0.0145</span><span class="cl-ed74653a">  *</span></p></td>
+<td class="cl-ed74f7ac"><p class="cl-ed749dfc"><span class="cl-ed74653a">Lilliefors (Kolmogorov-Smirnov) normality test</span></p></td>
+</tr></tbody>
+<tfoot><tr style="overflow-wrap:break-word;"><td colspan="3" class="cl-ed74f7d4"><p class="cl-ed749dfc"><span class="cl-ed74653a">Signif. codes: 0 &lt;= '***' &lt; 0.001 &lt; '**' &lt; 0.01 &lt; '*' &lt; 0.05</span></p></td></tr></tfoot>
+</table></div>
+</div></template><div class="flextable-shadow-host" id="05522264-6470-492a-b085-cd4e57c2b244"></div>
+<script>
+var dest = document.getElementById("05522264-6470-492a-b085-cd4e57c2b244");
+var template = document.getElementById("44399303-bf0e-41e4-a8d4-2733cd6fc85c");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+
+# Arány-próba
+test.result  
+#&gt;  1-sample proportions test with continuity correction
+#&gt; 
+#&gt; data:  61 out of 500, null probability 0.108
+#&gt; X-squared = 0,88, df = 1, p-value = 0,3
+#&gt; alternative hypothesis: true p is not equal to 0,108
+#&gt; 95 percent confidence interval:
+#&gt;  0,09527 0,15470
+#&gt; sample estimates:
+#&gt;     p 
+#&gt; 0,122
+test.result %&gt;% broom::tidy() %&gt;% knitr::kable()
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="7%">
+<col width="8%">
+<col width="6%">
+<col width="8%">
+<col width="7%">
+<col width="8%">
+<col width="43%">
+<col width="9%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">estimate</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">parameter</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">0,122</td>
+<td align="right">0,8771</td>
+<td align="right">0,349</td>
+<td align="right">1</td>
+<td align="right">0,0953</td>
+<td align="right">0,1547</td>
+<td align="left">1-sample proportions test with continuity correction</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb661"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># test.result %&gt;% papaja::apa_print() %&gt;% `[[`("full_result")</span></span>
+<span></span>
+<span><span class="co"># Binomiális-próba</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/binom.test.html">binom.test</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">61</span>, n <span class="op">=</span> <span class="fl">500</span>, p <span class="op">=</span> <span class="fl">0.108</span><span class="op">)</span></span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Exact binomial test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  61 and 500</span></span>
+<span><span class="co">#&gt; number of successes = 61, number of trials = 500, p-value = 0,3</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true probability of success is not equal to 0,108</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  0,09462 0,15394</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; probability of success </span></span>
+<span><span class="co">#&gt;                  0,122</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="10%">
+<col width="11%">
+<col width="9%">
+<col width="11%">
+<col width="10%">
+<col width="11%">
+<col width="22%">
+<col width="13%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">estimate</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">parameter</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">0,122</td>
+<td align="right">61</td>
+<td align="right">0,3129</td>
+<td align="right">500</td>
+<td align="right">0,0946</td>
+<td align="right">0,1539</td>
+<td align="left">Exact binomial test</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb662"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># test.result %&gt;% papaja::apa_print() %&gt;% `[[`("full_result")</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Bartlett-próba</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/bartlett.test.html">bartlett.test</a></span><span class="op">(</span><span class="va">Wr.Hnd</span><span class="op">~</span><span class="va">Smoke</span>, data<span class="op">=</span><span class="va">survey</span><span class="op">)</span></span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Bartlett test of homogeneity of variances</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  Wr.Hnd by Smoke</span></span>
+<span><span class="co">#&gt; Bartlett's K-squared = 9,8, df = 3, p-value = 0,02</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="14%">
+<col width="11%">
+<col width="14%">
+<col width="60%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">parameter</th>
+<th align="left">method</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">9,817</td>
+<td align="right">0,0202</td>
+<td align="right">3</td>
+<td align="left">Bartlett test of homogeneity of variances</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb663"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$K^2(3) = 9,82$, $p = 0,020$"</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Levene-próba</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/LeveneTest.html">LeveneTest</a></span><span class="op">(</span><span class="va">Wr.Hnd</span><span class="op">~</span><span class="va">Smoke</span>, data<span class="op">=</span><span class="va">survey</span>, center<span class="op">=</span><span class="va">median</span><span class="op">)</span></span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; Levene's Test for Homogeneity of Variance (center = median)</span></span>
+<span><span class="co">#&gt;        Df F value Pr(&gt;F)  </span></span>
+<span><span class="co">#&gt; group   3    3,09  0,028 *</span></span>
+<span><span class="co">#&gt;       231                 </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0,001 '**' 0,01 '*' 0,05 '.' 0,1 ' ' 1</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">df</th>
+<th align="right">df.residual</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">3,086</td>
+<td align="right">0,028</td>
+<td align="right">3</td>
+<td align="right">231</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb664"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$F(3, 231) = 3,09$, $p = 0,028$"</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Kruskal-Wallis-próba</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/kruskal.test.html">kruskal.test</a></span><span class="op">(</span><span class="va">Wr.Hnd</span><span class="op">~</span><span class="va">Smoke</span>, data<span class="op">=</span><span class="va">survey</span><span class="op">)</span></span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Kruskal-Wallis rank sum test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  Wr.Hnd by Smoke</span></span>
+<span><span class="co">#&gt; Kruskal-Wallis chi-squared = 3,1, df = 3, p-value = 0,4</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">parameter</th>
+<th align="left">method</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">3,089</td>
+<td align="right">0,3781</td>
+<td align="right">3</td>
+<td align="left">Kruskal-Wallis rank sum test</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb665"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># test.result %&gt;% papaja::apa_print() %&gt;% `[[`("full_result")</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Mann-Whitney-próba</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span><span class="op">(</span><span class="va">Wr.Hnd</span><span class="op">~</span><span class="va">Sex</span>, data<span class="op">=</span><span class="va">survey</span><span class="op">)</span></span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Wilcoxon rank sum test with continuity correction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  Wr.Hnd by Sex</span></span>
+<span><span class="co">#&gt; W = 2138, p-value &lt;2e-16</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="12%">
+<col width="10%">
+<col width="62%">
+<col width="15%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">2138</td>
+<td align="right">0</td>
+<td align="left">Wilcoxon rank sum test with continuity correction</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb666"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$W = 2,137,50$, $p &lt; 0,001$"</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># F-próba</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/var.test.html">var.test</a></span><span class="op">(</span><span class="va">Wr.Hnd</span><span class="op">~</span><span class="va">Sex</span>, data<span class="op">=</span><span class="va">survey</span><span class="op">)</span></span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  F test to compare two variances</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  Wr.Hnd by Sex</span></span>
+<span><span class="co">#&gt; F = 0,56, num df = 117, denom df = 116, p-value = 0,002</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true ratio of variances is not equal to 1</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  0,3914 0,8122</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; ratio of variances </span></span>
+<span><span class="co">#&gt;             0,5639</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="8%">
+<col width="6%">
+<col width="6%">
+<col width="9%">
+<col width="7%">
+<col width="8%">
+<col width="9%">
+<col width="30%">
+<col width="11%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">estimate</th>
+<th align="right">num.df</th>
+<th align="right">den.df</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">0,5639</td>
+<td align="right">117</td>
+<td align="right">116</td>
+<td align="right">0,5639</td>
+<td align="right">0,0022</td>
+<td align="right">0,3914</td>
+<td align="right">0,8122</td>
+<td align="left">F test to compare two variances</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb667"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$F(117, 116) = 0,56$, $p = 0,002$"</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># kétmintás t-próba</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">Wr.Hnd</span><span class="op">~</span><span class="va">Sex</span>, data<span class="op">=</span><span class="va">survey</span>, var.equal<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Two Sample t-test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  Wr.Hnd by Sex</span></span>
+<span><span class="co">#&gt; t = -11, df = 233, p-value &lt;2e-16</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true difference in means between group Female and group Male is not equal to 0</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  -2,544 -1,748</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; mean in group Female   mean in group Male </span></span>
+<span><span class="co">#&gt;                17,60                19,74</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table style="width:100%;" class="table table-sm">
+<colgroup>
+<col width="8%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="7%">
+<col width="9%">
+<col width="8%">
+<col width="9%">
+<col width="16%">
+<col width="11%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">estimate</th>
+<th align="right">estimate1</th>
+<th align="right">estimate2</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">parameter</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+<th align="left">method</th>
+<th align="left">alternative</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">-2,146</td>
+<td align="right">17,6</td>
+<td align="right">19,74</td>
+<td align="right">-10,63</td>
+<td align="right">0</td>
+<td align="right">233</td>
+<td align="right">-2,544</td>
+<td align="right">-1,748</td>
+<td align="left">Two Sample t-test</td>
+<td align="left">two.sided</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb668"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$\\Delta M = -2,15$, 95\\% CI $[-2,54, -1,75]$, $t(233) = -10,63$, $p &lt; 0,001$"</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># AOV</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html">aov</a></span><span class="op">(</span><span class="va">Wr.Hnd</span><span class="op">~</span><span class="va">Smoke</span>, data<span class="op">=</span><span class="va">survey</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">test.result</span><span class="op">)</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt;              Df Sum Sq Mean Sq F value Pr(&gt;F)</span></span>
+<span><span class="co">#&gt; Smoke         3     17    5,51    1,58    0,2</span></span>
+<span><span class="co">#&gt; Residuals   231    808    3,50               </span></span>
+<span><span class="co">#&gt; 2 observations deleted due to missingness</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">term</th>
+<th align="right">df</th>
+<th align="right">sumsq</th>
+<th align="right">meansq</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Smoke</td>
+<td align="right">3</td>
+<td align="right">16,54</td>
+<td align="right">5,514</td>
+<td align="right">1,577</td>
+<td align="right">0,1957</td>
+</tr>
+<tr class="even">
+<td align="left">Residuals</td>
+<td align="right">231</td>
+<td align="right">807,69</td>
+<td align="right">3,497</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb669"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $Smoke</span></span>
+<span><span class="co">#&gt; [1] "$F(3, 231) = 1,58$, $p = 0,196$, $\\hat{\\eta}^2_G = 0,020$, 90\\% CI $[0,000, 0,049]$"</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># AOV - Welch</span></span>
+<span><span class="va">test.result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/oneway.test.html">oneway.test</a></span><span class="op">(</span><span class="va">Wr.Hnd</span><span class="op">~</span><span class="va">Smoke</span>, data<span class="op">=</span><span class="va">survey</span><span class="op">)</span></span>
+<span><span class="va">test.result</span>   <span class="co"># hagyományos R output</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  One-way analysis of means (not assuming equal variances)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  Wr.Hnd and Smoke</span></span>
+<span><span class="co">#&gt; F = 0,89, num df = 3, denom df = 25, p-value = 0,5</span></span>
+<span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="7%">
+<col width="7%">
+<col width="11%">
+<col width="8%">
+<col width="64%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">num.df</th>
+<th align="right">den.df</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="left">method</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="right">3</td>
+<td align="right">24,6</td>
+<td align="right">0,8948</td>
+<td align="right">0,4578</td>
+<td align="left">One-way analysis of means (not assuming equal variances)</td>
+</tr></tbody>
+</table></div>
+<div class="sourceCode" id="cb670"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test.result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">papaja</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/papaja/man/apa_print.html">apa_print</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">`[[`</span><span class="op">(</span><span class="st">"full_result"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$F(3, 24,60) = 0,89$, $p = 0,458$"</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">jmv</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'ToothGrowth'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/jmv/man/ancova.html">ancova</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">+</span> <span class="va">dose</span>, data <span class="op">=</span> <span class="va">ToothGrowth</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ANCOVA</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ANCOVA - len                                                              </span></span>
+<span><span class="co">#&gt;  ───────────────────────────────────────────────────────────────────────── </span></span>
+<span><span class="co">#&gt;                 Sum of Squares    df    Mean Square    F         p         </span></span>
+<span><span class="co">#&gt;  ───────────────────────────────────────────────────────────────────────── </span></span>
+<span><span class="co">#&gt;    supp                  205.4     1         205.35     11.45     0.0013   </span></span>
+<span><span class="co">#&gt;    dose                 2224.3     1        2224.30    123.99    &lt; .0001   </span></span>
+<span><span class="co">#&gt;    Residuals            1022.6    57          17.94                        </span></span>
+<span><span class="co">#&gt;  ─────────────────────────────────────────────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># apastats::describe.ttest(t1, show.mean = T)</span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># # If devtools isn't already installed, install it with install.packages("devtools")</span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># if(!require('pubprint')) {</span></span>
+<span><span class="co">#   install.packages('pubprint')</span></span>
+<span><span class="co">#   library('pubprint')</span></span>
+<span><span class="co"># }</span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># t1 %&gt;% tidy() %&gt;% kable()</span></span>
+<span><span class="co"># </span></span></code></pre></div>
+
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="oravazlat-az-r-tanitasahoz.html"><span class="header-section-number">D</span> Óravázlat az R tanításához</a></div>
+<div class="next"><a href="irodalomjegyzek.html">Irodalomjegyzék</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#probak"><span class="header-section-number">E</span> Próbák röviden</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/abarik/aeer/blob/master/43-Probak.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/abarik/aeer/edit/master/43-Probak.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2022-07-14.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

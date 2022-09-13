@@ -7,7 +7,7 @@
 <title>4 Munka az R-ben | Adatkezelés és egyváltozós elemzések R-ben</title>
 <meta name="author" content="Abari Kálmán">
 <meta name="description" content="4.1 Az RStudio használata  Ebben a fejezetben:  megismerjük az RStudio jellemzőit és felépítését,  a konzolos és parancsállományos használat különbségeit,  a parancsállományok és az RMarkdown...">
-<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta name="generator" content="bookdown 0.28 with bs4_book()">
 <meta property="og:title" content="4 Munka az R-ben | Adatkezelés és egyváltozós elemzések R-ben">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://abarik.github.io/aeer/munka-az-r-ben.html">
@@ -17,10 +17,11 @@
 <meta name="twitter:title" content="4 Munka az R-ben | Adatkezelés és egyváltozós elemzések R-ben">
 <meta name="twitter:description" content="4.1 Az RStudio használata  Ebben a fejezetben:  megismerjük az RStudio jellemzőit és felépítését,  a konzolos és parancsállományos használat különbségeit,  a parancsállományok és az RMarkdown...">
 <meta name="twitter:image" content="https://abarik.github.io/aeer/images/cover.jpg">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -29,7 +30,33 @@
       ga('create', 'UA-68765210-2', 'auto');
       ga('send', 'pageview');
 
-    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="css/style.css">
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -60,14 +87,8 @@
 <li><a class="" href="az-r-nyelv.html"><span class="header-section-number">5</span> Az R nyelv</a></li>
 <li><a class="" href="beolvasas.html"><span class="header-section-number">6</span> Beolvasás</a></li>
 <li><a class="" href="adatmanipulacio.html"><span class="header-section-number">7</span> Adatmanipuláció</a></li>
-<li><a class="" href="leiro-statisztika.html"><span class="header-section-number">8</span> Leíró statisztika</a></li>
+<li><a class="" href="mutatok-tablazatok.html"><span class="header-section-number">8</span> Mutatók és táblázatok</a></li>
 <li><a class="" href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></li>
-<li><a class="" href="hipotezisvizsgalatok.html"><span class="header-section-number">10</span> Hipotézisvizsgálatok</a></li>
-<li><a class="" href="publikacio.html"><span class="header-section-number">11</span> Publikáció</a></li>
-<li class="book-part">Függelék</li>
-<li><a class="" href="megoldasok.html"><span class="header-section-number">A</span> Megoldások</a></li>
-<li><a class="" href="szinek.html"><span class="header-section-number">B</span> Színek</a></li>
-<li><a class="" href="oravazlat-az-r-tanitasahoz.html"><span class="header-section-number">C</span> Óravázlat az R tanításához</a></li>
 <li><a class="" href="irodalomjegyzek.html">Irodalomjegyzék</a></li>
 </ul>
 
@@ -103,18 +124,46 @@ a parancsállományok és az RMarkdown állományok lehetőségeit,
 a projekt fogalmát és használatát,
 </li>
 <li>
-és az <em>RStudio</em> billenytűparancsait.
+és az <em>RStudio</em> billentyűparancsait.
 </li>
 </ul>
 </div>
-<p>Miután minden szükséges szoftverkomponenst feltelepítettünk, hogyan tudjuk működésre bírni az R-t? Tegyük fel, hogy van egy nagyon egyszerű adatfeldolgozási problémánk, szeretnénk megtudni a Csillagok háborúja c. film karaktereinek átlagos testmagasságát. Ha rátalálunk egy alkalmas adatbázisra, amely tartalmazza a szereplők testmagasságait, akkor még két konkrét adatelemzési lépés vár ránk: (1) az adatbázis megnyitása, (2) az átlagos testmagasság meghatározása. Korábban láttuk, hogy az R parancssoros, tehát a fenti két lépést R parancsok formájában kell megfogalmaznunk. Kérdés, hová írjuk a parancsainkat, hogyan hajthatjuk őket végre, és végül, milyen parancsokkal érhetjük el a célunkat. Ebben a fejeztben az első két kérdésre fókuszálunk, hová írhatjuk a parancsainkat és hogyan tudjuk azokat hatékonyan végrehajtani.</p>
-<p>Máris megválaszoljuk a kérdéseket. Korábban láttuk, hogy az <em>Alap R</em> telepítésével elérhetővé válik a <em>konzol</em>, ahová parancsainkat begépelve, majd <code>ENTER</code>-t ütve utasításokat tudunk végrehajtani. Az <em>RStudio</em> telepítésével is kapunk egy konzolt, amelynek működése megegyezik az <em>Alap R</em> konzoljával: ide is gépelhetünk parancsokat, és <code>ENTER</code>-rel végrehajthatjuk őket. A konzol azonban nem a legkényelmesebb módja az R parancsok végrehajtására. Érdemes szöveges állományba gyűjteni az adatfeldolgozáshoz kapcsolódó R parancsainkat, és azokat egyesével, többet egyszere, vagy akár az összeset elküldeni a konzolba végrehjatásra. Ezeknek a szöveges állományoknak két fajtáját ismerjük meg ebben a könyvben: a parancsállományokat és az RMarkdown állományokat (a 11. fejezetben az RMarkdown állományokról többet olvashatunk). A parancsállományok és az RMarkdown állományok létrehozásához is a legtöbb segítséget az <em>RStudio</em> nyújtja: a parancsok begépelését drámaian leegyszerűsíti, és egyben számos más kényelmi funkciót is ajánl. Hová írjuk tehát az R parancsainkat? Az <em>RStudio</em> parancsállományaiba vagy RMarkdown állományaiba. Kezdjük a fejezetet az <em>RStudio</em> lehetőségeinek megismerésével!</p>
+<p>Miután minden szükséges szoftverkomponenst feltelepítettünk, hogyan tudjuk működésre bírni az R-t?<br>
+Tegyük fel, hogy van egy nagyon egyszerű adatfeldolgozási problémánk, szeretnénk megtudni a <em>Csillagok háborúja</em> c. film karaktereinek átlagos testmagasságát a filmben szereplő egyes fajokra jellemzően. Ha rátalálunk egy alkalmas adatbázisra, amely tartalmazza a szereplők testmagasságait és azt, hogy melyik fajhoz tartoznak, akkor még két konkrét adatelemzési lépés vár ránk:</p>
+<ol style="list-style-type: decimal">
+<li>az adatbázis megnyitása,</li>
+<li>az átlagos testmagasságok meghatározása fajonként.</li>
+</ol>
+<p>Korábban láttuk, hogy az R parancssoros, tehát a fenti két lépést R parancsok formájában kell megfogalmaznunk. Azonban több kérdés is felmerül ezen a ponton:</p>
+<ol style="list-style-type: decimal">
+<li>hová írjuk a parancsainkat,</li>
+<li>hogyan hajthatjuk őket végre, és végül,</li>
+<li>hol jelenik meg az eredmény.</li>
+</ol>
+<p>Ebben a fejezetben a fenti három kérdésekre fókuszálunk, és azt a kérdést, hogy mely konkrét parancsokkal érhetjük el a célunkat a könyv további fejezeteire halasztjuk.</p>
+<p>Máris megválaszoljuk a kérdéseket. Korábban láttuk, hogy az <em>Alap R</em> telepítésével elérhetővé válik a <em>konzol</em>, ahová parancsainkat begépelve, majd <code>ENTER</code>-t ütve utasításokat tudunk végrehajtani. Az <em>RStudio</em> telepítésével is kapunk egy konzolt, amelynek működése megegyezik az <em>Alap R</em> konzoljával: ide is gépelhetünk parancsokat, és <code>ENTER</code>-rel végrehajthatjuk őket. A parancsok eredmény is itt, a konzolban fog megjelenni.</p>
+<p>A kiinduló adatelemzési feladatunk megoldásához tehát vagy az <em>Alap R</em> vagy az <em>RStudio</em> konzoljába gépeljük be a következő parancsokat, sorról-sorra, és minden egyes sor végén üssünk <code>ENTER</code>-t (a konzol használatához a <a href="munka-az-r-ben.html#az-rstudio-konzol">4.1.4</a>. és <a href="munka-az-r-ben.html#az-rstudio-konzol">4.1.4</a>. fejezetekben találunk segítséget). A <code>#</code>-el kezdődő részeket nem szükséges begépelnünk, azok nem az R-nek szólnak, hanem a megjegyzés szerepét töltik be.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span>      <span class="co"># a dplyr csomag telepítése</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"psych"</span><span class="op">)</span>      <span class="co"># a psych csomag telepítése</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package<span class="op">=</span><span class="st">"dplyr"</span><span class="op">)</span>  <span class="co"># adatbázis beolvasása csomagból</span></span>
+<span><span class="co"># testmagasság átlagok fajonként</span></span>
+<span><span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">height</span>, <span class="va">starwars</span><span class="op">$</span><span class="va">species</span>, fast<span class="op">=</span><span class="cn">T</span>, mat<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p>A konzol azonban nem a legkényelmesebb módja az R parancsok végrehajtásának. Ezzel minden bizonnyal egyet értenek azok, akik a fenti sorok begépelését és végrehajtását valóban elvégezték a konzolban. A konzolba gépelés helyett érdemes egy szöveges állományban összegyűjteni az adatfeldolgozáshoz kapcsolódó R parancsainkat, ugyanis ezeket később kényelmesen elküldhetjük a konzolba végrehajtásra, pont úgy, mintha közvetlenül a konzolba gépeltük volna be őket. Ezeknek a szöveges állományoknak két fajtáját ismerjük meg ebben a könyvben: a <em>parancsállományokat</em> és az <em>RMarkdown állományokat</em> (a <a href="#publikacio"><strong>??</strong></a>. fejezetben az RMarkdown állományokról többet olvashatunk).</p>
+<p>A parancsállományok és az RMarkdown állományok létrehozásához is a legtöbb segítséget az <em>RStudio</em> nyújtja: a parancsok begépelését drámaian leegyszerűsíti, és egyben számos más kényelmi funkciót is ajánl. Hová írjuk tehát az R parancsainkat? A legjobb válasz erre a kérdésre: az <em>RStudio</em> parancsállományaiba vagy RMarkdown állományaiba. Mielőtt valóban elvégeznénk ezen állományok létrehozását, ismerkedjünk meg az <em>RStudio</em> lehetőségeivel!</p>
 <div id="az-rstudio-jellemzői" class="section level3" number="4.1.1">
 <h3>
 <span class="header-section-number">4.1.1</span> Az RStudio jellemzői<a class="anchor" aria-label="anchor" href="#az-rstudio-jellemz%C5%91i"><i class="fas fa-link"></i></a>
 </h3>
-<p>Fontos tisztázni, az <em>RStudio</em> használatához feltétlenül szükség van a telepített <em>Alap R</em>-re, nélküle nem tudunk R parancsokat futtatni. Jó gyakorlat, ha az <em>RStudio</em> telepítése előtt telepítjük fel az <em>Alap R</em>-t, de a fordított sorrend sem okoz problémát. Sőt, ha az <em>Alap R</em> egy új verzióját telepítjük fel, akkor a korábban telepített <em>RStudio</em> már az új verziójú R futtató környezetét fogja használni. Az <em>RStudio</em> tudása tehát a végrehajtható R parancsok tekintetében megegyezik az <em>Alap R</em> tudásával, hiszen minden utasítás, amelynek a végrehajtását az <em>RStudio</em>-ban kezdeményezzük, végső soron az <em>Alap R</em>-rel telepített interpreterhez kerül, és a végrehajtásáért ő felel. Az <em>RStudio</em> elsősorban a parancsok írását könnyíti meg, segítségével a parancsok létrehozásához kapunk rendkívüli segítséget.</p>
-<p>Megjegyezzük, hogy az <em>RStudio</em> egy üzleti vállalkozás neve is egyben, amely többféle terméket fejleszt. Ezek egyike az <em>RStudio</em>-nak nevezett integrált fejlesztőkörnyezet, kimondottan az R programozási nyelv számára. Foglaljuk össze, hogy melyek az <em>RStudio</em> erősségei.</p>
+<p>Fontos tisztázni, az <em>RStudio</em> használatához feltétlenül szükség van a telepített <em>Alap R</em>-re, nélküle nem tudunk R parancsokat futtatni. Jó gyakorlat, ha az <em>RStudio</em> telepítése előtt telepítjük fel az <em>Alap R</em>-t, de a fordított sorrend sem okoz problémát. Sőt, ha az <em>Alap R</em> egy új verzióját telepítjük fel, akkor a korábban telepített <em>RStudio</em> már az új verziójú R futtató környezetét fogja használni. Az <em>RStudio</em> tudása tehát a végrehajtható R parancsok tekintetében megegyezik az <em>Alap R</em> tudásával, hiszen minden utasítás, amelynek a végrehajtását az <em>RStudio</em>-ban kezdeményezzük, végső soron az <em>Alap R</em>-rel telepített interpreterhez kerül, és a végrehajtásáért ő felel (<a href="munka-az-r-ben.html#fig:alaprst03">4.1</a>. ábra).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:alaprst03"></span>
+<a href="" target="_blank"><img src="images/alaprst02.png" alt="Az R kényelmes használata" width="85%"></a>
+<p class="caption">
+ÁBRA 4.1: Az R kényelmes használata
+</p>
+</div>
+<p>Az <em>RStudio</em> elsősorban a parancsok írását könnyíti meg, segítségével a parancsok létrehozásához kapunk rendkívüli segítséget. Megjegyezzük, hogy az <em>RStudio</em> egy üzleti vállalkozás neve is egyben, amely többféle terméket fejleszt. Ezek egyike az <em>RStudio</em>-nak nevezett integrált fejlesztőkörnyezet, kimondottan az R programozási nyelv számára. Foglaljuk össze, hogy melyek az <em>RStudio</em> erősségei:</p>
 <ul>
 <li>
 <strong>Parancsok írásának könnyítése.</strong> Az R parancsok begépelését számos eszköz segíti, például a kódkiegészítés, a szintaxisnak megfelelő kódszínezés és a tippek megjelenítése.</li>
@@ -129,16 +178,16 @@ a projekt fogalmát és használatát,
 </ul>
 <p>Az <em>RStudio</em> fenti lehetőségeinek bemutatása külön könyvet igényelne, de a mindennapi munkához szükséges ismereteket most bemutatjuk.</p>
 </div>
-<div id="az-rstudio-felépítése" class="section level3" number="4.1.2">
+<div id="az-rstudio-felepitese" class="section level3" number="4.1.2">
 <h3>
-<span class="header-section-number">4.1.2</span> Az RStudio felépítése<a class="anchor" aria-label="anchor" href="#az-rstudio-fel%C3%A9p%C3%ADt%C3%A9se"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1.2</span> Az RStudio felépítése<a class="anchor" aria-label="anchor" href="#az-rstudio-felepitese"><i class="fas fa-link"></i></a>
 </h3>
-<p>Az <em>RStudio</em> indítása után egy több panelból álló alkalmazást látunk. Első indításnál három részre van osztva az alkalmazás, vagyis három panel látható, de a tipikus használat során négy panelünk van. Válasszuk ki először a <code>File / New file / New R Script</code> menüpontot, amely egy új parancsállomány létrehozását kezdeményezi. E lépés után már biztosan a négy-paneles, <a href="munka-az-r-ben.html#fig:rstudio-01">4.1</a> ábrán látható elrendezést kapjuk. Az ábran megneveztük az egyes részeket, a két bal oldali panel a <em>Forrás</em> és a <em>Konzol</em>, a jobb oldaliak a <em>Környezet</em> és az <em>Ábra</em>. Figyeljük meg, hogy a panelek tetején fülek láthatók, így az egyes paneleken különböző lapokat tudunk kiválasztanai, egy panel tehát több lapot is tartalmazhat. A panelek szélessége és magassága állítható, egyrészt az elválasztó sávokat az egér segítségével mozgathatjuk, másrészt a panelek méretező gombjain (az egyes panelek jobb felső sarkában) is kattinthatunk. A méretezés során eltűnhetnek panelek, de a sávok mozgatásával vagy a <code>View / Panes / Show All Panes</code> menüponttal láthatóvá tehetjük az összes panelt.</p>
+<p>Az <em>RStudio</em> indítása után egy több panelból álló alkalmazást látunk. Első indításnál három részre van osztva az alkalmazás, vagyis három panel látható, de a tipikus használat során négy panelünk van. Válasszuk ki először a <code>File / New file / New R Script</code> menüpontot, amely egy új parancsállomány létrehozását kezdeményezi. E lépés után már biztosan a négy-paneles, <a href="munka-az-r-ben.html#fig:rstudio-01">4.2</a>. ábrán látható elrendezést kapjuk. Az ábrán megneveztük az egyes részeket, a két bal oldali panel a <em>Forrás</em> és a <em>Konzol</em>, a jobb oldaliak a <em>Környezet</em> és az <em>Ábra</em>. Figyeljük meg, hogy a panelek tetején fülek láthatók, így az egyes paneleken különböző lapokat tudunk kiválasztani, egy panel tehát több lapot is tartalmazhat. A panelek szélessége és magassága állítható, egyrészt az elválasztó sávokat az egér segítségével mozgathatjuk, másrészt a panelek méretező gombjain (az egyes panelek jobb felső sarkában) is kattinthatunk. A méretezés során eltűnhetnek panelek, de a sávok mozgatásával vagy a <code>View / Panes / Show All Panes</code> menüponttal láthatóvá tehetjük az összes panelt.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rstudio-01"></span>
 <a href="" target="_blank"><img src="images/rstudio_01.png" alt="Az RStudio tipikus képernyőképe" width="85%"></a>
 <p class="caption">
-ÁBRA 4.1: Az RStudio tipikus képernyőképe
+ÁBRA 4.2: Az RStudio tipikus képernyőképe
 </p>
 </div>
 <p>A legtöbb időt a <em>Forrás</em> nevű bal felső panelben töltjük, mert alapértelmezetten itt jelennek meg a parancsállományok és az RMarkdown állományok lapjai. Az R parancsainkat tehát ide írjuk. Az <em>RStudio</em> első indításánál ez a panel üres, de a további indításoknál a korábban szerkesztett, de be nem zárt lapok automatikusan megnyílnak. Itt helyeztünk el korábban egy parancsállomány lapot a <code>File / New file / New R Script</code> segítségével. Ez a lap egy egyszerű szövegszerkesztő. Győződjünk meg erről, próbáljuk ki, mert a jövőben ebben a szövegszerkesztőben töltjük a legtöbb időt! A fejezet végi kitűzött feladatok között rákérdezünk a szövegszerkesztési ismeretekre. Oldjuk meg most azt a feladatot, majd térjünk vissza ide!</p>
@@ -149,127 +198,145 @@ a projekt fogalmát és használatát,
 <h3>
 <span class="header-section-number">4.1.3</span> Az RStudio beállításai<a class="anchor" aria-label="anchor" href="#az-rstudio-be%C3%A1ll%C3%ADt%C3%A1sai"><i class="fas fa-link"></i></a>
 </h3>
-<p>Mielőtt elkezdjük a munkát az <em>RStudio</em>-ban feltétlenül végezzünk el néhány beállítást. Az <em>RStudio</em> működését az <code>Tools / Global Options</code> menüpont alatt módosíthatjuk.</p>
-<p><strong>UTF-8 kódolás beállítása.</strong> A fenti menüpont kiválasztása után a bal oldali listából a <code>Code</code>, majd a fenti opciók közül a <code>Saving</code> opciót válasszuk. A <a href="munka-az-r-ben.html#fig:rstudio-utf8">4.2</a> ábrán is látható módon, érjük el, hogy a <code>Default text encoding</code> alatt az <code>UTF-8</code> legyen kiválasztva. Fontos, hogy minden szöveges állományunk UTF-8 kódolású legyen.</p>
+<p>Mielőtt elkezdjük a munkát az <em>RStudio</em>-ban feltétlenül módosítsunk néhány alapbeállítást. Az <em>RStudio</em> működését az <code>Tools / Global Options</code> menüpont alatt változtathatjuk meg.</p>
+<p><strong>UTF-8 kódolás beállítása.</strong> A fenti menüpont kiválasztása után a bal oldali listából a <code>Code</code>, majd a fenti opciók közül a <code>Saving</code> opciót válasszuk. A <a href="munka-az-r-ben.html#fig:rstudio-utf8">4.3</a>. ábrán is látható módon, érjük el, hogy a <code>Default text encoding</code> alatt az <code>UTF-8</code> legyen kiválasztva. Fontos, hogy minden szöveges állományunk UTF-8 kódolású legyen.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rstudio-utf8"></span>
 <a href="" target="_blank"><img src="images/rstudio_utf8.png" alt="Az UTF-8 beállítása az RStudio-ban" width="70%"></a>
 <p class="caption">
-ÁBRA 4.2: Az UTF-8 beállítása az RStudio-ban
+ÁBRA 4.3: Az UTF-8 beállítása az RStudio-ban
 </p>
 </div>
-<p><strong>A munkaterület automatikus mentésének tiltása.</strong> A bal oldalon a <code>General</code> menüpont kiválasztása után a <code>Basic</code> opció alatt vegyük ki a pipát a <code>Restore .RData into workspace at startup</code> elől, valamint a <code>Save workspace to .RData on exit</code> választót állítsuk <code>Never</code>-re (<a href="munka-az-r-ben.html#fig:rstudio-rdata">4.3</a> ábra). Az <em>RStudio</em> projekt szemléletű használata mellett erre a mentési funkcióra nincs szükség.</p>
+<p><strong>A munkaterület automatikus mentésének tiltása.</strong> A bal oldalon a <code>General</code> menüpont kiválasztása után a <code>Basic</code> opció alatt vegyük ki a pipát a <code>Restore .RData into workspace at startup</code> elől, valamint a <code>Save workspace to .RData on exit</code> választót állítsuk <code>Never</code>-re (<a href="munka-az-r-ben.html#fig:rstudio-rdata">4.4</a>. ábra). Az <em>RStudio</em> projekt szemléletű használata mellett erre a mentési funkcióra nincs szükség.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rstudio-rdata"></span>
 <a href="" target="_blank"><img src="images/rstudio_rdata.png" alt="A munkaterület automatikus mentésének tiltása az RStudio-ban" width="70%"></a>
 <p class="caption">
-ÁBRA 4.3: A munkaterület automatikus mentésének tiltása az RStudio-ban
+ÁBRA 4.4: A munkaterület automatikus mentésének tiltása az RStudio-ban
 </p>
 </div>
-<p><strong>Az output megjelenítésének tiltása az RMarkdown lapon.</strong> A bal oldalon az <code>RMarkdown</code> menüpont kiválasztása után vegyük ki a pipát a <code>Show output inline for all R Markdown documents</code> elől (<a href="munka-az-r-ben.html#fig:rstudio-inline">4.4</a> ábra). Ez a beállítás gördülékenyebb szerkesztést biztosít az RMarkdown lapokon.</p>
+<p><strong>Az output megjelenítésének tiltása az RMarkdown lapon.</strong> A bal oldalon az <code>RMarkdown</code> menüpont kiválasztása után vegyük ki a pipát a <code>Show output inline for all R Markdown documents</code> elől (<a href="munka-az-r-ben.html#fig:rstudio-inline">4.5</a>. ábra). Ez a beállítás gördülékenyebb szerkesztést biztosít az RMarkdown lapokon.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rstudio-inline"></span>
 <a href="" target="_blank"><img src="images/rstudio_inline.png" alt="Az output megjelenítésének tiltása az RMarkdown lapon" width="70%"></a>
 <p class="caption">
-ÁBRA 4.4: Az output megjelenítésének tiltása az RMarkdown lapon
+ÁBRA 4.5: Az output megjelenítésének tiltása az RMarkdown lapon
 </p>
 </div>
-<p>Opcionális lehetőségként a panelek tartalmán is változtathatunk a <code>Tools / Global Options / Pane Layout</code> menüpontban. Az <em>RStudio</em> színösszeállításán az <code>Appearance</code> menüpont <code>Editor theme</code> beállításával változtathatunk.</p>
+<p>Opcionális lehetőségként a panelek tartalmán is változtathatunk a <code>Tools / Global Options / Pane Layout</code> menüpontban. Az <em>RStudio</em> színösszeállításán az <code>Appearance</code> menüpont <code>Editor theme</code> beállításával változtathatunk. Javasolt a <code>Tomorrow Night Bright</code> vagy más, sötétebb háttérszínnel rendelkező téma használata.</p>
 </div>
-<div id="az-rstudio-konzola" class="section level3" number="4.1.4">
+<div id="az-rstudio-konzol" class="section level3" number="4.1.4">
 <h3>
-<span class="header-section-number">4.1.4</span> Az RStudio konzola<a class="anchor" aria-label="anchor" href="#az-rstudio-konzola"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1.4</span> Az RStudio konzol<a class="anchor" aria-label="anchor" href="#az-rstudio-konzol"><i class="fas fa-link"></i></a>
 </h3>
-<p>Az <em>RStudio</em> konzola a <em>Konzol</em> panel egyik lapján található (<a href="munka-az-r-ben.html#fig:rstudio-01">4.1</a> ábra). A konzol az <em>RStudio</em> kulcsfontosságú része, korábban láttuk, hogy minden R parancsot a végrehajtás előtt ide kell irányítani. Végrehajtása után a szöveges eredmények is itt jelennek meg, és a hibaüzeneteket is itt olvashatjuk. Láthatjuk tehát, hogy a konzol figyelmünk középpontjában áll a munka során.</p>
+<p>Az <em>RStudio</em> konzolja a <em>Konzol</em> panel egyik lapján található (<a href="munka-az-r-ben.html#fig:rstudio-01">4.2</a>. ábra). A konzol az <em>RStudio</em> kulcsfontosságú része, korábban láttuk, hogy minden R parancsot a végrehajtás előtt ide kell irányítani. Végrehajtása után a szöveges eredmények is itt jelennek meg, és a hibaüzeneteket is itt olvashatjuk. Láthatjuk tehát, hogy a konzol figyelmünk középpontjában áll a munka során.</p>
 <p>Közvetlenül azonban nagyon ritkán gépelünk parancsot a konzolba, erre a <em>Forrás</em> panel parancsállomány vagy RMarkdown lapját fogjuk használni. Ebben a részben mégis a konzolt mutatjuk be, ugyanis meghatározó szerepe miatt értenünk kell működését.</p>
-<p>A konzol működése nagyon egyszerű: (1) egysoros parancsokat gépelünk be a <code>&gt;</code> prompt után, (2) <code>ENTER</code>-t nyomunk, (3) az R interpreter értelmezi és végrehajtja a begépelt parancsot, és (4) megjelenik az eredmény. Ezt követően egy újabb sor begépelésére van lehetőségünk, <code>ENTER</code> után annak az értelmezése következhet, majd az eredmény megjelenítése jön, és így tovább.</p>
+<p>A konzol működése nagyon egyszerű:</p>
+<ol style="list-style-type: decimal">
+<li>egysoros parancsokat gépelünk be a <code>&gt;</code> prompt után,</li>
+<li>
+<code>ENTER</code>-t nyomunk,</li>
+<li>az R interpreter értelmezi és végrehajtja a begépelt parancsot, és</li>
+<li>megjelenik az eredmény vagy egy hibaüzenet.</li>
+</ol>
+<p>Ezt követően egy újabb sor begépelésére van lehetőségünk, <code>ENTER</code> után annak az értelmezése következhet, majd az eredmény megjelenítése jön, és így tovább.</p>
 <p>Próbáljuk ki mi is a konzolt! Bátran gépeljünk be parancsokat. Például a <code><a href="https://rdrr.io/r/utils/citation.html">citation()</a></code> parancs outputja fontos lehet az R-el végzett munkáink publikálásánál, hiszen megmutatja hogyan hivatkozhatunk az R statisztikai programra, vagy valamelyik csomagjára.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb23-1"><a href="munka-az-r-ben.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; citation()</span></span>
-<span id="cb23-2"><a href="munka-az-r-ben.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; citation(package = "ggplot2")</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb24-1"><a href="munka-az-r-ben.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; citation()</span></span>
+<span id="cb24-2"><a href="munka-az-r-ben.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; citation(package = "ggplot2")</span></span></code></pre></div>
 <p>Fontos információ az <em>Alap R</em> és az <em>RStudio</em> pontos verziószáma, ezt a információt az <code><a href="https://rdrr.io/r/base/Version.html">R.Version()</a></code> és a <code>RStudio.Version()</code> függvény szolgáltatja. Gépelésnél vigyázzunk a kis- és nagybetűk helyes bevitelére, mert az R megkülönbözteti ezeket.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb24-1"><a href="munka-az-r-ben.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; R.Version()       </span></span>
-<span id="cb24-2"><a href="munka-az-r-ben.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; RStudio.Version()</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb25-1"><a href="munka-az-r-ben.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; R.Version()       </span></span>
+<span id="cb25-2"><a href="munka-az-r-ben.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; RStudio.Version()</span></span></code></pre></div>
 <p>A konzol lehetőségeinek szisztematikus megismerését folytassuk egy egyszerű paranccsal:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb25-1"><a href="munka-az-r-ben.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 1+2</span></span>
-<span id="cb25-2"><a href="munka-az-r-ben.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">1</span><span class="co">]</span><span class="at"> 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb26-1"><a href="munka-az-r-ben.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 1+2</span></span>
+<span id="cb26-2"><a href="munka-az-r-ben.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">1</span><span class="co">]</span><span class="at"> 3</span></span></code></pre></div>
 <p>A konzolban most is megjelent az eredmény, ahogy ezt az összes eddigi parancsunk esetében láthattuk. Azonban nem minden parancs után jelenik meg output a konzolban. Például a következő parancsnak nincs eredménysora a konzolban, de ez messze nem jelenti azt, hogy nem történt semmi (történt: létrehoztunk egy objektumot).</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb26-1"><a href="munka-az-r-ben.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; x &lt;- 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb27-1"><a href="munka-az-r-ben.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; x &lt;- 3</span></span></code></pre></div>
 <p>Sőt, az is előfordulhat, hogy az R nem talált valamit rendben a parancsban. Ekkor természetesen nem hajtja/hajthatja végre a begépelt sort, helyette hibát jelez.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb27-1"><a href="munka-az-r-ben.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Ez nem lesz jó.</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb28-1"><a href="munka-az-r-ben.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Ez nem lesz jó.</span></span></code></pre></div>
 <p>A válasz a fenti “parancsra” az <code>Error: unexpected symbol in "Ez nem"</code> hibaüzenet lesz. Alapvető szabály, ha a válaszban megjelenik az <code>Error</code> szócska, akkor a parancsunkat valamilyen ok miatt nem tudta végrehajtani az R értelmező, és az <code>Error</code> utáni részből tájékozódhatunk a hiba okáról. Minden más esetben sikeres volt a végrehajtás.</p>
 <p>Hosszabb, bonyolult parancsok gépelésénél gyakran előfordul, hogy valamiért nem sikerül “teljessé” tenni a begépelt parancsot, valami még hiányzik belőle (például egy záró kerek zárójel). Ezt az R értelmező észreveszi és az <code>ENTER</code> megnyomása után egy <code>+</code> folytatás prompt megjelenítésével jelzi ezt számunkra. A <code>+</code> prompt után van lehetőségünk a hiányzó részek pótlására, majd ha készen vagyunk az <code>ENTER</code> billentyűvel az összes eddig még végre nem hajtott sort elküldhetjük az értelmezőnek.</p>
 <p>Gépeljük be a következő parancsot, három egymás utáni sorba, <code>ENTER</code>-ekkel elválasztva.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb28-1"><a href="munka-az-r-ben.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; paste("Ez már",</span></span>
-<span id="cb28-2"><a href="munka-az-r-ben.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ss">+        </span>"jó"</span>
-<span id="cb28-3"><a href="munka-az-r-ben.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="ss">+       </span>)</span>
-<span id="cb28-4"><a href="munka-az-r-ben.html#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">1</span><span class="co">]</span> "Ez már jó"</span></code></pre></div>
-<p>A <code>paste("Ez már",</code> kerüljön az első sorba, majd nyomjunk <code>ENTER</code>-t. Az R nem hajtja végre a sort, de erre a nyilvánvalóan hibás, befejezetlen parancsra hibaüzenetet sem jelenít meg. Helyette felajánlja a parancs folytatását, befejezését egy új sorba, amely már a <code>+</code> prompttal kezdődik. A második sorba gépeljük be az <code>"jó"</code> karaktersorozatot, nyomjuk meg az <code>ENTER</code>-t. Sajnos még ez sem tette teljessé a parancsunkat, így további folytatásra van lehetőségünk a <code>+</code> után a harmadik sorban. Ide gépeljük be a hiányzó <code>)</code> részt, és üssünk <code>ENTER</code>-t. A parancsunk teljessé vált, megkapjuk az eredményt a konzolban, pontosan úgy, mintha a három sort egyetlen sorba gépeltük volna.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb29-1"><a href="munka-az-r-ben.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; paste("Ez már",</span></span>
+<span id="cb29-2"><a href="munka-az-r-ben.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ss">+        </span>"jó"</span>
+<span id="cb29-3"><a href="munka-az-r-ben.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ss">+       </span>)</span>
+<span id="cb29-4"><a href="munka-az-r-ben.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">1</span><span class="co">]</span> "Ez már jó"</span></code></pre></div>
+<p>A <code>paste("Ez már",</code> kerüljön az első sorba, majd nyomjunk <code>ENTER</code>-t. Az R nem hajtja végre a sort, de erre a nyilvánvalóan hibás, befejezetlen parancsra hibaüzenetet sem jelenít meg. Helyette felajánlja a parancs folytatását, befejezését egy új sorban, amely már a <code>+</code> prompttal kezdődik. A második sorba gépeljük be az <code>"jó"</code> karaktersorozatot, nyomjuk meg az <code>ENTER</code>-t. Sajnos még ez sem tette teljessé a parancsunkat, így további folytatásra van lehetőségünk a <code>+</code> után a harmadik sorban. Ide gépeljük be a hiányzó <code>)</code> részt, és üssünk <code>ENTER</code>-t. A parancsunk teljessé vált, megkapjuk az eredményt a konzolban, pontosan úgy, mintha a három sort egyetlen sorba gépeltük volna.</p>
 <p>Legyünk nagyon óvatosak a konzol folytatás prompt funkciójával. Ha például az R nem találja a parancs hiányzó részét, akkor a konzol ezen kényelmi funkciója oda vezethet, hogy folyamatosan a <code>+</code> promptot kapjuk az <code>ENTER</code> megnyomása után. Ezt a helyzetet hivatott megoldani az <code>ESC</code> billentyű, mellyel megszakíthatjuk az értelmező parancsfeldolgozási kísérletét. Az <code>ESC</code> megnyomása után visszakapjuk a <code>&gt;</code> prompttal kezdődő (üres) sort, vagyis tiszta lappal, új, lehetőség szerint teljes parancs gépelésébe kezdhetünk. <strong>A parancssorba mindig teljes parancsot gépeljünk, amint megjelenik a <code>+</code> folytatás prompt, azonnal szakítsuk meg az <code>ESC</code> megnyomásával az értelmezési folyamatot.</strong></p>
-<p>Az R konzolos használatát két funkció valóban kényelmesebbé teszi. Egyrészt a korábban végrehajtott parancsainkat visszahívhatjuk, lapozhatunk bennük előre, hátra. Erre a <code>FEL/LE NYÍL</code> billentyűkkel van lehetőségünk. Ezt history-nak is nevezzük, vagyis a parancsok történetének. Természetesen az így visszahívott parancsot tetszőleges módon átszerkeszthetjük: navigálhatunk a sorban előre hátra, beszúrhatunk/törölhetünk karaktereket vagy használhatjuk a vágóasztal billentyűparancsait. A visszahívott és módosított parancsot az <code>ENTER</code> segítségével újra végrehajthatjuk, és ehhez még a sor végére sem kell a szövegkurzort pozícionálni, az a sorban tetszőleges helyen állhat, az R mégis a teljes sort fogja értelmezni.</p>
-<p>A másik kényelmi lehetőség a <code>TAB</code> billentyű használata, amellyel az elkezdett, még be nem fejezett sorokat egészíthetjük ki. Ha egy sort többféleképpen is kiegészíthet az R, akkor egy listát kapunk a lehetőségekről, amelyet továbbgépeléssel szűkíthetünk, ha pedig csak egyetlen szóba jöhető befejezése van a begépelt karaktereknek, akkor a <code>TAB</code> megnyomása után ezzel a résszel kiegészül az elkezdett sorunk. Így nemcsak egyszerűen gépelést, illetve időt takaríthatunk meg, hanem például tájékozódhatunk a korábban létrehozott objektumok nevéről vagy az elérhető függvények névéről és paramétereiről is.</p>
+<p>Az R konzolos használatát két funkció valóban kényelmesebbé teszi. Egyrészt a korábban végrehajtott parancsainkat visszahívhatjuk, lapozhatunk bennük előre, hátra. Erre a <code>FEL/LE NYÍL</code> billentyűkkel van lehetőségünk. Ezt <em>history</em>-nak is nevezzük, vagyis a parancsok történetének. Természetesen, az így visszahívott parancsot tetszőleges módon átszerkeszthetjük: navigálhatunk a sorban előre hátra, beszúrhatunk/törölhetünk karaktereket vagy használhatjuk a vágóasztal billentyűparancsait. A visszahívott és módosított parancsot az <code>ENTER</code> segítségével újra végrehajthatjuk, és ehhez még a sor végére sem kell a szövegkurzort pozicionálni, az a sorban tetszőleges helyen állhat, az R mégis a teljes sort fogja értelmezni.</p>
+<p>A másik kényelmi lehetőség a <code>TAB</code> billentyű használata, amellyel az elkezdett, de még be nem fejezett sorokat egészíthetjük ki. Ha egy sort többféleképpen is kiegészíthet az R, akkor egy listát kapunk a lehetőségekről, amelyet továbbgépeléssel szűkíthetünk, ha pedig csak egyetlen szóba jöhető befejezése van a begépelt karaktereknek, akkor a <code>TAB</code> megnyomása után ezzel a résszel kiegészül az elkezdett sorunk. Így nemcsak egyszerűen gépelést, illetve időt takaríthatunk meg, hanem például tájékozódhatunk a korábban létrehozott objektumok nevéről vagy az elérhető függvények névéről és paramétereiről is.</p>
 <p>Az objektum, a függvények és az egyéb ebben a fejezetben homályosan hagyott fogalmak definícióit a könyv későbbi részeiben részletesen tárgyaljuk.</p>
 </div>
-<div id="parancsállományok" class="section level3" number="4.1.5">
+<div id="parancsallomanyok" class="section level3" number="4.1.5">
 <h3>
-<span class="header-section-number">4.1.5</span> Parancsállományok<a class="anchor" aria-label="anchor" href="#parancs%C3%A1llom%C3%A1nyok"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1.5</span> Parancsállományok<a class="anchor" aria-label="anchor" href="#parancsallomanyok"><i class="fas fa-link"></i></a>
 </h3>
 <p>Láthattuk, hogy a konzolba egyszerre csak egy parancsot gépelhetünk be, úgy is gondolhatunk a konzolra, mint egy egysoros szövegszerkesztőre. Begépelünk egy sort és végrehajtjuk az <code>ENTER</code>-rel. A problémáink többsége viszont nem oldható meg egyetlen paranccsal, csak több tízzel vagy százzal, ezért ez az interaktív, <em>konzolos használat</em> nem alkalmas hosszabb elemzésre.</p>
 <p>Parancsainkat begépelhetjük egy <code>.R</code> kiterjesztésű, egyszerű, formázás nélküli szöveges állományba is. Az ilyen szöveges állományt <em>parancsállomány</em>nak vagy <em>szkriptállomány</em>nak nevezzük. Ilyen szöveges állományok létrehozására tetszőleges szövegszerkesztő alkalmas, de természetesen mi az <em>RStudio</em> segítségével fogjuk ezeket elkészíteni, ugyanis itt kapjuk a legnagyobb segítséget a parancsok gépeléséhez, majd végrehajtásához. A <em>Forrás</em> panel tartalmazza a parancsállomány lapokat, létrehozásuk a korábban látott <code>File / New file / New R Script</code> menüponttal történik. Parancsállományok mentésére és már létező megnyitására is van lehetőségünk a megfelelő menüpont kiválasztásával (<code>File / Save</code> és <code>File / Open File</code>).</p>
-<p>A parancsállományok használata lényegesen leegyszerűsíti az adatelemzés folyamatát, hiszen a konzol egysoros szövegszerkesztője helyett egy szinte végtelen sok parancssor begépelésére alkalmas szövegszerkesztő áll rendelkezésünkre. Mint minden szövegszerkesztőben, a különböző billentyűparancsok és a vágóasztal itt is megkönnyíti szerkesztés folyamatát. Az <code>ENTER</code> jelentése parancsállományos környezetben a szövegszerkesztőkben megszokott újsor beszúrása, ami lényegesen különbözik a konzolos használat parancsvégrehajtási funkciójától. A parancsaink interaktív végrehajtásáért az <em>RStudio</em>-ban a <code>Code/Run selected line(s)</code> menüponttal, vagy még gyakrabban a <code>Ctrl+Enter</code> billentyűkombinációval van lehetőségünk. Ezekkel a módszerekkel tudjuk a parancsainkat a konzolba irányítani és végrehajtani. De nézzük meg ezt a gyakorlatban!</p>
+<p>A parancsállományok használata lényegesen leegyszerűsíti az adatelemzés folyamatát, hiszen a konzol egysoros szövegszerkesztője helyett egy szinte végtelen sok parancssor begépelésére alkalmas szövegszerkesztő áll rendelkezésünkre. Mint minden szövegszerkesztőben, a különböző billentyűparancsok és a vágóasztal itt is megkönnyíti szerkesztés folyamatát. Az <code>ENTER</code> jelentése parancsállományos környezetben a szövegszerkesztőkben megszokott újsor beszúrása, ami lényegesen különbözik a konzolos használat parancs végrehajtási funkciójától. A parancsaink interaktív végrehajtásáért az <em>RStudio</em>-ban a <code>Code/Run selected line(s)</code> menüpont, vagy még gyakrabban a <code>Ctrl+Enter</code> billentyűkombináció felel. Ezekkel a módszerekkel tudjuk a parancsainkat a konzolba irányítani és végrehajtani. De nézzük meg ezt a gyakorlatban!</p>
 </div>
 <div id="munka-az-rstudio-ban" class="section level3" number="4.1.6">
 <h3>
 <span class="header-section-number">4.1.6</span> Munka az RStudio-ban<a class="anchor" aria-label="anchor" href="#munka-az-rstudio-ban"><i class="fas fa-link"></i></a>
 </h3>
 <p>Kezdjük a munkát! Nyissunk egy új parancsállományt (<code>File / New file / New R Script</code>) és gépeljünk be néhány sort. Figyeljük meg, hogy milyen sokat segít az <em>RStudio</em> a lenti sorok begépelésében. Az értékadás (<code>&lt;-</code>) operátort az <code>Alt+-</code> billentyűkombináció segítségével vigyük be.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fl">1</span><span class="op">+</span><span class="fl">23</span>
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>          <span class="co"># munkakönyvtár kiírása</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>
-<span class="op">?</span><span class="va">mean</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"- Vége -\n"</span><span class="op">)</span></code></pre></div>
-<p>A szövegkurzorral álljunk az első sorra, és hajtsuk végre <code>Ctrl+Enter</code> billentyűparancsot. Láthatjuk, hogy (1) a sor átkerül a konzolba, (2) az <em>RStudio</em> végrehajtja a sort és az eredményt a konzolban megjeleníti, és (3) a szövegkurzor lejjebb lép a következő végrehajtható sorra. Egy újabb <code>Ctrl+Enter</code> így már ezt a sort hatja végre, és így tovább. Ha a sorok végrahajtása közben hibaüzenetet kapunk (<code>Error</code>), ne essünk kétségbe, a hibaüzenet a munka része. Nézzük át figyelmesen a begépelt sorainkat, javítsuk őket, és futassuk újra az összes sort, fentről lefelé a <code>Ctrl+Enter</code>-ek segítségével.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span><span class="op">+</span><span class="fl">23</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>          <span class="co"># munkakönyvtár kiírása</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="op">?</span><span class="va">mean</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"- Vége -\n"</span><span class="op">)</span></span></code></pre></div>
+<p>A szövegkurzorral álljunk az első sorra, és hajtsuk végre <code>Ctrl+Enter</code> billentyűparancsot. Láthatjuk, hogy (1) a sor átkerül a konzolba, (2) az <em>RStudio</em> végrehajtja a sort és az eredményt a konzolban megjeleníti, és (3) a szövegkurzor lejjebb lép a következő végrehajtható sorra. Egy újabb <code>Ctrl+Enter</code> így már ezt a sort hatja végre, és így tovább. Ha a sorok végrehajtása közben hibaüzenetet kapunk (<code>Error</code>), ne essünk kétségbe, a hibaüzenet a munka része. Nézzük át figyelmesen a begépelt sorainkat, javítsuk őket, és futtassuk újra az összes sort, fentről lefelé a <code>Ctrl+Enter</code>-ek segítségével.</p>
 <p>A parancsok végrehajtása során láthatjuk mennyire kényelmes, integrált környezetben találtuk magunkat. Az <code>x &lt;- mean(1:100)</code> hatására az <em>Environment</em> lapon megjelent az <code>x</code> objektum neve és értéke. A <em>Plot</em> lapon láthatunk egy ábrát, amit a <code>plot(1:10)</code> rajzolt meg, és a <code><a href="https://rdrr.io/r/base/mean.html">?mean</a></code> a <em>Help</em> lapon mutatja meg a <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> átlagszámoló függvény beépített súgóját.</p>
 <p>Mentsük el parancsállományunkat a <code>File / Save</code> vagy a <code>Ctrl+S</code> segítségével. Korábban létrehozott parancsállományokat a <code>File / Open</code> menüponttal nyithatunk meg.</p>
 <p>A soronkénti végrehajtás mellett nagyon gyakori a kijelölt szövegrészek végrehajtása, amit szintén a <code>Ctrl+Enter</code>-rel tudunk kezdeményezni. A kijelölt rész lehet több sor, a teljes parancsállomány, vagy valamelyik sor egy része. Ez utóbbi próbáljuk ki úgy, hogy a parancsállomány első sorában csak az <code>1+2</code> részt jelöljük ki, és ezt hajtsuk végre a <code>Ctrl+Enter</code> segítségével. Az eredmény a konzolban a 3 lesz. A teljes szkriptállomány végrehajtásához jelöljük ki <code>Ctrl+A</code> segítségével a parancsállomány összes sorát, és nyomjuk meg a <code>Ctrl+Enter</code>-t. A konzolban tudjuk ellenőrizni, hogy minden sort újra végrehajtottunk.</p>
+<p>Térjünk vissza a kiinduló adatelemzési problémánk megoldásához. Láttuk, hogy az R parancsok összegyűjtésére és végrehajtására a <code>.R</code> kiterjesztésű parancsállományok kiváló megoldást nyújtanak. Emlékezzünk vissza a fejezet eleji példára, amelyben a Csillagok háborúja c. film karaktereinek átlagos testmagasságát kerestük. Nyissunk egy új parancsállományt (<code>File / New file / New R Script</code>) és gépeljük be a megoldást jelentő sorokat.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># A Csillagok háborúja c. film karaktereinek átlagos testmagassága</span></span>
+<span><span class="co"># Abari Kálmán</span></span>
+<span><span class="co"># 2022. 07. 06.</span></span>
+<span></span>
+<span><span class="co"># install.packages("dplyr")      # a dplyr csomag telepítése</span></span>
+<span><span class="co"># install.packages("psych")      # a psych csomag telepítése</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package<span class="op">=</span><span class="st">"dplyr"</span><span class="op">)</span>  <span class="co"># adatbázis beolvasása csomagból</span></span>
+<span><span class="co"># testmagasság átlagok fajonként</span></span>
+<span><span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">height</span>, <span class="va">starwars</span><span class="op">$</span><span class="va">species</span>, fast<span class="op">=</span><span class="cn">T</span>, mat<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<p>Látható, hogy a feladat tényleges megoldását jelentő két R parancs mellett megjegyzéseket is becsempésztünk, hogy később is tudjuk, ki, mikor és miért készítette ezt a parancsállományt (a <code>#</code> utáni részeket a sor végéig az R figyelmen kívül hagyja; részletesebb információkat a megjegyzésekről a <a href="az-r-nyelv.html#MegjegyzesazRben">5.1.3</a>. fejezetben olvashatunk). Futtassuk a sorokat a <code>Ctrl+Enter</code> segítségével, fussuk át a kiszámolt átlagos testmagasságokat az output <code>mean</code> oszlopában, majd mentsük el a szkriptállományt <code>Ctrl+S</code>-sel <code>starwars.R</code> néven. Később, napok, hetek vagy hónapok múlva, újra megnyithatjuk <code>starwars.R</code> állományunkat (<code>File / Open</code>), és újra lefuttathatjuk mini-elemzésünket. Ezzel a fejezet eleji adatelemzési feladatunkat megoldottuk. Vajon lehet ezt ennél jobban csinálni? Igen!</p>
 </div>
-<div id="rmarkdown-állományok" class="section level3" number="4.1.7">
+<div id="rmarkdown-allomanyok" class="section level3" number="4.1.7">
 <h3>
-<span class="header-section-number">4.1.7</span> RMarkdown állományok<a class="anchor" aria-label="anchor" href="#rmarkdown-%C3%A1llom%C3%A1nyok"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1.7</span> RMarkdown állományok<a class="anchor" aria-label="anchor" href="#rmarkdown-allomanyok"><i class="fas fa-link"></i></a>
 </h3>
-<p>Láttuk, hogy az R parancsok összegyűjtésére és végrehajtására a <code>.R</code> kiterjesztésű parancsállományok kiváló megoldást nyújtanak. Emlékezzünk vissza a fejezet eleji példára, amelyben a Csillagok háborúja c. film karaktereinek átlagos testmagasságát kerestük. Nyissunk egy új parancsállományt (<code>File / New file / New R Script</code>) és gépeljük be a megoldást jelentő sorokat.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># A Csillagok háborúja c. film karaktereinek átlagos testmagassága</span>
-<span class="co"># Abari Kálmán</span>
-<span class="co"># 2020. 06. 23.</span>
-
-<span class="co"># Adatok beolvasása és az átlagok kiírása</span>
-<span class="co"># install.packages("dplyr")      # a dplyr csomag telepítése</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">starwars</span>, package<span class="op">=</span><span class="st">"dplyr"</span><span class="op">)</span>  <span class="co"># adatbázis beolvasása csomagból</span>
-<span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">height</span>, <span class="va">starwars</span><span class="op">$</span><span class="va">species</span>, fast<span class="op">=</span><span class="cn">T</span>, mat<span class="op">=</span><span class="cn">T</span><span class="op">)</span></code></pre></div>
-<p>Látható, hogy a feladat tényleges megoldását jelentő két R parancs mellett megjegyzéseket is becsempésztünk, hogy később is tudjuk, ki, mikor és miért készítette ezt a parancsállományt (a <code>#</code> utáni részeket a sor végéig az R figyelmen kívül hagyja; részletesebb információkat a megjegyzésekről a <a href="az-r-nyelv.html#MegjegyzesazRben">5.1.3</a> fejezetben olvashatunk). Futtassuk a sorokat a <code>Ctrl+Enter</code> segítségével, fussuk át a kiszámolt átlagos testmagasságokat az output <code>mean</code> oszlopában, majd mentsük el a szkriptállományt <code>Ctrl+S</code>-sel <code>starwars.R</code> néven. Később, napok, hetek vagy hónapok múlva, újra megnyithatjuk <code>starwars.R</code> állományunkat (<code>File / Open</code>), és újra lefuttathatjuk mini-elemzésünket. Ezzel a fejezet eleji adatelemzési feladatunkat megoldottuk. Lehet ezt ennél jobban csinálni? Igen!</p>
-<p>Az R parancsainkat olyan <code>.Rmd</code> kiterjesztésű, egyszerű, szöveges állományokban is öszegyűjthetjük, amelyek többet nyújtanak, mint a parancsállományok, de szerkezetük kicsit kötöttebb. Az ilyen szöveges állományok az RMarkdown állományok. Miben nyújtanak többet: ahogyan a 11. fejezetben részletesen áttekintjük, az RMarkdown állományok az eredmények publikálásához, például HTML, PDF vagy Word formanyelvű állományok létrehozásához szükségesek. Hozzunk létre az <em>RStudio</em>-ban a <code>File / New File / R Markdown</code> menüponttal egy új RMarkdown állományt. A megjelenő dialógusdobozban töltsük ki a <code>Title</code> és <code>Author</code> mezőket, azaz adjunk címet és szerzőt a dokumentumhoz, majd kattintsunk az <code>OK</code> gombon. A <code>Forrás</code> panelen megjelenik egy új RMarkdown lap, amely egy alapértelmezett tartalommal jön létre, és nem üresen, mint a parancsállományok esetében. Említettük, hogy az RMarkdown állományok szerkezete kötöttebb, ez az alapértelmezett tartalom az eligazodásban segít minket. Érjük el, hogy az új RMarkdown ezeket a sorokat tartalmazza (a szerző neve a sajátunk legyen):</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb31-1"><a href="munka-az-r-ben.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb31-2"><a href="munka-az-r-ben.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "A Csillagok háborúja c. film karaktereinek átlagos testmagassága"</span></span>
-<span id="cb31-3"><a href="munka-az-r-ben.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Abari Kálmán"</span></span>
-<span id="cb31-4"><a href="munka-az-r-ben.html#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> '2020. 06. 23 '</span></span>
-<span id="cb31-5"><a href="munka-az-r-ben.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
-<span id="cb31-6"><a href="munka-az-r-ben.html#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb31-7"><a href="munka-az-r-ben.html#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="munka-az-r-ben.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
-<span id="cb31-9"><a href="munka-az-r-ben.html#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(echo = TRUE)</span></span>
-<span id="cb31-10"><a href="munka-az-r-ben.html#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-11"><a href="munka-az-r-ben.html#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-12"><a href="munka-az-r-ben.html#cb31-12" aria-hidden="true" tabindex="-1"></a>Adatok beolvasása és az átlagok kiírása</span>
-<span id="cb31-13"><a href="munka-az-r-ben.html#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="munka-az-r-ben.html#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-15"><a href="munka-az-r-ben.html#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="in"># install.packages("dplyr")      # a dplyr csomag telepítése</span></span>
-<span id="cb31-16"><a href="munka-az-r-ben.html#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="in">data(starwars, package="dplyr")  # adatbázis beolvasása csomagból</span></span>
-<span id="cb31-17"><a href="munka-az-r-ben.html#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="in">psych::describeBy(starwars$height, starwars$species, fast=T, mat=T)</span></span>
-<span id="cb31-18"><a href="munka-az-r-ben.html#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
-<p>Minden RMarkdown állomány egy fejléccel kezdődik, amelyet a <code>---</code> karakterek határolnak. A természetes nyelvű szöveget szabadon a fejléc alatti részben bárhová írhatjuk, az R parancsokat azonban ún. R csonkokban kell elhelyeznünk, amelyeket speciális kezdő és záró sorok határolnak. A 11. fejezetben részletesebben olvashatunk ezekről. Most elégedjünk meg annyival, egy RMarkdown állományban tetszőlegesen sok R csonkot elhelyezhetünk, és egy R csonk tetszőlegesen sok R parancsot tartalmazhat. Egy R csonkon belül a parancsok végrehajtása ugyanúgy <code>Ctrl+Enter</code>-rel történik, mint a parancsállományok esetében. Próbáljuk ki! A most begépelt RMarkdown állományunk második csonkjában lévő két R parancsot hajtsuk végre két <code>Ctrl+Enter</code> segítségével. A mini-elemzés eredménye ismét a konzolban látható.</p>
-<p>Hogyan foglalhatnánk össze a parancsállományok és az RMarkdown állományok közötti különbséget? A <a href="munka-az-r-ben.html#tab:parancsrmarkdown">4.1</a> táblázatban láthatjuk, hogy mindkét állományban összesen három különböző tartalmat szoktunk rögzíteni: (1) fejlécinformációt arról, hogy mi az elemzés célja, ki és mikor készítette az állományt, (2) magyarázó, természetes nyelvű szöveget (pl. magyar vagy angol nyelven), és (3) az R parancsokat. Az R parancsokat szabadon írhatjuk a parancsállományokba, viszont a fejlécinformációt és a magyarázó szövegeket megjegyzésbe kell tenni. Az RMarkdown állományokba a magyarázó, természetes nyelvű szövegek írhatók szabadon, míg az R parancsokat csonkokba, a fejlécinformációt pedig kötött módon, az állomány elejére kell írnunk.</p>
+<p>Az R parancsainkat olyan <code>.Rmd</code> kiterjesztésű, egyszerű, szöveges állományokban is összegyűjthetjük, amelyek többet nyújtanak, mint a parancsállományok, de szerkezetük kicsit kötöttebb. Az ilyen szöveges állományok az RMarkdown állományok. Miben nyújtanak többet: ahogyan a <a href="#publikacio"><strong>??</strong></a>. fejezetben részletesen áttekintjük, az RMarkdown állományok az eredmények publikálásához, például HTML, PDF vagy Word formanyelvű állományok létrehozását teszik lehetővé.</p>
+<p>Hozzunk létre az <em>RStudio</em>-ban a <code>File / New File / R Markdown</code> menüponttal egy új RMarkdown állományt. A megjelenő dialógusdobozban töltsük ki a <code>Title</code> és <code>Author</code> mezőket, azaz adjunk címet és szerzőt a dokumentumhoz, majd kattintsunk az <code>OK</code> gombon. A <code>Forrás</code> panelen megjelenik egy új RMarkdown lap, amely egy alapértelmezett tartalommal jön létre, és nem üresen, mint a parancsállományok esetében. Említettük, hogy az RMarkdown állományok szerkezete kötöttebb, ez az alapértelmezett tartalom az eligazodásban segít minket. Érjük el, hogy az új RMarkdown ezeket a sorokat tartalmazza (a szerző neve a sajátunk legyen):</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb32-1"><a href="munka-az-r-ben.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb32-2"><a href="munka-az-r-ben.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "A Csillagok háborúja c. film karaktereinek átlagos testmagassága"</span></span>
+<span id="cb32-3"><a href="munka-az-r-ben.html#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Abari Kálmán"</span></span>
+<span id="cb32-4"><a href="munka-az-r-ben.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> '2022. 07. 06.'</span></span>
+<span id="cb32-5"><a href="munka-az-r-ben.html#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
+<span id="cb32-6"><a href="munka-az-r-ben.html#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb32-7"><a href="munka-az-r-ben.html#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="munka-az-r-ben.html#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb32-9"><a href="munka-az-r-ben.html#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(echo = TRUE)</span></span>
+<span id="cb32-10"><a href="munka-az-r-ben.html#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb32-11"><a href="munka-az-r-ben.html#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="munka-az-r-ben.html#cb32-12" aria-hidden="true" tabindex="-1"></a>Adatok beolvasása és az átlagok kiírása</span>
+<span id="cb32-13"><a href="munka-az-r-ben.html#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="munka-az-r-ben.html#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-15"><a href="munka-az-r-ben.html#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="in"># install.packages("dplyr")      # a dplyr csomag telepítése</span></span>
+<span id="cb32-16"><a href="munka-az-r-ben.html#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="in"># install.packages("psych")      # a psych csomag telepítése</span></span>
+<span id="cb32-17"><a href="munka-az-r-ben.html#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="in">data(starwars, package="dplyr")  # adatbázis beolvasása csomagból</span></span>
+<span id="cb32-18"><a href="munka-az-r-ben.html#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="in"># testmagasság átlagok fajonként</span></span>
+<span id="cb32-19"><a href="munka-az-r-ben.html#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="in">psych::describeBy(starwars$height, starwars$species, fast=T, mat=T)</span></span>
+<span id="cb32-20"><a href="munka-az-r-ben.html#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Minden RMarkdown állomány egy fejléccel kezdődik, amelyet a <code>---</code> karakterek határolnak. A természetes nyelvű szöveget szabadon a fejléc alatti részben bárhová írhatjuk, az R parancsokat azonban ún. R csonkokban kell elhelyeznünk, amelyeket speciális kezdő és záró sorok határolnak. A <a href="#publikacio"><strong>??</strong></a>. fejezetben részletesebben olvashatunk ezekről. Most elégedjünk meg annyival, hogy egy RMarkdown állományban tetszőlegesen sok R csonkot elhelyezhetünk, és egy R csonk tetszőlegesen sok R parancsot tartalmazhat. Egy R csonkon belül a parancsok végrehajtása ugyanúgy <code>Ctrl+Enter</code>-rel történik, mint a parancsállományok esetében. Próbáljuk ki! A most begépelt RMarkdown állományunk második csonkjában lévő két R parancsot hajtsuk végre két <code>Ctrl+Enter</code> segítségével. A mini-elemzés eredménye ismét a konzolban látható.</p>
+<p>Hogyan foglalhatnánk össze a parancsállományok és az RMarkdown állományok közötti különbséget? A <a href="munka-az-r-ben.html#tab:parancsrmarkdown">4.1</a>. táblázatban láthatjuk, hogy mindkét állományban összesen három különböző tartalmat szoktunk rögzíteni:</p>
+<ol style="list-style-type: decimal">
+<li>fejléc információt arról, hogy mi az elemzés célja, ki és mikor készítette az állományt,</li>
+<li>magyarázó, természetes nyelvű szöveget (pl. magyar vagy angol nyelven), és</li>
+<li>az adatelemző R parancsokat.</li>
+</ol>
+<p>Az R parancsokat szabadon írhatjuk a parancsállományokba, viszont a fejléc információt és a magyarázó szövegeket megjegyzésbe kell tenni. Az RMarkdown állományokba a magyarázó, természetes nyelvű szövegek írhatók szabadon, míg az R parancsokat csonkokba, a fejléc információt pedig kötött módon, az állomány elejére kell írnunk.</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
 <span id="tab:parancsrmarkdown">TÁBLÁZAT 4.1: </span> A parancsállomány és az RMarkdown állomány összehasonlítása</caption>
@@ -316,48 +383,48 @@ a projekt fogalmát és használatát,
 </tr>
 </tbody>
 </table></div>
-<p>Valóban annyiban áll a különbség a két állománytípus között, hogy a máshová és máshogyan írjuk az R parancsokat és az egyéb magyarázó/fejléc szövegeinket? Nem. A 11. fejezetben részletesen bemutatjuk, hogy az RMardown állományok ereje abban van, hogy egy fordítási folyamat (knit-elés) során, olyan PDF, HTML vagy Word állományt tudunk előállítani, amely a magyarázó/fejléc szövegeken, és az R parancsokon kívül, az R parancsok outputját is tartalmazza, legyen az szöveges vagy ábra jellegű output.</p>
+<p>Valóban annyiban áll a különbség a két állománytípus között, hogy a máshová és máshogyan írjuk az R parancsokat és az egyéb magyarázó/fejléc szövegeinket? Nem. A <a href="#publikacio"><strong>??</strong></a>. fejezetben részletesen bemutatjuk, hogy az RMardown állományok ereje abban van, hogy egy fordítási folyamat (<em>knit</em>-elés) során, olyan PDF, HTML vagy Word állományt tudunk előállítani, amely a magyarázó/fejléc szövegeken, és az R parancsokon kívül, az R parancsok outputját is tartalmazza, legyen az szöveges vagy ábra jellegű output.</p>
 </div>
-<div id="projektek-használata" class="section level3" number="4.1.8">
+<div id="projektek-hasznalata" class="section level3" number="4.1.8">
 <h3>
-<span class="header-section-number">4.1.8</span> Projektek használata<a class="anchor" aria-label="anchor" href="#projektek-haszn%C3%A1lata"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1.8</span> Projektek használata<a class="anchor" aria-label="anchor" href="#projektek-hasznalata"><i class="fas fa-link"></i></a>
 </h3>
 <p>Mostanra nagyon közel kerültünk az általunk ajánlott adatelemzési munkaformához, ugyanis már tudunk az <em>RStudio</em>-n belül parancsállományokat és RMarkdown állományokat használni. Még egy összetevő azonban kulcsfontosságú a kényelmes munkához: az <em>RStudio</em>-ban minden esetben projektet kell használnunk.</p>
-<p>Az <em>RStudio</em> lehetőséget ad, hogy minden egyes adatfeldolgozási feladatunkhoz egy projektet rendeljünk. Egy <em>RStudio</em> projekt minimálisan egy projekt könyvtárat és az ebben lévő lévő <code>.Rproj</code> kiterjesztésű projektállományt jelenti. Ezeket a következő módszerrel hozhatjuk létre. Először kattintsunk a <code>File / New Project</code> menüponton. Válasszuk ki a <code>New Directory</code> opciót (<a href="munka-az-r-ben.html#fig:rstudio-proj-1">4.5</a> ábra), majd a <code>New Project</code> nyomógombon kattintsunk (<a href="munka-az-r-ben.html#fig:rstudio-proj-2">4.6</a> ábra).</p>
+<p>Az <em>RStudio</em> lehetőséget ad arra, hogy minden egyes adatfeldolgozási feladatunkhoz egy projektet rendeljünk. Egy <em>RStudio</em> projekt minimálisan egy projekt könyvtárat és az ebben lévő lévő <code>.Rproj</code> kiterjesztésű projektállományt jelenti. Ezeket a következő módszerrel hozhatjuk létre. Először kattintsunk a <code>File / New Project</code> menüponton. Válasszuk ki a <code>New Directory</code> opciót (<a href="munka-az-r-ben.html#fig:rstudio-proj-1">4.6</a>. ábra), majd a <code>New Project</code> nyomógombon kattintsunk (<a href="munka-az-r-ben.html#fig:rstudio-proj-2">4.7</a>. ábra).</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rstudio-proj-1"></span>
 <a href="" target="_blank"><img src="images/rstudio_proj_1.png" alt="RStudio projekt létrehozása: 1. lépés" width="65%"></a>
 <p class="caption">
-ÁBRA 4.5: RStudio projekt létrehozása: 1. lépés
+ÁBRA 4.6: RStudio projekt létrehozása: 1. lépés
 </p>
 </div>
-<p>A <code>Directory name</code> szöveges mezőbe a projektünk nevét határozhatjuk meg, ami egyben az új projektünk könyvtárneve is lesz. Adjuk meg itt az <code>elso_projekt</code> nevet. A <code>Create project as subdirectory of</code> mezőben azt a szülő könyvtárat határozhatjuk meg, ahová a projekt könyvtárunkat el szeretnénk helyezni. A projekt létrehozását a <code>Create Project</code> nyomógombbal fejezhetjük be.</p>
+<p>A <code>Directory name</code> szöveges mezőbe a projektünk nevét határozhatjuk meg, ami egyben az új projektünk könyvtárneve is lesz. Adjuk meg itt az <code>elso_projekt</code> nevet. A <code>Create project as subdirectory of</code> mezőben azt a szülő könyvtárat határozhatjuk meg, ahová a projekt könyvtárunkat el szeretnénk helyezni. Ezt szabadon megválaszthatjuk, lehet az adott felhasználó dokumentumok könyvtára is. A projekt létrehozását a <code>Create Project</code> nyomógombbal fejezhetjük be.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rstudio-proj-2"></span>
 <a href="" target="_blank"><img src="images/rstudio_proj_2.png" alt="RStudio projekt létrehozása: 2. lépés" width="65%"></a>
 <p class="caption">
-ÁBRA 4.6: RStudio projekt létrehozása: 2. lépés
+ÁBRA 4.7: RStudio projekt létrehozása: 2. lépés
 </p>
 </div>
-<p>Két nagyon fontos dolog történt a fentiek hatására. Egyrészt a számítógépünkön létrejött az <code>elso_projekt</code> projektkönyvtár, és benne az <code>elso_projekt.Rproj</code> projektállomány, márészt az <em>RStudio</em> ún. <em>projekt üzemmód</em>ba került, azaz az <code>elso_projekt</code> lett az aktív projekt. Az <em>RStudio</em>-ban egyszerre egy projekt lehet aktív, de elképzelhető, hogy egyetlen projekt sem aktív. Az <em>RStudio</em> felületén a jobb felső sarokban tájékozódhatunk, ahol most az <code>elso_project</code> feliratot látjuk, de amennyiben nincs aktív projektünk, akkor a <code>Project: (none)</code> feliratot olvashatjuk. Kerüljük a projekt nélküli állapotot.</p>
+<p>Két nagyon fontos dolog történt a fentiek hatására. Egyrészt a számítógépünkön létrejött az <code>elso_projekt</code> projektkönyvtár, és benne az <code>elso_projekt.Rproj</code> projektállomány, másrészt az <em>RStudio</em> ún. <em>projekt üzemmód</em>ba került, azaz az <code>elso_projekt</code> lesz az aktív projekt. Az <em>RStudio</em>-ban egyszerre egy projekt lehet aktív, de elképzelhető, hogy egyetlen projekt sem aktív. Az <em>RStudio</em> felületén a jobb felső sarokban tájékozódhatunk, ahol most az <code>elso_project</code> feliratot látjuk, de amennyiben nincs aktív projektünk, akkor a <code>Project: (none)</code> feliratot olvashatjuk. Kerüljük a projekt nélküli állapotot.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rstudio-proj-3"></span>
 <a href="" target="_blank"><img src="images/rstudio_proj_3.png" alt="RStudio projekt létrehozása: 3. lépés" width="65%"></a>
 <p class="caption">
-ÁBRA 4.7: RStudio projekt létrehozása: 3. lépés
+ÁBRA 4.8: RStudio projekt létrehozása: 3. lépés
 </p>
 </div>
-<p>Minden adatfeldolgozási feladathoz – még a legkisebbhez is – hozzunk létre projektet. Minden állományt, amely a feladathoz tartozik a projektkönyvtáron belül helyezzük el. Milyen állományok jöhetnek szóba: például parancsállományok, RMarkdown állományok, adatállományok, képállományok, dokumentációk és hivatkozásokat tartalmazó állományok. Érdemes ezeket rendezetten, ha szükséges, alkönyvtárakba szétosztva tárolni. Jó gyakorlat lehet, hogy a parancsállományokat és az RMarkdown állományokat közvetlenül a projektkönyvtárban (most ez az <code>elso_projekt</code>), az adatállományokat egy <code>adat</code> alkönyvtárban a projektkönyvtáron belül (most <code>elso_projekt/adat</code>) tároljuk, a képállományok és dokumentációk helye pedig lehet az <code>elso_project/kep</code>, illetve <code>elso_projekt/doku</code> alkönyvtár.</p>
+<p>Minden adatfeldolgozási feladathoz – még a legkisebbhez is – hozzunk létre projektet. Minden állományt, amely a feladathoz tartozik a projektkönyvtáron belül helyezzünk el. Milyen állományok jöhetnek szóba: például parancsállományok, RMarkdown állományok, adatállományok, képállományok, dokumentációk és hivatkozásokat tartalmazó állományok. Érdemes ezeket rendezetten, ha szükséges, alkönyvtárakba szétosztva tárolni. Jó gyakorlat lehet, hogy a parancsállományokat és az RMarkdown állományokat közvetlenül a projektkönyvtárban (most ez az <code>elso_projekt</code>), az adatállományokat egy <code>adat</code> alkönyvtárban a projektkönyvtáron belül (most <code>elso_projekt/adat</code>) tároljuk, a képállományok és dokumentációk helye pedig lehet az <code>elso_project/kep</code>, illetve <code>elso_projekt/doku</code> alkönyvtár.</p>
 <p>Válthatunk egy másik projektre is (<code>File / Open Project</code>), de be is zárhatjuk az aktív projektet (<code>File / Close project</code>). Később újra megnyithatjuk ezt is a <code>File / Open Project</code> segítségével. A megnyitás során természetesen az <code>.Rproj</code> kiterjesztésű projektállományt kell kiválasztanunk.</p>
 <p>Ritkábban az is előfordulhat, hogy az adatfeldolgozási folyamatunkkal kapcsolatos állományok összegyűjtését korábban elkezdtük, és csak később szeretnénk ezt a könyvtárat egyben <em>RStudio</em> projektkönyvtárként is felhasználni.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rstudio-proj-4"></span>
 <a href="" target="_blank"><img src="images/rstudio_proj_4.png" alt="RStudio projekt létrehozása: létező könyvtár megadása" width="65%"></a>
 <p class="caption">
-ÁBRA 4.8: RStudio projekt létrehozása: létező könyvtár megadása
+ÁBRA 4.9: RStudio projekt létrehozása: létező könyvtár megadása
 </p>
 </div>
-<p>Korábban létrehozott könyvtárból szintén a <code>File / New Project</code> menüpont segítségével hozhatunk létre <em>RSudio</em> projektkönyvtárat. Itt azonban az <code>Existing Directory</code> opciót kell kiválasztani (<a href="munka-az-r-ben.html#fig:rstudio-proj-1">4.5</a> ábra). Ezt követően ennek a létező könyvtárnak az elérési útját kell megadnunk az <a href="munka-az-r-ben.html#fig:rstudio-proj-4">4.8</a> ábrán látható beviteli mezőben.</p>
+<p>Korábban létrehozott könyvtárból szintén a <code>File / New Project</code> menüpont segítségével hozhatunk létre <em>RSudio</em> projektkönyvtárat. Itt azonban az <code>Existing Directory</code> opciót kell kiválasztani (<a href="munka-az-r-ben.html#fig:rstudio-proj-1">4.6</a>. ábra). Ezt követően ennek a létező könyvtárnak az elérési útját kell megadnunk az <a href="munka-az-r-ben.html#fig:rstudio-proj-4">4.9</a>. ábrán látható beviteli mezőben.</p>
 <p>Végül foglaljuk össze, milyen előnyökkel jár a projekt használata:</p>
 <ul>
 <li>A logikailag egy adatfeldolgozási folyamathoz tartozó állományainkat fizikailag is együtt tudjuk tartani.</li>
@@ -373,7 +440,7 @@ a projekt fogalmát és használatát,
 <li>
 <code>Ctrl+Shift+N</code>: új parancsállomány létrehozása,</li>
 <li>
-<code>Ctrl+S</code>: parancsállomány mentése,</li>
+<code>Ctrl+S</code>: állomány mentése,</li>
 <li>
 <code>Ctrl+W</code>: lap bezárása a <code>Forrás</code> panelen,</li>
 <li>
@@ -403,7 +470,9 @@ a projekt fogalmát és használatát,
 <li>
 <code>Ctrl+Shift+P</code>: a kurzor feletti csonkok parancsainak futtatása,</li>
 <li>
-<code>Ctrl++ / Ctrl+-</code>: betűméret nagyítása vagy kicsinyítése.</li>
+<code>Ctrl++ / Ctrl+-</code>: betűméret nagyítása vagy kicsinyítése,</li>
+<li>
+<code>Ctrl+Shift+F10</code>: a munkamenet újraindítása.</li>
 </ul>
 <p>Ha valamelyik kombináció nem működik a számítógépünkön, akkor a <code>Tools / Modify Keyboard Shortcuts</code> menüpont alatt új billentyűparancsot adhatunk az ott felsorolt funkciókhoz.</p>
 </div>
@@ -413,7 +482,24 @@ a projekt fogalmát és használatát,
 </h3>
 <div class="rmdsummary">
 <p>
-Az adatelemzési munka során az <em>RStudio</em> -t használjuk projekt üzemmódban, miközben RMarkdown állományba gyűjtjük az elemző R parancsokat és az egyéb magyarázó/fejléc szövegeket. Ebben a fejezetben ezt a tételmondatot töltöttük meg tartalommal. Megismertük az <em>RStudio</em> integrált környezetét. A <em>Forrás</em> panel lehetséges lapjai a parancsállomány, az RMarkdown állomány és az adatbázis. A <em>Konzol</em> panel legfontosabb lapja a <em>konzol</em>, amely központi szerepet játszik a munka során, hiszen a <code>Ctrl+Enter</code>-rel végrehajtott R parancsok eredménye és az esetleges hibaüzenetek is itt jelennek meg. A munka során a <code>.R</code> kiterjesztésű parancsállományok kiválóan alkamasak a hosszabb elemzések R parancsainak tárolására, de ha a publikáláshoz is segítséget szeretnénk kapni, akkor inkábba a kötöttebb szerkezetű, <code>.Rmd</code> kiterjesztésű RMarkdown állományba rögzítsük parancsainkat. Az <em>RStudio</em> rutinszerű használatához a billentyűparancsok ismerete is hozzátartozik. A projektszemlélet az adatelemzéssel kapcsolatos állományok egybentartásáról, és a hordozhatóság biztosításáról szól.
+Az adatelemzési munka során az <em>RStudio</em> -t használjuk projekt
+üzemmódban, miközben RMarkdown állományba gyűjtjük az elemző R
+parancsokat és az egyéb magyarázó és fejléc szövegeket. Ebben a
+fejezetben ezt a tételmondatot töltöttük meg tartalommal. Megismertük az
+<em>RStudio</em> integrált környezetét. A <em>Forrás</em> panel
+lehetséges lapjai a parancsállomány, az RMarkdown állomány és az
+adatbázis. A <em>Konzol</em> panel legfontosabb lapja a <em>konzol</em>,
+amely központi szerepet játszik a munka során, hiszen a
+<code>Ctrl+Enter</code>-rel végrehajtott R parancsok eredménye és az
+esetleges hibaüzenetek is itt jelennek meg. A munka során a
+<code>.R</code> kiterjesztésű parancsállományok kiválóan alkalmasak a
+hosszabb elemzések R parancsainak tárolására, de ha a publikáláshoz is
+segítséget szeretnénk kapni, akkor inkább a a kötöttebb szerkezetű
+<code>.Rmd</code> kiterjesztésű RMarkdown állományba rögzítsük
+parancsainkat. Az <em>RStudio</em> rutinszerű használatához a
+billentyűparancsok ismerete is hozzátartozik. A projektszemlélet az
+adatelemzéssel kapcsolatos állományok egyben tartásáról, és a
+hordozhatóság biztosításáról szól.
 </p>
 </div>
 </div>
@@ -429,6 +515,7 @@ Az adatelemzési munka során az <em>RStudio</em> -t használjuk projekt üzemm�
 <li>Az <code>Appearance</code> menüpont <code>Editor theme</code> beállításával változtassunk az <em>RStudio</em> színösszeállításán. Keressük meg a legjobban hozzánk illőt! Vegyük figyelembe, hogy hosszútávon a minél sötétebb háttér a jó választás.</li>
 </ol>
 </div>
+<p><svg aria-hidden="true" role="img" viewbox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"></path></svg><a href="#munka-az-r-ben-1-exercise-solution">A fenti feladatok megoldása</a></p>
 </div>
 </div>
 <div id="segítség-az-r-használatához" class="section level2" number="4.2">
@@ -451,48 +538,53 @@ az ún. cheet-sheet-ek forrását,
 </li>
 </ul>
 </div>
-<p>Az R használatához számos segítséget találunk az Interneten, a telepített <em>Alap R</em>-ben és az <em>RStudio</em>-ban egyaránt. Az online segítségek közül elsősorban a <code>http://cran.r-project.org</code> címen olvasható R dokumentációkat emeljük ki, ahol több tucat, elsősorban angol nyelvű leírást találunk az R megismeréséhez. A bal oldali <code>Documentation / Manuals</code> menüpont alatt találjuk például az R hivatalos bevezető dokumentumát (<a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html"><em>An Introduction to R</em></a>), melynek tanulmányozása rendkívül nagy lépést jelenthet az R alaptudás megszerzéséhez. Az említett menüpont alatt találjuk még a <a href="https://cran.r-project.org/other-docs.html"><em>contributed documentation</em></a> linket is, amely számos rövidebb, és hosszabb dokumentációt tartalmaz, angol és más nyelveken. Itt találjuk Solymosi Norbert nagyszerű magyar nyelvű R <a href="https://cran.r-project.org/doc/contrib/Solymosi-Rjegyzet.pdf">R bevezetőjét</a> is.</p>
+<p>Az R használatához számos segítséget találunk az Interneten, a telepített <em>Alap R</em>-ben és az <em>RStudio</em>-ban egyaránt. Az online segítségek közül elsősorban a <code>http://cran.r-project.org</code> címen olvasható R dokumentációkat emeljük ki, ahol több tucat, elsősorban angol nyelvű leírást találunk az R megismeréséhez. A bal oldali <code>Documentation / Manuals</code> menüpont alatt találjuk például az R hivatalos bevezető dokumentumát (<a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html"><em>An Introduction to R</em></a>), melynek tanulmányozása rendkívül nagy lépést jelenthet az R alaptudás megszerzéséhez. Az említett menüpont alatt találjuk még a <a href="https://cran.r-project.org/other-docs.html"><em>contributed documentation</em></a> linket is, amely számos rövidebb, és hosszabb dokumentációt tartalmaz, angol és más nyelveken. Itt találjuk Solymosi Norbert nagyszerű magyar nyelvű <a href="https://cran.r-project.org/doc/contrib/Solymosi-Rjegyzet.pdf">R bevezetőjét</a> is.</p>
 <p>Az R népszerűségének köszönhetően, nagyon sok további dokumentációt, tutoriált és példát találhatunk, ha az internetes keresőkhöz fordulunk. A fejezet végi egyik kitűzött feladatban összeállíthatjuk a saját listánkat.</p>
-<p>Rendkívül népszerűek ma az ún. cheat-sheet-ek, amelyek néhány PDF oldalon sok ábrával, és a lényeg kiemelésével mutatják be egy-egy témakör legfontosabb tudnivalóit. Az <em>RStudio</em> <code>Help / Cheetsheets</code> menüjéből, vagy közvetlenü a <code>https://www.rstudio.com/resources/cheatsheets/</code> címről számos R téma cheet-sheet-je olvashatjuk.</p>
+<p>Rendkívül népszerűek ma az ún. cheat-sheet-ek, amelyek néhány PDF oldalon sok ábrával, és a lényeg kiemelésével mutatják be egy-egy témakör legfontosabb tudnivalóit. Az <em>RStudio</em> <code>Help / Cheetsheets</code> menüjéből, vagy közvetlenül a <a href="https://www.rstudio.com/resources/cheatsheets/">https://www.rstudio.com/resources/cheatsheets/</a> címről számos R téma cheet-sheet-jét érhetjük el.</p>
 <p>Most tekintsük át azokat a súgókat, amelyek az R parancssorából indíthatók. Az R megismerését kezdhetjük a</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.start.html">help.start</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.start.html">help.start</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>paranccsal, ahol számos, az R nyelvet részletesen tárgyaló dokumentum közül választhatunk.</p>
 <p>Ha csak egyetlen függvénnyel kapcsolatban szeretnénk segítséget kérni, akkor használhatjuk a beépített súgórendszer parancsait. Adjuk ki a</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span><span class="va">t.test</span><span class="op">)</span></code></pre></div>
-<p>vagy a rövidebb</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="op">?</span><span class="va">t.test</span></code></pre></div>
-<p>parancsot, ha a <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> függvényről szeretnénk részletes leírását kapni. A <code>?függvénynév</code> lehetőség, minden függvény esetében rendelkezésre áll a súgó kikérésére. Abban az esetben, ha nem ismerjük teljesen a függvény nevét, használhatjuk a</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span><span class="va">t.test</span><span class="op">)</span></span></code></pre></div>
+<p>vagy a rövidebb</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.search.html">help.search</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span> <span class="op">?</span><span class="va">t.test</span></span></code></pre></div>
+<p>parancsot, ha a <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> függvényről szeretnénk részletes leírását kapni. A <code>?függvénynév</code> lehetőség, minden függvény esetében rendelkezésre áll a súgó kikérésére. Abban az esetben, ha nem ismerjük teljesen a függvény nevét, használhatjuk a</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.search.html">help.search</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span></span></code></pre></div>
 <p>parancsot, ekkor az összes olyan függvényt kilistázhatjuk, amelynek a nevében vagy a leírásában a <code>test</code> karaktersorozat előfordul.</p>
 <p>Hasznos lehet továbbá a <code><a href="https://rdrr.io/r/utils/apropos.html">find()</a></code> parancs, amely elárulja, hogy az illető függvény melyik már betöltött csomagban foglal helyet.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/apropos.html">find</a></span><span class="op">(</span><span class="st">"aov"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "package:stats"</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/apropos.html">find</a></span><span class="op">(</span><span class="st">"aov"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "package:stats"</span></span></code></pre></div>
 <p>A fenti példából kiolvasható, hogy az <code><a href="https://rdrr.io/r/stats/aov.html">aov()</a></code> függvény a <strong>stats</strong> csomagban található.</p>
 <p>Ugyancsak a betöltött csomagokban végez keresést az <code><a href="https://rdrr.io/r/utils/apropos.html">apropos()</a></code> függvény, amellyel lehetőség van a parancssorból elérhető függvények vagy objektumok nevében keresni.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/apropos.html">apropos</a></span><span class="op">(</span><span class="st">"aov"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "aov"         "eff.aovlist" "summary.aov"</span></code></pre></div>
-<p>Tovább segítheti az egyes függvények használatának elsajátítását az <code><a href="https://rdrr.io/r/utils/example.html">example()</a></code> parancs, amely az egyes függvények használatára mutat példát.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/example.html">example</a></span><span class="op">(</span><span class="va">t.test</span><span class="op">)</span></code></pre></div>
-<p>Utolsó lehetőségként ejtsünk szót a <code><a href="https://rdrr.io/r/utils/demo.html">demo()</a></code> függvényről, amellyel olyan beépített szkripteket futtathatunk, amelyek az R tudását, erejét hivatottak demonstrálni. Próbáljuk ki a következő parancsokat.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/apropos.html">apropos</a></span><span class="op">(</span><span class="st">"aov"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "aov"         "eff.aovlist" "summary.aov"</span></span></code></pre></div>
+<p>Tovább segítheti az egyes függvények használatának elsajátítását az <code><a href="https://rdrr.io/r/utils/example.html">example()</a></code> parancs, amely az egyes függvények használatára mutat példát.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">graphics</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">persp</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">plotmath</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">Hershey</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/example.html">example</a></span><span class="op">(</span><span class="va">t.test</span><span class="op">)</span></span></code></pre></div>
+<p>Utolsó lehetőségként ejtsünk szót a <code><a href="https://rdrr.io/r/utils/demo.html">demo()</a></code> függvényről, amellyel olyan beépített szkripteket futtathatunk, amelyek az R tudását, erejét hivatottak demonstrálni. Próbáljuk ki a következő parancsokat.</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">graphics</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">persp</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">plotmath</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html">demo</a></span><span class="op">(</span><span class="va">Hershey</span><span class="op">)</span></span></code></pre></div>
 <div id="munka-az-r-ben-2-summary" class="section level3" number="4.2.1">
 <h3>
 <span class="header-section-number">4.2.1</span> Összefoglalás<a class="anchor" aria-label="anchor" href="#munka-az-r-ben-2-summary"><i class="fas fa-link"></i></a>
 </h3>
 <div class="rmdsummary">
 <p>
-Az <em>RStudio</em> a parancsok gépelését számos módon könnyíti meg, de ha egy függvényről részletesebb leírást szeretnénk olvasni, akkor a <code>?függvénynév</code> parancsot használjuk. Egy-egy témakör gyors megismeréséhez a cheet-sheet-eket ajánljuk, amelyek az <em>RStudio</em> <code>Help / Cheetsheets</code> menüjéből is elérhetők. Az R hivatalos honlapján hosszabb leírásokat is találunk.
+Az <em>RStudio</em> a parancsok gépelését számos módon könnyíti meg,
+de ha egy függvényről részletesebb leírást szeretnénk olvasni, akkor a
+<code>?függvénynév</code> parancsot használjuk. Egy-egy témakör gyors
+megismeréséhez a cheet-sheet-eket ajánljuk, amelyek az <em>RStudio</em>
+<code>Help / Cheetsheets</code> menüjéből is elérhetők. Az R hivatalos
+honlapján hosszabb leírásokat is találunk.
 </p>
 </div>
 </div>
@@ -508,6 +600,7 @@ Az <em>RStudio</em> a parancsok gépelését számos módon könnyíti meg, de h
 <li>Hogyan indíthatjuk el egy csomag beépített súgóját? Ismerjük meg így a <strong>fun</strong> csomagot!</li>
 </ol>
 </div>
+<p><svg aria-hidden="true" role="img" viewbox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"></path></svg><a href="#munka-az-r-ben-2-exercise-solution">A fenti feladatok megoldása</a></p>
 </div>
 </div>
 <div id="az-alap-r-használata" class="section level2" number="4.3">
@@ -536,29 +629,29 @@ valamint a kötegelt feldolgozás módszereit.
 <p>Amennyiben nagygépes környezetben dolgozunk, vagy valamilyen oknál fogva az <em>RStudio</em>-t nem tudjuk használni, akkor az <em>Alap R</em> lehet az egyetlen lehetőség R parancsok futtatására. Ebben az esetben sajnos le kell mondanunk a parancsok kényelmes bevitelét és végrehajtását támogató interaktív eszközökről, de természetesen az R teljes ereje, összes függvénye továbbra is rendelkezésünkre áll. Ebben a részben az <em>Alap R</em> lehetőségeit tekintjük át.</p>
 <p>Az <em>Alap R</em> elindítása az adott platformon a megfelelő bináris állomány futtatását jelenti.</p>
 <ul>
-<li>Windows operációs rendszerekben az R indítása többnyire az Asztalon lévő R ikon segítségével lehetséges. Ez az <code>RGui.exe</code> grafikus felhasználói felülettel rendelkező alkalmazást indítja, amelynek legfontosabb része a külön ablakban (<em>R Console</em>) megjelenő konzol (<a href="munka-az-r-ben.html#fig:konzol-win">4.9</a> ábra).</li>
+<li>Windows operációs rendszerekben az R indítása többnyire az Asztalon lévő R ikon segítségével lehetséges. Ez az <code>RGui.exe</code> grafikus felhasználói felülettel rendelkező alkalmazást indítja, amelynek legfontosabb része a külön ablakban (<em>R Console</em>) megjelenő konzol (<a href="munka-az-r-ben.html#fig:konzol-win">4.10</a>. ábra).</li>
 <li>MacOs környezetben indítsuk el az <code>R.app</code> alkalmazást, amely egyetlen konzolt tartalmaz.</li>
 <li>Linux környezetben az <code>R</code> parancssori futtatásával szintén egy konzolt kapunk.</li>
 </ul>
-<div id="a-konzol-használata" class="section level3" number="4.3.1">
+<div id="az-rgui-konzol" class="section level3" number="4.3.1">
 <h3>
-<span class="header-section-number">4.3.1</span> A konzol használata<a class="anchor" aria-label="anchor" href="#a-konzol-haszn%C3%A1lata"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.3.1</span> A konzol használata<a class="anchor" aria-label="anchor" href="#az-rgui-konzol"><i class="fas fa-link"></i></a>
 </h3>
-<p>A konzol az <em>Alap R</em> környezet központi része mindegyik platformon. A konzol működése lényegében megegyezik a korábban megismert <em>RStudio</em>-s konzol működésével: egysoros parancsokat gépelünk be a prompt (<code>&gt;</code>) után, <code>ENTER</code>-t nyomunk, majd az R interpreter értelmezi és végrehajtja a begépelt parancsot, és megjelenik az eredmény. A <a href="munka-az-r-ben.html#fig:konzol-win">4.9</a> ábrán a Windows környezetben használható <em>RGui</em> alkalmazás látható, miután a konzolba két parancsot gépeltünk be és hajtottunk végre.</p>
+<p>A konzol az <em>Alap R</em> környezet központi része mindegyik platformon. A konzol működése lényegében megegyezik a korábban megismert <em>RStudio</em>-s konzol működésével: egysoros parancsokat gépelünk be a prompt (<code>&gt;</code>) után, <code>ENTER</code>-t nyomunk, majd az R interpreter értelmezi és végrehajtja a begépelt parancsot, és megjelenik az eredmény. A <a href="munka-az-r-ben.html#fig:konzol-win">4.10</a>. ábrán a Windows környezetben használható <em>RGui</em> alkalmazás látható, miután a konzolba két parancsot gépeltünk be és hajtottunk végre.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:konzol-win"></span>
 <a href="" target="_blank"><img src="images/konzol_win.png" alt="RGui alkalmazás a konzollal Windows környezetben" width="70%"></a>
 <p class="caption">
-ÁBRA 4.9: RGui alkalmazás a konzollal Windows környezetben
+ÁBRA 4.10: RGui alkalmazás a konzollal Windows környezetben
 </p>
 </div>
-<p>Az <em>RStudio</em> konzolának minden korábban említett alapfunkciója az <em>Alap R</em> konzolában is elérhető, tudjuk használni a parancsok történetét, a kódkiegészítést a <code>TAB</code> billentyűvel, és a folytatás prompt (<code>+</code>) is megjelenik befejezetlen sorok esetén. A Windows alatt futó <em>RGui</em> azonban ismeri a parancsállományokat is.</p>
+<p>Az <em>RStudio</em> konzoljának minden korábban említett alapfunkciója az <em>Alap R</em> konzoljában is elérhető, tudjuk használni a parancsok történetét, a kódkiegészítést a <code>TAB</code> billentyűvel, és a folytatás prompt (<code>+</code>) is megjelenik befejezetlen sorok esetén. Sőt a Windows alatt futó <em>RGui</em> ismeri a parancsállományokat is, bár a gépeléshez korántsem kapunk annyi támogatást mint az <em>RStudio</em>-ban.</p>
 </div>
 <div id="parancsállományok-az-rgui-ban" class="section level3" number="4.3.2">
 <h3>
 <span class="header-section-number">4.3.2</span> Parancsállományok az RGui-ban<a class="anchor" aria-label="anchor" href="#parancs%C3%A1llom%C3%A1nyok-az-rgui-ban"><i class="fas fa-link"></i></a>
 </h3>
-<p>Az <em>RGui</em> a Windows-os <em>Alap R</em> része, és ahogyan láthattuk, egy nagyon egyszerü grafikus környezet, amelynek központjában a konzol található (<em>R Console</em> ablak a <a href="munka-az-r-ben.html#fig:konzol-win">4.9</a> ábrán). Az <em>RGui</em> nagyszerű tulajdonsága, hogy támogatja a parancsállományok használatát. Az <em>RGui</em>-ban találunk menüpontokat (<code>File/New script</code>, <code>File/Open script</code> és <code>File/Save</code>), amelyekkel létrehozhatunk, megnyithatunk, és elmenthetünk parancsállományokat. Tudjuk, hogy a parancsállományok használata lényegesen leegyszerűsíti az adatelemzés folyamatát, de fontos műveletként jelenik meg az átirányítás, amely a szövegszerkesztőben összegyűjtött parancsokat vezeti át a konzolba. Az <em>RGui</em>-ban ez a <code>Ctrl+R</code> billentyűkombinációval lehetséges – ez gyakorlatilag az <em>Rstudio</em>-beli <code>Ctrl+Enter</code> –, de az <code>Edit/Run line or selection</code> vagy az <code>Edit/Run all</code> menüpontok is rendelkezésre állnak. A soronkénti végrehajtás mellett itt is lehetőség van kijelölt szövegrészek végrehajtására, de több sort, a teljes parancsállományt, vagy valamelyik sor egy részét is elküldhetjük a konzolba a <code>Ctrl+R</code> segítségével.</p>
+<p>Az <em>RGui</em> a Windows-os <em>Alap R</em> része, és ahogyan láthattuk, egy nagyon egyszerű grafikus környezet, amelynek központjában a konzol található (<em>R Console</em> ablak a <a href="munka-az-r-ben.html#fig:konzol-win">4.10</a>. ábrán). Az <em>RGui</em> nagyszerű tulajdonsága, hogy támogatja a parancsállományok használatát. Az <em>RGui</em>-ban találunk menüpontokat (<code>File/New script</code>, <code>File/Open script</code> és <code>File/Save</code>), amelyekkel létrehozhatunk, megnyithatunk, és elmenthetünk parancsállományokat. Tudjuk, hogy a parancsállományok használata lényegesen leegyszerűsíti az adatelemzés folyamatát, de fontos műveletként jelenik meg az átirányítás, amely a szövegszerkesztőben összegyűjtött parancsokat vezeti át a konzolba. Az <em>RGui</em>-ban ez a <code>Ctrl+R</code> billentyűkombinációval lehetséges – ez gyakorlatilag az <em>Rstudio</em>-beli <code>Ctrl+Enter</code> –, de az <code>Edit/Run line or selection</code> vagy az <code>Edit/Run all</code> menüpontok is rendelkezésre állnak. A soronkénti végrehajtás mellett itt is lehetőség van kijelölt szövegrészek végrehajtására, de több sort, a teljes parancsállományt, vagy valamelyik sor egy részét is elküldhetjük a konzolba a <code>Ctrl+R</code> segítségével.</p>
 </div>
 <div id="r-commander" class="section level3" number="4.3.3">
 <h3>
@@ -567,44 +660,44 @@ valamint a kötegelt feldolgozás módszereit.
 <p>Eddig az R használatának két lényegesen eltérő módját mutattuk be: a konzolos használatot és a parancsállományos használatot (az RMarkdown állományok használatát is ez utóbbi csoportba sorolhatjuk). Láttuk, hogy a konzol az <em>RStudio</em> és az <em>Alap R</em> központi része, de az <em>RStudio</em> és az <em>RGui</em> a parancsállományos használatot is támogatja. Mindegyik fenti használati mód parancsok gépelésével jár együtt.</p>
 <p>Azonban létezik egy harmadik, az eddigiektől lényegesen eltérő módja az R használatának. Parancsok gépelése nélkül, csupán egérkattintássokkal is végezhetünk statisztikai elemzést. Az R erre alkalmas beépített eszközét <em>R Commander</em>-nek nevezik, de külső eszközök is képesek az R parancssoros lényét elfedni előlünk. Ilyen külső eszköz például a <a href="https://www.jamovi.org/"><em>jamovi</em></a> és a <a href="https://jasp-stats.org/"><em>JASP</em></a>. Mindhárom felsorolt eszközben közös, hogy grafikus felhasználói felületen mozgunk, és egérkattintással, menüben való navigálással, vezérlőelemek (rádiógombok, jelölőnégyzetek, listák, nyomógombok, beviteli mezők) használatával magyarázzuk el a kívánt tevékenységet.</p>
 <p>A továbbiakban az <em>R Commander</em> lehetőségeit tekintjük át röviden. Az <em>R Commander</em> az <strong>Rcmdr</strong> nevű csomagban foglal helyet, így használatához ezt a csomagot telepítenünk kell. Ezt követően a <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> függvény segítségével tudjuk elindítani az <em>R Commander</em>-t:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("Rcmdr")  # R Commander telepítése</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org">Rcmdr</a></span><span class="op">)</span>               <span class="co"># R Commander indítása</span></code></pre></div>
-<p>Az indítás után egy külön <em>R Commander</em> ablak jelenik meg (<a href="munka-az-r-ben.html#fig:rcommander-1">4.10</a> ábra), melynek felépítése fentről lefelé a következő: (1) gazdag menürendszer, (2) eszköztár az aktuális adatbázis (<code>Adattábla</code>) mezővel és az <code>Adattábla megtekintése</code> gombokkal, (3) parancsállomány vagy RMarkdown lapok, (4) output számára fenntartott szöveges mező, és (5) az üzenetek helye. Megjegyezzük, hogy a <a href="munka-az-r-ben.html#fig:rcommander-1">4.10</a> ábrán látható <em>R Commander</em>-t az <em>Alap R</em>-ből indítottuk. Amennyiben <em>RStudio</em>-ból adjuk ki a <code><a href="https://www.r-project.org">library(Rcmdr)</a></code> parancsot, akkor a 4. és az 5. elem, azaz az output és az üzenetek rész nem lesz látható, mert az <em>RStudio</em> konzola ezeket magába integrálja.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("Rcmdr")  # R Commander telepítése</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org">Rcmdr</a></span><span class="op">)</span>               <span class="co"># R Commander indítása</span></span></code></pre></div>
+<p>Az indítás után egy külön <em>R Commander</em> ablak jelenik meg (<a href="munka-az-r-ben.html#fig:rcommander-1">4.11</a>. ábra), melynek felépítése fentről lefelé a következő: (1) a gazdag menürendszer, (2) az eszköztár az aktuális adatbázis (<code>Adattábla</code>) mezővel és az <code>Adattábla megtekintése</code> gombokkal, (3) a parancsállomány vagy RMarkdown lapok, (4) az output számára fenntartott szöveges mező, és (5) az üzenetek helye. Megjegyezzük, hogy a <a href="munka-az-r-ben.html#fig:rcommander-1">4.11</a>. ábrán látható <em>R Commander</em>-t az <em>Alap R</em>-ből indítottuk. Amennyiben <em>RStudio</em>-ból adjuk ki a <code><a href="https://www.r-project.org">library(Rcmdr)</a></code> parancsot, akkor a 4. és az 5. elem, azaz az output és az üzenetek rész nem lesz látható, mert az <em>RStudio</em> konzolja ezeket magába integrálja.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:rcommander-1"></span>
 <a href="" target="_blank"><img src="images/rcommander_1.png" alt="Az R Commander induló ablaka" width="85%"></a>
 <p class="caption">
-ÁBRA 4.10: Az R Commander induló ablaka
+ÁBRA 4.11: Az R Commander induló ablaka
 </p>
 </div>
-<p>A kilépést az <em>R Commander</em>-ből a <code>File / Kilépés</code> menüpont segítségével kezdeményezhetjük. Kilépés után az <em>R Commander</em> újraindításához a következő parancsokat kell használnunk.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># ha véletlenül bezártuk az R Commander-t</span>
-<span class="kw"><a href="https://rdrr.io/r/base/detach.html">detach</a></span><span class="op">(</span><span class="va">package</span><span class="op">:</span><span class="va">Rcmdr</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org">Rcmdr</a></span><span class="op">)</span></code></pre></div>
-<p>Az <em>R Commander</em> lényegét a legkönyebben úgy tudjuk szemléltetni, ha egérkattintásokkal is megoldjuk a Csillagok háborúja c. filmmel kapcsolatos adatelemzési feladatunkat. Első lépésként töltsük be a <strong>dplyr</strong> csomagot az <code>Eszközök / Csomag(ok) betöltése</code> menüponttal. Keressük meg a listában a <strong>dplyr</strong> csomagnevet és kattintsunk az <code>OK</code> gombon. Ezt követően olvassuk be a <code>starwars</code> adatbázist ebből a csomagból, az <code>Adatok / Csomagban lévő adatok / Adattábla beolvasása betöltött csomagból</code> menüpont segítségével. Kattintsunk duplán a <strong>dplyr</strong> csomagneven, majd a jobb oldali listában szintén duplán a <code>starwars</code> adatbázison, majd az <code>OK</code> gombbal fejezzük be a műveletet. Figyeljük meg, hogy az <code>R szkript</code> és <code>R Markdown</code> lapok tartalmazni fogják az egérrel elmutogatott tevékenységeinknek megfelelő R parancsokat, illetve az output és üzenetek részben ezek végrehajtásáról is értesítést kapunk.</p>
+<p>A kilépést az <em>R Commander</em>-ből a <code>File / Kilépés</code> menüpont segítségével kezdeményezhetjük. Kilépés után az <em>R Commander</em> újraindításához a következő parancsokat kell használnunk:</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># ha véletlenül bezártuk az R Commander-t</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/detach.html">detach</a></span><span class="op">(</span><span class="va">package</span><span class="op">:</span><span class="va">Rcmdr</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org">Rcmdr</a></span><span class="op">)</span></span></code></pre></div>
+<p>Az <em>R Commander</em> lényegét a legkönnyebben úgy tudjuk szemléltetni, ha egérkattintásokkal is megoldjuk a <em>Csillagok háborúja</em> c. filmmel kapcsolatos adatelemzési feladatunkat. Első lépésként telepítsük a <strong>dplyr</strong> csomagot. Természetesen, ha már korábban a telepítést bármilyen apropóból elvégeztük, akkor ezt nem kell megismételni, de a teljesség kedvéért kezdjük azzal, hogyan tudunk interaktívan csomagot telepíteni az <em>R Commander</em> segítségével. Válasszuk ki a <code>Eszközök / Csomag telepítése</code> menüpontot, ha szükséges válasszunk a tükörszerverek közül, majd válasszuk ki a megjelenő listából a <strong>dplyr</strong> csomagot. Ezt követően töltsük be a <strong>dplyr</strong> csomagot az <code>Eszközök / Csomag(ok) betöltése</code> menüponttal. Keressük meg a listában a <strong>dplyr</strong> csomagnevet és kattintsunk az <code>OK</code> gombon. Ezt követően olvassuk be a <code>starwars</code> adatbázist a <strong>dplyr</strong> csomagból, az <code>Adatok / Csomagban lévő adatok / Adattábla beolvasása betöltött csomagból</code> menüpont segítségével. Kattintsunk duplán a <strong>dplyr</strong> csomagneven, majd a jobb oldali listában szintén duplán a <code>starwars</code> adatbázison, majd az <code>OK</code> gombbal fejezzük be a műveletet. Figyeljük meg, hogy az <code>R szkript</code> és <code>R Markdown</code> lapok tartalmazni fogják az egérrel elmutogatott tevékenységeinknek megfelelő R parancsokat, illetve az output és üzenetek részben ezek végrehajtásáról is értesítést kapunk.</p>
 <p>Még egy rendkívül fontos dolog történt a <strong>dplyr</strong> csomag <code>starwars</code> adatbázisának beolvasása után. Az eszköztárban az <code>Adattábla</code> részben már nem a <code>Nincs aktív adattábla</code> szöveg szerepel, hanem a <code>starwars</code> adatbázis neve. Azt kell megjegyeznünk az <em>R Commander</em> használata során, hogy mindig van egy kitüntetett, aktív adattáblánk, és minden további tevékenység, amit a menüpontok segítségével el tudunk érni, az erre a kitüntetett, aktív adattáblára vonatkozik. Az aktív adattáblát le lehet cserélni. Amennyiben nyitnánk egy másik adatbázist, akkor a <code>starwars</code> feliratú gombon kattintva, egy listából kiválaszthatnánk, hogy melyik adatbázisunk legyen az <em>R Commander</em>-ben aktív.</p>
 <p>Folytassuk az adatelemzést az <code>Elemzések / Összegzések / Numerikus változók összegzése</code> menüpont kiválasztásával. A megjelenő dialógusdobozból válasszuk ki a <code>height</code> változót, az <code>Összegzés csoportonként</code> gombon kattintva pedig a <code>species</code> változót. Az <code>OK</code> gombok megnyomása után az output részben látjuk az elemzés eredményét.</p>
 <p>Az <em>R Commander</em> nagyon hatékony eszköz gyors elemzések, egyszerű adatbetekintések elvégzésére. Számos menüpontot kínál az adatok beolvasásához, előkészítéséhez és az elemzéséhez. Ráadásul az egyes menüpontokban elmutogatott tevékenységek R parancsait is szorgalmasan gyűjti, így azokat a <code>File / Szkript mentése</code> vagy <code>File / R Markdown mentése</code> kiválasztásával, el is tudjuk menteni magunk számára. Az <em>R Commander</em> vagy a <em>jamovi</em> és <em>JASP</em> ismerete nagyban hozzájárul a hatékony adatelemzéshez.</p>
 <p>Végül megemlítjük, hogy az <em>R Commander</em> tudása kibővíthető beépülő modulok (plugin-ek) segítségével. Ezek új menüpontokat, dialógusdobozokat és természetesen új függvényeket tartalmaznak. A beépülő modulok csomagok formájában érhetők el. Például az <code>Easy R</code> beépülő modul telepítéséhez az <code>RcmdrPlugin.EZR</code> csomagra van szükség.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># beépülő modul telepítése </span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"RcmdrPlugin.EZR"</span><span class="op">)</span></code></pre></div>
-<p>Telepítés után a beépülő modul betöltésére is szükség van, csak így tudjuk az új funkciókat elérni. Ezt az <code>Eszközök / Rcmdr plugin(ok) betöltése</code> menüpontban tehetjük meg. Az <em>R Commander</em> újraindulása után, már az új menüszerkezetet fogjuk látni. Az <a href="https://www.rcommander.com/"><em>R Commander hivatalos oldalán</em></a> teljes listát kapunk az elérhető beépülő modulokból.</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># egy beépülő modul telepítése </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"RcmdrPlugin.EZR"</span><span class="op">)</span></span></code></pre></div>
+<p>Telepítés után a beépülő modul betöltésére is szükség van, csak így tudjuk az új funkciókat elérni. Ezt az <code>Eszközök / Rcmdr plugin(ok) betöltése</code> menüpontban tehetjük meg. Az <em>R Commander</em> újraindulása után, már az új menüszerkezetet fogjuk látni. Az <a href="https://socialsciences.mcmaster.ca/jfox/Misc/Rcmdr/"><em>R Commander hivatalos oldalán</em></a> részletesebb információkat olvashatunk.</p>
 </div>
 <div id="kötegelt-futtatás" class="section level3" number="4.3.4">
 <h3>
 <span class="header-section-number">4.3.4</span> Kötegelt futtatás<a class="anchor" aria-label="anchor" href="#k%C3%B6tegelt-futtat%C3%A1s"><i class="fas fa-link"></i></a>
 </h3>
-<p>Ha felidézzük az eddig tanultakat az R használati módjairól, akkor világos, hogy mindegyik az interaktív használathoz kötődik. Egy tipikus adatelemzési munka során pontosan erre van szükség, kezdeményezzük egy művelet végrehatását és várjuk az eredményt. Újabb művelet, újabb output. Ezt a fajta interaktív használatot láttuk a konzolban, a parancsállományok és RMarkdown állományok esetén, és az <em>R Commander</em>-ben is. Azonban az interaktív használat mellett beszélünk ún. kötegelt feldolgozásról is. Ez azt jelenti, hogy egy parancsállomány összes sorát egyetlen lépésben hatjuk végre. Nem vagyunk kíváncsiak a soronkénti eredményekre, a teljes szkriptállomány futtatása ad olyan eredményt, amelyre nekünk éppen szükségünk van. Kötegelt futtatásra a <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> függvényt használhatjuk, valamint az <em>Alap R</em> egy külső alkalmazását, az <code>Rscript</code> programot.</p>
+<p>Ha felidézzük az eddig tanultakat az R használati módjairól, akkor világos, hogy mindegyik az interaktív használathoz kötődik. Egy tipikus adatelemzési munka során pontosan erre van szükség: kezdeményezzük egy művelet végrehajtását és várjuk az eredményt. Újabb művelet, újabb output. Ezt a fajta interaktív használatot láttuk a konzolban, a parancsállományok és RMarkdown állományok esetén, és az <em>R Commander</em>-ben is. Azonban az interaktív használat mellett beszélünk ún. kötegelt feldolgozásról is. Ez azt jelenti, hogy egy parancsállomány összes sorát egyetlen lépésben hatjuk végre. Nem vagyunk kíváncsiak a soronkénti eredményekre, a teljes szkriptállomány futtatása ad olyan eredményt, amelyre nekünk éppen szükségünk van. Kötegelt futtatásra a <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> függvényt használhatjuk, valamint az <em>Alap R</em> egy külső alkalmazását, az <code>Rscript</code> programot.</p>
 <p>Tegyük fel, hogy egy <code>netflix.R</code> parancsállományban összegyűjtöttük az összes olyan R sort, amely egyetlen ábra létrehozásához szükséges. Ez az ábra meglehetősen összetett, mert az egyes években megjelent filmek és sorozatok számát tartalmazza, és viszonylag sok adatelőkészítési műveletet előzte meg. Ezek nem mindig izgalmasak számunkra, annál inkább maga az ábra, amelynek létrehozása a <code>netflix.R</code> egyetlen célja.</p>
-<p>A következő sort az <em>Alap R</em> vagy az <em>RStudio</em> konzolába/parancsállományába, vagy az <em>RStudio</em> RMarkdown állományába is elhelyezhetjük. A <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> függvény a <code>netflix.R</code> minden sorát végrehajtja és reményeink szerint előállítja a kívánt ábrát.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"netflix.R"</span>, echo <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
+<p>A következő sort az <em>Alap R</em> vagy az <em>RStudio</em> konzoljába/parancsállományába, vagy az <em>RStudio</em> RMarkdown állományába is elhelyezhetjük. A <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> függvény a <code>netflix.R</code> minden sorát végrehajtja és reményeink szerint előállítja a kívánt ábrát.</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"netflix.R"</span>, echo <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
 <p>A <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> függvény kicsit másként közelít a parancsainkhoz, mint amit megszoktunk az interaktív konzolos és parancsállományos használat során. A <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> először a teljes állományban ellenőrzi a parancsok szintaktikai helyességét, és csak akkor kezdi el az első majd az azt követő parancsok végrehajtásához, ha mindent rendben talált.</p>
 <p>Másik lehetőség parancsállomány kötegelt futtatására, az <code>RScript</code> program, amely ugyanúgy az <em>Alap R</em> része, mint a konzol vagy az interpreter. Az operációs rendszer parancssorából kell kiadnunk a következő parancsot:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb44-1"><a href="munka-az-r-ben.html#cb44-1" aria-hidden="true" tabindex="-1"></a>Rscript --vanilla netflix.R &gt; output.txt</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb45-1"><a href="munka-az-r-ben.html#cb45-1" aria-hidden="true" tabindex="-1"></a>Rscript --vanilla netflix.R &gt; output.txt</span></code></pre></div>
 <p>A fenti sor hatására ugyanúgy létrejön a kívánt ábra, de az <code>output.txt</code>-ben megkapjuk a futás közben keletkező egyéb outputokat is.</p>
 <p>Kötegelt feldolgozásra viszonylag ritkán van szükségünk, akkor is többnyire nagygépes környezetben. Az interaktív használat a legtöbb adatelemzési munka során elegendő rugalmasságot ad.</p>
 </div>
@@ -614,7 +707,17 @@ valamint a kötegelt feldolgozás módszereit.
 </h3>
 <div class="rmdsummary">
 <p>
-Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor az <em>Alap R</em> eszközeivel is kiválóan megoldhatjuk adatelemzési feladatainkat. A konzol és az <em>RGui</em> parancsállományai interaktív parancsvégrehajtást biztosítanak, a <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> függvény és az <code>RScript</code> alkalmazás pedig a <code>.R</code> kiterjesztésű parancsállományok kötegelt feldolgozását segítik. Az <em>R Commander</em> parancsok gépelése nélkül teszi lehetővé elemzések végrehajtását, mindössze a megfelelő menüpontot kell kiválasztani, majd a dialógusdobozan elvégezni a szükséges beállításokat. Érdemes kipróbálni a <em>jamovi</em> és a <em>JASP</em> statisztikai programokat is.
+Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor
+az <em>Alap R</em> eszközeivel is kiválóan megoldhatjuk adatelemzési
+feladatainkat. A konzol és az <em>RGui</em> parancsállományai interaktív
+parancsvégrehajtást biztosítanak, a <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> függvény és az
+<code>RScript</code> alkalmazás pedig a <code>.R</code> kiterjesztésű
+parancsállományok kötegelt feldolgozását segítik. Az <em>R
+Commander</em> parancsok gépelése nélkül teszi lehetővé elemzések
+végrehajtását, mindössze a megfelelő menüpontot kell kiválasztani, majd
+a dialógusdobozban elvégezni a szükséges beállításokat. Érdemes
+kipróbálni a <em>jamovi</em> és a <em>JASP</em> statisztikai programokat
+is.
 </p>
 </div>
 </div>
@@ -631,6 +734,7 @@ Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor az <e
 <li>Töltsük le és telepítsük az ingyenesen elérhető <em>jamovi</em> és a <em>JASP</em> statisztikai programokat, majd nyissuk meg a beépített adatbázisait, és végezzünk néhány egyszerűbb elemzést! Ha elakadunk, keressünk videó tutoriált az eszközök használatáról. Melyik eszköz tetszik jobban? Miben hasonlítanak és miben térnek el?</li>
 </ol>
 </div>
+<p><svg aria-hidden="true" role="img" viewbox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"></path></svg><a href="#munka-az-r-ben-3-exercise-solution">A fenti feladatok megoldása</a></p>
 
 </div>
 </div>
@@ -645,13 +749,13 @@ Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor az <e
 <li>
 <a class="nav-link" href="#AzRStudiohasznalata"><span class="header-section-number">4.1</span> Az RStudio használata</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#az-rstudio-jellemz%C5%91i"><span class="header-section-number">4.1.1</span> Az RStudio jellemzői</a></li>
-<li><a class="nav-link" href="#az-rstudio-fel%C3%A9p%C3%ADt%C3%A9se"><span class="header-section-number">4.1.2</span> Az RStudio felépítése</a></li>
+<li><a class="nav-link" href="#az-rstudio-felepitese"><span class="header-section-number">4.1.2</span> Az RStudio felépítése</a></li>
 <li><a class="nav-link" href="#az-rstudio-be%C3%A1ll%C3%ADt%C3%A1sai"><span class="header-section-number">4.1.3</span> Az RStudio beállításai</a></li>
-<li><a class="nav-link" href="#az-rstudio-konzola"><span class="header-section-number">4.1.4</span> Az RStudio konzola</a></li>
-<li><a class="nav-link" href="#parancs%C3%A1llom%C3%A1nyok"><span class="header-section-number">4.1.5</span> Parancsállományok</a></li>
+<li><a class="nav-link" href="#az-rstudio-konzol"><span class="header-section-number">4.1.4</span> Az RStudio konzol</a></li>
+<li><a class="nav-link" href="#parancsallomanyok"><span class="header-section-number">4.1.5</span> Parancsállományok</a></li>
 <li><a class="nav-link" href="#munka-az-rstudio-ban"><span class="header-section-number">4.1.6</span> Munka az RStudio-ban</a></li>
-<li><a class="nav-link" href="#rmarkdown-%C3%A1llom%C3%A1nyok"><span class="header-section-number">4.1.7</span> RMarkdown állományok</a></li>
-<li><a class="nav-link" href="#projektek-haszn%C3%A1lata"><span class="header-section-number">4.1.8</span> Projektek használata</a></li>
+<li><a class="nav-link" href="#rmarkdown-allomanyok"><span class="header-section-number">4.1.7</span> RMarkdown állományok</a></li>
+<li><a class="nav-link" href="#projektek-hasznalata"><span class="header-section-number">4.1.8</span> Projektek használata</a></li>
 <li><a class="nav-link" href="#billenyt%C5%B1parancsok"><span class="header-section-number">4.1.9</span> Billenytűparancsok</a></li>
 <li><a class="nav-link" href="#munka-az-r-ben-1-summary"><span class="header-section-number">4.1.10</span> Összefoglalás</a></li>
 <li><a class="nav-link" href="#munka-az-r-ben-1-exercise"><span class="header-section-number">4.1.11</span> Feladatok</a></li>
@@ -665,7 +769,7 @@ Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor az <e
 </li>
 <li>
 <a class="nav-link" href="#az-alap-r-haszn%C3%A1lata"><span class="header-section-number">4.3</span> Az Alap R használata</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#a-konzol-haszn%C3%A1lata"><span class="header-section-number">4.3.1</span> A konzol használata</a></li>
+<li><a class="nav-link" href="#az-rgui-konzol"><span class="header-section-number">4.3.1</span> A konzol használata</a></li>
 <li><a class="nav-link" href="#parancs%C3%A1llom%C3%A1nyok-az-rgui-ban"><span class="header-section-number">4.3.2</span> Parancsállományok az RGui-ban</a></li>
 <li><a class="nav-link" href="#r-commander"><span class="header-section-number">4.3.3</span> R Commander</a></li>
 <li><a class="nav-link" href="#k%C3%B6tegelt-futtat%C3%A1s"><span class="header-section-number">4.3.4</span> Kötegelt futtatás</a></li>
@@ -690,7 +794,7 @@ Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor az <e
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2021-12-28.</p>
+    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2022-09-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -703,7 +807,7 @@ Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor az <e
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

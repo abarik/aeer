@@ -11,19 +11,55 @@
 <li>a konzolos és parancsállományos használat különbségeit,</li>
 <li>a parancsállományok és az RMarkdown állományok lehetőségeit,</li>
 <li>a projekt fogalmát és használatát,</li>
-<li>és az <em>RStudio</em> billenytűparancsait.</li>
+<li>és az <em>RStudio</em> billentyűparancsait.</li>
 </ul>
 </div>
 
-Miután minden szükséges szoftverkomponenst feltelepítettünk, hogyan tudjuk működésre bírni az R-t? Tegyük fel, hogy van egy nagyon egyszerű adatfeldolgozási problémánk, szeretnénk megtudni a Csillagok háborúja c. film karaktereinek átlagos testmagasságát. Ha rátalálunk egy alkalmas adatbázisra, amely tartalmazza a szereplők testmagasságait, akkor még két konkrét adatelemzési lépés vár ránk: (1) az adatbázis megnyitása, (2) az átlagos testmagasság meghatározása. Korábban láttuk, hogy az R parancssoros, tehát a fenti két lépést R parancsok formájában kell megfogalmaznunk. Kérdés, hová írjuk a parancsainkat, hogyan hajthatjuk őket végre, és végül, milyen parancsokkal érhetjük el a célunkat. Ebben a fejeztben az első két kérdésre fókuszálunk, hová írhatjuk a parancsainkat és hogyan tudjuk azokat hatékonyan végrehajtani. 
+Miután minden szükséges szoftverkomponenst feltelepítettünk, hogyan tudjuk működésre bírni az R-t?  
+Tegyük fel, hogy van egy nagyon egyszerű adatfeldolgozási problémánk, szeretnénk megtudni a *Csillagok háborúja* c. film karaktereinek átlagos testmagasságát a filmben szereplő egyes fajokra jellemzően. Ha rátalálunk egy alkalmas adatbázisra, amely tartalmazza a szereplők testmagasságait és azt, hogy melyik fajhoz tartoznak, akkor még két konkrét adatelemzési lépés vár ránk: 
 
-Máris megválaszoljuk a kérdéseket. Korábban láttuk, hogy az *Alap R* telepítésével elérhetővé válik a *konzol*, ahová parancsainkat begépelve, majd `ENTER`-t ütve utasításokat tudunk végrehajtani. Az *RStudio* telepítésével is kapunk egy konzolt, amelynek működése megegyezik az *Alap R* konzoljával: ide is gépelhetünk parancsokat, és `ENTER`-rel végrehajthatjuk őket. A konzol azonban nem a legkényelmesebb módja az R parancsok végrehajtására. Érdemes szöveges állományba gyűjteni az adatfeldolgozáshoz kapcsolódó R parancsainkat, és azokat egyesével, többet egyszere, vagy akár az összeset elküldeni a konzolba végrehjatásra. Ezeknek a szöveges állományoknak két fajtáját ismerjük meg ebben a könyvben: a parancsállományokat és az RMarkdown állományokat (a 11. fejezetben az RMarkdown állományokról többet olvashatunk). A parancsállományok és az RMarkdown állományok létrehozásához is a legtöbb segítséget az *RStudio* nyújtja: a parancsok begépelését drámaian leegyszerűsíti, és egyben számos más kényelmi funkciót is ajánl. Hová írjuk tehát az R parancsainkat? Az *RStudio* parancsállományaiba vagy RMarkdown állományaiba. Kezdjük a fejezetet az *RStudio* lehetőségeinek megismerésével! 
+1. az adatbázis megnyitása, 
+1. az átlagos testmagasságok meghatározása fajonként. 
+
+Korábban láttuk, hogy az R parancssoros, tehát a fenti két lépést R parancsok formájában kell megfogalmaznunk. Azonban több kérdés is felmerül ezen a ponton:
+
+1. hová írjuk a parancsainkat, 
+1. hogyan hajthatjuk őket végre, és végül,
+1. hol jelenik meg az eredmény.
+
+Ebben a fejezetben a fenti három kérdésekre fókuszálunk, és azt a kérdést, hogy mely konkrét parancsokkal érhetjük el a célunkat a könyv további fejezeteire halasztjuk. 
+
+Máris megválaszoljuk a kérdéseket. Korábban láttuk, hogy az *Alap R* telepítésével elérhetővé válik a *konzol*, ahová parancsainkat begépelve, majd `ENTER`-t ütve utasításokat tudunk végrehajtani. Az *RStudio* telepítésével is kapunk egy konzolt, amelynek működése megegyezik az *Alap R* konzoljával: ide is gépelhetünk parancsokat, és `ENTER`-rel végrehajthatjuk őket. A parancsok eredmény is itt, a konzolban fog megjelenni.
+
+A kiinduló adatelemzési feladatunk megoldásához tehát vagy az *Alap R* vagy az *RStudio* konzoljába gépeljük be a következő parancsokat, sorról-sorra, és minden egyes sor végén üssünk `ENTER`-t (a konzol használatához a \@ref(az-rstudio-konzol). és \@ref(az-rstudio-konzol). fejezetekben találunk segítséget). A `#`-el kezdődő részeket nem szükséges begépelnünk, azok nem az R-nek szólnak, hanem a megjegyzés szerepét töltik be.
+
+
+```r
+install.packages("dplyr")      # a dplyr csomag telepítése
+install.packages("psych")      # a psych csomag telepítése
+data(starwars, package="dplyr")  # adatbázis beolvasása csomagból
+# testmagasság átlagok fajonként
+psych::describeBy(starwars$height, starwars$species, fast=T, mat=T)
+```
+
+
+A konzol azonban nem a legkényelmesebb módja az R parancsok végrehajtásának. Ezzel minden bizonnyal egyet értenek azok, akik a fenti sorok begépelését és végrehajtását valóban elvégezték a konzolban. A konzolba gépelés helyett érdemes egy szöveges állományban összegyűjteni az adatfeldolgozáshoz kapcsolódó R parancsainkat, ugyanis ezeket később kényelmesen elküldhetjük a konzolba végrehajtásra, pont úgy, mintha közvetlenül a konzolba gépeltük volna be őket. Ezeknek a szöveges állományoknak két fajtáját ismerjük meg ebben a könyvben: a *parancsállományokat* és az *RMarkdown állományokat* (a \@ref(publikacio). fejezetben az RMarkdown állományokról többet olvashatunk). 
+
+A parancsállományok és az RMarkdown állományok létrehozásához is a legtöbb segítséget az *RStudio* nyújtja: a parancsok begépelését drámaian leegyszerűsíti, és egyben számos más kényelmi funkciót is ajánl. Hová írjuk tehát az R parancsainkat? A legjobb válasz erre a kérdésre: az *RStudio* parancsállományaiba vagy RMarkdown állományaiba. Mielőtt valóban elvégeznénk ezen állományok létrehozását, ismerkedjünk meg az *RStudio* lehetőségeivel! 
 
 ### Az RStudio jellemzői
 
-Fontos tisztázni, az *RStudio* használatához feltétlenül szükség van a telepített *Alap R*-re, nélküle nem tudunk R parancsokat futtatni. Jó gyakorlat, ha az *RStudio* telepítése előtt telepítjük fel az *Alap R*-t, de a fordított sorrend sem okoz problémát. Sőt, ha az *Alap R* egy új verzióját telepítjük fel, akkor a korábban telepített *RStudio* már az új verziójú R futtató környezetét fogja használni. Az *RStudio* tudása tehát a végrehajtható R parancsok tekintetében megegyezik az *Alap R* tudásával, hiszen minden utasítás, amelynek a végrehajtását az *RStudio*-ban kezdeményezzük, végső soron az *Alap R*-rel telepített interpreterhez kerül, és a végrehajtásáért ő felel. Az *RStudio* elsősorban a parancsok írását könnyíti meg, segítségével a parancsok létrehozásához kapunk rendkívüli segítséget. 
+Fontos tisztázni, az *RStudio* használatához feltétlenül szükség van a telepített *Alap R*-re, nélküle nem tudunk R parancsokat futtatni. Jó gyakorlat, ha az *RStudio* telepítése előtt telepítjük fel az *Alap R*-t, de a fordított sorrend sem okoz problémát. Sőt, ha az *Alap R* egy új verzióját telepítjük fel, akkor a korábban telepített *RStudio* már az új verziójú R futtató környezetét fogja használni. Az *RStudio* tudása tehát a végrehajtható R parancsok tekintetében megegyezik az *Alap R* tudásával, hiszen minden utasítás, amelynek a végrehajtását az *RStudio*-ban kezdeményezzük, végső soron az *Alap R*-rel telepített interpreterhez kerül, és a végrehajtásáért ő felel (\@ref(fig:alaprst03). ábra).
 
-Megjegyezzük, hogy az *RStudio* egy üzleti vállalkozás neve is egyben, amely többféle terméket fejleszt. Ezek egyike az *RStudio*-nak nevezett integrált fejlesztőkörnyezet, kimondottan az R programozási nyelv számára. Foglaljuk össze, hogy melyek az *RStudio* erősségei.
+
+<div class="figure" style="text-align: center">
+<a href="" target="_blank"><img src="images/alaprst02.png" alt="Az R kényelmes használata" width="85%" /></a>
+<p class="caption">(\#fig:alaprst03)Az R kényelmes használata</p>
+</div>
+
+
+
+Az *RStudio* elsősorban a parancsok írását könnyíti meg, segítségével a parancsok létrehozásához kapunk rendkívüli segítséget. Megjegyezzük, hogy az *RStudio* egy üzleti vállalkozás neve is egyben, amely többféle terméket fejleszt. Ezek egyike az *RStudio*-nak nevezett integrált fejlesztőkörnyezet, kimondottan az R programozási nyelv számára. Foglaljuk össze, hogy melyek az *RStudio* erősségei:
 
 * **Parancsok írásának könnyítése.** Az R parancsok begépelését számos eszköz segíti, például a kódkiegészítés, a szintaxisnak megfelelő kódszínezés és a tippek megjelenítése.
 * **Integrált környezetben, egy felületen látjuk a munka során szükséges összes komponenst.** Az adatelemzési munka nem merül ki a parancsok begépelésében és végrehajtásában. Az R parancsokat jelentő forráskódon kívül kezelnünk kell az outputot, ami lehet szöveges és ábra jellegű is, valamint el kell igazodnunk a memóriában tárolt adatok között is. Sokszor a súgót is meg kell jelenítenünk, és információval kell rendelkeznünk a telepített csomagokról is. Az *RStudio* nagy előnye, hogy mindezt egyetlen integrált felületen láthatjuk és ezen keresztül vezérelhetjük.
@@ -33,9 +69,9 @@ Megjegyezzük, hogy az *RStudio* egy üzleti vállalkozás neve is egyben, amely
 
 Az *RStudio* fenti lehetőségeinek bemutatása külön könyvet igényelne, de a mindennapi munkához szükséges ismereteket most bemutatjuk. 
 
-### Az RStudio felépítése
+### Az RStudio felépítése {#az-rstudio-felepitese}
 
-Az *RStudio* indítása után egy több panelból álló alkalmazást látunk. Első indításnál három részre van osztva az alkalmazás, vagyis három panel látható, de a tipikus használat során négy panelünk van. Válasszuk ki először a `File / New file / New R Script` menüpontot, amely egy új parancsállomány létrehozását kezdeményezi. E lépés után már biztosan a négy-paneles, \@ref(fig:rstudio-01) ábrán látható elrendezést kapjuk. Az ábran megneveztük az egyes részeket, a két bal oldali panel a *Forrás* és a *Konzol*, a jobb oldaliak a *Környezet* és az *Ábra*. Figyeljük meg, hogy a panelek tetején fülek láthatók, így az egyes paneleken különböző lapokat tudunk kiválasztanai, egy panel tehát több lapot is tartalmazhat. A panelek szélessége és magassága állítható, egyrészt az elválasztó sávokat az egér segítségével mozgathatjuk, másrészt a panelek méretező gombjain (az egyes panelek jobb felső sarkában) is kattinthatunk. A méretezés során eltűnhetnek panelek, de a sávok mozgatásával vagy a `View / Panes / Show All Panes` menüponttal láthatóvá tehetjük az összes panelt.
+Az *RStudio* indítása után egy több panelból álló alkalmazást látunk. Első indításnál három részre van osztva az alkalmazás, vagyis három panel látható, de a tipikus használat során négy panelünk van. Válasszuk ki először a `File / New file / New R Script` menüpontot, amely egy új parancsállomány létrehozását kezdeményezi. E lépés után már biztosan a négy-paneles, \@ref(fig:rstudio-01). ábrán látható elrendezést kapjuk. Az ábrán megneveztük az egyes részeket, a két bal oldali panel a *Forrás* és a *Konzol*, a jobb oldaliak a *Környezet* és az *Ábra*. Figyeljük meg, hogy a panelek tetején fülek láthatók, így az egyes paneleken különböző lapokat tudunk kiválasztani, egy panel tehát több lapot is tartalmazhat. A panelek szélessége és magassága állítható, egyrészt az elválasztó sávokat az egér segítségével mozgathatjuk, másrészt a panelek méretező gombjain (az egyes panelek jobb felső sarkában) is kattinthatunk. A méretezés során eltűnhetnek panelek, de a sávok mozgatásával vagy a `View / Panes / Show All Panes` menüponttal láthatóvá tehetjük az összes panelt.
 
 
 <div class="figure" style="text-align: center">
@@ -52,16 +88,16 @@ A két jobb oldali panel többfunkciós. A jobb felső, *Környezet* panelben je
 
 ### Az RStudio beállításai 
 
-Mielőtt elkezdjük a munkát az *RStudio*-ban feltétlenül végezzünk el néhány beállítást. Az *RStudio* működését az `Tools / Global Options` menüpont alatt módosíthatjuk.
+Mielőtt elkezdjük a munkát az *RStudio*-ban feltétlenül módosítsunk néhány alapbeállítást. Az *RStudio* működését az `Tools / Global Options` menüpont alatt változtathatjuk meg.
 
-**UTF-8 kódolás beállítása.** A fenti menüpont kiválasztása után a bal oldali listából a `Code`, majd a fenti opciók közül a `Saving` opciót válasszuk. A \@ref(fig:rstudio-utf8) ábrán is látható módon, érjük el, hogy a `Default text encoding` alatt az `UTF-8` legyen kiválasztva. Fontos, hogy minden szöveges állományunk UTF-8 kódolású legyen. 
+**UTF-8 kódolás beállítása.** A fenti menüpont kiválasztása után a bal oldali listából a `Code`, majd a fenti opciók közül a `Saving` opciót válasszuk. A \@ref(fig:rstudio-utf8). ábrán is látható módon, érjük el, hogy a `Default text encoding` alatt az `UTF-8` legyen kiválasztva. Fontos, hogy minden szöveges állományunk UTF-8 kódolású legyen. 
 
 <div class="figure" style="text-align: center">
 <a href="" target="_blank"><img src="images/rstudio_utf8.png" alt="Az UTF-8 beállítása az RStudio-ban" width="70%" /></a>
 <p class="caption">(\#fig:rstudio-utf8)Az UTF-8 beállítása az RStudio-ban</p>
 </div>
 
-**A munkaterület automatikus mentésének tiltása.** A bal oldalon a `General` menüpont kiválasztása után a `Basic` opció alatt vegyük ki a pipát a `Restore .RData into workspace at startup` elől, valamint a `Save workspace to .RData on exit` választót állítsuk `Never`-re (\@ref(fig:rstudio-rdata) ábra). Az *RStudio* projekt szemléletű használata mellett erre a mentési funkcióra nincs szükség. 
+**A munkaterület automatikus mentésének tiltása.** A bal oldalon a `General` menüpont kiválasztása után a `Basic` opció alatt vegyük ki a pipát a `Restore .RData into workspace at startup` elől, valamint a `Save workspace to .RData on exit` választót állítsuk `Never`-re (\@ref(fig:rstudio-rdata). ábra). Az *RStudio* projekt szemléletű használata mellett erre a mentési funkcióra nincs szükség. 
 
 <div class="figure" style="text-align: center">
 <a href="" target="_blank"><img src="images/rstudio_rdata.png" alt="A munkaterület automatikus mentésének tiltása az RStudio-ban" width="70%" /></a>
@@ -69,23 +105,30 @@ Mielőtt elkezdjük a munkát az *RStudio*-ban feltétlenül végezzünk el néh
 </div>
 
  
-**Az output megjelenítésének tiltása az RMarkdown lapon.** A bal oldalon az `RMarkdown` menüpont kiválasztása után vegyük ki a pipát a `Show output inline for all R Markdown documents` elől (\@ref(fig:rstudio-inline) ábra). Ez a beállítás gördülékenyebb szerkesztést biztosít az RMarkdown lapokon.
+**Az output megjelenítésének tiltása az RMarkdown lapon.** A bal oldalon az `RMarkdown` menüpont kiválasztása után vegyük ki a pipát a `Show output inline for all R Markdown documents` elől (\@ref(fig:rstudio-inline). ábra). Ez a beállítás gördülékenyebb szerkesztést biztosít az RMarkdown lapokon.
 
 <div class="figure" style="text-align: center">
 <a href="" target="_blank"><img src="images/rstudio_inline.png" alt="Az output megjelenítésének tiltása az RMarkdown lapon" width="70%" /></a>
 <p class="caption">(\#fig:rstudio-inline)Az output megjelenítésének tiltása az RMarkdown lapon</p>
 </div>
 
-Opcionális lehetőségként a panelek tartalmán is változtathatunk a `Tools / Global Options / Pane Layout` menüpontban. Az *RStudio* színösszeállításán az `Appearance` menüpont `Editor theme` beállításával változtathatunk.
+Opcionális lehetőségként a panelek tartalmán is változtathatunk a `Tools / Global Options / Pane Layout` menüpontban. Az *RStudio* színösszeállításán az `Appearance` menüpont `Editor theme` beállításával változtathatunk. Javasolt a `Tomorrow Night Bright` vagy más, sötétebb háttérszínnel rendelkező téma használata.
 
 
-### Az RStudio konzola
+### Az RStudio konzol {#az-rstudio-konzol}
 
-Az *RStudio* konzola a *Konzol* panel egyik lapján található (\@ref(fig:rstudio-01) ábra). A konzol az *RStudio* kulcsfontosságú része, korábban láttuk, hogy minden R parancsot a végrehajtás előtt ide kell irányítani. Végrehajtása után a szöveges eredmények is itt jelennek meg, és a hibaüzeneteket is itt olvashatjuk. Láthatjuk tehát, hogy a konzol figyelmünk középpontjában áll a munka során.   
+Az *RStudio* konzolja a *Konzol* panel egyik lapján található (\@ref(fig:rstudio-01). ábra). A konzol az *RStudio* kulcsfontosságú része, korábban láttuk, hogy minden R parancsot a végrehajtás előtt ide kell irányítani. Végrehajtása után a szöveges eredmények is itt jelennek meg, és a hibaüzeneteket is itt olvashatjuk. Láthatjuk tehát, hogy a konzol figyelmünk középpontjában áll a munka során.   
 
 Közvetlenül azonban nagyon ritkán gépelünk parancsot a konzolba, erre a *Forrás* panel parancsállomány vagy RMarkdown lapját fogjuk használni. Ebben a részben mégis a konzolt mutatjuk be, ugyanis meghatározó szerepe miatt értenünk kell működését.
 
-A konzol működése nagyon egyszerű: (1) egysoros parancsokat gépelünk be a `>` prompt után, (2) `ENTER`-t nyomunk, (3) az R interpreter értelmezi és végrehajtja a begépelt parancsot, és (4) megjelenik az eredmény. Ezt követően egy újabb sor begépelésére van lehetőségünk, `ENTER` után annak az értelmezése következhet, majd az eredmény megjelenítése jön, és így tovább. 
+A konzol működése nagyon egyszerű: 
+
+1. egysoros parancsokat gépelünk be a `>` prompt után, 
+1. `ENTER`-t nyomunk, 
+1. az R interpreter értelmezi és végrehajtja a begépelt parancsot, és 
+1. megjelenik az eredmény vagy egy hibaüzenet. 
+
+Ezt követően egy újabb sor begépelésére van lehetőségünk, `ENTER` után annak az értelmezése következhet, majd az eredmény megjelenítése jön, és így tovább. 
 
 Próbáljuk ki mi is a konzolt! Bátran gépeljünk be parancsokat. Például a `citation()` parancs outputja fontos lehet az R-el végzett munkáink publikálásánál, hiszen megmutatja hogyan hivatkozhatunk az R statisztikai programra, vagy valamelyik csomagjára.  
 
@@ -133,26 +176,26 @@ Gépeljük be a következő parancsot, három egymás utáni sorba, `ENTER`-ekke
 [1] "Ez már jó"
 ```
 
-A `paste("Ez már",` kerüljön az első sorba, majd nyomjunk `ENTER`-t. Az R nem hajtja végre a sort, de erre a nyilvánvalóan hibás, befejezetlen parancsra hibaüzenetet sem jelenít meg. Helyette felajánlja a parancs folytatását, befejezését egy új sorba, amely már a `+` prompttal kezdődik. A második sorba gépeljük be az `"jó"` karaktersorozatot, nyomjuk meg az `ENTER`-t. Sajnos még ez sem tette teljessé a parancsunkat, így további folytatásra van lehetőségünk a `+` után a harmadik sorban. Ide gépeljük be a hiányzó `)` részt, és üssünk `ENTER`-t. A parancsunk teljessé vált, megkapjuk az eredményt a konzolban, pontosan úgy, mintha a három sort egyetlen sorba gépeltük volna.
+A `paste("Ez már",` kerüljön az első sorba, majd nyomjunk `ENTER`-t. Az R nem hajtja végre a sort, de erre a nyilvánvalóan hibás, befejezetlen parancsra hibaüzenetet sem jelenít meg. Helyette felajánlja a parancs folytatását, befejezését egy új sorban, amely már a `+` prompttal kezdődik. A második sorba gépeljük be az `"jó"` karaktersorozatot, nyomjuk meg az `ENTER`-t. Sajnos még ez sem tette teljessé a parancsunkat, így további folytatásra van lehetőségünk a `+` után a harmadik sorban. Ide gépeljük be a hiányzó `)` részt, és üssünk `ENTER`-t. A parancsunk teljessé vált, megkapjuk az eredményt a konzolban, pontosan úgy, mintha a három sort egyetlen sorba gépeltük volna.
 
 Legyünk nagyon óvatosak a konzol folytatás prompt funkciójával. Ha például az R nem találja a parancs hiányzó részét, akkor a konzol ezen kényelmi funkciója oda vezethet, hogy folyamatosan a `+` promptot kapjuk az `ENTER` megnyomása után. Ezt a helyzetet hivatott megoldani az `ESC` billentyű, mellyel megszakíthatjuk az értelmező parancsfeldolgozási kísérletét. Az `ESC` megnyomása után visszakapjuk a `>` prompttal kezdődő (üres) sort, vagyis tiszta lappal, új, lehetőség szerint teljes parancs gépelésébe kezdhetünk. **A parancssorba mindig teljes parancsot gépeljünk, amint megjelenik a `+` folytatás prompt, azonnal szakítsuk meg az `ESC` megnyomásával az értelmezési folyamatot.**
 
-Az R konzolos használatát két funkció valóban kényelmesebbé teszi. Egyrészt a korábban végrehajtott parancsainkat visszahívhatjuk, lapozhatunk bennük előre, hátra. Erre a `FEL/LE NYÍL` billentyűkkel van lehetőségünk. Ezt history-nak is nevezzük, vagyis a parancsok történetének. Természetesen az így visszahívott parancsot tetszőleges módon átszerkeszthetjük: navigálhatunk a sorban előre hátra, beszúrhatunk/törölhetünk karaktereket vagy használhatjuk a vágóasztal billentyűparancsait. A visszahívott és módosított parancsot az `ENTER` segítségével újra végrehajthatjuk, és ehhez még a sor végére sem kell a szövegkurzort pozícionálni, az a sorban tetszőleges helyen állhat, az R mégis a teljes sort fogja értelmezni.
+Az R konzolos használatát két funkció valóban kényelmesebbé teszi. Egyrészt a korábban végrehajtott parancsainkat visszahívhatjuk, lapozhatunk bennük előre, hátra. Erre a `FEL/LE NYÍL` billentyűkkel van lehetőségünk. Ezt *history*-nak is nevezzük, vagyis a parancsok történetének. Természetesen, az így visszahívott parancsot tetszőleges módon átszerkeszthetjük: navigálhatunk a sorban előre hátra, beszúrhatunk/törölhetünk karaktereket vagy használhatjuk a vágóasztal billentyűparancsait. A visszahívott és módosított parancsot az `ENTER` segítségével újra végrehajthatjuk, és ehhez még a sor végére sem kell a szövegkurzort pozicionálni, az a sorban tetszőleges helyen állhat, az R mégis a teljes sort fogja értelmezni.
 
-A másik kényelmi lehetőség a `TAB` billentyű használata, amellyel az elkezdett, még be nem fejezett sorokat egészíthetjük ki. Ha egy sort többféleképpen is kiegészíthet az R, akkor egy listát kapunk a lehetőségekről, amelyet továbbgépeléssel szűkíthetünk, ha pedig csak egyetlen szóba jöhető befejezése van a begépelt karaktereknek, akkor a `TAB` megnyomása után ezzel a résszel kiegészül az elkezdett sorunk. Így nemcsak egyszerűen gépelést, illetve időt takaríthatunk meg, hanem például tájékozódhatunk a korábban létrehozott objektumok nevéről vagy az elérhető függvények névéről és paramétereiről is.
+A másik kényelmi lehetőség a `TAB` billentyű használata, amellyel az elkezdett, de még be nem fejezett sorokat egészíthetjük ki. Ha egy sort többféleképpen is kiegészíthet az R, akkor egy listát kapunk a lehetőségekről, amelyet továbbgépeléssel szűkíthetünk, ha pedig csak egyetlen szóba jöhető befejezése van a begépelt karaktereknek, akkor a `TAB` megnyomása után ezzel a résszel kiegészül az elkezdett sorunk. Így nemcsak egyszerűen gépelést, illetve időt takaríthatunk meg, hanem például tájékozódhatunk a korábban létrehozott objektumok nevéről vagy az elérhető függvények névéről és paramétereiről is.
 
 Az objektum, a függvények és az egyéb ebben a fejezetben homályosan hagyott fogalmak definícióit a könyv későbbi részeiben részletesen tárgyaljuk.
 
 
-### Parancsállományok
+### Parancsállományok {#parancsallomanyok}
 
 Láthattuk, hogy a konzolba egyszerre csak egy parancsot gépelhetünk be, úgy is gondolhatunk a konzolra, mint egy egysoros szövegszerkesztőre. Begépelünk egy sort és végrehajtjuk az `ENTER`-rel. A problémáink többsége viszont nem oldható meg egyetlen paranccsal, csak több tízzel vagy százzal, ezért ez az interaktív, *konzolos használat* nem alkalmas hosszabb elemzésre.
 
 Parancsainkat begépelhetjük egy `.R` kiterjesztésű, egyszerű, formázás nélküli szöveges állományba is. Az ilyen szöveges állományt *parancsállomány*nak vagy *szkriptállomány*nak nevezzük. Ilyen szöveges állományok létrehozására tetszőleges szövegszerkesztő alkalmas, de természetesen mi az *RStudio* segítségével fogjuk ezeket elkészíteni, ugyanis itt kapjuk a legnagyobb segítséget a parancsok gépeléséhez, majd végrehajtásához. A *Forrás* panel tartalmazza a parancsállomány lapokat, létrehozásuk a korábban látott `File / New file / New R Script` menüponttal történik. Parancsállományok mentésére és már létező megnyitására is van lehetőségünk a megfelelő menüpont kiválasztásával (`File / Save` és `File / Open File`).
 
-A parancsállományok használata lényegesen leegyszerűsíti az adatelemzés folyamatát, hiszen a konzol egysoros szövegszerkesztője helyett egy szinte végtelen sok parancssor begépelésére alkalmas szövegszerkesztő áll rendelkezésünkre. Mint minden szövegszerkesztőben, a különböző billentyűparancsok és a vágóasztal itt is megkönnyíti szerkesztés folyamatát. Az `ENTER` jelentése parancsállományos környezetben a szövegszerkesztőkben megszokott újsor beszúrása, ami lényegesen különbözik a konzolos használat parancsvégrehajtási funkciójától. A parancsaink interaktív végrehajtásáért az *RStudio*-ban a `Code/Run selected line(s)` menüponttal, vagy még gyakrabban a `Ctrl+Enter` billentyűkombinációval van lehetőségünk. Ezekkel a módszerekkel tudjuk a parancsainkat a konzolba irányítani és végrehajtani. De nézzük meg ezt a gyakorlatban!
+A parancsállományok használata lényegesen leegyszerűsíti az adatelemzés folyamatát, hiszen a konzol egysoros szövegszerkesztője helyett egy szinte végtelen sok parancssor begépelésére alkalmas szövegszerkesztő áll rendelkezésünkre. Mint minden szövegszerkesztőben, a különböző billentyűparancsok és a vágóasztal itt is megkönnyíti szerkesztés folyamatát. Az `ENTER` jelentése parancsállományos környezetben a szövegszerkesztőkben megszokott újsor beszúrása, ami lényegesen különbözik a konzolos használat parancs végrehajtási funkciójától. A parancsaink interaktív végrehajtásáért az *RStudio*-ban a `Code/Run selected line(s)` menüpont, vagy még gyakrabban a `Ctrl+Enter` billentyűkombináció felel. Ezekkel a módszerekkel tudjuk a parancsainkat a konzolba irányítani és végrehajtani. De nézzük meg ezt a gyakorlatban!
 
-### Munka az RStudio-ban
+### Munka az RStudio-ban {#munka-az-rstudio-ban}
 
 Kezdjük a munkát! Nyissunk egy új parancsállományt (`File / New file / New R Script`) és gépeljünk be néhány sort. Figyeljük meg, hogy milyen sokat segít az *RStudio* a lenti sorok begépelésében. Az értékadás (`<-`) operátort az `Alt+-` billentyűkombináció segítségével vigyük be.
 
@@ -166,7 +209,7 @@ plot(1:10)
 cat("- Vége -\n")
 ```
 
-A szövegkurzorral álljunk az első sorra, és hajtsuk végre `Ctrl+Enter`  billentyűparancsot. Láthatjuk, hogy (1) a sor átkerül a konzolba, (2) az *RStudio* végrehajtja a sort és az eredményt a konzolban megjeleníti, és (3) a szövegkurzor lejjebb lép a következő végrehajtható sorra. Egy újabb `Ctrl+Enter` így már ezt a sort hatja végre, és így tovább. Ha a sorok végrahajtása közben hibaüzenetet kapunk (`Error`), ne essünk kétségbe, a hibaüzenet a munka része. Nézzük át figyelmesen a begépelt sorainkat, javítsuk őket, és futassuk újra az összes sort, fentről lefelé a `Ctrl+Enter`-ek segítségével.
+A szövegkurzorral álljunk az első sorra, és hajtsuk végre `Ctrl+Enter`  billentyűparancsot. Láthatjuk, hogy (1) a sor átkerül a konzolba, (2) az *RStudio* végrehajtja a sort és az eredményt a konzolban megjeleníti, és (3) a szövegkurzor lejjebb lép a következő végrehajtható sorra. Egy újabb `Ctrl+Enter` így már ezt a sort hatja végre, és így tovább. Ha a sorok végrehajtása közben hibaüzenetet kapunk (`Error`), ne essünk kétségbe, a hibaüzenet a munka része. Nézzük át figyelmesen a begépelt sorainkat, javítsuk őket, és futtassuk újra az összes sort, fentről lefelé a `Ctrl+Enter`-ek segítségével.
 
 A parancsok végrehajtása során láthatjuk mennyire kényelmes, integrált környezetben találtuk magunkat. Az `x <- mean(1:100)` hatására az *Environment* lapon megjelent az `x` objektum neve és értéke. A *Plot* lapon láthatunk egy ábrát, amit a `plot(1:10)` rajzolt meg, és a `?mean` a *Help* lapon mutatja meg a `mean()` átlagszámoló függvény beépített súgóját.
 
@@ -174,31 +217,35 @@ Mentsük el parancsállományunkat a `File / Save` vagy a `Ctrl+S` segítségév
 
 A soronkénti végrehajtás mellett nagyon gyakori a kijelölt szövegrészek végrehajtása, amit szintén a `Ctrl+Enter`-rel tudunk kezdeményezni. A kijelölt rész lehet több sor, a teljes parancsállomány, vagy valamelyik sor egy része. Ez utóbbi próbáljuk ki úgy, hogy a parancsállomány első sorában csak az `1+2` részt jelöljük ki, és ezt hajtsuk végre a `Ctrl+Enter` segítségével. Az eredmény a konzolban a 3 lesz. A teljes szkriptállomány végrehajtásához jelöljük ki `Ctrl+A` segítségével a parancsállomány összes sorát, és nyomjuk meg a `Ctrl+Enter`-t. A konzolban tudjuk ellenőrizni, hogy minden sort újra végrehajtottunk. 
 
-### RMarkdown állományok
-
-Láttuk, hogy az R parancsok összegyűjtésére és végrehajtására a `.R` kiterjesztésű parancsállományok kiváló megoldást nyújtanak. Emlékezzünk vissza a fejezet eleji példára, amelyben a Csillagok háborúja c. film karaktereinek átlagos testmagasságát kerestük. Nyissunk egy új parancsállományt (`File / New file / New R Script`) és gépeljük be a megoldást jelentő sorokat.
+Térjünk vissza a kiinduló adatelemzési problémánk megoldásához. Láttuk, hogy az R parancsok összegyűjtésére és végrehajtására a `.R` kiterjesztésű parancsállományok kiváló megoldást nyújtanak. Emlékezzünk vissza a fejezet eleji példára, amelyben a Csillagok háborúja c. film karaktereinek átlagos testmagasságát kerestük. Nyissunk egy új parancsállományt (`File / New file / New R Script`) és gépeljük be a megoldást jelentő sorokat.
 
 
 ```r
 # A Csillagok háborúja c. film karaktereinek átlagos testmagassága
 # Abari Kálmán
-# 2020. 06. 23.
+# 2022. 07. 06.
 
-# Adatok beolvasása és az átlagok kiírása
 # install.packages("dplyr")      # a dplyr csomag telepítése
+# install.packages("psych")      # a psych csomag telepítése
 data(starwars, package="dplyr")  # adatbázis beolvasása csomagból
+# testmagasság átlagok fajonként
 psych::describeBy(starwars$height, starwars$species, fast=T, mat=T)
 ```
 
-Látható, hogy a feladat tényleges megoldását jelentő két R parancs mellett megjegyzéseket is becsempésztünk, hogy később is tudjuk, ki, mikor és miért készítette ezt a parancsállományt (a `#` utáni részeket a sor végéig az R figyelmen kívül hagyja; részletesebb információkat a megjegyzésekről a \@ref(MegjegyzesazRben) fejezetben olvashatunk). Futtassuk a sorokat a `Ctrl+Enter` segítségével, fussuk át a kiszámolt átlagos testmagasságokat az output `mean` oszlopában, majd mentsük el a szkriptállományt `Ctrl+S`-sel `starwars.R` néven. Később, napok, hetek vagy hónapok múlva, újra megnyithatjuk `starwars.R` állományunkat (`File / Open`), és újra lefuttathatjuk mini-elemzésünket. Ezzel a fejezet eleji adatelemzési feladatunkat megoldottuk. Lehet ezt ennél jobban csinálni? Igen!
+Látható, hogy a feladat tényleges megoldását jelentő két R parancs mellett megjegyzéseket is becsempésztünk, hogy később is tudjuk, ki, mikor és miért készítette ezt a parancsállományt (a `#` utáni részeket a sor végéig az R figyelmen kívül hagyja; részletesebb információkat a megjegyzésekről a \@ref(MegjegyzesazRben). fejezetben olvashatunk). Futtassuk a sorokat a `Ctrl+Enter` segítségével, fussuk át a kiszámolt átlagos testmagasságokat az output `mean` oszlopában, majd mentsük el a szkriptállományt `Ctrl+S`-sel `starwars.R` néven. Később, napok, hetek vagy hónapok múlva, újra megnyithatjuk `starwars.R` állományunkat (`File / Open`), és újra lefuttathatjuk mini-elemzésünket. Ezzel a fejezet eleji adatelemzési feladatunkat megoldottuk. Vajon lehet ezt ennél jobban csinálni? Igen!
 
-Az R parancsainkat olyan `.Rmd` kiterjesztésű, egyszerű, szöveges állományokban is öszegyűjthetjük, amelyek többet nyújtanak, mint a parancsállományok, de szerkezetük kicsit kötöttebb. Az ilyen szöveges állományok az RMarkdown állományok. Miben nyújtanak többet: ahogyan a 11. fejezetben részletesen áttekintjük, az RMarkdown állományok az eredmények publikálásához, például HTML, PDF vagy Word formanyelvű állományok létrehozásához szükségesek. Hozzunk létre az *RStudio*-ban a `File / New File / R Markdown` menüponttal egy új RMarkdown állományt. A megjelenő dialógusdobozban töltsük ki a `Title` és `Author` mezőket, azaz adjunk címet és szerzőt a dokumentumhoz, majd kattintsunk az `OK` gombon. A `Forrás` panelen megjelenik egy új RMarkdown lap, amely egy alapértelmezett tartalommal jön létre, és nem üresen, mint a parancsállományok esetében. Említettük, hogy az RMarkdown állományok szerkezete kötöttebb, ez az alapértelmezett tartalom az eligazodásban segít minket. Érjük el, hogy az új RMarkdown ezeket a sorokat tartalmazza (a szerző neve a sajátunk legyen):
+
+### RMarkdown állományok {#rmarkdown-allomanyok}
+
+Az R parancsainkat olyan `.Rmd` kiterjesztésű, egyszerű, szöveges állományokban is összegyűjthetjük, amelyek többet nyújtanak, mint a parancsállományok, de szerkezetük kicsit kötöttebb. Az ilyen szöveges állományok az RMarkdown állományok. Miben nyújtanak többet: ahogyan a \@ref(publikacio). fejezetben részletesen áttekintjük, az RMarkdown állományok az eredmények publikálásához, például HTML, PDF vagy Word formanyelvű állományok létrehozását teszik lehetővé. 
+
+Hozzunk létre az *RStudio*-ban a `File / New File / R Markdown` menüponttal egy új RMarkdown állományt. A megjelenő dialógusdobozban töltsük ki a `Title` és `Author` mezőket, azaz adjunk címet és szerzőt a dokumentumhoz, majd kattintsunk az `OK` gombon. A `Forrás` panelen megjelenik egy új RMarkdown lap, amely egy alapértelmezett tartalommal jön létre, és nem üresen, mint a parancsállományok esetében. Említettük, hogy az RMarkdown állományok szerkezete kötöttebb, ez az alapértelmezett tartalom az eligazodásban segít minket. Érjük el, hogy az új RMarkdown ezeket a sorokat tartalmazza (a szerző neve a sajátunk legyen):
 
 ````md
 ---
 title: "A Csillagok háborúja c. film karaktereinek átlagos testmagassága"
 author: "Abari Kálmán"
-date: '2020. 06. 23 '
+date: '2022. 07. 06.'
 output: html_document
 ---
 
@@ -210,15 +257,23 @@ Adatok beolvasása és az átlagok kiírása
 
 ```{r}
 # install.packages("dplyr")      # a dplyr csomag telepítése
+# install.packages("psych")      # a psych csomag telepítése
 data(starwars, package="dplyr")  # adatbázis beolvasása csomagból
+# testmagasság átlagok fajonként
 psych::describeBy(starwars$height, starwars$species, fast=T, mat=T)
 ```
 ````
 
 
-Minden RMarkdown állomány egy fejléccel kezdődik, amelyet a `---` karakterek határolnak. A természetes nyelvű szöveget szabadon a fejléc alatti részben bárhová írhatjuk, az R parancsokat azonban ún. R csonkokban kell elhelyeznünk, amelyeket speciális kezdő és záró sorok határolnak. A 11. fejezetben részletesebben olvashatunk ezekről. Most elégedjünk meg annyival, egy RMarkdown állományban tetszőlegesen sok R csonkot elhelyezhetünk, és egy R csonk tetszőlegesen sok R parancsot tartalmazhat. Egy R csonkon belül a parancsok végrehajtása ugyanúgy `Ctrl+Enter`-rel történik, mint a parancsállományok esetében. Próbáljuk ki! A most begépelt RMarkdown állományunk második csonkjában lévő két R parancsot hajtsuk végre két `Ctrl+Enter` segítségével. A mini-elemzés eredménye ismét a konzolban látható.
+Minden RMarkdown állomány egy fejléccel kezdődik, amelyet a `---` karakterek határolnak. A természetes nyelvű szöveget szabadon a fejléc alatti részben bárhová írhatjuk, az R parancsokat azonban ún. R csonkokban kell elhelyeznünk, amelyeket speciális kezdő és záró sorok határolnak. A \@ref(publikacio). fejezetben részletesebben olvashatunk ezekről. Most elégedjünk meg annyival, hogy egy RMarkdown állományban tetszőlegesen sok R csonkot elhelyezhetünk, és egy R csonk tetszőlegesen sok R parancsot tartalmazhat. Egy R csonkon belül a parancsok végrehajtása ugyanúgy `Ctrl+Enter`-rel történik, mint a parancsállományok esetében. Próbáljuk ki! A most begépelt RMarkdown állományunk második csonkjában lévő két R parancsot hajtsuk végre két `Ctrl+Enter` segítségével. A mini-elemzés eredménye ismét a konzolban látható.
 
-Hogyan foglalhatnánk össze a parancsállományok és az RMarkdown állományok közötti különbséget? A \@ref(tab:parancsrmarkdown) táblázatban láthatjuk, hogy mindkét állományban összesen három különböző tartalmat szoktunk rögzíteni: (1) fejlécinformációt arról, hogy mi az elemzés célja, ki és mikor készítette az állományt, (2) magyarázó, természetes nyelvű szöveget (pl. magyar vagy angol nyelven), és (3) az R parancsokat. Az R parancsokat szabadon írhatjuk a parancsállományokba, viszont a fejlécinformációt és a magyarázó szövegeket megjegyzésbe kell tenni. Az RMarkdown állományokba a magyarázó, természetes nyelvű szövegek írhatók szabadon, míg az R parancsokat csonkokba, a fejlécinformációt pedig kötött módon, az állomány elejére kell írnunk. 
+Hogyan foglalhatnánk össze a parancsállományok és az RMarkdown állományok közötti különbséget? A \@ref(tab:parancsrmarkdown). táblázatban láthatjuk, hogy mindkét állományban összesen három különböző tartalmat szoktunk rögzíteni: 
+
+1. fejléc információt arról, hogy mi az elemzés célja, ki és mikor készítette az állományt, 
+1. magyarázó, természetes nyelvű szöveget (pl. magyar vagy angol nyelven), és 
+1. az adatelemző R parancsokat. 
+
+Az R parancsokat szabadon írhatjuk a parancsállományokba, viszont a fejléc információt és a magyarázó szövegeket megjegyzésbe kell tenni. Az RMarkdown állományokba a magyarázó, természetes nyelvű szövegek írhatók szabadon, míg az R parancsokat csonkokba, a fejléc információt pedig kötött módon, az állomány elejére kell írnunk. 
 
 Table: (\#tab:parancsrmarkdown) A parancsállomány és az RMarkdown állomány összehasonlítása
 
@@ -240,21 +295,21 @@ Table: (\#tab:parancsrmarkdown) A parancsállomány és az RMarkdown állomány 
 +----------------------------------------+--------------------------------+---------------------------+
 
 
-Valóban annyiban áll a különbség a két állománytípus között, hogy a máshová és máshogyan írjuk az R parancsokat és az egyéb magyarázó/fejléc szövegeinket? Nem. A 11. fejezetben részletesen bemutatjuk, hogy az RMardown állományok ereje abban van, hogy egy fordítási folyamat (knit-elés) során, olyan PDF, HTML vagy Word állományt tudunk előállítani, amely a magyarázó/fejléc szövegeken, és az R parancsokon kívül, az R parancsok outputját is tartalmazza, legyen az szöveges vagy ábra jellegű output. 
+Valóban annyiban áll a különbség a két állománytípus között, hogy a máshová és máshogyan írjuk az R parancsokat és az egyéb magyarázó/fejléc szövegeinket? Nem. A \@ref(publikacio). fejezetben részletesen bemutatjuk, hogy az RMardown állományok ereje abban van, hogy egy fordítási folyamat (*knit*-elés) során, olyan PDF, HTML vagy Word állományt tudunk előállítani, amely a magyarázó/fejléc szövegeken, és az R parancsokon kívül, az R parancsok outputját is tartalmazza, legyen az szöveges vagy ábra jellegű output. 
 
 
-### Projektek használata
+### Projektek használata {#projektek-hasznalata}
 
 Mostanra nagyon közel kerültünk az általunk ajánlott adatelemzési munkaformához, ugyanis már tudunk az *RStudio*-n belül parancsállományokat és RMarkdown állományokat használni. Még egy összetevő azonban kulcsfontosságú a kényelmes munkához: az *RStudio*-ban minden esetben projektet kell használnunk. 
 
-Az *RStudio* lehetőséget ad, hogy minden egyes adatfeldolgozási feladatunkhoz egy projektet rendeljünk. Egy *RStudio* projekt minimálisan egy projekt könyvtárat és az ebben lévő lévő `.Rproj` kiterjesztésű projektállományt jelenti. Ezeket a következő módszerrel hozhatjuk létre. Először kattintsunk a `File / New Project` menüponton. Válasszuk ki a `New Directory` opciót (\@ref(fig:rstudio-proj-1) ábra), majd a `New Project` nyomógombon kattintsunk (\@ref(fig:rstudio-proj-2) ábra). 
+Az *RStudio* lehetőséget ad arra, hogy minden egyes adatfeldolgozási feladatunkhoz egy projektet rendeljünk. Egy *RStudio* projekt minimálisan egy projekt könyvtárat és az ebben lévő lévő `.Rproj` kiterjesztésű projektállományt jelenti. Ezeket a következő módszerrel hozhatjuk létre. Először kattintsunk a `File / New Project` menüponton. Válasszuk ki a `New Directory` opciót (\@ref(fig:rstudio-proj-1). ábra), majd a `New Project` nyomógombon kattintsunk (\@ref(fig:rstudio-proj-2). ábra). 
 
 <div class="figure" style="text-align: center">
 <a href="" target="_blank"><img src="images/rstudio_proj_1.png" alt="RStudio projekt létrehozása: 1. lépés" width="65%" /></a>
 <p class="caption">(\#fig:rstudio-proj-1)RStudio projekt létrehozása: 1. lépés</p>
 </div>
 
-A `Directory name` szöveges mezőbe a projektünk nevét határozhatjuk meg, ami egyben az új projektünk könyvtárneve is lesz. Adjuk meg itt az `elso_projekt` nevet. A `Create project as subdirectory of` mezőben azt a szülő könyvtárat határozhatjuk meg, ahová a projekt könyvtárunkat el szeretnénk helyezni. A projekt létrehozását a `Create Project` nyomógombbal fejezhetjük be. 
+A `Directory name` szöveges mezőbe a projektünk nevét határozhatjuk meg, ami egyben az új projektünk könyvtárneve is lesz. Adjuk meg itt az `elso_projekt` nevet. A `Create project as subdirectory of` mezőben azt a szülő könyvtárat határozhatjuk meg, ahová a projekt könyvtárunkat el szeretnénk helyezni. Ezt szabadon megválaszthatjuk, lehet az adott felhasználó dokumentumok könyvtára is. A projekt létrehozását a `Create Project` nyomógombbal fejezhetjük be. 
 
 
 <div class="figure" style="text-align: center">
@@ -263,7 +318,7 @@ A `Directory name` szöveges mezőbe a projektünk nevét határozhatjuk meg, am
 </div>
 
 
-Két nagyon fontos dolog történt a fentiek hatására. Egyrészt a számítógépünkön létrejött az `elso_projekt` projektkönyvtár, és benne az `elso_projekt.Rproj` projektállomány, márészt az *RStudio* ún. *projekt üzemmód*ba került, azaz az `elso_projekt` lett az aktív projekt. Az *RStudio*-ban egyszerre egy projekt lehet aktív, de elképzelhető, hogy egyetlen projekt sem aktív. Az *RStudio* felületén a jobb felső sarokban tájékozódhatunk, ahol most az `elso_project` feliratot látjuk, de amennyiben nincs aktív projektünk, akkor a `Project: (none)` feliratot olvashatjuk. Kerüljük a projekt nélküli állapotot.
+Két nagyon fontos dolog történt a fentiek hatására. Egyrészt a számítógépünkön létrejött az `elso_projekt` projektkönyvtár, és benne az `elso_projekt.Rproj` projektállomány, másrészt az *RStudio* ún. *projekt üzemmód*ba került, azaz az `elso_projekt` lesz az aktív projekt. Az *RStudio*-ban egyszerre egy projekt lehet aktív, de elképzelhető, hogy egyetlen projekt sem aktív. Az *RStudio* felületén a jobb felső sarokban tájékozódhatunk, ahol most az `elso_project` feliratot látjuk, de amennyiben nincs aktív projektünk, akkor a `Project: (none)` feliratot olvashatjuk. Kerüljük a projekt nélküli állapotot.
 
 
 <div class="figure" style="text-align: center">
@@ -271,7 +326,7 @@ Két nagyon fontos dolog történt a fentiek hatására. Egyrészt a számítóg
 <p class="caption">(\#fig:rstudio-proj-3)RStudio projekt létrehozása: 3. lépés</p>
 </div>
 
-Minden adatfeldolgozási feladathoz -- még a legkisebbhez is -- hozzunk létre projektet. Minden állományt, amely a feladathoz tartozik a projektkönyvtáron belül helyezzük el. Milyen állományok jöhetnek szóba: például parancsállományok, RMarkdown állományok, adatállományok, képállományok, dokumentációk és hivatkozásokat tartalmazó állományok. Érdemes ezeket rendezetten, ha szükséges, alkönyvtárakba szétosztva tárolni. Jó gyakorlat lehet, hogy a parancsállományokat és az RMarkdown állományokat közvetlenül a projektkönyvtárban (most ez az `elso_projekt`), az adatállományokat egy `adat` alkönyvtárban a projektkönyvtáron belül (most `elso_projekt/adat`) tároljuk, a képállományok és dokumentációk helye pedig lehet az `elso_project/kep`, illetve `elso_projekt/doku` alkönyvtár. 
+Minden adatfeldolgozási feladathoz -- még a legkisebbhez is -- hozzunk létre projektet. Minden állományt, amely a feladathoz tartozik a projektkönyvtáron belül helyezzünk el. Milyen állományok jöhetnek szóba: például parancsállományok, RMarkdown állományok, adatállományok, képállományok, dokumentációk és hivatkozásokat tartalmazó állományok. Érdemes ezeket rendezetten, ha szükséges, alkönyvtárakba szétosztva tárolni. Jó gyakorlat lehet, hogy a parancsállományokat és az RMarkdown állományokat közvetlenül a projektkönyvtárban (most ez az `elso_projekt`), az adatállományokat egy `adat` alkönyvtárban a projektkönyvtáron belül (most `elso_projekt/adat`) tároljuk, a képállományok és dokumentációk helye pedig lehet az `elso_project/kep`, illetve `elso_projekt/doku` alkönyvtár. 
 
 Válthatunk egy másik projektre is (`File / Open Project`), de be is zárhatjuk az aktív projektet (`File / Close project`). Később újra megnyithatjuk ezt is a `File / Open Project` segítségével. A megnyitás során természetesen az `.Rproj` kiterjesztésű projektállományt kell kiválasztanunk.
 
@@ -282,7 +337,7 @@ Ritkábban az is előfordulhat, hogy az adatfeldolgozási folyamatunkkal kapcsol
 <p class="caption">(\#fig:rstudio-proj-4)RStudio projekt létrehozása: létező könyvtár megadása</p>
 </div>
 
-Korábban létrehozott könyvtárból szintén a `File / New Project` menüpont segítségével hozhatunk létre *RSudio* projektkönyvtárat. Itt azonban az `Existing Directory` opciót kell kiválasztani (\@ref(fig:rstudio-proj-1) ábra). Ezt követően ennek a létező könyvtárnak az elérési útját kell megadnunk az \@ref(fig:rstudio-proj-4) ábrán látható beviteli mezőben. 
+Korábban létrehozott könyvtárból szintén a `File / New Project` menüpont segítségével hozhatunk létre *RSudio* projektkönyvtárat. Itt azonban az `Existing Directory` opciót kell kiválasztani (\@ref(fig:rstudio-proj-1). ábra). Ezt követően ennek a létező könyvtárnak az elérési útját kell megadnunk az \@ref(fig:rstudio-proj-4). ábrán látható beviteli mezőben. 
 
 Végül foglaljuk össze, milyen előnyökkel jár a projekt használata:
 
@@ -295,7 +350,7 @@ Végül foglaljuk össze, milyen előnyökkel jár a projekt használata:
 Az *RStudio* legfontosabb billentyűparancsa a `Ctrl+Enter`, amely a parancsot a konzolba küldi végrehajtásra. Van még néhány további billentyűparancs, amelyet érdemes felsorolni, hiszen ezek használatával gyorsítani, egyszerűsíteni tudjuk a munkánkat.  
 
 * `Ctrl+Shift+N`: új parancsállomány létrehozása,
-* `Ctrl+S`: parancsállomány mentése,
+* `Ctrl+S`: állomány mentése,
 * `Ctrl+W`: lap bezárása a `Forrás` panelen,
 * `Ctrl+Tab / Ctrl+Shift+Tab`: aktív lap léptetése előre és hátra a `Forrás` panelen,
 * `Ctrl+F`: szöveg keresése és cseréje,
@@ -310,14 +365,32 @@ Az *RStudio* legfontosabb billentyűparancsa a `Ctrl+Enter`, amely a parancsot a
 * `Ctrl+Enter`: az aktuális sor vagy a kijelölt rész futtatása,
 * `Ctrl+Alt+R`: a teljes parancsállomány futtatása,
 * `Ctrl+Shift+P`: a kurzor feletti csonkok parancsainak futtatása,
-* `Ctrl++ / Ctrl+-`: betűméret nagyítása vagy kicsinyítése.
+* `Ctrl++ / Ctrl+-`: betűméret nagyítása vagy kicsinyítése,
+* `Ctrl+Shift+F10`: a munkamenet újraindítása.
 
 Ha valamelyik kombináció nem működik a számítógépünkön, akkor a `Tools / Modify Keyboard Shortcuts` menüpont alatt új billentyűparancsot adhatunk az ott felsorolt funkciókhoz.
 
 ### Összefoglalás {#munka-az-r-ben-1-summary}
 
 <div class="rmdsummary">
-<p>Az adatelemzési munka során az <em>RStudio</em> -t használjuk projekt üzemmódban, miközben RMarkdown állományba gyűjtjük az elemző R parancsokat és az egyéb magyarázó/fejléc szövegeket. Ebben a fejezetben ezt a tételmondatot töltöttük meg tartalommal. Megismertük az <em>RStudio</em> integrált környezetét. A <em>Forrás</em> panel lehetséges lapjai a parancsállomány, az RMarkdown állomány és az adatbázis. A <em>Konzol</em> panel legfontosabb lapja a <em>konzol</em>, amely központi szerepet játszik a munka során, hiszen a <code>Ctrl+Enter</code>-rel végrehajtott R parancsok eredménye és az esetleges hibaüzenetek is itt jelennek meg. A munka során a <code>.R</code> kiterjesztésű parancsállományok kiválóan alkamasak a hosszabb elemzések R parancsainak tárolására, de ha a publikáláshoz is segítséget szeretnénk kapni, akkor inkábba a kötöttebb szerkezetű, <code>.Rmd</code> kiterjesztésű RMarkdown állományba rögzítsük parancsainkat. Az <em>RStudio</em> rutinszerű használatához a billentyűparancsok ismerete is hozzátartozik. A projektszemlélet az adatelemzéssel kapcsolatos állományok egybentartásáról, és a hordozhatóság biztosításáról szól.</p>
+<p>Az adatelemzési munka során az <em>RStudio</em> -t használjuk projekt
+üzemmódban, miközben RMarkdown állományba gyűjtjük az elemző R
+parancsokat és az egyéb magyarázó és fejléc szövegeket. Ebben a
+fejezetben ezt a tételmondatot töltöttük meg tartalommal. Megismertük az
+<em>RStudio</em> integrált környezetét. A <em>Forrás</em> panel
+lehetséges lapjai a parancsállomány, az RMarkdown állomány és az
+adatbázis. A <em>Konzol</em> panel legfontosabb lapja a <em>konzol</em>,
+amely központi szerepet játszik a munka során, hiszen a
+<code>Ctrl+Enter</code>-rel végrehajtott R parancsok eredménye és az
+esetleges hibaüzenetek is itt jelennek meg. A munka során a
+<code>.R</code> kiterjesztésű parancsállományok kiválóan alkalmasak a
+hosszabb elemzések R parancsainak tárolására, de ha a publikáláshoz is
+segítséget szeretnénk kapni, akkor inkább a a kötöttebb szerkezetű
+<code>.Rmd</code> kiterjesztésű RMarkdown állományba rögzítsük
+parancsainkat. Az <em>RStudio</em> rutinszerű használatához a
+billentyűparancsok ismerete is hozzátartozik. A projektszemlélet az
+adatelemzéssel kapcsolatos állományok egyben tartásáról, és a
+hordozhatóság biztosításáról szól.</p>
 </div>
 
 
@@ -328,6 +401,8 @@ Ha valamelyik kombináció nem működik a számítógépünkön, akkor a `Tools
 1. Az *RStudio* mellett milyen más intergrált fejlesztőeszközök léteznek az R-hez? 
 1. Az `Appearance` menüpont `Editor theme` beállításával változtassunk az *RStudio* színösszeállításán. Keressük meg a legjobban hozzánk illőt! Vegyük figyelembe, hogy hosszútávon a minél sötétebb háttér a jó választás. 
 </div>\EndKnitrBlock{rmdexercise}
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#munka-az-r-ben-1-exercise-solution)
 
 ## Segítség az R használatához
 
@@ -340,11 +415,11 @@ Ha valamelyik kombináció nem működik a számítógépünkön, akkor a `Tools
 </ul>
 </div>
 
-Az R használatához számos segítséget találunk az Interneten, a telepített *Alap R*-ben és az *RStudio*-ban egyaránt. Az online segítségek közül elsősorban a `http://cran.r-project.org` címen olvasható R dokumentációkat emeljük ki, ahol több tucat, elsősorban angol nyelvű leírást találunk az R megismeréséhez. A bal oldali `Documentation / Manuals` menüpont alatt találjuk például az R hivatalos bevezető dokumentumát ([*An Introduction to R*](https://cran.r-project.org/doc/manuals/r-release/R-intro.html)), melynek tanulmányozása rendkívül nagy lépést jelenthet az R alaptudás megszerzéséhez. Az említett menüpont alatt találjuk még a [*contributed documentation*](https://cran.r-project.org/other-docs.html) linket is, amely számos rövidebb, és hosszabb dokumentációt tartalmaz, angol és más nyelveken. Itt találjuk Solymosi Norbert nagyszerű magyar nyelvű R [R bevezetőjét](https://cran.r-project.org/doc/contrib/Solymosi-Rjegyzet.pdf) is.   
+Az R használatához számos segítséget találunk az Interneten, a telepített *Alap R*-ben és az *RStudio*-ban egyaránt. Az online segítségek közül elsősorban a `http://cran.r-project.org` címen olvasható R dokumentációkat emeljük ki, ahol több tucat, elsősorban angol nyelvű leírást találunk az R megismeréséhez. A bal oldali `Documentation / Manuals` menüpont alatt találjuk például az R hivatalos bevezető dokumentumát ([*An Introduction to R*](https://cran.r-project.org/doc/manuals/r-release/R-intro.html)), melynek tanulmányozása rendkívül nagy lépést jelenthet az R alaptudás megszerzéséhez. Az említett menüpont alatt találjuk még a [*contributed documentation*](https://cran.r-project.org/other-docs.html) linket is, amely számos rövidebb, és hosszabb dokumentációt tartalmaz, angol és más nyelveken. Itt találjuk Solymosi Norbert nagyszerű magyar nyelvű [R bevezetőjét](https://cran.r-project.org/doc/contrib/Solymosi-Rjegyzet.pdf) is.   
 
 Az R népszerűségének köszönhetően, nagyon sok további dokumentációt, tutoriált és példát találhatunk, ha az internetes keresőkhöz fordulunk. A fejezet végi egyik kitűzött feladatban összeállíthatjuk a saját listánkat. 
 
-Rendkívül népszerűek ma az ún. cheat-sheet-ek, amelyek néhány PDF oldalon sok ábrával, és a lényeg kiemelésével mutatják be egy-egy témakör legfontosabb tudnivalóit. Az *RStudio* `Help / Cheetsheets` menüjéből, vagy közvetlenü a  `https://www.rstudio.com/resources/cheatsheets/` címről számos R téma cheet-sheet-je olvashatjuk.
+Rendkívül népszerűek ma az ún. cheat-sheet-ek, amelyek néhány PDF oldalon sok ábrával, és a lényeg kiemelésével mutatják be egy-egy témakör legfontosabb tudnivalóit. Az *RStudio* `Help / Cheetsheets` menüjéből, vagy közvetlenül a [https://www.rstudio.com/resources/cheatsheets/](https://www.rstudio.com/resources/cheatsheets/) címről számos R téma cheet-sheet-jét érhetjük el.
 
 Most tekintsük át azokat a súgókat, amelyek az R parancssorából indíthatók. Az R megismerését kezdhetjük a
 
@@ -417,7 +492,12 @@ demo(Hershey)
 ### Összefoglalás {#munka-az-r-ben-2-summary}
 
 <div class="rmdsummary">
-<p>Az <em>RStudio</em> a parancsok gépelését számos módon könnyíti meg, de ha egy függvényről részletesebb leírást szeretnénk olvasni, akkor a <code>?függvénynév</code> parancsot használjuk. Egy-egy témakör gyors megismeréséhez a cheet-sheet-eket ajánljuk, amelyek az <em>RStudio</em> <code>Help / Cheetsheets</code> menüjéből is elérhetők. Az R hivatalos honlapján hosszabb leírásokat is találunk.</p>
+<p>Az <em>RStudio</em> a parancsok gépelését számos módon könnyíti meg,
+de ha egy függvényről részletesebb leírást szeretnénk olvasni, akkor a
+<code>?függvénynév</code> parancsot használjuk. Egy-egy témakör gyors
+megismeréséhez a cheet-sheet-eket ajánljuk, amelyek az <em>RStudio</em>
+<code>Help / Cheetsheets</code> menüjéből is elérhetők. Az R hivatalos
+honlapján hosszabb leírásokat is találunk.</p>
 </div>
 
 ### Feladatok {#munka-az-r-ben-2-exercise}
@@ -428,6 +508,8 @@ demo(Hershey)
 1. Hogyan indíthatjuk el egy csomag beépített súgóját? Ismerjük meg így a **fun** csomagot!
 
 </div>\EndKnitrBlock{rmdexercise}
+
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#munka-az-r-ben-2-exercise-solution)
 
 ## Az Alap R használata
 
@@ -446,25 +528,25 @@ Amennyiben nagygépes környezetben dolgozunk, vagy valamilyen oknál fogva az *
 
 Az *Alap R* elindítása az adott platformon a megfelelő bináris állomány futtatását jelenti.
 
-* Windows operációs rendszerekben az R indítása többnyire az Asztalon lévő R ikon segítségével lehetséges. Ez az `RGui.exe` grafikus felhasználói felülettel rendelkező alkalmazást indítja, amelynek legfontosabb része a külön ablakban (*R Console*) megjelenő konzol (\@ref(fig:konzol-win) ábra).
+* Windows operációs rendszerekben az R indítása többnyire az Asztalon lévő R ikon segítségével lehetséges. Ez az `RGui.exe` grafikus felhasználói felülettel rendelkező alkalmazást indítja, amelynek legfontosabb része a külön ablakban (*R Console*) megjelenő konzol (\@ref(fig:konzol-win). ábra).
 * MacOs környezetben indítsuk el az `R.app` alkalmazást, amely egyetlen konzolt tartalmaz.
 * Linux környezetben az `R` parancssori futtatásával szintén egy konzolt kapunk.
 
 
-### A konzol használata
+### A konzol használata {#az-rgui-konzol}
 
-A konzol az *Alap R* környezet központi része mindegyik platformon. A konzol működése lényegében megegyezik a korábban megismert *RStudio*-s konzol működésével: egysoros parancsokat gépelünk be a prompt (`>`) után, `ENTER`-t nyomunk, majd az R interpreter értelmezi és végrehajtja a begépelt parancsot, és megjelenik az eredmény. A \@ref(fig:konzol-win) ábrán a Windows környezetben használható *RGui* alkalmazás látható, miután a konzolba két parancsot gépeltünk be és hajtottunk végre.
+A konzol az *Alap R* környezet központi része mindegyik platformon. A konzol működése lényegében megegyezik a korábban megismert *RStudio*-s konzol működésével: egysoros parancsokat gépelünk be a prompt (`>`) után, `ENTER`-t nyomunk, majd az R interpreter értelmezi és végrehajtja a begépelt parancsot, és megjelenik az eredmény. A \@ref(fig:konzol-win). ábrán a Windows környezetben használható *RGui* alkalmazás látható, miután a konzolba két parancsot gépeltünk be és hajtottunk végre.
 
 <div class="figure" style="text-align: center">
 <a href="" target="_blank"><img src="images/konzol_win.png" alt="RGui alkalmazás a konzollal Windows környezetben" width="70%" /></a>
 <p class="caption">(\#fig:konzol-win)RGui alkalmazás a konzollal Windows környezetben</p>
 </div>
 
-Az *RStudio* konzolának minden korábban említett alapfunkciója az *Alap R* konzolában is elérhető, tudjuk használni a parancsok történetét, a kódkiegészítést a `TAB` billentyűvel, és a folytatás prompt (`+`) is megjelenik befejezetlen sorok esetén. A Windows alatt futó *RGui* azonban ismeri a parancsállományokat is.
+Az *RStudio* konzoljának minden korábban említett alapfunkciója az *Alap R* konzoljában is elérhető, tudjuk használni a parancsok történetét, a kódkiegészítést a `TAB` billentyűvel, és a folytatás prompt (`+`) is megjelenik befejezetlen sorok esetén. Sőt a Windows alatt futó *RGui* ismeri a parancsállományokat is, bár a gépeléshez korántsem kapunk annyi támogatást mint az *RStudio*-ban.
 
 ### Parancsállományok az RGui-ban
 
-Az *RGui* a Windows-os *Alap R* része, és ahogyan láthattuk, egy nagyon egyszerü grafikus környezet, amelynek központjában a konzol található (*R Console* ablak a \@ref(fig:konzol-win) ábrán). Az *RGui* nagyszerű tulajdonsága, hogy támogatja a parancsállományok használatát. Az *RGui*-ban találunk menüpontokat (`File/New script`, `File/Open script` és `File/Save`), amelyekkel létrehozhatunk, megnyithatunk, és elmenthetünk parancsállományokat. Tudjuk, hogy a parancsállományok használata lényegesen leegyszerűsíti az adatelemzés folyamatát, de fontos műveletként jelenik meg az átirányítás, amely a szövegszerkesztőben összegyűjtött parancsokat vezeti át a konzolba. Az *RGui*-ban ez a `Ctrl+R` billentyűkombinációval lehetséges -- ez gyakorlatilag az *Rstudio*-beli `Ctrl+Enter` --, de az `Edit/Run line or selection` vagy az `Edit/Run all` menüpontok is rendelkezésre állnak. A soronkénti végrehajtás mellett itt is lehetőség van kijelölt szövegrészek végrehajtására, de több sort, a teljes parancsállományt, vagy valamelyik sor egy részét is elküldhetjük a konzolba a `Ctrl+R` segítségével. 
+Az *RGui* a Windows-os *Alap R* része, és ahogyan láthattuk, egy nagyon egyszerű grafikus környezet, amelynek központjában a konzol található (*R Console* ablak a \@ref(fig:konzol-win). ábrán). Az *RGui* nagyszerű tulajdonsága, hogy támogatja a parancsállományok használatát. Az *RGui*-ban találunk menüpontokat (`File/New script`, `File/Open script` és `File/Save`), amelyekkel létrehozhatunk, megnyithatunk, és elmenthetünk parancsállományokat. Tudjuk, hogy a parancsállományok használata lényegesen leegyszerűsíti az adatelemzés folyamatát, de fontos műveletként jelenik meg az átirányítás, amely a szövegszerkesztőben összegyűjtött parancsokat vezeti át a konzolba. Az *RGui*-ban ez a `Ctrl+R` billentyűkombinációval lehetséges -- ez gyakorlatilag az *Rstudio*-beli `Ctrl+Enter` --, de az `Edit/Run line or selection` vagy az `Edit/Run all` menüpontok is rendelkezésre állnak. A soronkénti végrehajtás mellett itt is lehetőség van kijelölt szövegrészek végrehajtására, de több sort, a teljes parancsállományt, vagy valamelyik sor egy részét is elküldhetjük a konzolba a `Ctrl+R` segítségével. 
 
 
 ### R Commander
@@ -482,14 +564,14 @@ A továbbiakban az *R Commander* lehetőségeit tekintjük át röviden. Az *R C
 library(Rcmdr)               # R Commander indítása
 ```
 
-Az indítás után egy külön *R Commander* ablak jelenik meg (\@ref(fig:rcommander-1) ábra), melynek felépítése fentről lefelé a következő: (1) gazdag menürendszer, (2) eszköztár az aktuális adatbázis (`Adattábla`) mezővel és az `Adattábla megtekintése` gombokkal, (3) parancsállomány vagy RMarkdown lapok, (4) output számára fenntartott szöveges mező, és (5) az üzenetek helye. Megjegyezzük, hogy a \@ref(fig:rcommander-1) ábrán látható *R Commander*-t az *Alap R*-ből indítottuk. Amennyiben *RStudio*-ból adjuk ki a `library(Rcmdr)` parancsot, akkor a 4. és az 5. elem, azaz az output és az üzenetek rész nem lesz látható, mert az *RStudio* konzola ezeket magába integrálja.
+Az indítás után egy külön *R Commander* ablak jelenik meg (\@ref(fig:rcommander-1). ábra), melynek felépítése fentről lefelé a következő: (1) a gazdag menürendszer, (2) az eszköztár az aktuális adatbázis (`Adattábla`) mezővel és az `Adattábla megtekintése` gombokkal, (3) a parancsállomány vagy RMarkdown lapok, (4) az output számára fenntartott szöveges mező, és (5) az üzenetek helye. Megjegyezzük, hogy a \@ref(fig:rcommander-1). ábrán látható *R Commander*-t az *Alap R*-ből indítottuk. Amennyiben *RStudio*-ból adjuk ki a `library(Rcmdr)` parancsot, akkor a 4. és az 5. elem, azaz az output és az üzenetek rész nem lesz látható, mert az *RStudio* konzolja ezeket magába integrálja.
 
 <div class="figure" style="text-align: center">
 <a href="" target="_blank"><img src="images/rcommander_1.png" alt="Az R Commander induló ablaka" width="85%" /></a>
 <p class="caption">(\#fig:rcommander-1)Az R Commander induló ablaka</p>
 </div>
 
-A kilépést az *R Commander*-ből a `File / Kilépés` menüpont segítségével kezdeményezhetjük. Kilépés után az *R Commander* újraindításához a következő parancsokat kell használnunk.
+A kilépést az *R Commander*-ből a `File / Kilépés` menüpont segítségével kezdeményezhetjük. Kilépés után az *R Commander* újraindításához a következő parancsokat kell használnunk:
 
 
 ```r
@@ -498,7 +580,7 @@ detach(package:Rcmdr)
 library(Rcmdr)
 ```
 
-Az *R Commander* lényegét a legkönyebben úgy tudjuk szemléltetni, ha egérkattintásokkal is megoldjuk a Csillagok háborúja c. filmmel kapcsolatos adatelemzési feladatunkat. Első lépésként töltsük be a **dplyr** csomagot az `Eszközök / Csomag(ok) betöltése` menüponttal. Keressük meg a listában a **dplyr** csomagnevet és kattintsunk az `OK` gombon. Ezt követően olvassuk be a `starwars` adatbázist ebből a csomagból, az `Adatok / Csomagban lévő adatok / Adattábla beolvasása betöltött csomagból` menüpont segítségével. Kattintsunk duplán a **dplyr** csomagneven, majd a jobb oldali listában szintén duplán a `starwars` adatbázison, majd az `OK` gombbal fejezzük be a műveletet. Figyeljük meg, hogy az `R szkript` és `R Markdown` lapok tartalmazni fogják az egérrel elmutogatott tevékenységeinknek megfelelő R parancsokat, illetve az output és üzenetek részben ezek végrehajtásáról is értesítést kapunk. 
+Az *R Commander* lényegét a legkönnyebben úgy tudjuk szemléltetni, ha egérkattintásokkal is megoldjuk a *Csillagok háborúja* c. filmmel kapcsolatos adatelemzési feladatunkat. Első lépésként telepítsük a **dplyr** csomagot. Természetesen, ha már korábban a telepítést bármilyen apropóból elvégeztük, akkor ezt nem kell megismételni, de a teljesség kedvéért kezdjük azzal, hogyan tudunk interaktívan csomagot telepíteni az *R Commander* segítségével. Válasszuk ki a `Eszközök / Csomag telepítése` menüpontot, ha szükséges válasszunk a tükörszerverek közül, majd válasszuk ki a megjelenő listából a **dplyr** csomagot. Ezt követően töltsük be a **dplyr** csomagot az `Eszközök / Csomag(ok) betöltése` menüponttal. Keressük meg a listában a **dplyr** csomagnevet és kattintsunk az `OK` gombon. Ezt követően olvassuk be a `starwars` adatbázist a **dplyr** csomagból, az `Adatok / Csomagban lévő adatok / Adattábla beolvasása betöltött csomagból` menüpont segítségével. Kattintsunk duplán a **dplyr** csomagneven, majd a jobb oldali listában szintén duplán a `starwars` adatbázison, majd az `OK` gombbal fejezzük be a műveletet. Figyeljük meg, hogy az `R szkript` és `R Markdown` lapok tartalmazni fogják az egérrel elmutogatott tevékenységeinknek megfelelő R parancsokat, illetve az output és üzenetek részben ezek végrehajtásáról is értesítést kapunk. 
 
 Még egy rendkívül fontos dolog történt a **dplyr** csomag `starwars` adatbázisának beolvasása után. Az eszköztárban az `Adattábla` részben már nem a `Nincs aktív adattábla` szöveg szerepel, hanem a `starwars` adatbázis neve. Azt kell megjegyeznünk az *R Commander* használata során, hogy mindig van egy kitüntetett, aktív adattáblánk, és minden további tevékenység, amit a menüpontok segítségével el tudunk érni, az erre a kitüntetett, aktív adattáblára vonatkozik. Az aktív adattáblát le lehet cserélni. Amennyiben nyitnánk egy másik adatbázist, akkor a `starwars` feliratú gombon kattintva, egy listából kiválaszthatnánk, hogy melyik adatbázisunk legyen az *R Commander*-ben aktív.
 
@@ -510,20 +592,20 @@ Végül megemlítjük, hogy az *R Commander* tudása kibővíthető beépülő m
 
 
 ```r
-# beépülő modul telepítése 
+# egy beépülő modul telepítése 
 install.packages("RcmdrPlugin.EZR")
 ```
 
-Telepítés után a beépülő modul betöltésére is szükség van, csak így tudjuk az új funkciókat elérni. Ezt az `Eszközök / Rcmdr plugin(ok) betöltése` menüpontban tehetjük meg. Az *R Commander* újraindulása után, már az új menüszerkezetet fogjuk látni. Az [*R Commander hivatalos oldalán*](https://www.rcommander.com/) teljes listát kapunk az elérhető beépülő modulokból.
+Telepítés után a beépülő modul betöltésére is szükség van, csak így tudjuk az új funkciókat elérni. Ezt az `Eszközök / Rcmdr plugin(ok) betöltése` menüpontban tehetjük meg. Az *R Commander* újraindulása után, már az új menüszerkezetet fogjuk látni. Az [*R Commander hivatalos oldalán*](https://socialsciences.mcmaster.ca/jfox/Misc/Rcmdr/) részletesebb információkat olvashatunk.
 
 
 ### Kötegelt futtatás
 
-Ha felidézzük az eddig tanultakat az R használati módjairól, akkor világos, hogy mindegyik az interaktív használathoz kötődik. Egy tipikus adatelemzési munka során pontosan erre van szükség, kezdeményezzük egy művelet végrehatását és várjuk az eredményt. Újabb művelet, újabb output. Ezt a fajta interaktív használatot láttuk a konzolban, a parancsállományok és RMarkdown állományok esetén, és az *R Commander*-ben is. Azonban az interaktív használat mellett beszélünk ún. kötegelt feldolgozásról is. Ez azt jelenti, hogy egy parancsállomány összes sorát egyetlen lépésben hatjuk végre. Nem vagyunk kíváncsiak a soronkénti eredményekre, a teljes szkriptállomány futtatása ad olyan eredményt, amelyre nekünk éppen szükségünk van. Kötegelt futtatásra a `source()` függvényt használhatjuk, valamint az  *Alap R* egy külső alkalmazását, az `Rscript` programot. 
+Ha felidézzük az eddig tanultakat az R használati módjairól, akkor világos, hogy mindegyik az interaktív használathoz kötődik. Egy tipikus adatelemzési munka során pontosan erre van szükség: kezdeményezzük egy művelet végrehajtását és várjuk az eredményt. Újabb művelet, újabb output. Ezt a fajta interaktív használatot láttuk a konzolban, a parancsállományok és RMarkdown állományok esetén, és az *R Commander*-ben is. Azonban az interaktív használat mellett beszélünk ún. kötegelt feldolgozásról is. Ez azt jelenti, hogy egy parancsállomány összes sorát egyetlen lépésben hatjuk végre. Nem vagyunk kíváncsiak a soronkénti eredményekre, a teljes szkriptállomány futtatása ad olyan eredményt, amelyre nekünk éppen szükségünk van. Kötegelt futtatásra a `source()` függvényt használhatjuk, valamint az  *Alap R* egy külső alkalmazását, az `Rscript` programot. 
 
 Tegyük fel, hogy egy `netflix.R` parancsállományban összegyűjtöttük az összes olyan R sort, amely egyetlen ábra létrehozásához szükséges. Ez az ábra meglehetősen összetett, mert az egyes években megjelent filmek és sorozatok számát tartalmazza, és viszonylag sok adatelőkészítési műveletet előzte meg. Ezek nem mindig izgalmasak számunkra, annál inkább maga az ábra, amelynek létrehozása a `netflix.R` egyetlen célja.
 
-A következő sort az *Alap R* vagy az *RStudio* konzolába/parancsállományába, vagy az *RStudio* RMarkdown állományába is elhelyezhetjük. A `source()` függvény a `netflix.R` minden sorát végrehajtja és reményeink szerint előállítja a kívánt ábrát. 
+A következő sort az *Alap R* vagy az *RStudio* konzoljába/parancsállományába, vagy az *RStudio* RMarkdown állományába is elhelyezhetjük. A `source()` függvény a `netflix.R` minden sorát végrehajtja és reményeink szerint előállítja a kívánt ábrát. 
 
 
 ```r
@@ -545,7 +627,17 @@ Kötegelt feldolgozásra viszonylag ritkán van szükségünk, akkor is többnyi
 ### Összefoglalás {#munka-az-r-ben-3-summary}
 
 <div class="rmdsummary">
-<p>Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor az <em>Alap R</em> eszközeivel is kiválóan megoldhatjuk adatelemzési feladatainkat. A konzol és az <em>RGui</em> parancsállományai interaktív parancsvégrehajtást biztosítanak, a <code>source()</code> függvény és az <code>RScript</code> alkalmazás pedig a <code>.R</code> kiterjesztésű parancsállományok kötegelt feldolgozását segítik. Az <em>R Commander</em> parancsok gépelése nélkül teszi lehetővé elemzések végrehajtását, mindössze a megfelelő menüpontot kell kiválasztani, majd a dialógusdobozan elvégezni a szükséges beállításokat. Érdemes kipróbálni a <em>jamovi</em> és a <em>JASP</em> statisztikai programokat is.</p>
+<p>Amennyiben az <em>RStudio</em> használatára nincs lehetőségünk, akkor
+az <em>Alap R</em> eszközeivel is kiválóan megoldhatjuk adatelemzési
+feladatainkat. A konzol és az <em>RGui</em> parancsállományai interaktív
+parancsvégrehajtást biztosítanak, a <code>source()</code> függvény és az
+<code>RScript</code> alkalmazás pedig a <code>.R</code> kiterjesztésű
+parancsállományok kötegelt feldolgozását segítik. Az <em>R
+Commander</em> parancsok gépelése nélkül teszi lehetővé elemzések
+végrehajtását, mindössze a megfelelő menüpontot kell kiválasztani, majd
+a dialógusdobozban elvégezni a szükséges beállításokat. Érdemes
+kipróbálni a <em>jamovi</em> és a <em>JASP</em> statisztikai programokat
+is.</p>
 </div>
 
 ### Feladatok {#munka-az-r-ben-3-exercise}
@@ -559,6 +651,6 @@ Kötegelt feldolgozásra viszonylag ritkán van szükségünk, akkor is többnyi
 </div>\EndKnitrBlock{rmdexercise}
 
 
-
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [A fenti feladatok megoldása](#munka-az-r-ben-3-exercise-solution)
 
 

@@ -1,0 +1,46 @@
+megjelenes.eve	cim.magyar	cim.angol	szereplo
+1930	Gyilkosság a paplakban	The Murder at the Vicarage	Miss Marple
+1942	Holttest a könyvtárszobában	The Body in the Library	Miss Marple
+1942	A láthatatlan kéz	The Moving Finger	Miss Marple
+1950	Gyilkosság meghirdetve	A Murder is Announced	Miss Marple
+1952	Nem csalás, nem ámítás	They Do It with Mirrors	Miss Marple
+1953	Egy marék rozs	A Pocket Full of Rye	Miss Marple
+1957	Paddington 16.50	4.50 from Paddington	Miss Marple
+1962	A kristálytükör meghasadt	The Mirror Crack'd from Side to Side	Miss Marple
+1964	Rejtély az Antillákon	A Caribbean Mystery	Miss Marple
+1965	A Bertram Szálló	At Bertram's Hotel	Miss Marple
+1971	Nemezis	Nemesis	Miss Marple
+1976	Szunnyadó gyilkosság	Sleeping Murder	Miss Marple
+1920	A titokzatos stylesi eset	The Mysterious Affair at Styles	Hercule Poirot
+1923	Gyilkosság a golfpályán	The Murder on the Links	Hercule Poirot
+1926	Az Ackroyd-gyilkosság	The Murder of Roger Ackroyd	Hercule Poirot
+1927	A Nagy Négyes	The Big Four	Hercule Poirot
+1928	A titokzatos Kék Vonat	The Mystery of the Blue Train	Hercule Poirot
+1932	Ház a sziklán	Peril at End House	Hercule Poirot
+1933	Lord Edgware meghal	Lord Edgware Dies	Hercule Poirot
+1934	Gyilkosság az Orient expresszen	Murder on the Orient Express	Hercule Poirot
+1935	Tragédia három felvonásban	Three Acts Tragedy	Hercule Poirot
+1935	Halál a felhők fölött	Death in the Clouds	Hercule Poirot
+1936	Az ABC-gyilkosságok	The ABC Murders	Hercule Poirot
+1936	Gyilkosság Mezopotámiában	Murder in Mesopotamia	Hercule Poirot
+1936	Nyílt kártyákkal	Cards on the Table	Hercule Poirot
+1937	A kutya se látta	Dumb Witness	Hercule Poirot
+1938	Halál a Níluson	Death on the Nile	Hercule Poirot
+1938	Találkozás a halállal	Appointment with Death	Hercule Poirot
+1938	Poirot karácsonya	Hercule Poirot's Christmas	Hercule Poirot
+1940	Cipruskoporsó	Sad Cypress	Hercule Poirot
+1940	A fogorvos széke	One, Two, Buckle My Shoe	Hercule Poirot
+1941	Nyaraló gyilkosok	Evil Under the Sun	Hercule Poirot
+1943	Öt kismalac	Five Little Pigs	Hercule Poirot
+1946	Hétvégi gyilkosság	The Hollow	Hercule Poirot
+1948	Zátonyok közt	Taken at the Flood	Hercule Poirot
+1952	Mrs. McGinty meghalt	Mrs. McGinty's Dead	Hercule Poirot
+1953	Temetni veszélyes	After the Funeral	Hercule Poirot
+1955	Gyilkosság a diákszállóban	Hickory, Dickory, Dock	Hercule Poirot
+1956	Gloriett a hullának	Dead Man's Folly	Hercule Poirot
+1959	Macska a galambok között	Cat Among the Pigeons	Hercule Poirot
+1963	Az órák	The Clocks	Hercule Poirot
+1966	Harmadik lány	Third Girl	Hercule Poirot
+1969	Halloween és halál	Hallowe'en Party	Hercule Poirot
+1972	Az elefántok nem felejtenek	Elephants Can Remember	Hercule Poirot
+1975	Függöny: Poirot utolsó esete	Curtain: Poirot's Last Case	Hercule Poirot

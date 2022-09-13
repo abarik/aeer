@@ -14,22 +14,24 @@ language:
     chapter_name: ""
 
 
-# rmd_files:
-# - "index.Rmd"
-# - "00-Eloszo.Rmd"
-# - "01-Itt-kezdodik.Rmd"
-# - "02-Mi-az-R.Rmd"
-# - "03-Az-R-telepitese.Rmd"
-# - "04-Munka-az-R-ben.Rmd"
-# - "05-Az-R-nyelv.Rmd"
-# #- "06-Beolvasas.Rmd"
-# #- "07-Adatmanipulacio.Rmd"
-# #- "08-Mutatok-es-tablazatok.Rmd"
-# #- "09-Grafika.Rmd"
+rmd_files:
+- "index.Rmd"
+- "00-Eloszo.Rmd"
+- "01-Itt-kezdodik.Rmd"
+- "02-Mi-az-R.Rmd"
+- "03-Az-R-telepitese.Rmd"
+- "04-Munka-az-R-ben.Rmd"
+- "05-Az-R-nyelv.Rmd"
+- "06-Beolvasas.Rmd"
+- "07-Adatmanipulacio.Rmd"
+- "08-Mutatok-es-tablazatok.Rmd"
+- "09-Grafika.Rmd"
 # - "10-Hipotezisvizsgalatok.Rmd"
-# #- "11-Publikalas.Rmd"
-# - "31-Megoldasok.Rmd"
-# - "41-Szinek.Rmd"
+# - "11-Publikalas.Rmd"
+# - "31-Megoldasok.Rmd"          # Csak a HTML változatban
+# - "40-Hagyomanyos-grafika.Rmd" # Csak a HTML változatban
+# - "41-Szinek.Rmd"              # Csak a HTML változatban
 # - "42-Oravazlat.Rmd"
-# - "51-Irodalomjegyzek.Rmd"
+# - "43-Probak.Rmd"
+- "51-Irodalomjegyzek.Rmd"
 

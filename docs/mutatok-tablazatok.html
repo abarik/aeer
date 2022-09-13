@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>8 Mutatók és táblázatok | Adatkezelés és egyváltozós elemzések R-ben</title>
+<meta name="author" content="Abari Kálmán">
+<meta name="description" content="8.1 Alap R lehetőségei  Ebben a fejezetben áttekintjük az Alap R mutatószámoló és táblázat készítő függvényeit  A leíró statisztika célja az adatstruktúrába való elsődleges betekintés, az adatok...">
+<meta name="generator" content="bookdown 0.28 with bs4_book()">
+<meta property="og:title" content="8 Mutatók és táblázatok | Adatkezelés és egyváltozós elemzések R-ben">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://abarik.github.io/aeer/mutatok-tablazatok.html">
+<meta property="og:image" content="https://abarik.github.io/aeer/images/cover.jpg">
+<meta property="og:description" content="8.1 Alap R lehetőségei  Ebben a fejezetben áttekintjük az Alap R mutatószámoló és táblázat készítő függvényeit  A leíró statisztika célja az adatstruktúrába való elsődleges betekintés, az adatok...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="8 Mutatók és táblázatok | Adatkezelés és egyváltozós elemzések R-ben">
+<meta name="twitter:description" content="8.1 Alap R lehetőségei  Ebben a fejezetben áttekintjük az Alap R mutatószámoló és táblázat készítő függvényeit  A leíró statisztika célja az adatstruktúrába való elsődleges betekintés, az adatok...">
+<meta name="twitter:image" content="https://abarik.github.io/aeer/images/cover.jpg">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-68765210-2', 'auto');
+      ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Adatkezelés és egyváltozós elemzések R-ben</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Üdvözöljük</a></li>
+<li><a class="" href="eloszo.html">Előszó</a></li>
+<li><a class="" href="itt-kezdodik.html"><span class="header-section-number">1</span> Itt kezdődik</a></li>
+<li><a class="" href="mi-az-r.html"><span class="header-section-number">2</span> Mi az R?</a></li>
+<li><a class="" href="az-r-telepitese.html"><span class="header-section-number">3</span> Az R telepítése</a></li>
+<li><a class="" href="munka-az-r-ben.html"><span class="header-section-number">4</span> Munka az R-ben</a></li>
+<li><a class="" href="az-r-nyelv.html"><span class="header-section-number">5</span> Az R nyelv</a></li>
+<li><a class="" href="beolvasas.html"><span class="header-section-number">6</span> Beolvasás</a></li>
+<li><a class="" href="adatmanipulacio.html"><span class="header-section-number">7</span> Adatmanipuláció</a></li>
+<li><a class="active" href="mutatok-tablazatok.html"><span class="header-section-number">8</span> Mutatók és táblázatok</a></li>
+<li><a class="" href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></li>
+<li><a class="" href="irodalomjegyzek.html">Irodalomjegyzék</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/abarik/aeer">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="mutatok-tablazatok" class="section level1" number="8">
+<h1>
+<span class="header-section-number">8</span> Mutatók és táblázatok<a class="anchor" aria-label="anchor" href="#mutatok-tablazatok"><i class="fas fa-link"></i></a>
+</h1>
+<div class="inline-figure"><img src="images/ch_08_small.png" width="70%" style="display: block; margin: auto;"></div>
+<div id="alap-r-lehetőségei" class="section level2" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> Alap R lehetőségei<a class="anchor" aria-label="anchor" href="#alap-r-lehet%C5%91s%C3%A9gei"><i class="fas fa-link"></i></a>
+</h2>
+
+<div class="rmdlevel1">
+<p>Ebben a fejezetben áttekintjük</p>
+<ul>
+<li>az <em>Alap R</em> mutatószámoló és</li>
+<li>táblázat készítő függvényeit</li>
+<li>
+</ul>
+</div>
+
+<p>A leíró statisztika célja az adatstruktúrába való elsődleges betekintés, az adatok eloszlásának felderítése. A leíró statisztika eszközei a statisztikai mérőszámok (mutatók), a táblázatok és a grafikonok. Ebben a fejezetben a mutatókkal és a táblázatokkal foglalkozunk, az ábrák készítése a következő fejezet témája lesz.</p>
+<div id="mutatók" class="section level3" number="8.1.1">
+<h3>
+<span class="header-section-number">8.1.1</span> Mutatók<a class="anchor" aria-label="anchor" href="#mutat%C3%B3k"><i class="fas fa-link"></i></a>
+</h3>
+<div id="egy-változó-egy-mutató" class="section level4" number="8.1.1.1">
+<h4>
+<span class="header-section-number">8.1.1.1</span> Egy változó, egy mutató<a class="anchor" aria-label="anchor" href="#egy-v%C3%A1ltoz%C3%B3-egy-mutat%C3%B3"><i class="fas fa-link"></i></a>
+</h4>
+<p>A statisztikai mérőszámok vagy mutatók a mintából számolt statisztikai függvények. A két legfontosabb a mintaátlag és a minta szórása. A <strong>MASS</strong> csomag <code>survey</code> adattáblája például 237 egyetemista testmagasságát tartalmazza a <code>Height</code> oszlopában. Számoljuk ki ezt a két fontos mutatót:</p>
+<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">survey</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span> <span class="co"># survey betöltése</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># testmagasság átlaga</span></span>
+<span><span class="co">#&gt; [1] 172.4</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># testmagasság szórása</span></span>
+<span><span class="co">#&gt; [1] 9.848</span></span></code></pre></div>
+<p>Az <code>na.rm=T</code> argumentum megadására szükség van, mivel a <code>Height</code> változó tartalmaz hiányzó értékeket, csak így kapjuk meg a mintaátlagot és a minta szórását.</p>
+<p>Természetesen további mutatók is számolhatók:</p>
+<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># medián</span></span>
+<span><span class="co">#&gt; [1] 171</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># variancia</span></span>
+<span><span class="co">#&gt; [1] 96.97</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># minimum</span></span>
+<span><span class="co">#&gt; [1] 150</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># maximum</span></span>
+<span><span class="co">#&gt; [1] 200</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># minimum és maximum</span></span>
+<span><span class="co">#&gt; [1] 150 200</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="co"># terjedelem</span></span>
+<span><span class="co">#&gt; [1] 50</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/IQR.html">IQR</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># interkvartilis-eltérés</span></span>
+<span><span class="co">#&gt; [1] 15</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># kvantilisek</span></span>
+<span><span class="co">#&gt;   0%  25%  50%  75% 100% </span></span>
+<span><span class="co">#&gt;  150  165  171  180  200</span></span>
+<span><span class="fu">moments</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/moments/man/skewness.html">skewness</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># ferdeség</span></span>
+<span><span class="co">#&gt; [1] 0.2174</span></span>
+<span><span class="fu">moments</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/moments/man/kurtosis.html">kurtosis</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="co"># csúcsosság</span></span>
+<span><span class="co">#&gt; [1] 2.587</span></span></code></pre></div>
+</div>
+<div id="több-változó-egy-mutató" class="section level4" number="8.1.1.2">
+<h4>
+<span class="header-section-number">8.1.1.2</span> Több változó, egy mutató<a class="anchor" aria-label="anchor" href="#t%C3%B6bb-v%C3%A1ltoz%C3%B3-egy-mutat%C3%B3"><i class="fas fa-link"></i></a>
+</h4>
+<p>Sokszor, egyszerre több numerikus változó statisztikai mutatóit szeretnénk meghatározni, ehhez az <code>apply(MARGIN=2)</code> vagy az <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> függvényt használhatjuk. Az <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> általánosabb, így a <code>MARGIN=2</code> segítségével tudjuk az oszloponkénti függvényvégrehajtására utasítani, míg az <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> esetében ez a működés lényege. Most három numerikus változó (kézméret, testmagasság és életkor) legfontosabb statisztikai mutatóit írtajuk ki:</p>
+<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># mutatók 3 változóra: apply()</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Wr.Hnd Height    Age </span></span>
+<span><span class="co">#&gt;  18.67 172.38  20.37</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">sd</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Wr.Hnd Height    Age </span></span>
+<span><span class="co">#&gt;  1.879  9.848  6.474</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">range</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Wr.Hnd Height   Age</span></span>
+<span><span class="co">#&gt; [1,]   13.0    150 16.75</span></span>
+<span><span class="co">#&gt; [2,]   23.2    200 73.00</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, MARGIN <span class="op">=</span> <span class="fl">2</span>, FUN <span class="op">=</span> <span class="va">quantile</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Wr.Hnd Height   Age</span></span>
+<span><span class="co">#&gt; 0%     13.0    150 16.75</span></span>
+<span><span class="co">#&gt; 25%    17.5    165 17.67</span></span>
+<span><span class="co">#&gt; 50%    18.5    171 18.58</span></span>
+<span><span class="co">#&gt; 75%    19.8    180 20.17</span></span>
+<span><span class="co">#&gt; 100%   23.2    200 73.00</span></span>
+<span></span>
+<span><span class="co"># mutatók 3 változóra: sapply()</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Wr.Hnd Height    Age </span></span>
+<span><span class="co">#&gt;  18.67 172.38  20.37</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">sd</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Wr.Hnd Height    Age </span></span>
+<span><span class="co">#&gt;  1.879  9.848  6.474</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">range</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Wr.Hnd Height   Age</span></span>
+<span><span class="co">#&gt; [1,]   13.0    150 16.75</span></span>
+<span><span class="co">#&gt; [2,]   23.2    200 73.00</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">quantile</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Wr.Hnd Height   Age</span></span>
+<span><span class="co">#&gt; 0%     13.0    150 16.75</span></span>
+<span><span class="co">#&gt; 25%    17.5    165 17.67</span></span>
+<span><span class="co">#&gt; 50%    18.5    171 18.58</span></span>
+<span><span class="co">#&gt; 75%    19.8    180 20.17</span></span>
+<span><span class="co">#&gt; 100%   23.2    200 73.00</span></span></code></pre></div>
+</div>
+<div id="egy-változó-több-mutató" class="section level4" number="8.1.1.3">
+<h4>
+<span class="header-section-number">8.1.1.3</span> Egy változó, több mutató<a class="anchor" aria-label="anchor" href="#egy-v%C3%A1ltoz%C3%B3-t%C3%B6bb-mutat%C3%B3"><i class="fas fa-link"></i></a>
+</h4>
+<p>Amennyiben egyszerre több statisztikai mutatóra van szükségünk, akkor az <em>Alap R</em> lehetőségei közül a <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> függvény az első lehetőség.</p>
+<div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Wr.Hnd</span><span class="op">)</span>  <span class="co"># kézméret mutatói</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's </span></span>
+<span><span class="co">#&gt;    13.0    17.5    18.5    18.7    19.8    23.2       1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span><span class="op">)</span>  <span class="co"># testmagasság mutatói</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's </span></span>
+<span><span class="co">#&gt;     150     165     171     172     180     200      28</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Age</span><span class="op">)</span>     <span class="co"># életkor mutatói</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;    16.8    17.7    18.6    20.4    20.2    73.0</span></span></code></pre></div>
+</div>
+<div id="mutatók-csoportokra" class="section level4" number="8.1.1.4">
+<h4>
+<span class="header-section-number">8.1.1.4</span> Mutatók csoportokra<a class="anchor" aria-label="anchor" href="#mutat%C3%B3k-csoportokra"><i class="fas fa-link"></i></a>
+</h4>
+<p>Nagyon fontos lehetőség a mutatók meghatározása különböző csoportokban. Csoportok alatt a faktor által meghatározott, adott faktorszinthez tartozó mintaelemeket értjük. Például a <code>survey</code> adattábla nem (<code>Sex</code>) faktora két csoportra osztja a 237 elemű mintát.</p>
+<div class="sourceCode" id="cb396"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Sex</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>  <span class="co"># nem faktor eloszlása</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Female   Male   &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    118    118      1</span></span></code></pre></div>
+<p>A nem szerint meghatározott két csoport azonos elemszámú, 118 személy tartozik a nők csoportjába, és 118 a férfiak csoportjába is. Egy másik faktor, a dohányzási szokás (<code>Smoke</code>) már nem mutat egyenletes eloszlást:</p>
+<div class="sourceCode" id="cb397"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Smoke</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>  <span class="co"># dohányzási szokás faktor eloszlása</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Heavy Never Occas Regul  &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    11   189    19    17     1</span></span></code></pre></div>
+<p>Az erős dohányosok mindössze 11-en vannak, míg a legtöbben a nem dohányzók táborába tartoznak (189 fő).</p>
+<p>A faktor által meghatározott csoportok nagyon fontosak lehetnek az adatelemzés során. Például kíváncsiak lehetünk a nem faktor két csoportjában (nők és férfiak) a testmagasság átlagára. Az <em>Alap R</em> az ilyen jellegű kérdések megválaszolására 3 függvényt is nyújt számunkra: <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code>, <code><a href="https://rdrr.io/r/stats/aggregate.html">aggregate()</a></code> és <code><a href="https://rdrr.io/r/base/by.html">by()</a></code>.</p>
+<p>A <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code> egyetlen numerikus változó egy faktor egy vagy több csoportjában képes statisztikai mutató meghatározására. Fontos, hogy a statisztikai mutató egyetlen értékkel térjen vissza (pl. <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> vagy <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code>), mert a táblázatos elrendezés az outputban csak így lehetséges, tehát a <code><a href="https://rdrr.io/r/base/range.html">range()</a></code> és a <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code> nem használható.</p>
+<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># mintaátlag csoportokra</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Wr.Hnd</span>, INDEX <span class="op">=</span> <span class="va">survey</span><span class="op">$</span><span class="va">Sex</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Female   Male </span></span>
+<span><span class="co">#&gt;  17.60  19.74</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Wr.Hnd</span>, INDEX <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         Smoke</span></span>
+<span><span class="co">#&gt; Sex      Heavy Never Occas Regul</span></span>
+<span><span class="co">#&gt;   Female 17.90 17.66 16.82 17.48</span></span>
+<span><span class="co">#&gt;   Male   20.32 19.61 19.83 20.27</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Wr.Hnd</span>, INDEX <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span>, <span class="st">"Exer"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; , , Exer = Freq</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;         Smoke</span></span>
+<span><span class="co">#&gt; Sex      Heavy Never Occas Regul</span></span>
+<span><span class="co">#&gt;   Female 17.73 17.53 15.92 19.55</span></span>
+<span><span class="co">#&gt;   Male   18.93 19.75 20.27 20.86</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; , , Exer = None</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;         Smoke</span></span>
+<span><span class="co">#&gt; Sex      Heavy Never Occas Regul</span></span>
+<span><span class="co">#&gt;   Female    NA 17.59 18.50    NA</span></span>
+<span><span class="co">#&gt;   Male    23.2 19.29 17.95  19.5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; , , Exer = Some</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;         Smoke</span></span>
+<span><span class="co">#&gt; Sex      Heavy Never Occas Regul</span></span>
+<span><span class="co">#&gt;   Female 18.15 17.77 17.77 16.10</span></span>
+<span><span class="co">#&gt;   Male   23.00 19.47 20.50 19.45</span></span></code></pre></div>
+<p>A <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code> függvényt tipikusan egy vagy két faktor esetén használjuk, a táblázatos output kényelmes áttekintést ad az egyes csoportok statisztikai mutatóiról. A legnagyobb szabadságot az <code><a href="https://rdrr.io/r/stats/aggregate.html">aggregate()</a></code> és a <code><a href="https://rdrr.io/r/base/by.html">by()</a></code> nyújtja számunkra, ezek használatát érdemes elsajátítani. Paraméterezésük megegyezik (az argumentumok neve nem), csak az outputban térnek el. Az <code><a href="https://rdrr.io/r/stats/aggregate.html">aggregate()</a></code> visszatérési értéke egy <em>adattábla</em> típusú objektum, amelyet később kényelmesen felhasználhatunk, a <code><a href="https://rdrr.io/r/base/by.html">by()</a></code> egy egyszerűbb szöveges listával tér vissza.</p>
+<div class="sourceCode" id="cb399"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># mintaátlag csoportokra</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="st">"Wr.Hnd"</span><span class="op">]</span>, by<span class="op">=</span><span class="va">survey</span><span class="op">[</span>, <span class="st">"Sex"</span>, drop<span class="op">=</span><span class="cn">F</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Sex     x</span></span>
+<span><span class="co">#&gt; 1 Female 17.60</span></span>
+<span><span class="co">#&gt; 2   Male 19.74</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/by.html">by</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="st">"Wr.Hnd"</span><span class="op">]</span>, INDICES <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>, <span class="st">"Sex"</span>, drop<span class="op">=</span><span class="cn">F</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; [1] 17.6</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; [1] 19.74</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="st">"Wr.Hnd"</span><span class="op">]</span>, by<span class="op">=</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Sex Smoke     x</span></span>
+<span><span class="co">#&gt; 1 Female Heavy 17.90</span></span>
+<span><span class="co">#&gt; 2   Male Heavy 20.32</span></span>
+<span><span class="co">#&gt; 3 Female Never 17.66</span></span>
+<span><span class="co">#&gt; 4   Male Never 19.61</span></span>
+<span><span class="co">#&gt; 5 Female Occas 16.82</span></span>
+<span><span class="co">#&gt; 6   Male Occas 19.83</span></span>
+<span><span class="co">#&gt; 7 Female Regul 17.48</span></span>
+<span><span class="co">#&gt; 8   Male Regul 20.27</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/by.html">by</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="st">"Wr.Hnd"</span><span class="op">]</span>, INDICES <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; [1] 17.9</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; [1] 20.32</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; [1] 17.66</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; [1] 19.61</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; [1] 16.82</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; [1] 19.83</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; [1] 17.48</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; [1] 20.27</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="st">"Wr.Hnd"</span><span class="op">]</span>, by<span class="op">=</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span>, <span class="st">"Exer"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       Sex Smoke Exer     x</span></span>
+<span><span class="co">#&gt; 1  Female Heavy Freq 17.73</span></span>
+<span><span class="co">#&gt; 2    Male Heavy Freq 18.93</span></span>
+<span><span class="co">#&gt; 3  Female Never Freq 17.53</span></span>
+<span><span class="co">#&gt; 4    Male Never Freq 19.75</span></span>
+<span><span class="co">#&gt; 5  Female Occas Freq 15.92</span></span>
+<span><span class="co">#&gt; 6    Male Occas Freq 20.27</span></span>
+<span><span class="co">#&gt; 7  Female Regul Freq 19.55</span></span>
+<span><span class="co">#&gt; 8    Male Regul Freq 20.86</span></span>
+<span><span class="co">#&gt; 9    Male Heavy None 23.20</span></span>
+<span><span class="co">#&gt; 10 Female Never None 17.59</span></span>
+<span><span class="co">#&gt; 11   Male Never None 19.29</span></span>
+<span><span class="co">#&gt; 12 Female Occas None 18.50</span></span>
+<span><span class="co">#&gt; 13   Male Occas None 17.95</span></span>
+<span><span class="co">#&gt; 14   Male Regul None 19.50</span></span>
+<span><span class="co">#&gt; 15 Female Heavy Some 18.15</span></span>
+<span><span class="co">#&gt; 16   Male Heavy Some 23.00</span></span>
+<span><span class="co">#&gt; 17 Female Never Some 17.77</span></span>
+<span><span class="co">#&gt; 18   Male Never Some 19.47</span></span>
+<span><span class="co">#&gt; 19 Female Occas Some 17.77</span></span>
+<span><span class="co">#&gt; 20   Male Occas Some 20.50</span></span>
+<span><span class="co">#&gt; 21 Female Regul Some 16.10</span></span>
+<span><span class="co">#&gt; 22   Male Regul Some 19.45</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/by.html">by</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>, <span class="st">"Wr.Hnd"</span><span class="op">]</span>, INDICES <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span>, <span class="st">"Exer"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; Exer: Freq</span></span>
+<span><span class="co">#&gt; [1] 17.73</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; Exer: Freq</span></span>
+<span><span class="co">#&gt; [1] 18.93</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; Exer: Freq</span></span>
+<span><span class="co">#&gt; [1] 17.53</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; Exer: Freq</span></span>
+<span><span class="co">#&gt; [1] 19.75</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; Exer: Freq</span></span>
+<span><span class="co">#&gt; [1] 15.92</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; Exer: Freq</span></span>
+<span><span class="co">#&gt; [1] 20.27</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; Exer: Freq</span></span>
+<span><span class="co">#&gt; [1] 19.55</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; Exer: Freq</span></span>
+<span><span class="co">#&gt; [1] 20.86</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; Exer: None</span></span>
+<span><span class="co">#&gt; [1] NA</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; Exer: None</span></span>
+<span><span class="co">#&gt; [1] 23.2</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; Exer: None</span></span>
+<span><span class="co">#&gt; [1] 17.59</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; Exer: None</span></span>
+<span><span class="co">#&gt; [1] 19.29</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; Exer: None</span></span>
+<span><span class="co">#&gt; [1] 18.5</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; Exer: None</span></span>
+<span><span class="co">#&gt; [1] 17.95</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; Exer: None</span></span>
+<span><span class="co">#&gt; [1] NA</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; Exer: None</span></span>
+<span><span class="co">#&gt; [1] 19.5</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; Exer: Some</span></span>
+<span><span class="co">#&gt; [1] 18.15</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; Exer: Some</span></span>
+<span><span class="co">#&gt; [1] 23</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; Exer: Some</span></span>
+<span><span class="co">#&gt; [1] 17.77</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; Exer: Some</span></span>
+<span><span class="co">#&gt; [1] 19.47</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; Exer: Some</span></span>
+<span><span class="co">#&gt; [1] 17.77</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; Exer: Some</span></span>
+<span><span class="co">#&gt; [1] 20.5</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; Exer: Some</span></span>
+<span><span class="co">#&gt; [1] 16.1</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; Exer: Some</span></span>
+<span><span class="co">#&gt; [1] 19.45</span></span></code></pre></div>
+<p>Az <code><a href="https://rdrr.io/r/stats/aggregate.html">aggregate()</a></code> legnagyobb előnye, hogy több numerikus változót megadhatunk az első paraméterükben, a <code><a href="https://rdrr.io/r/base/by.html">by()</a></code> esetében pedig olyan függvényeket is alkalmazhatunk az egyes csoportokra, amelyek nem egyetlen értékkel térnek vissza.</p>
+<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># mintaátlag csoportokra</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>,  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, by<span class="op">=</span><span class="va">survey</span><span class="op">[</span>, <span class="st">"Sex"</span>, drop<span class="op">=</span><span class="cn">F</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Sex Wr.Hnd Height   Age</span></span>
+<span><span class="co">#&gt; 1 Female  17.60  165.7 20.41</span></span>
+<span><span class="co">#&gt; 2   Male  19.74  178.8 20.33</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>,  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, by<span class="op">=</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Sex Smoke Wr.Hnd Height   Age</span></span>
+<span><span class="co">#&gt; 1 Female Heavy  17.90  166.9 22.73</span></span>
+<span><span class="co">#&gt; 2   Male Heavy  20.32  180.6 20.28</span></span>
+<span><span class="co">#&gt; 3 Female Never  17.66  165.7 20.03</span></span>
+<span><span class="co">#&gt; 4   Male Never  19.61  178.3 20.51</span></span>
+<span><span class="co">#&gt; 5 Female Occas  16.82  167.4 21.91</span></span>
+<span><span class="co">#&gt; 6   Male Occas  19.83  178.6 18.93</span></span>
+<span><span class="co">#&gt; 7 Female Regul  17.48  159.8 22.87</span></span>
+<span><span class="co">#&gt; 8   Male Regul  20.27  182.2 20.40</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>,  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, by<span class="op">=</span><span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span>, <span class="st">"Exer"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       Sex Smoke Exer Wr.Hnd Height   Age</span></span>
+<span><span class="co">#&gt; 1  Female Heavy Freq  17.73  167.2 25.86</span></span>
+<span><span class="co">#&gt; 2    Male Heavy Freq  18.93  179.7 20.46</span></span>
+<span><span class="co">#&gt; 3  Female Never Freq  17.53  167.2 19.73</span></span>
+<span><span class="co">#&gt; 4    Male Never Freq  19.75  180.3 20.47</span></span>
+<span><span class="co">#&gt; 5  Female Occas Freq  15.92  166.9 19.75</span></span>
+<span><span class="co">#&gt; 6    Male Occas Freq  20.27  178.4 19.26</span></span>
+<span><span class="co">#&gt; 7  Female Regul Freq  19.55  167.0 19.79</span></span>
+<span><span class="co">#&gt; 8    Male Regul Freq  20.86  182.6 21.99</span></span>
+<span><span class="co">#&gt; 9    Male Heavy None  23.20  171.0 20.92</span></span>
+<span><span class="co">#&gt; 10 Female Never None  17.59  163.0 20.40</span></span>
+<span><span class="co">#&gt; 11   Male Never None  19.29  173.6 22.15</span></span>
+<span><span class="co">#&gt; 12 Female Occas None  18.50    NaN 41.58</span></span>
+<span><span class="co">#&gt; 13   Male Occas None  17.95  176.0 17.92</span></span>
+<span><span class="co">#&gt; 14   Male Regul None  19.50  177.8 17.58</span></span>
+<span><span class="co">#&gt; 15 Female Heavy Some  18.15  166.6 18.04</span></span>
+<span><span class="co">#&gt; 16   Male Heavy Some  23.00  193.0 18.92</span></span>
+<span><span class="co">#&gt; 17 Female Never Some  17.77  164.9 20.19</span></span>
+<span><span class="co">#&gt; 18   Male Never Some  19.47  176.7 20.17</span></span>
+<span><span class="co">#&gt; 19 Female Occas Some  17.77  168.3 18.94</span></span>
+<span><span class="co">#&gt; 20   Male Occas Some  20.50  182.9 18.67</span></span>
+<span><span class="co">#&gt; 21 Female Regul Some  16.10  156.2 24.92</span></span>
+<span><span class="co">#&gt; 22   Male Regul Some  19.45  182.8 18.33</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/by.html">by</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>,  <span class="st">"Wr.Hnd"</span><span class="op">]</span>, INDICES <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"Smoke"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">shapiro.test</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  dd[x, ]</span></span>
+<span><span class="co">#&gt; W = 0.86, p-value = 0.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Heavy</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  dd[x, ]</span></span>
+<span><span class="co">#&gt; W = 0.84, p-value = 0.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  dd[x, ]</span></span>
+<span><span class="co">#&gt; W = 0.95, p-value = 5e-04</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Never</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  dd[x, ]</span></span>
+<span><span class="co">#&gt; W = 0.99, p-value = 0.5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  dd[x, ]</span></span>
+<span><span class="co">#&gt; W = 0.97, p-value = 0.9</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Occas</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  dd[x, ]</span></span>
+<span><span class="co">#&gt; W = 0.92, p-value = 0.3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  dd[x, ]</span></span>
+<span><span class="co">#&gt; W = 0.9, p-value = 0.4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt; Smoke: Regul</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  dd[x, ]</span></span>
+<span><span class="co">#&gt; W = 0.93, p-value = 0.3</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/by.html">by</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>,  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"Height"</span>, <span class="st">"Age"</span><span class="op">)</span><span class="op">]</span>, INDICES <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>, <span class="st">"Sex"</span>, drop<span class="op">=</span><span class="cn">F</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">summary</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Sex: Female</span></span>
+<span><span class="co">#&gt;      Wr.Hnd         Height         Age      </span></span>
+<span><span class="co">#&gt;  Min.   :13.0   Min.   :150   Min.   :16.9  </span></span>
+<span><span class="co">#&gt;  1st Qu.:17.0   1st Qu.:163   1st Qu.:17.5  </span></span>
+<span><span class="co">#&gt;  Median :17.5   Median :167   Median :18.4  </span></span>
+<span><span class="co">#&gt;  Mean   :17.6   Mean   :166   Mean   :20.4  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:18.5   3rd Qu.:170   3rd Qu.:20.0  </span></span>
+<span><span class="co">#&gt;  Max.   :20.8   Max.   :180   Max.   :73.0  </span></span>
+<span><span class="co">#&gt;                 NA's   :16                  </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex: Male</span></span>
+<span><span class="co">#&gt;      Wr.Hnd         Height         Age      </span></span>
+<span><span class="co">#&gt;  Min.   :14.0   Min.   :155   Min.   :16.8  </span></span>
+<span><span class="co">#&gt;  1st Qu.:18.5   1st Qu.:173   1st Qu.:17.9  </span></span>
+<span><span class="co">#&gt;  Median :19.5   Median :180   Median :18.9  </span></span>
+<span><span class="co">#&gt;  Mean   :19.7   Mean   :179   Mean   :20.3  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:21.0   3rd Qu.:185   3rd Qu.:20.3  </span></span>
+<span><span class="co">#&gt;  Max.   :23.2   Max.   :200   Max.   :70.4  </span></span>
+<span><span class="co">#&gt;  NA's   :1      NA's   :12</span></span></code></pre></div>
+</div>
+</div>
+<div id="táblázatok" class="section level3" number="8.1.2">
+<h3>
+<span class="header-section-number">8.1.2</span> Táblázatok<a class="anchor" aria-label="anchor" href="#t%C3%A1bl%C3%A1zatok"><i class="fas fa-link"></i></a>
+</h3>
+<div id="abszolút-gyakoriság" class="section level4" number="8.1.2.1">
+<h4>
+<span class="header-section-number">8.1.2.1</span> Abszolút gyakoriság<a class="anchor" aria-label="anchor" href="#abszol%C3%BAt-gyakoris%C3%A1g"><i class="fas fa-link"></i></a>
+</h4>
+<p>Az eddig látott mutatók a numerikus változók leíró statisztikai leírására szolgáltak. A gyakorisági táblázatokat többnyire a faktor típusú változók jellemzésére használjuk. Az <em>Alap R</em> korábban megismert függvényei, a <code><a href="https://rdrr.io/r/base/table.html">table()</a></code>, <code><a href="https://rdrr.io/r/stats/xtabs.html">xtabs()</a></code> és <code><a href="https://rdrr.io/r/stats/ftable.html">ftable()</a></code> már biztosítják számunkra a nyers, ún. abszolút gyakorisági táblázatok kiírását.</p>
+<p>Egydimenziós táblázatot, az ún. gyakorisági táblázatot a <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> függvénnyel is létrehozhatunk. Ha a hívásban faktor argumentumot adunk meg, akkor gyakorisági táblázatot kapunk, amely az egyes faktorszintek mintabeli előfordulási számát adja:</p>
+<div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">W.Hnd</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  Left Right  NA's </span></span>
+<span><span class="co">#&gt;    18   218     1</span></span></code></pre></div>
+<p>Láthatjuk, hogy a 237 megkérdezett hallgatóból 18 balkezes, 218 jobbkazes, egy diáknak pedig nem jegyezték fel a kezességét. Hasonló eredményt kapunk, ha a táblázatok létrehozásra szánt <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> függvényt használjuk, de itt a hiányzó értékek megjelenítéséről már külön gondoskodnunk kell:</p>
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">W.Hnd</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>  <span class="co"># kezesség gyakorisági táblázata (1D)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Left Right  &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    18   218     1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/xtabs.html">xtabs</a></span><span class="op">(</span><span class="op">~</span><span class="va">W.Hnd</span>, data <span class="op">=</span> <span class="va">survey</span>, addNA <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; W.Hnd</span></span>
+<span><span class="co">#&gt;  Left Right  &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    18   218     1</span></span></code></pre></div>
+<p>A már korábban megismert <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> vagy <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> segítségével több faktor gyakorisági táblázatát is kiírhatjuk:</p>
+<div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">survey</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>,<span class="st">"W.Hnd"</span>,<span class="st">"Exer"</span>,<span class="st">"Smoke"</span><span class="op">)</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">table</span>, useNA<span class="op">=</span><span class="st">"ifany"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $Sex</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Female   Male   &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    118    118      1 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $W.Hnd</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Left Right  &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    18   218     1 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $Exer</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Freq None Some </span></span>
+<span><span class="co">#&gt;  115   24   98 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $Smoke</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Heavy Never Occas Regul  &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    11   189    19    17     1</span></span></code></pre></div>
+<p>A fenti outputból kiemeljük a <code>Smoke</code> változót, amely a hallgatók dohányzási szokását tartalmazza. A változó 4 szintű faktor, melynek értékei: <code>Never</code>-nem dohányzik, <code>Occas</code>-ritkán dohányzik, <code>Regul</code>-rendszeresen dohányzik, <code>Heavy</code>-sokat dohányzik. Láthatjuk, hogy a 237 megkérdezett hallgatóból 189 diák nem dohányzik és csak 11 erős dohányos.</p>
+<p>A <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> függvényt numerikus argumentum esetén is használhatjuk, ekkor a különböző számok előfordulási gyakoriságát kapjuk. A folytonos kvantitatív változóink, jellemzően, minden mérésnél más és más értéket adnak, így a legtöbbször a <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> hívásnak nincs értelme folytonos numerikus vektor esetén. Azonban diszkrét numerikus változók esetén hasznos lehet a gyakorisági táblázat megjelenítése, mert ezek értékei sokszor ismétlődnek, de ez természetesen a változó jellegétől is nagy mértékben függ. Most a diákok pulzusára (<code>Pulse</code>) hívjuk meg a <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> függvényt:</p>
+<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Pulse</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   35   40   48   50   54   55   56   59   60   61   62   63   64   65   66   67 </span></span>
+<span><span class="co">#&gt;    1    1    2    2    1    1    1    1   12    1    4    1    9    6    6    1 </span></span>
+<span><span class="co">#&gt;   68   69   70   71   72   73   74   75   76   78   79   80   81   83   84   85 </span></span>
+<span><span class="co">#&gt;   16    1   13    2   14    1    5    5   13    4    3   18    1    4    5    4 </span></span>
+<span><span class="co">#&gt;   86   87   88   89   90   92   96   97   98  100  104 &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    3    2    4    1    8    6    3    1    1    2    2   45</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/xtabs.html">xtabs</a></span><span class="op">(</span><span class="op">~</span><span class="va">Pulse</span>, data <span class="op">=</span> <span class="va">survey</span>, addNA <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Pulse</span></span>
+<span><span class="co">#&gt;   35   40   48   50   54   55   56   59   60   61   62   63   64   65   66   67 </span></span>
+<span><span class="co">#&gt;    1    1    2    2    1    1    1    1   12    1    4    1    9    6    6    1 </span></span>
+<span><span class="co">#&gt;   68   69   70   71   72   73   74   75   76   78   79   80   81   83   84   85 </span></span>
+<span><span class="co">#&gt;   16    1   13    2   14    1    5    5   13    4    3   18    1    4    5    4 </span></span>
+<span><span class="co">#&gt;   86   87   88   89   90   92   96   97   98  100  104 &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;    3    2    4    1    8    6    3    1    1    2    2   45</span></span></code></pre></div>
+<p>Leolvashatjuk, hogy leggyakoribb pulzus a 80, hiszen az 18-szor fordul elő, valamint 45 személynek nem ismerjük a pulzusát. A fenti táblázatot áttekinthetőbbé tehetjük, ha az előfordulási értékek szerint rendezzük a cellákat. A rendezésre használjuk a <code>sort(decreasing=T)</code> függvényt:</p>
+<div class="sourceCode" id="cb405"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Pulse</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; &lt;NA&gt;   80   68   72   70   76   60   64   90   65   66   92   74   75   84   62 </span></span>
+<span><span class="co">#&gt;   45   18   16   14   13   13   12    9    8    6    6    6    5    5    5    4 </span></span>
+<span><span class="co">#&gt;   78   83   85   88   79   86   96   48   50   71   87  100  104   35   40   54 </span></span>
+<span><span class="co">#&gt;    4    4    4    4    3    3    3    2    2    2    2    2    2    1    1    1 </span></span>
+<span><span class="co">#&gt;   55   56   59   61   63   67   69   73   81   89   97   98 </span></span>
+<span><span class="co">#&gt;    1    1    1    1    1    1    1    1    1    1    1    1</span></span></code></pre></div>
+<p>Láthatjuk, hogy a fenti outputból már könnyen kiolvashatók a legnagyobb és legkisebb gyakoriságú értékek.</p>
+<p>Többdimenziós táblázatokat a szokásos módon, több faktor felsorolásával adhatunk meg:</p>
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Sex</span>, <span class="va">survey</span><span class="op">$</span><span class="va">W.Hnd</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span>  <span class="co"># kezesség gyakorisági táblázata (2D)</span></span>
+<span><span class="co">#&gt;         </span></span>
+<span><span class="co">#&gt;          Left Right &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;   Female    7   110    1</span></span>
+<span><span class="co">#&gt;   Male     10   108    0</span></span>
+<span><span class="co">#&gt;   &lt;NA&gt;      1     0    0</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/ftable.html">ftable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Sex</span>, <span class="va">survey</span><span class="op">$</span><span class="va">W.Hnd</span>, <span class="va">survey</span><span class="op">$</span><span class="va">Exer</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span><span class="op">)</span>  <span class="co"># kezesség gyakorisági táblázata (3D)</span></span>
+<span><span class="co">#&gt;               Freq None Some</span></span>
+<span><span class="co">#&gt;                             </span></span>
+<span><span class="co">#&gt; Female Left      3    1    3</span></span>
+<span><span class="co">#&gt;        Right    45   10   55</span></span>
+<span><span class="co">#&gt;        NA        1    0    0</span></span>
+<span><span class="co">#&gt; Male   Left      3    2    5</span></span>
+<span><span class="co">#&gt;        Right    62   11   35</span></span>
+<span><span class="co">#&gt;        NA        0    0    0</span></span>
+<span><span class="co">#&gt; NA     Left      1    0    0</span></span>
+<span><span class="co">#&gt;        Right     0    0    0</span></span>
+<span><span class="co">#&gt;        NA        0    0    0</span></span></code></pre></div>
+</div>
+<div id="táblázat-összesített-adatokból" class="section level4" number="8.1.2.2">
+<h4>
+<span class="header-section-number">8.1.2.2</span> Táblázat összesített adatokból<a class="anchor" aria-label="anchor" href="#t%C3%A1bl%C3%A1zat-%C3%B6sszes%C3%ADtett-adatokb%C3%B3l"><i class="fas fa-link"></i></a>
+</h4>
+<p>Egydimenziós táblázatokat összesített gyakorisági adatok alapján is létrehozhatunk a <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> függvény és az <code><a href="https://rdrr.io/r/base/table.html">as.table()</a></code> segítségével. Tegyük fel, hogy rendelkezésre áll az az információ is a fenti 237 hallgatóról, hogy közülük 137 fővárosi és 100 vidéki.</p>
+<div class="sourceCode" id="cb407"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lakhely</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">as.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>főváros<span class="op">=</span><span class="fl">137</span>, vidék<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">lakhely</span></span>
+<span><span class="co">#&gt; főváros   vidék </span></span>
+<span><span class="co">#&gt;     137     100</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">lakhely</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Var1 Freq</span></span>
+<span><span class="co">#&gt; 1 főváros  137</span></span>
+<span><span class="co">#&gt; 2   vidék  100</span></span></code></pre></div>
+<p>A következő táblázat 3888 szülés előtt lévő hölgy koffein fogyasztásáról és családi állapotáról tartalmaz gyakorisági adatokat. Készítsünk egy mátrixot majd táblázatot a fenti adatokból.</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>Családi állapot</th>
+<th>0</th>
+<th>1-150</th>
+<th>151-300</th>
+<th>&gt;300</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Házas</td>
+<td>652</td>
+<td>1537</td>
+<td>598</td>
+<td>242</td>
+</tr>
+<tr class="even">
+<td>Elvált, különváltan él, özvegy</td>
+<td>36</td>
+<td>46</td>
+<td>38</td>
+<td>21</td>
+</tr>
+<tr class="odd">
+<td>Egyedül él</td>
+<td>218</td>
+<td>327</td>
+<td>106</td>
+<td>67</td>
+</tr>
+</tbody>
+</table></div>
+<p>A <code><a href="https://rdrr.io/r/base/matrix.html">matrix()</a></code> függvényt használjuk, az adatokat pedig sor folytonosan adjuk meg az első argumentumban. A könnyebb áttekinthetőség kedvéért, adjunk nevet a soroknak és az oszlopoknak.</p>
+<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">652</span>,<span class="fl">1537</span>,<span class="fl">598</span>,<span class="fl">242</span>,<span class="fl">36</span>,<span class="fl">46</span>,<span class="fl">38</span>,<span class="fl">21</span>,<span class="fl">218</span>, <span class="fl">327</span>,<span class="fl">106</span>,<span class="fl">67</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">3</span>,byrow<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Házas"</span>,<span class="st">"Házas.volt"</span>,<span class="st">"Egyedül.él"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>,<span class="st">"1-150"</span>,<span class="st">"151-300"</span>,<span class="st">"&gt;300"</span><span class="op">)</span></span>
+<span><span class="va">m</span></span>
+<span><span class="co">#&gt;              0 1-150 151-300 &gt;300</span></span>
+<span><span class="co">#&gt; Házas      652  1537     598  242</span></span>
+<span><span class="co">#&gt; Házas.volt  36    46      38   21</span></span>
+<span><span class="co">#&gt; Egyedül.él 218   327     106   67</span></span></code></pre></div>
+<p>A példában szereplő gyakorisági adatokat sikeresen rögzítettük egy numerikus mátrixba. Azonban akkor lesz belőle R-beli táblázat, ha az <code><a href="https://rdrr.io/r/base/table.html">as.table()</a></code> függvénnyel átalakítjuk a mátrixunkat.</p>
+<div class="sourceCode" id="cb409"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">koff.csalad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">as.table</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
+<span><span class="va">koff.csalad</span></span>
+<span><span class="co">#&gt;               0 1-150 151-300 &gt;300</span></span>
+<span><span class="co">#&gt; Házas       652  1537     598  242</span></span>
+<span><span class="co">#&gt; Házas.volt   36    46      38   21</span></span>
+<span><span class="co">#&gt; Egyedül.él  218   327     106   67</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">(</span><span class="va">koff.csalad</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          Var1    Var2 Freq</span></span>
+<span><span class="co">#&gt; 1       Házas       0  652</span></span>
+<span><span class="co">#&gt; 2  Házas.volt       0   36</span></span>
+<span><span class="co">#&gt; 3  Egyedül.él       0  218</span></span>
+<span><span class="co">#&gt; 4       Házas   1-150 1537</span></span>
+<span><span class="co">#&gt; 5  Házas.volt   1-150   46</span></span>
+<span><span class="co">#&gt; 6  Egyedül.él   1-150  327</span></span>
+<span><span class="co">#&gt; 7       Házas 151-300  598</span></span>
+<span><span class="co">#&gt; 8  Házas.volt 151-300   38</span></span>
+<span><span class="co">#&gt; 9  Egyedül.él 151-300  106</span></span>
+<span><span class="co">#&gt; 10      Házas    &gt;300  242</span></span>
+<span><span class="co">#&gt; 11 Házas.volt    &gt;300   21</span></span>
+<span><span class="co">#&gt; 12 Egyedül.él    &gt;300   67</span></span></code></pre></div>
+</div>
+<div id="relatív-gyakoriság" class="section level4" number="8.1.2.3">
+<h4>
+<span class="header-section-number">8.1.2.3</span> Relatív gyakoriság<a class="anchor" aria-label="anchor" href="#relat%C3%ADv-gyakoris%C3%A1g"><i class="fas fa-link"></i></a>
+</h4>
+<p>Az (abszolút) gyakorisági táblázatok mellett relatív gyakorisági, illetve százalékos relatív gyakorisági táblázatra is szükségünk lehet. Ezek létrehozásához a <code>prob.table()</code> függvényt használhatjuk.</p>
+<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kezesseg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">W.Hnd</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="va">kezesseg</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;    Left   Right </span></span>
+<span><span class="co">#&gt; 0.07627 0.92373</span></span>
+<span><span class="fl">100</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="va">kezesseg</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Left  Right </span></span>
+<span><span class="co">#&gt;  7.627 92.373</span></span></code></pre></div>
+<p>A könnyebb értelmezhetőség kedvéért használjuk a <code>round(digits=1)</code> függvényt:</p>
+<div class="sourceCode" id="cb411"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="va">kezesseg</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Left Right </span></span>
+<span><span class="co">#&gt;   7.6  92.4</span></span></code></pre></div>
+<p>Kereszttáblák (2D táblázatok) esetén a teljes, a soronkénti és az oszloponkénti eloszlás számítására is lehetőséget ad a <code>prob.table()</code> függvény.</p>
+<p>A soronkénti relatív gyakorisághoz a <code>margin=1</code>, az oszloponkéntihez a <code>margin=2</code> argumentumot használjuk. A példában százalékos relatív gyakorisági táblázatot használunk.</p>
+<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Sex</span>, <span class="va">survey</span><span class="op">$</span><span class="va">W.Hnd</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">1</span><span class="op">)</span>              <span class="co"># teljes</span></span>
+<span><span class="co">#&gt;         </span></span>
+<span><span class="co">#&gt;          Left Right &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;   Female  3.0  46.4  0.4</span></span>
+<span><span class="co">#&gt;   Male    4.2  45.6  0.0</span></span>
+<span><span class="co">#&gt;   &lt;NA&gt;    0.4   0.0  0.0</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="va">tab</span>, margin <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">1</span><span class="op">)</span>  <span class="co"># soronkénti</span></span>
+<span><span class="co">#&gt;         </span></span>
+<span><span class="co">#&gt;           Left Right  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;   Female   5.9  93.2   0.8</span></span>
+<span><span class="co">#&gt;   Male     8.5  91.5   0.0</span></span>
+<span><span class="co">#&gt;   &lt;NA&gt;   100.0   0.0   0.0</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="va">tab</span>, margin <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">1</span><span class="op">)</span>  <span class="co"># oszloponkénti</span></span>
+<span><span class="co">#&gt;         </span></span>
+<span><span class="co">#&gt;           Left Right  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;   Female  38.9  50.5 100.0</span></span>
+<span><span class="co">#&gt;   Male    55.6  49.5   0.0</span></span>
+<span><span class="co">#&gt;   &lt;NA&gt;     5.6   0.0   0.0</span></span></code></pre></div>
+<p>Kétdimenziós táblázatok esetén, a marginális eloszlások számítására is van lehetőségünk. Használhatjuk az <code>apply(FUN=sum)</code> függvényt, de a direkt erre a célra létrehozott <code><a href="https://rdrr.io/r/base/marginSums.html">margin.table()</a></code> függvényt is.</p>
+<div class="sourceCode" id="cb413"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">koff.csalad</span>, MARGIN<span class="op">=</span><span class="fl">1</span>, FUN<span class="op">=</span><span class="va">sum</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Házas Házas.volt Egyedül.él </span></span>
+<span><span class="co">#&gt;       3029        141        718</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">koff.csalad</span>, MARGIN<span class="op">=</span><span class="fl">2</span>, FUN<span class="op">=</span><span class="va">sum</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       0   1-150 151-300    &gt;300 </span></span>
+<span><span class="co">#&gt;     906    1910     742     330</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/marginSums.html">margin.table</a></span><span class="op">(</span><span class="va">koff.csalad</span>, margin<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      Házas Házas.volt Egyedül.él </span></span>
+<span><span class="co">#&gt;       3029        141        718</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/marginSums.html">margin.table</a></span><span class="op">(</span><span class="va">koff.csalad</span>, margin<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       0   1-150 151-300    &gt;300 </span></span>
+<span><span class="co">#&gt;     906    1910     742     330</span></span></code></pre></div>
+</div>
+<div id="kumulált-gyakorisági-táblázatok" class="section level4" number="8.1.2.4">
+<h4>
+<span class="header-section-number">8.1.2.4</span> Kumulált gyakorisági táblázatok<a class="anchor" aria-label="anchor" href="#kumul%C3%A1lt-gyakoris%C3%A1gi-t%C3%A1bl%C3%A1zatok"><i class="fas fa-link"></i></a>
+</h4>
+<p>A relatív gyakorisági táblázatok mellett a kumulált relatív gyakorisági táblázatokat megjelenítését is kérhetjük egydimenziós esetben. Természetesen, ekkor a változónk legalább ordinális skálán mért. A kumulált értékek meghatározására a <code><a href="https://rdrr.io/r/base/cumsum.html">cumsum()</a></code> függvényt használjuk:</p>
+<div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">survey</span><span class="op">$</span><span class="va">Smoke</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">ordered</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Smoke</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Never"</span>, <span class="st">"Occas"</span>, <span class="st">"Regul"</span>, <span class="st">"Heavy"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dohanyzas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">survey</span><span class="op">$</span><span class="va">Smoke</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">100</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/proportions.html">prop.table</a></span><span class="op">(</span><span class="va">dohanyzas</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Never Occas Regul Heavy </span></span>
+<span><span class="co">#&gt;    80    88    95   100</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="tidyverse-r-lehetőségei" class="section level2" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> Tidyverse R lehetőségei<a class="anchor" aria-label="anchor" href="#tidyverse-r-lehet%C5%91s%C3%A9gei"><i class="fas fa-link"></i></a>
+</h2>
+
+<div class="rmdlevel2">
+<p>Ebben a fejezetben áttekintjük</p>
+<ul>
+<li>a <em>Tidyverse R</em> mutatószámoló és</li>
+<li>táblázat készítő lehetőségeit</li>
+<li>
+</ul>
+</div>
+
+<p>Az R-ben létezik egy <code>|&gt;</code> operátor, amely jelentősen megkönnyíti a kód olvasását.</p>
+<div class="sourceCode" id="cb415"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">10</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># sqrt(10)</span></span>
+<span><span class="co">#&gt; [1] 3.162</span></span>
+<span></span>
+<span><span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 2</span></span>
+<span><span class="co">#&gt;   Sex    mean_height</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Female        166.</span></span>
+<span><span class="co">#&gt; 2 Male          179.</span></span>
+<span><span class="co">#&gt; 3 &lt;NA&gt;          172</span></span></code></pre></div>
+</div>
+<div id="haladó-lehetőségek" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> Haladó lehetőségek<a class="anchor" aria-label="anchor" href="#halad%C3%B3-lehet%C5%91s%C3%A9gek"><i class="fas fa-link"></i></a>
+</h2>
+
+<div class="rmdlevel3">
+<p>Ebben a fejezetben áttekintjük</p>
+<ul><li>
+<p>a mutatók és táblázatok kiírásának kényelmes lehetőségeit</p>
+</li></ul>
+</div>
+
+<p>Ebben a fejezetben a <strong>psych</strong>, <strong>DescTools</strong> és a <strong>summarytools</strong> lehetőségeit tekintjük át. Mindhárom csomag rendkívül kényelmessé teszi a mutatók és a gyakorisági táblázatok kiírását. Mindhárom csomag képes több változót kezelni, több faktorra csoportosítva több statisztikai mutatót megjeleníteni, tehát a legnagyobb szabadságot adják a kutató kezébe.</p>
+<div id="mutatók-1" class="section level3" number="8.3.1">
+<h3>
+<span class="header-section-number">8.3.1</span> Mutatók<a class="anchor" aria-label="anchor" href="#mutat%C3%B3k-1"><i class="fas fa-link"></i></a>
+</h3>
+<div id="a-teljes-adattábla-leírása" class="section level4" number="8.3.1.1">
+<h4>
+<span class="header-section-number">8.3.1.1</span> A teljes adattábla leírása<a class="anchor" aria-label="anchor" href="#a-teljes-adatt%C3%A1bla-le%C3%ADr%C3%A1sa"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb416"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></span><span class="op">(</span>fast <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        vars   n   mean    sd    min   max range   se</span></span>
+<span><span class="co">#&gt; Sex       1 236    NaN    NA    Inf  -Inf  -Inf   NA</span></span>
+<span><span class="co">#&gt; Wr.Hnd    2 236  18.67  1.88  13.00  23.2 10.20 0.12</span></span>
+<span><span class="co">#&gt; NW.Hnd    3 236  18.58  1.97  12.50  23.5 11.00 0.13</span></span>
+<span><span class="co">#&gt; W.Hnd     4 236    NaN    NA    Inf  -Inf  -Inf   NA</span></span>
+<span><span class="co">#&gt; Fold      5 237    NaN    NA    Inf  -Inf  -Inf   NA</span></span>
+<span><span class="co">#&gt; Pulse     6 192  74.15 11.69  35.00 104.0 69.00 0.84</span></span>
+<span><span class="co">#&gt; Clap      7 236    NaN    NA    Inf  -Inf  -Inf   NA</span></span>
+<span><span class="co">#&gt; Exer      8 237    NaN    NA    Inf  -Inf  -Inf   NA</span></span>
+<span><span class="co">#&gt; Smoke     9 236    NaN    NA    Inf  -Inf  -Inf   NA</span></span>
+<span><span class="co">#&gt; Height   10 209 172.38  9.85 150.00 200.0 50.00 0.68</span></span>
+<span><span class="co">#&gt; M.I      11 209    NaN    NA    Inf  -Inf  -Inf   NA</span></span>
+<span><span class="co">#&gt; Age      12 237  20.37  6.47  16.75  73.0 56.25 0.42</span></span>
+<span><span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/DescToolsOptions.html">DescToolsOptions</a></span><span class="op">(</span>digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">Desc</a></span><span class="op">(</span>plotit <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Describe . (data.frame):</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data frame:  237 obs. of  12 variables</span></span>
+<span><span class="co">#&gt;      168 complete cases (70.9%)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Nr  ColName  Class            NAs         Levels                       </span></span>
+<span><span class="co">#&gt;   1   Sex      factor            1 (0.4%)   (2): 1-Female, 2-Male        </span></span>
+<span><span class="co">#&gt;   2   Wr.Hnd   numeric           1 (0.4%)                                </span></span>
+<span><span class="co">#&gt;   3   NW.Hnd   numeric           1 (0.4%)                                </span></span>
+<span><span class="co">#&gt;   4   W.Hnd    factor            1 (0.4%)   (2): 1-Left, 2-Right         </span></span>
+<span><span class="co">#&gt;   5   Fold     factor            .          (3): 1-L on R, 2-Neither, 3-R</span></span>
+<span><span class="co">#&gt;                                             on L                         </span></span>
+<span><span class="co">#&gt;   6   Pulse    integer          45 (19.0%)                               </span></span>
+<span><span class="co">#&gt;   7   Clap     factor            1 (0.4%)   (3): 1-Left, 2-Neither,      </span></span>
+<span><span class="co">#&gt;                                             3-Right                      </span></span>
+<span><span class="co">#&gt;   8   Exer     factor            .          (3): 1-Freq, 2-None, 3-Some  </span></span>
+<span><span class="co">#&gt;   9   Smoke    ordered, factor   1 (0.4%)   (4): 1-Never, 2-Occas,       </span></span>
+<span><span class="co">#&gt;                                             3-Regul, 4-Heavy             </span></span>
+<span><span class="co">#&gt;   10  Height   numeric          28 (11.8%)                               </span></span>
+<span><span class="co">#&gt;   11  M.I      factor           28 (11.8%)  (2): 1-Imperial, 2-Metric    </span></span>
+<span><span class="co">#&gt;   12  Age      numeric           .                                       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 1 - Sex (factor - dichotomous)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique</span></span>
+<span><span class="co">#&gt;      237    236      1      2</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;         freq   perc  lci.95  uci.95'</span></span>
+<span><span class="co">#&gt; Female   118  50.0%   43.7%   56.3%</span></span>
+<span><span class="co">#&gt; Male     118  50.0%   43.7%   56.3%</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (Wilson)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 2 - Wr.Hnd (numeric)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs  unique     0s   mean  meanCI'</span></span>
+<span><span class="co">#&gt;      237    236      1      60      0  18.67   18.43</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%           0.0%          18.91</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;      .05    .10    .25  median    .75    .90     .95</span></span>
+<span><span class="co">#&gt;    16.00  16.50  17.50   18.50  19.80  21.15   22.05</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;    range     sd  vcoef     mad    IQR   skew    kurt</span></span>
+<span><span class="co">#&gt;    10.20   1.88   0.10    1.48   2.30   0.18    0.30</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt; lowest : 13.0 (2), 14.0 (2), 15.0, 15.4, 15.5 (2)</span></span>
+<span><span class="co">#&gt; highest: 22.5 (4), 22.8, 23.0 (2), 23.1, 23.2 (3)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; heap(?): remarkable frequency (9.7%) for the mode(s) (= 17.5)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (classic)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 3 - NW.Hnd (numeric)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs  unique     0s   mean  meanCI'</span></span>
+<span><span class="co">#&gt;      237    236      1      68      0  18.58   18.33</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%           0.0%          18.83</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;      .05    .10    .25  median    .75    .90     .95</span></span>
+<span><span class="co">#&gt;    15.50  16.30  17.50   18.50  19.72  21.00   22.22</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;    range     sd  vcoef     mad    IQR   skew    kurt</span></span>
+<span><span class="co">#&gt;    11.00   1.97   0.11    1.63   2.22   0.02    0.44</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt; lowest : 12.5, 13.0 (2), 13.3, 13.5, 15.0</span></span>
+<span><span class="co">#&gt; highest: 22.7, 23.0, 23.2 (2), 23.3, 23.5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; heap(?): remarkable frequency (8.9%) for the mode(s) (= 18)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (classic)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 4 - W.Hnd (factor - dichotomous)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique</span></span>
+<span><span class="co">#&gt;      237    236      1      2</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;        freq   perc  lci.95  uci.95'</span></span>
+<span><span class="co">#&gt; Left     18   7.6%    4.9%   11.7%</span></span>
+<span><span class="co">#&gt; Right   218  92.4%   88.3%   95.1%</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (Wilson)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 5 - Fold (factor)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique levels  dupes</span></span>
+<span><span class="co">#&gt;      237    237      0      3      3      y</span></span>
+<span><span class="co">#&gt;          100.0%   0.0%                     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      level  freq   perc  cumfreq  cumperc</span></span>
+<span><span class="co">#&gt; 1   R on L   120  50.6%      120    50.6%</span></span>
+<span><span class="co">#&gt; 2   L on R    99  41.8%      219    92.4%</span></span>
+<span><span class="co">#&gt; 3  Neither    18   7.6%      237   100.0%</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 6 - Pulse (integer)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs  unique     0s   mean  meanCI'</span></span>
+<span><span class="co">#&gt;      237    192     45      43      0  74.15   72.49</span></span>
+<span><span class="co">#&gt;           81.0%  19.0%           0.0%          75.81</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;      .05    .10    .25  median    .75    .90     .95</span></span>
+<span><span class="co">#&gt;    59.55  60.00  66.00   72.50  80.00  90.00   92.00</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;    range     sd  vcoef     mad    IQR   skew    kurt</span></span>
+<span><span class="co">#&gt;    69.00  11.69   0.16   11.12  14.00  -0.02    0.33</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt; lowest : 35, 40, 48 (2), 50 (2), 54</span></span>
+<span><span class="co">#&gt; highest: 96 (3), 97, 98, 100 (2), 104 (2)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; heap(?): remarkable frequency (9.4%) for the mode(s) (= 80)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (classic)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 7 - Clap (factor)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique levels  dupes</span></span>
+<span><span class="co">#&gt;      237    236      1      3      3      y</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%                     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      level  freq   perc  cumfreq  cumperc</span></span>
+<span><span class="co">#&gt; 1    Right   147  62.3%      147    62.3%</span></span>
+<span><span class="co">#&gt; 2  Neither    50  21.2%      197    83.5%</span></span>
+<span><span class="co">#&gt; 3     Left    39  16.5%      236   100.0%</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 8 - Exer (factor)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique levels  dupes</span></span>
+<span><span class="co">#&gt;      237    237      0      3      3      y</span></span>
+<span><span class="co">#&gt;          100.0%   0.0%                     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;    level  freq   perc  cumfreq  cumperc</span></span>
+<span><span class="co">#&gt; 1   Freq   115  48.5%      115    48.5%</span></span>
+<span><span class="co">#&gt; 2   Some    98  41.4%      213    89.9%</span></span>
+<span><span class="co">#&gt; 3   None    24  10.1%      237   100.0%</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 9 - Smoke (ordered, factor)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique levels  dupes</span></span>
+<span><span class="co">#&gt;      237    236      1      4      4      y</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%                     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;    level  freq   perc  cumfreq  cumperc</span></span>
+<span><span class="co">#&gt; 1  Never   189  80.1%      189    80.1%</span></span>
+<span><span class="co">#&gt; 2  Occas    19   8.1%      208    88.1%</span></span>
+<span><span class="co">#&gt; 3  Regul    17   7.2%      225    95.3%</span></span>
+<span><span class="co">#&gt; 4  Heavy    11   4.7%      236   100.0%</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 10 - Height (numeric)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length       n     NAs  unique      0s    mean  meanCI'</span></span>
+<span><span class="co">#&gt;      237     209      28      67       0  172.38  171.04</span></span>
+<span><span class="co">#&gt;            88.2%   11.8%            0.0%          173.72</span></span>
+<span><span class="co">#&gt;                                                         </span></span>
+<span><span class="co">#&gt;      .05     .10     .25  median     .75     .90     .95</span></span>
+<span><span class="co">#&gt;   157.00  160.00  165.00  171.00  180.00  185.42  189.60</span></span>
+<span><span class="co">#&gt;                                                         </span></span>
+<span><span class="co">#&gt;    range      sd   vcoef     mad     IQR    skew    kurt</span></span>
+<span><span class="co">#&gt;    50.00    9.85    0.06   10.08   15.00    0.22   -0.44</span></span>
+<span><span class="co">#&gt;                                                         </span></span>
+<span><span class="co">#&gt; lowest : 150.0, 152.0, 152.4, 153.5, 154.94 (2)</span></span>
+<span><span class="co">#&gt; highest: 191.8, 193.04, 195.0, 196.0, 200.0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (classic)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 11 - M.I (factor - dichotomous)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique</span></span>
+<span><span class="co">#&gt;      237    209     28      2</span></span>
+<span><span class="co">#&gt;           88.2%  11.8%       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;           freq   perc  lci.95  uci.95'</span></span>
+<span><span class="co">#&gt; Imperial    68  32.5%   26.5%   39.2%</span></span>
+<span><span class="co">#&gt; Metric     141  67.5%   60.8%   73.5%</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (Wilson)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 12 - Age (numeric)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length       n    NAs  unique     0s   mean  meanCI'</span></span>
+<span><span class="co">#&gt;      237     237      0      88      0  20.37   19.55</span></span>
+<span><span class="co">#&gt;           100.0%   0.0%           0.0%          21.20</span></span>
+<span><span class="co">#&gt;                                                      </span></span>
+<span><span class="co">#&gt;      .05     .10    .25  median    .75    .90     .95</span></span>
+<span><span class="co">#&gt;    17.08   17.22  17.67   18.58  20.17  23.58   30.68</span></span>
+<span><span class="co">#&gt;                                                      </span></span>
+<span><span class="co">#&gt;    range      sd  vcoef     mad    IQR   skew    kurt</span></span>
+<span><span class="co">#&gt;    56.25    6.47   0.32    1.61   2.50   5.16   33.47</span></span>
+<span><span class="co">#&gt;                                                      </span></span>
+<span><span class="co">#&gt; lowest : 16.75, 16.92 (3), 17.0 (2), 17.08 (7), 17.17 (11)</span></span>
+<span><span class="co">#&gt; highest: 41.58, 43.83, 44.25, 70.42, 73.0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (classic)</span></span>
+<span><span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">summarytools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/summarytools/man/dfSummary.html">dfSummary</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Data Frame Summary  </span></span>
+<span><span class="co">#&gt; survey  </span></span>
+<span><span class="co">#&gt; Dimensions: 237 x 12  </span></span>
+<span><span class="co">#&gt; Duplicates: 0  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; No   Variable            Stats / Values            Freqs (% of Valid)   Graph                 Valid      Missing  </span></span>
+<span><span class="co">#&gt; ---- ------------------- ------------------------- -------------------- --------------------- ---------- ---------</span></span>
+<span><span class="co">#&gt; 1    Sex                 1. Female                 118 (50.0%)          IIIIIIIIII            236        1        </span></span>
+<span><span class="co">#&gt;      [factor]            2. Male                   118 (50.0%)          IIIIIIIIII            (99.6%)    (0.4%)   </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 2    Wr.Hnd              Mean (sd) : 18.7 (1.9)    60 distinct values           : .           236        1        </span></span>
+<span><span class="co">#&gt;      [numeric]           min &lt; med &lt; max:                                       : : .         (99.6%)    (0.4%)   </span></span>
+<span><span class="co">#&gt;                          13 &lt; 18.5 &lt; 23.2                                     . : : :                             </span></span>
+<span><span class="co">#&gt;                          IQR (CV) : 2.3 (0.1)                                 : : : : :                           </span></span>
+<span><span class="co">#&gt;                                                                         .   : : : : : : : :                       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 3    NW.Hnd              Mean (sd) : 18.6 (2)      68 distinct values           :             236        1        </span></span>
+<span><span class="co">#&gt;      [numeric]           min &lt; med &lt; max:                                       : .           (99.6%)    (0.4%)   </span></span>
+<span><span class="co">#&gt;                          12.5 &lt; 18.5 &lt; 23.5                                     : : :                             </span></span>
+<span><span class="co">#&gt;                          IQR (CV) : 2.2 (0.1)                                 . : : : .                           </span></span>
+<span><span class="co">#&gt;                                                                         .   . : : : : : : :                       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 4    W.Hnd               1. Left                    18 ( 7.6%)          I                     236        1        </span></span>
+<span><span class="co">#&gt;      [factor]            2. Right                  218 (92.4%)          IIIIIIIIIIIIIIIIII    (99.6%)    (0.4%)   </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 5    Fold                1. L on R                  99 (41.8%)          IIIIIIII              237        0        </span></span>
+<span><span class="co">#&gt;      [factor]            2. Neither                 18 ( 7.6%)          I                     (100.0%)   (0.0%)   </span></span>
+<span><span class="co">#&gt;                          3. R on L                 120 (50.6%)          IIIIIIIIII                                </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 6    Pulse               Mean (sd) : 74.2 (11.7)   43 distinct values         . :             192        45       </span></span>
+<span><span class="co">#&gt;      [integer]           min &lt; med &lt; max:                                     : :             (81.0%)    (19.0%)  </span></span>
+<span><span class="co">#&gt;                          35 &lt; 72.5 &lt; 104                                      : : .                               </span></span>
+<span><span class="co">#&gt;                          IQR (CV) : 14 (0.2)                                  : : :                               </span></span>
+<span><span class="co">#&gt;                                                                           . : : : : :                             </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 7    Clap                1. Left                    39 (16.5%)          III                   236        1        </span></span>
+<span><span class="co">#&gt;      [factor]            2. Neither                 50 (21.2%)          IIII                  (99.6%)    (0.4%)   </span></span>
+<span><span class="co">#&gt;                          3. Right                  147 (62.3%)          IIIIIIIIIIII                              </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 8    Exer                1. Freq                   115 (48.5%)          IIIIIIIII             237        0        </span></span>
+<span><span class="co">#&gt;      [factor]            2. None                    24 (10.1%)          II                    (100.0%)   (0.0%)   </span></span>
+<span><span class="co">#&gt;                          3. Some                    98 (41.4%)          IIIIIIII                                  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 9    Smoke               1. Never                  189 (80.1%)          IIIIIIIIIIIIIIII      236        1        </span></span>
+<span><span class="co">#&gt;      [ordered, factor]   2. Occas                   19 ( 8.1%)          I                     (99.6%)    (0.4%)   </span></span>
+<span><span class="co">#&gt;                          3. Regul                   17 ( 7.2%)          I                                         </span></span>
+<span><span class="co">#&gt;                          4. Heavy                   11 ( 4.7%)                                                    </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 10   Height              Mean (sd) : 172.4 (9.8)   67 distinct values         :               209        28       </span></span>
+<span><span class="co">#&gt;      [numeric]           min &lt; med &lt; max:                                     : . .           (88.2%)    (11.8%)  </span></span>
+<span><span class="co">#&gt;                          150 &lt; 171 &lt; 200                                    : : : : :                             </span></span>
+<span><span class="co">#&gt;                          IQR (CV) : 15 (0.1)                              : : : : : : .                           </span></span>
+<span><span class="co">#&gt;                                                                         : : : : : : : : .                         </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 11   M.I                 1. Imperial                68 (32.5%)          IIIIII                209        28       </span></span>
+<span><span class="co">#&gt;      [factor]            2. Metric                 141 (67.5%)          IIIIIIIIIIIII         (88.2%)    (11.8%)  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 12   Age                 Mean (sd) : 20.4 (6.5)    88 distinct values   :                     237        0        </span></span>
+<span><span class="co">#&gt;      [numeric]           min &lt; med &lt; max:                               :                     (100.0%)   (0.0%)   </span></span>
+<span><span class="co">#&gt;                          16.8 &lt; 18.6 &lt; 73                               :                                         </span></span>
+<span><span class="co">#&gt;                          IQR (CV) : 2.5 (0.3)                           :                                         </span></span>
+<span><span class="co">#&gt;                                                                         : .                                       </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------------------------------------------</span></span></code></pre></div>
+</div>
+<div id="több-numerikus-változó" class="section level4" number="8.3.1.2">
+<h4>
+<span class="header-section-number">8.3.1.2</span> Több numerikus változó<a class="anchor" aria-label="anchor" href="#t%C3%B6bb-numerikus-v%C3%A1ltoz%C3%B3"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb417"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">num.valtozok</span> <span class="op">&lt;-</span> <span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wr.Hnd"</span>, <span class="st">"NW.Hnd"</span>, <span class="st">"Height"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">num.valtozok</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        vars   n   mean   sd median trimmed   mad   min   max range skew</span></span>
+<span><span class="co">#&gt; Wr.Hnd    1 236  18.67 1.88   18.5   18.61  1.48  13.0  23.2  10.2 0.18</span></span>
+<span><span class="co">#&gt; NW.Hnd    2 236  18.58 1.97   18.5   18.55  1.63  12.5  23.5  11.0 0.02</span></span>
+<span><span class="co">#&gt; Height    3 209 172.38 9.85  171.0  172.19 10.08 150.0 200.0  50.0 0.22</span></span>
+<span><span class="co">#&gt;        kurtosis   se</span></span>
+<span><span class="co">#&gt; Wr.Hnd     0.30 0.12</span></span>
+<span><span class="co">#&gt; NW.Hnd     0.44 0.13</span></span>
+<span><span class="co">#&gt; Height    -0.44 0.68</span></span>
+<span><span class="va">num.valtozok</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">Desc</a></span><span class="op">(</span>plotit <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Describe . (data.frame):</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data frame:  237 obs. of  3 variables</span></span>
+<span><span class="co">#&gt;      208 complete cases (87.8%)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Nr  ColName  Class    NAs         Levels</span></span>
+<span><span class="co">#&gt;   1   Wr.Hnd   numeric   1 (0.4%)         </span></span>
+<span><span class="co">#&gt;   2   NW.Hnd   numeric   1 (0.4%)         </span></span>
+<span><span class="co">#&gt;   3   Height   numeric  28 (11.8%)        </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 1 - Wr.Hnd (numeric)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs  unique     0s   mean  meanCI'</span></span>
+<span><span class="co">#&gt;      237    236      1      60      0  18.67   18.43</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%           0.0%          18.91</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;      .05    .10    .25  median    .75    .90     .95</span></span>
+<span><span class="co">#&gt;    16.00  16.50  17.50   18.50  19.80  21.15   22.05</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;    range     sd  vcoef     mad    IQR   skew    kurt</span></span>
+<span><span class="co">#&gt;    10.20   1.88   0.10    1.48   2.30   0.18    0.30</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt; lowest : 13.0 (2), 14.0 (2), 15.0, 15.4, 15.5 (2)</span></span>
+<span><span class="co">#&gt; highest: 22.5 (4), 22.8, 23.0 (2), 23.1, 23.2 (3)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; heap(?): remarkable frequency (9.7%) for the mode(s) (= 17.5)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (classic)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 2 - NW.Hnd (numeric)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs  unique     0s   mean  meanCI'</span></span>
+<span><span class="co">#&gt;      237    236      1      68      0  18.58   18.33</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%           0.0%          18.83</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;      .05    .10    .25  median    .75    .90     .95</span></span>
+<span><span class="co">#&gt;    15.50  16.30  17.50   18.50  19.72  21.00   22.22</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt;    range     sd  vcoef     mad    IQR   skew    kurt</span></span>
+<span><span class="co">#&gt;    11.00   1.97   0.11    1.63   2.22   0.02    0.44</span></span>
+<span><span class="co">#&gt;                                                     </span></span>
+<span><span class="co">#&gt; lowest : 12.5, 13.0 (2), 13.3, 13.5, 15.0</span></span>
+<span><span class="co">#&gt; highest: 22.7, 23.0, 23.2 (2), 23.3, 23.5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; heap(?): remarkable frequency (8.9%) for the mode(s) (= 18)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (classic)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; 3 - Height (numeric)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length       n     NAs  unique      0s    mean  meanCI'</span></span>
+<span><span class="co">#&gt;      237     209      28      67       0  172.38  171.04</span></span>
+<span><span class="co">#&gt;            88.2%   11.8%            0.0%          173.72</span></span>
+<span><span class="co">#&gt;                                                         </span></span>
+<span><span class="co">#&gt;      .05     .10     .25  median     .75     .90     .95</span></span>
+<span><span class="co">#&gt;   157.00  160.00  165.00  171.00  180.00  185.42  189.60</span></span>
+<span><span class="co">#&gt;                                                         </span></span>
+<span><span class="co">#&gt;    range      sd   vcoef     mad     IQR    skew    kurt</span></span>
+<span><span class="co">#&gt;    50.00    9.85    0.06   10.08   15.00    0.22   -0.44</span></span>
+<span><span class="co">#&gt;                                                         </span></span>
+<span><span class="co">#&gt; lowest : 150.0, 152.0, 152.4, 153.5, 154.94 (2)</span></span>
+<span><span class="co">#&gt; highest: 191.8, 193.04, 195.0, 196.0, 200.0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (classic)</span></span>
+<span><span class="va">num.valtozok</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">summarytools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/summarytools/man/descr.html">descr</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Descriptive Statistics  </span></span>
+<span><span class="co">#&gt; num.valtozok  </span></span>
+<span><span class="co">#&gt; N: 237  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                     Height   NW.Hnd   Wr.Hnd</span></span>
+<span><span class="co">#&gt; ----------------- -------- -------- --------</span></span>
+<span><span class="co">#&gt;              Mean   172.38    18.58    18.67</span></span>
+<span><span class="co">#&gt;           Std.Dev     9.85     1.97     1.88</span></span>
+<span><span class="co">#&gt;               Min   150.00    12.50    13.00</span></span>
+<span><span class="co">#&gt;                Q1   165.00    17.50    17.50</span></span>
+<span><span class="co">#&gt;            Median   171.00    18.50    18.50</span></span>
+<span><span class="co">#&gt;                Q3   180.00    19.75    19.80</span></span>
+<span><span class="co">#&gt;               Max   200.00    23.50    23.20</span></span>
+<span><span class="co">#&gt;               MAD    10.08     1.63     1.48</span></span>
+<span><span class="co">#&gt;               IQR    15.00     2.22     2.30</span></span>
+<span><span class="co">#&gt;                CV     0.06     0.11     0.10</span></span>
+<span><span class="co">#&gt;          Skewness     0.22     0.02     0.18</span></span>
+<span><span class="co">#&gt;       SE.Skewness     0.17     0.16     0.16</span></span>
+<span><span class="co">#&gt;          Kurtosis    -0.44     0.44     0.30</span></span>
+<span><span class="co">#&gt;           N.Valid   209.00   236.00   236.00</span></span>
+<span><span class="co">#&gt;         Pct.Valid    88.19    99.58    99.58</span></span></code></pre></div>
+</div>
+</div>
+<div id="táblázatok-1" class="section level3" number="8.3.2">
+<h3>
+<span class="header-section-number">8.3.2</span> Táblázatok<a class="anchor" aria-label="anchor" href="#t%C3%A1bl%C3%A1zatok-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Egydimenziós táblázatok</p>
+<div class="sourceCode" id="cb418"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># faktor</span></span>
+<span><span class="va">survey</span><span class="op">$</span><span class="va">W.Hnd</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">Desc</a></span><span class="op">(</span>plotit <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; . (factor - dichotomous)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique</span></span>
+<span><span class="co">#&gt;      237    236      1      2</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;        freq   perc  lci.95  uci.95'</span></span>
+<span><span class="co">#&gt; Left     18   7.6%    4.9%   11.7%</span></span>
+<span><span class="co">#&gt; Right   218  92.4%   88.3%   95.1%</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ' 95%-CI (Wilson)</span></span>
+<span><span class="va">survey</span><span class="op">$</span><span class="va">W.Hnd</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu">summarytools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/summarytools/man/freq.html">freq</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Frequencies  </span></span>
+<span><span class="co">#&gt; survey$W.Hnd  </span></span>
+<span><span class="co">#&gt; Type: Factor  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;               Freq   % Valid   % Valid Cum.   % Total   % Total Cum.</span></span>
+<span><span class="co">#&gt; ----------- ------ --------- -------------- --------- --------------</span></span>
+<span><span class="co">#&gt;        Left     18      7.63           7.63      7.59           7.59</span></span>
+<span><span class="co">#&gt;       Right    218     92.37         100.00     91.98          99.58</span></span>
+<span><span class="co">#&gt;        &lt;NA&gt;      1                               0.42         100.00</span></span>
+<span><span class="co">#&gt;       Total    237    100.00         100.00    100.00         100.00</span></span>
+<span><span class="co"># rendezett faktor</span></span>
+<span><span class="va">survey</span><span class="op">$</span><span class="va">Smoke</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">Desc</a></span><span class="op">(</span>plotit <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; . (ordered, factor)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   length      n    NAs unique levels  dupes</span></span>
+<span><span class="co">#&gt;      237    236      1      4      4      y</span></span>
+<span><span class="co">#&gt;           99.6%   0.4%                     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;    level  freq   perc  cumfreq  cumperc</span></span>
+<span><span class="co">#&gt; 1  Never   189  80.1%      189    80.1%</span></span>
+<span><span class="co">#&gt; 2  Occas    19   8.1%      208    88.1%</span></span>
+<span><span class="co">#&gt; 3  Regul    17   7.2%      225    95.3%</span></span>
+<span><span class="co">#&gt; 4  Heavy    11   4.7%      236   100.0%</span></span>
+<span><span class="va">survey</span><span class="op">$</span><span class="va">Smoke</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu">summarytools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/summarytools/man/freq.html">freq</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Frequencies  </span></span>
+<span><span class="co">#&gt; survey$Smoke  </span></span>
+<span><span class="co">#&gt; Type: Ordered Factor  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;               Freq   % Valid   % Valid Cum.   % Total   % Total Cum.</span></span>
+<span><span class="co">#&gt; ----------- ------ --------- -------------- --------- --------------</span></span>
+<span><span class="co">#&gt;       Never    189     80.08          80.08     79.75          79.75</span></span>
+<span><span class="co">#&gt;       Occas     19      8.05          88.14      8.02          87.76</span></span>
+<span><span class="co">#&gt;       Regul     17      7.20          95.34      7.17          94.94</span></span>
+<span><span class="co">#&gt;       Heavy     11      4.66         100.00      4.64          99.58</span></span>
+<span><span class="co">#&gt;        &lt;NA&gt;      1                               0.42         100.00</span></span>
+<span><span class="co">#&gt;       Total    237    100.00         100.00    100.00         100.00</span></span></code></pre></div>
+<p>Kétdimenziós táblázatok</p>
+<div class="sourceCode" id="cb419"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># faktor</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span></span>
+<span><span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">Desc</a></span><span class="op">(</span><span class="va">Sex</span><span class="op">~</span><span class="va">W.Hnd</span>, data<span class="op">=</span><span class="va">.</span>, plotit <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Sex ~ W.Hnd (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n: 235, rows: 2, columns: 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Pearson's Chi-squared test (cont. adj):</span></span>
+<span><span class="co">#&gt;   X-squared = 0.24, df = 1, p-value = 0.6</span></span>
+<span><span class="co">#&gt; Fisher's exact test p-value = 0.6</span></span>
+<span><span class="co">#&gt; McNemar's chi-squared = 82, df = 1, p-value &lt;2e-16</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                     estimate lwr.ci upr.ci'</span></span>
+<span><span class="co">#&gt;                                           </span></span>
+<span><span class="co">#&gt; odds ratio             0.687  0.252  1.871</span></span>
+<span><span class="co">#&gt; rel. risk (col1)       0.706  0.278  1.792</span></span>
+<span><span class="co">#&gt; rel. risk (col2)       1.027  0.956  1.103</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Contingency Coeff.     0.048</span></span>
+<span><span class="co">#&gt; Cramer's V             0.048</span></span>
+<span><span class="co">#&gt; Kendall Tau-b          -0.048</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                                     </span></span>
+<span><span class="co">#&gt;          W.Hnd   Left   Right    Sum</span></span>
+<span><span class="co">#&gt; Sex                                 </span></span>
+<span><span class="co">#&gt;                                     </span></span>
+<span><span class="co">#&gt; Female   freq       7     110    117</span></span>
+<span><span class="co">#&gt;          perc    3.0%   46.8%  49.8%</span></span>
+<span><span class="co">#&gt;          p.row   6.0%   94.0%      .</span></span>
+<span><span class="co">#&gt;          p.col  41.2%   50.5%      .</span></span>
+<span><span class="co">#&gt;                                     </span></span>
+<span><span class="co">#&gt; Male     freq      10     108    118</span></span>
+<span><span class="co">#&gt;          perc    4.3%   46.0%  50.2%</span></span>
+<span><span class="co">#&gt;          p.row   8.5%   91.5%      .</span></span>
+<span><span class="co">#&gt;          p.col  58.8%   49.5%      .</span></span>
+<span><span class="co">#&gt;                                     </span></span>
+<span><span class="co">#&gt; Sum      freq      17     218    235</span></span>
+<span><span class="co">#&gt;          perc    7.2%   92.8% 100.0%</span></span>
+<span><span class="co">#&gt;          p.row      .       .      .</span></span>
+<span><span class="co">#&gt;          p.col      .       .      .</span></span>
+<span><span class="co">#&gt;                                     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ----------</span></span>
+<span><span class="co">#&gt; ' 95% conf. level</span></span>
+<span><span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/exposition.html">%$%</a></span>  <span class="fu">summarytools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/summarytools/man/ctable.html">ctable</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sex</span>, y <span class="op">=</span> <span class="va">W.Hnd</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Cross-Tabulation, Row Proportions  </span></span>
+<span><span class="co">#&gt; Sex * W.Hnd  </span></span>
+<span><span class="co">#&gt; Data Frame: survey  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -------- ------- ------------- ------------- ---------- --------------</span></span>
+<span><span class="co">#&gt;            W.Hnd          Left         Right       &lt;NA&gt;          Total</span></span>
+<span><span class="co">#&gt;      Sex                                                              </span></span>
+<span><span class="co">#&gt;   Female            7 (  5.9%)   110 (93.2%)   1 (0.8%)   118 (100.0%)</span></span>
+<span><span class="co">#&gt;     Male           10 (  8.5%)   108 (91.5%)   0 (0.0%)   118 (100.0%)</span></span>
+<span><span class="co">#&gt;     &lt;NA&gt;            1 (100.0%)     0 ( 0.0%)   0 (0.0%)     1 (100.0%)</span></span>
+<span><span class="co">#&gt;    Total           18 (  7.6%)   218 (92.0%)   1 (0.4%)   237 (100.0%)</span></span>
+<span><span class="co">#&gt; -------- ------- ------------- ------------- ---------- --------------</span></span></code></pre></div>
+<div id="mutatók-csoportokra-1" class="section level4" number="8.3.2.1">
+<h4>
+<span class="header-section-number">8.3.2.1</span> Mutatók csoportokra<a class="anchor" aria-label="anchor" href="#mutat%C3%B3k-csoportokra-1"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb420"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">survey</span><span class="op">$</span><span class="va">Height</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">.</span>, g <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"W.Hnd"</span><span class="op">)</span><span class="op">]</span>, mat<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     item group1 group2 vars  n  mean     sd median trimmed   mad   min max</span></span>
+<span><span class="co">#&gt; X11    1 Female   Left    1  6 167.7  4.920  170.0   167.7 2.224 160.0 172</span></span>
+<span><span class="co">#&gt; X12    2   Male   Left    1  9 180.5 11.070  180.0   180.5 7.028 165.0 200</span></span>
+<span><span class="co">#&gt; X13    3 Female  Right    1 95 165.4  6.063  166.4   165.7 5.337 150.0 178</span></span>
+<span><span class="co">#&gt; X14    4   Male  Right    1 97 178.7  8.142  180.0   179.0 7.413 154.9 196</span></span>
+<span><span class="co">#&gt;     range    skew kurtosis     se</span></span>
+<span><span class="co">#&gt; X11 11.98 -0.5684  -1.7387 2.0085</span></span>
+<span><span class="co">#&gt; X12 35.00  0.2830  -1.1371 3.6899</span></span>
+<span><span class="co">#&gt; X13 28.00 -0.3992  -0.4297 0.6221</span></span>
+<span><span class="co">#&gt; X14 41.06 -0.3472  -0.1779 0.8267</span></span>
+<span><span class="va">num.valtozok</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/describe.by.html">describeBy</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">.</span>, g <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"W.Hnd"</span><span class="op">)</span><span class="op">]</span>, mat<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         item group1 group2 vars   n   mean      sd median trimmed    mad   min</span></span>
+<span><span class="co">#&gt; Wr.Hnd1    1 Female   Left    1   7  18.16  1.4478  18.50   18.16 0.7413  15.4</span></span>
+<span><span class="co">#&gt; Wr.Hnd2    2   Male   Left    1  10  19.99  1.6455  19.65   19.93 1.3343  17.5</span></span>
+<span><span class="co">#&gt; Wr.Hnd3    3 Female  Right    1 110  17.60  1.2353  17.50   17.63 1.1119  13.0</span></span>
+<span><span class="co">#&gt; Wr.Hnd4    4   Male  Right    1 107  19.72  1.7658  19.50   19.71 1.4826  14.0</span></span>
+<span><span class="co">#&gt; NW.Hnd1    5 Female   Left    2   7  17.94  0.9467  18.00   17.94 0.7413  16.4</span></span>
+<span><span class="co">#&gt; NW.Hnd2    6   Male   Left    2  10  19.84  1.5138  19.75   19.93 1.4826  17.0</span></span>
+<span><span class="co">#&gt; NW.Hnd3    7 Female  Right    2 110  17.47  1.3714  17.55   17.51 1.0378  12.5</span></span>
+<span><span class="co">#&gt; NW.Hnd4    8   Male  Right    2 107  19.70  1.8351  19.50   19.72 1.4826  13.3</span></span>
+<span><span class="co">#&gt; Height1    9 Female   Left    3   6 167.67  4.9199 170.00  167.67 2.2239 160.0</span></span>
+<span><span class="co">#&gt; Height2   10   Male   Left    3   9 180.54 11.0697 180.00  180.54 7.0275 165.0</span></span>
+<span><span class="co">#&gt; Height3   11 Female  Right    3  95 165.41  6.0631 166.40  165.65 5.3374 150.0</span></span>
+<span><span class="co">#&gt; Height4   12   Male  Right    3  97 178.67  8.1425 180.00  178.96 7.4130 154.9</span></span>
+<span><span class="co">#&gt;           max range     skew kurtosis     se</span></span>
+<span><span class="co">#&gt; Wr.Hnd1  20.0  4.60 -0.66791 -0.72047 0.5472</span></span>
+<span><span class="co">#&gt; Wr.Hnd2  23.0  5.50  0.29434 -0.95330 0.5204</span></span>
+<span><span class="co">#&gt; Wr.Hnd3  20.8  7.80 -0.43157  1.34878 0.1178</span></span>
+<span><span class="co">#&gt; Wr.Hnd4  23.2  9.20 -0.06857  0.01661 0.1707</span></span>
+<span><span class="co">#&gt; NW.Hnd1  19.5  3.10  0.02948 -0.92181 0.3578</span></span>
+<span><span class="co">#&gt; NW.Hnd2  22.0  5.00 -0.32153 -1.02247 0.4787</span></span>
+<span><span class="co">#&gt; NW.Hnd3  20.7  8.20 -0.64755  1.83733 0.1308</span></span>
+<span><span class="co">#&gt; NW.Hnd4  23.5 10.20 -0.27990  0.67647 0.1774</span></span>
+<span><span class="co">#&gt; Height1 172.0 11.98 -0.56840 -1.73871 2.0085</span></span>
+<span><span class="co">#&gt; Height2 200.0 35.00  0.28304 -1.13707 3.6899</span></span>
+<span><span class="co">#&gt; Height3 178.0 28.00 -0.39916 -0.42966 0.6221</span></span>
+<span><span class="co">#&gt; Height4 196.0 41.06 -0.34723 -0.17790 0.8267</span></span>
+<span><span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">Desc</a></span><span class="op">(</span><span class="va">Height</span> <span class="op">~</span> <span class="va">Sex</span> <span class="op">*</span> <span class="va">W.Hnd</span>, data<span class="op">=</span><span class="va">.</span>, plotit <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Height ~ Sex (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 208 (87.8%), missings: 29 (12.2%), groups: 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                       </span></span>
+<span><span class="co">#&gt;         Female    Male</span></span>
+<span><span class="co">#&gt; mean    165.69  178.83</span></span>
+<span><span class="co">#&gt; median  166.75  180.00</span></span>
+<span><span class="co">#&gt; sd        6.15    8.38</span></span>
+<span><span class="co">#&gt; IQR       7.44   12.21</span></span>
+<span><span class="co">#&gt; n          102     106</span></span>
+<span><span class="co">#&gt; np      49.04%  50.96%</span></span>
+<span><span class="co">#&gt; NAs         16      12</span></span>
+<span><span class="co">#&gt; 0s           0       0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 97, df = 1, p-value &lt;2e-16</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 1 NAs (0.422%).</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Height ~ W.Hnd (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 208 (87.8%), missings: 29 (12.2%), groups: 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                       </span></span>
+<span><span class="co">#&gt;           Left   Right</span></span>
+<span><span class="co">#&gt; mean    175.18  172.11</span></span>
+<span><span class="co">#&gt; median  172.00  170.59</span></span>
+<span><span class="co">#&gt; sd       10.67    9.78</span></span>
+<span><span class="co">#&gt; IQR      11.22   15.00</span></span>
+<span><span class="co">#&gt; n           16     192</span></span>
+<span><span class="co">#&gt; np       7.69%  92.31%</span></span>
+<span><span class="co">#&gt; NAs          2      26</span></span>
+<span><span class="co">#&gt; 0s           0       0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 0.89, df = 1, p-value = 0.3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 1 NAs (0.422%).</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Height ~ Sex:W.Hnd (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 207 (87.3%), missings: 30 (12.7%), groups: 4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                                                               </span></span>
+<span><span class="co">#&gt;          Female:Left     Male:Left  Female:Right    Male:Right</span></span>
+<span><span class="co">#&gt; mean          167.67        180.54        165.41        178.67</span></span>
+<span><span class="co">#&gt; median        170.00        180.00        166.40        180.00</span></span>
+<span><span class="co">#&gt; sd              4.92         11.07          6.06          8.14</span></span>
+<span><span class="co">#&gt; IQR             6.00          7.62          7.47         12.28</span></span>
+<span><span class="co">#&gt; n                  6             9            95            97</span></span>
+<span><span class="co">#&gt; np             2.90%         4.35%        45.89%        46.86%</span></span>
+<span><span class="co">#&gt; NAs                1             1            15            11</span></span>
+<span><span class="co">#&gt; 0s                 0             0             0             0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 99, df = 3, p-value &lt;2e-16</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 2 NAs (0.844%).</span></span>
+<span><span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu">DescTools</span><span class="fu">::</span><span class="fu"><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">Desc</a></span><span class="op">(</span><span class="va">Height</span> <span class="op">+</span> <span class="va">Age</span> <span class="op">~</span> <span class="va">Sex</span> <span class="op">*</span> <span class="va">W.Hnd</span>, data<span class="op">=</span><span class="va">.</span>, plotit <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Height ~ Sex (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 208 (87.8%), missings: 29 (12.2%), groups: 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                       </span></span>
+<span><span class="co">#&gt;         Female    Male</span></span>
+<span><span class="co">#&gt; mean    165.69  178.83</span></span>
+<span><span class="co">#&gt; median  166.75  180.00</span></span>
+<span><span class="co">#&gt; sd        6.15    8.38</span></span>
+<span><span class="co">#&gt; IQR       7.44   12.21</span></span>
+<span><span class="co">#&gt; n          102     106</span></span>
+<span><span class="co">#&gt; np      49.04%  50.96%</span></span>
+<span><span class="co">#&gt; NAs         16      12</span></span>
+<span><span class="co">#&gt; 0s           0       0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 97, df = 1, p-value &lt;2e-16</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 1 NAs (0.422%).</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Height ~ W.Hnd (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 208 (87.8%), missings: 29 (12.2%), groups: 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                       </span></span>
+<span><span class="co">#&gt;           Left   Right</span></span>
+<span><span class="co">#&gt; mean    175.18  172.11</span></span>
+<span><span class="co">#&gt; median  172.00  170.59</span></span>
+<span><span class="co">#&gt; sd       10.67    9.78</span></span>
+<span><span class="co">#&gt; IQR      11.22   15.00</span></span>
+<span><span class="co">#&gt; n           16     192</span></span>
+<span><span class="co">#&gt; np       7.69%  92.31%</span></span>
+<span><span class="co">#&gt; NAs          2      26</span></span>
+<span><span class="co">#&gt; 0s           0       0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 0.89, df = 1, p-value = 0.3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 1 NAs (0.422%).</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Height ~ Sex:W.Hnd (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 207 (87.3%), missings: 30 (12.7%), groups: 4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                                                               </span></span>
+<span><span class="co">#&gt;          Female:Left     Male:Left  Female:Right    Male:Right</span></span>
+<span><span class="co">#&gt; mean          167.67        180.54        165.41        178.67</span></span>
+<span><span class="co">#&gt; median        170.00        180.00        166.40        180.00</span></span>
+<span><span class="co">#&gt; sd              4.92         11.07          6.06          8.14</span></span>
+<span><span class="co">#&gt; IQR             6.00          7.62          7.47         12.28</span></span>
+<span><span class="co">#&gt; n                  6             9            95            97</span></span>
+<span><span class="co">#&gt; np             2.90%         4.35%        45.89%        46.86%</span></span>
+<span><span class="co">#&gt; NAs                1             1            15            11</span></span>
+<span><span class="co">#&gt; 0s                 0             0             0             0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 99, df = 3, p-value &lt;2e-16</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 2 NAs (0.844%).</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Age ~ Sex (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 236 (99.6%), missings: 1 (0.4%), groups: 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                       </span></span>
+<span><span class="co">#&gt;         Female    Male</span></span>
+<span><span class="co">#&gt; mean     20.41   20.33</span></span>
+<span><span class="co">#&gt; median   18.42   18.88</span></span>
+<span><span class="co">#&gt; sd        6.91    6.07</span></span>
+<span><span class="co">#&gt; IQR       2.48    2.37</span></span>
+<span><span class="co">#&gt; n          118     118</span></span>
+<span><span class="co">#&gt; np      50.00%  50.00%</span></span>
+<span><span class="co">#&gt; NAs          0       0</span></span>
+<span><span class="co">#&gt; 0s           0       0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 4.3, df = 1, p-value = 0.04</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 1 NAs (0.422%).</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Age ~ W.Hnd (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 236 (99.6%), missings: 1 (0.4%), groups: 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                       </span></span>
+<span><span class="co">#&gt;           Left   Right</span></span>
+<span><span class="co">#&gt; mean     18.63   20.53</span></span>
+<span><span class="co">#&gt; median   18.50   18.58</span></span>
+<span><span class="co">#&gt; sd        1.29    6.72</span></span>
+<span><span class="co">#&gt; IQR       1.52    2.62</span></span>
+<span><span class="co">#&gt; n           18     218</span></span>
+<span><span class="co">#&gt; np       7.63%  92.37%</span></span>
+<span><span class="co">#&gt; NAs          0       0</span></span>
+<span><span class="co">#&gt; 0s           0       0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 0.72, df = 1, p-value = 0.4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 1 NAs (0.422%).</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ------------------------------------------------------------------------------ </span></span>
+<span><span class="co">#&gt; Age ~ Sex:W.Hnd (.)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Summary: </span></span>
+<span><span class="co">#&gt; n pairs: 237, valid: 235 (99.2%), missings: 2 (0.8%), groups: 4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                                                               </span></span>
+<span><span class="co">#&gt;          Female:Left     Male:Left  Female:Right    Male:Right</span></span>
+<span><span class="co">#&gt; mean           18.36         18.53         20.57         20.50</span></span>
+<span><span class="co">#&gt; median         18.50         18.46         18.42         18.92</span></span>
+<span><span class="co">#&gt; sd              1.02          1.22          7.12          6.31</span></span>
+<span><span class="co">#&gt; IQR             1.63          1.08          2.67          2.42</span></span>
+<span><span class="co">#&gt; n                  7            10           110           108</span></span>
+<span><span class="co">#&gt; np             2.98%         4.26%        46.81%        45.96%</span></span>
+<span><span class="co">#&gt; NAs                0             0             0             0</span></span>
+<span><span class="co">#&gt; 0s                 0             0             0             0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Kruskal-Wallis rank sum test:</span></span>
+<span><span class="co">#&gt;   Kruskal-Wallis chi-squared = 5.7, df = 3, p-value = 0.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Warning:</span></span>
+<span><span class="co">#&gt;   Grouping variable contains 2 NAs (0.844%).</span></span>
+<span><span class="va">num.valtozok</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">summarytools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/summarytools/man/stby.html">stby</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">.</span>,</span>
+<span>  INDICES <span class="op">=</span> <span class="va">survey</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"W.Hnd"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>  FUN <span class="op">=</span> <span class="fu">summarytools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/summarytools/man/descr.html">descr</a></span>, </span>
+<span>  stats <span class="op">=</span> <span class="st">"common"</span> </span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Descriptive Statistics  </span></span>
+<span><span class="co">#&gt; num.valtozok  </span></span>
+<span><span class="co">#&gt; N: 7  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                   Height   NW.Hnd   Wr.Hnd</span></span>
+<span><span class="co">#&gt; --------------- -------- -------- --------</span></span>
+<span><span class="co">#&gt;            Mean   167.67    17.94    18.16</span></span>
+<span><span class="co">#&gt;         Std.Dev     4.92     0.95     1.45</span></span>
+<span><span class="co">#&gt;             Min   160.02    16.40    15.40</span></span>
+<span><span class="co">#&gt;          Median   170.00    18.00    18.50</span></span>
+<span><span class="co">#&gt;             Max   172.00    19.50    20.00</span></span>
+<span><span class="co">#&gt;         N.Valid     6.00     7.00     7.00</span></span>
+<span><span class="co">#&gt;       Pct.Valid    85.71   100.00   100.00</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; N: 110  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                   Height   NW.Hnd   Wr.Hnd</span></span>
+<span><span class="co">#&gt; --------------- -------- -------- --------</span></span>
+<span><span class="co">#&gt;            Mean   165.41    17.47    17.60</span></span>
+<span><span class="co">#&gt;         Std.Dev     6.06     1.37     1.24</span></span>
+<span><span class="co">#&gt;             Min   150.00    12.50    13.00</span></span>
+<span><span class="co">#&gt;          Median   166.40    17.55    17.50</span></span>
+<span><span class="co">#&gt;             Max   178.00    20.70    20.80</span></span>
+<span><span class="co">#&gt;         N.Valid    95.00   110.00   110.00</span></span>
+<span><span class="co">#&gt;       Pct.Valid    86.36   100.00   100.00</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; N: 10  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                   Height   NW.Hnd   Wr.Hnd</span></span>
+<span><span class="co">#&gt; --------------- -------- -------- --------</span></span>
+<span><span class="co">#&gt;            Mean   180.54    19.84    19.99</span></span>
+<span><span class="co">#&gt;         Std.Dev    11.07     1.51     1.65</span></span>
+<span><span class="co">#&gt;             Min   165.00    17.00    17.50</span></span>
+<span><span class="co">#&gt;          Median   180.00    19.75    19.65</span></span>
+<span><span class="co">#&gt;             Max   200.00    22.00    23.00</span></span>
+<span><span class="co">#&gt;         N.Valid     9.00    10.00    10.00</span></span>
+<span><span class="co">#&gt;       Pct.Valid    90.00   100.00   100.00</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; N: 108  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                   Height   NW.Hnd   Wr.Hnd</span></span>
+<span><span class="co">#&gt; --------------- -------- -------- --------</span></span>
+<span><span class="co">#&gt;            Mean   178.67    19.70    19.72</span></span>
+<span><span class="co">#&gt;         Std.Dev     8.14     1.84     1.77</span></span>
+<span><span class="co">#&gt;             Min   154.94    13.30    14.00</span></span>
+<span><span class="co">#&gt;          Median   180.00    19.50    19.50</span></span>
+<span><span class="co">#&gt;             Max   196.00    23.50    23.20</span></span>
+<span><span class="co">#&gt;         N.Valid    97.00   107.00   107.00</span></span>
+<span><span class="co">#&gt;       Pct.Valid    89.81    99.07    99.07</span></span></code></pre></div>
+<p>Feladatok</p>
+<p>RcmdrMisc - numSummary
+jmv - descriptives</p>
+
+</div>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="adatmanipulacio.html"><span class="header-section-number">7</span> Adatmanipuláció</a></div>
+<div class="next"><a href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#mutatok-tablazatok"><span class="header-section-number">8</span> Mutatók és táblázatok</a></li>
+<li>
+<a class="nav-link" href="#alap-r-lehet%C5%91s%C3%A9gei"><span class="header-section-number">8.1</span> Alap R lehetőségei</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#mutat%C3%B3k"><span class="header-section-number">8.1.1</span> Mutatók</a></li>
+<li><a class="nav-link" href="#t%C3%A1bl%C3%A1zatok"><span class="header-section-number">8.1.2</span> Táblázatok</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#tidyverse-r-lehet%C5%91s%C3%A9gei"><span class="header-section-number">8.2</span> Tidyverse R lehetőségei</a></li>
+<li>
+<a class="nav-link" href="#halad%C3%B3-lehet%C5%91s%C3%A9gek"><span class="header-section-number">8.3</span> Haladó lehetőségek</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#mutat%C3%B3k-1"><span class="header-section-number">8.3.1</span> Mutatók</a></li>
+<li><a class="nav-link" href="#t%C3%A1bl%C3%A1zatok-1"><span class="header-section-number">8.3.2</span> Táblázatok</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/abarik/aeer/blob/master/08-Mutatok-es-tablazatok.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/abarik/aeer/edit/master/08-Mutatok-es-tablazatok.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2022-09-13.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

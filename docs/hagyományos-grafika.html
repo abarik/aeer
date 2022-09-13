@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>B Hagyományos grafika | Adatkezelés és egyváltozós elemzések R-ben</title>
+<meta name="author" content="Abari Kálmán">
+<meta name="description" content="Az Alap R számos eljárást ad a grafikus ábrák létrehozására, sőt saját ábratípusokat is létrehozhatunk. A parancssorba gépelt demo(graphics) vagy demo(persp) függvényhívásokkal képet kaphatunk az...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="B Hagyományos grafika | Adatkezelés és egyváltozós elemzések R-ben">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://abarik.github.io/aeer/hagyományos-grafika.html">
+<meta property="og:image" content="https://abarik.github.io/aeer/images/cover.jpg">
+<meta property="og:description" content="Az Alap R számos eljárást ad a grafikus ábrák létrehozására, sőt saját ábratípusokat is létrehozhatunk. A parancssorba gépelt demo(graphics) vagy demo(persp) függvényhívásokkal képet kaphatunk az...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="B Hagyományos grafika | Adatkezelés és egyváltozós elemzések R-ben">
+<meta name="twitter:description" content="Az Alap R számos eljárást ad a grafikus ábrák létrehozására, sőt saját ábratípusokat is létrehozhatunk. A parancssorba gépelt demo(graphics) vagy demo(persp) függvényhívásokkal képet kaphatunk az...">
+<meta name="twitter:image" content="https://abarik.github.io/aeer/images/cover.jpg">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/tabwid-1.0.0/tabwid.css" rel="stylesheet">
+<link href="libs/tabwid-1.0.0/scrool.css" rel="stylesheet">
+<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-68765210-2', 'auto');
+      ga('send', 'pageview');
+
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Adatkezelés és egyváltozós elemzések R-ben</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Üdvözöljük</a></li>
+<li><a class="" href="eloszo.html">Előszó</a></li>
+<li><a class="" href="itt-kezdodik.html"><span class="header-section-number">1</span> Itt kezdődik</a></li>
+<li><a class="" href="mi-az-r.html"><span class="header-section-number">2</span> Mi az R?</a></li>
+<li><a class="" href="az-r-telepitese.html"><span class="header-section-number">3</span> Az R telepítése</a></li>
+<li><a class="" href="munka-az-r-ben.html"><span class="header-section-number">4</span> Munka az R-ben</a></li>
+<li><a class="" href="az-r-nyelv.html"><span class="header-section-number">5</span> Az R nyelv</a></li>
+<li><a class="" href="beolvasas.html"><span class="header-section-number">6</span> Beolvasás</a></li>
+<li><a class="" href="adatmanipulacio.html"><span class="header-section-number">7</span> Adatmanipuláció</a></li>
+<li><a class="" href="mutatok-tablazatok.html"><span class="header-section-number">8</span> Mutatók és táblázatok</a></li>
+<li><a class="" href="grafika-az-r-ben.html"><span class="header-section-number">9</span> Grafika az R-ben</a></li>
+<li><a class="" href="hipotezisvizsgalatok.html"><span class="header-section-number">10</span> Hipotézisvizsgálatok</a></li>
+<li><a class="" href="publikacio.html"><span class="header-section-number">11</span> Publikáció</a></li>
+<li class="book-part">Függelék</li>
+<li><a class="" href="megoldasok.html"><span class="header-section-number">A</span> Megoldások</a></li>
+<li><a class="active" href="hagyom%C3%A1nyos-grafika.html"><span class="header-section-number">B</span> Hagyományos grafika</a></li>
+<li><a class="" href="szinek.html"><span class="header-section-number">C</span> Színek</a></li>
+<li><a class="" href="oravazlat-az-r-tanitasahoz.html"><span class="header-section-number">D</span> Óravázlat az R tanításához</a></li>
+<li><a class="" href="probak.html"><span class="header-section-number">E</span> Próbák röviden</a></li>
+<li><a class="" href="irodalomjegyzek.html">Irodalomjegyzék</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/abarik/aeer">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="hagyományos-grafika" class="section level1" number="13">
+<h1>
+<span class="header-section-number">B</span> Hagyományos grafika<a class="anchor" aria-label="anchor" href="#hagyom%C3%A1nyos-grafika"><i class="fas fa-link"></i></a>
+</h1>
+<p>Az <em>Alap R</em> számos eljárást ad a grafikus ábrák létrehozására, sőt saját ábratípusokat is létrehozhatunk. A parancssorba gépelt <code>demo(graphics)</code> vagy <code>demo(persp)</code> függvényhívásokkal képet kaphatunk az R grafikus lehetőségeiről.</p>
+<p>Az R segítségével grafikus eszközre (graphical device) rajzolhatunk, amely alapértelmezetten a képernyő, de egy adott típusú állomány is lehet. A grafikus (rajz)függvényeink két alapvető csoportba sorolhatók:</p>
+<ul>
+<li>magas-szintű (high-level) rajzfüggvények,</li>
+<li>alacsony-szintű (low-level) rajzfüggvények.</li>
+</ul>
+<p>A hagyományos grafika jellemzője, hogy <em>grafikus paraméter</em>eket használ a rajzolás közben. Ezekről a paraméterekről a <code><a href="https://rdrr.io/r/graphics/par.html">?par</a></code> segítségével kapunk teljes listát, beállításuk és lekérdezésük a <code><a href="https://rdrr.io/r/graphics/par.html">par()</a></code> függvénnyel lehetséges. Például ha a <code>bg=</code> paraméter alapértelmezett fehér értékét megváltoztatjuk szürkére vagy kékre, akkor ugyanaz a rajzfüggvény háttérszínben eltérő ábrát fog létrehozni.</p>
+<div class="sourceCode" id="cb542"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>bg<span class="op">=</span><span class="st">"lightgray"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>bg<span class="op">=</span><span class="st">"lightblue"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<p>Az alapértelmezett háttérszín értékét ne felejtsük visszaállítani: <code>par(bg="white")</code>.</p>
+<div id="grafikus-eszközök" class="section level2" number="13.1">
+<h2>
+<span class="header-section-number">B.1</span> Grafikus eszközök<a class="anchor" aria-label="anchor" href="#grafikus-eszk%C3%B6z%C3%B6k"><i class="fas fa-link"></i></a>
+</h2>
+<p>Az R-ben megnyithatunk egy vagy több grafikus eszközt, ezekből mindig az egyik az aktuális (aktív), amelyre a grafikus függvényeinkkel rajzolhatunk. Az alapértelmezett grafikus eszközünk az R-ben a képernyő egy ablaka (windows), de több állománytípus (pl. jpeg, pdf, postscript) áll rendelkezésre, amelyekben létrehozhatjuk ábráinkat. A grafikus eszközök leírását a <code><a href="https://rdrr.io/r/grDevices/Devices.html">?device</a></code> paranccsal érhetjük el.</p>
+<p>Grafikus eszközt a típusuknak megfelelő függvényhívással hozhatunk létre. A következő sorban két windows és egy jpeg típusú grafikus eszközt hozunk létre:</p>
+<div class="sourceCode" id="cb543"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/windows.html">windows</a></span><span class="op">(</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/grDevices/windows.html">windows</a></span><span class="op">(</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/grDevices/png.html">jpeg</a></span><span class="op">(</span><span class="st">"abra.jpg"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.list</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Az <code><a href="https://rdrr.io/r/grDevices/dev.html">dev.list()</a></code> függvénnyel a megnyitott grafikus eszközeink listáját kapjuk meg: az eszköz típusát és azonosítóját látjuk a képernyőn. Az első megnyitott eszközünk 2-es azonosítót kapja.
+A megnyitott eszközeink egyike az aktuális grafikus eszköz, az utoljára megnyitott eszköz lesz az aktuális. Az aktuális eszközt a <code><a href="https://rdrr.io/r/grDevices/dev.html">dev.cur()</a></code> függvénnyel kérdezhetjük le, beállítása a <code><a href="https://rdrr.io/r/grDevices/dev.html">dev.set()</a></code> függvénnyel lehetséges:</p>
+<div class="sourceCode" id="cb544"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.cur</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.set</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.cur</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>A grafikus eszközök bezárását a <code><a href="https://rdrr.io/r/grDevices/dev.html">dev.off()</a></code> függvény végzi. Paraméter nélkül az aktuális eszközt zárhatjuk be, numerikus paraméterrel pedig az adott sorszámú eszközt. A visszatérési értéke az aktuális grafikus eszköz. A <code><a href="https://rdrr.io/r/grDevices/dev.html">graphics.off()</a></code> az összes nyitott eszközt bezárja:</p>
+<div class="sourceCode" id="cb545"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">graphics.off</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="az-eszközfelület-felosztása" class="section level2" number="13.2">
+<h2>
+<span class="header-section-number">B.2</span> Az eszközfelület felosztása<a class="anchor" aria-label="anchor" href="#az-eszk%C3%B6zfel%C3%BClet-feloszt%C3%A1sa"><i class="fas fa-link"></i></a>
+</h2>
+<p>Nagyon hasznos lehetőség az R-ben, hogy a rajzterület felosztható különálló részekre (ablakokra), melyek mindegyikére a többitől függetlenül rajzolhatunk. A felosztásra több lehetőségünk is van, ezek nem minden esetben kompatibilisek egymással.</p>
+<p>A legegyszerűbben a <code>mfrow=</code> vagy <code>mfcol=</code> grafikus paramétereket használhatjuk a felosztásra, egy kételemű numerikus vektor lehet az értékük, amelyek a felosztott ablakok sorainak és oszlopainak a számát határozzák meg.</p>
+<div class="sourceCode" id="cb546"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>A fenti sor hatására egy 3 sorból és 2 oszlopból álló, 6 elkülönült ablakot tartalmazó rajzterületet kapunk. Az <code>mfrow=</code> esetén a felosztás soronként, az <code>mfcol=</code> esetén pedig oszloponként történik.</p>
+<p>Az aktuális felosztásról a <code><a href="https://rdrr.io/r/graphics/layout.html">layout.show()</a></code> függvény ad tájékoztatást:</p>
+<div class="sourceCode" id="cb547"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout.show</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/felosztas-1-abra-1.png" width="30%" style="display: block; margin: auto;"></div>
+<p>A függvény sorszámokkal azonosítja a különböző rajzterületeket, így azok beazonosíthatók, nagyságuk és elhelyezkedésük az ábráról leolvasható.</p>
+<p>A fenti felosztás az <code>mfcol=</code> paraméter beállításával is elérhető, de ekkor a rajzterületek kiosztása oszloponként történik:</p>
+<div class="sourceCode" id="cb548"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfcol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout.show</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/felosztas-2-abra-1.png" width="30%" style="display: block; margin: auto;"></div>
+<p>A felosztott rajzterületekre az ábrák rajzolása az azonosítók sorrendjében történik, először az 1-es sorszámú rajzterületre rajzolunk, majd a következő magas-szintű függvényhívás a 2-es sorszámú rajzterületre rajzol, és így tovább.
+Ritkán előfordul, hogy a fenti sorrendet felül szeretnénk bírálni és azt szeretnénk, hogy a következő magas-szintű függvényünk egy adott (nem a sorrendben következő) rajzterületre vonatkozzon. Ekkor az <code>mfg=</code> paramétert használhatjuk az aktuális rajzterület beállítására.</p>
+<div class="sourceCode" id="cb549"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>, bg<span class="op">=</span><span class="st">"lightgreen"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>          <span class="co"># ábra az 1,1 pozícióba</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfg<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>          <span class="co"># ábra a 2,3 pozícióba</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/felosztas-mfg-abra-1.png" width="50%" style="display: block; margin: auto;"></div>
+<p>A fenti példában arról rendelkezünk, hogy a 2. sor 3. oszlopába kerüljön a következő ábra. A 4 elemű numerikus vektor utolsó két értéke csak megismétli a felosztás tényét, miszerint a rajzterület 2 sor és 3 oszlop mentén lett felosztva.</p>
+<p>A felosztás megszüntetése az egy sorból és egy oszlopból álló “felosztás” beállítását jelenti:</p>
+<div class="sourceCode" id="cb550"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>  <span class="co"># felosztás megszüntetése</span></span></code></pre></div>
+<p>A rajzterület rugalmasabb felosztását teszi lehetővé a <code><a href="https://rdrr.io/r/graphics/layout.html">layout()</a></code> függvény, amely a paraméterében szereplő mátrix értékei mentén végzi a felosztást. A rajzterület részei eltérő méretűek is lehetnek, valamint gondoskodhatunk az egymás melletti részek egyesítéséről is.</p>
+<p>A <code>mfcol=</code> paraméter használatánál szereplő felosztást a következő <code><a href="https://rdrr.io/r/graphics/layout.html">layout()</a></code> függvényhívás hajtja végre:</p>
+<div class="sourceCode" id="cb551"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>,ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout.show</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/felosztas-lo-1-abra-1.png" width="30%" style="display: block; margin: auto;"></div>
+<p>Ha eltérő nagyságú területekre szeretnénk felosztani a rajzunkat, akkor a <code>widths=</code> és a <code>heights=</code> paraméterekkel állíthatjuk be az oszlopok és a sorok egymáshoz viszonyított arányát.</p>
+<div class="sourceCode" id="cb552"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, widths<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, heights<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout.show</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/felosztas-lo-2-abra-1.png" width="30%" style="display: block; margin: auto;"></div>
+<p>A felosztás itt egy 2x2-es mátrix alapján történik, ahol a <code>widths=</code> paraméter a két oszlop szélességét állítja be: a második oszlop az első oszlop szélességének kétszerese. A <code>heights=</code> paraméter hasonlóan határozza meg a sorok magasságát.
+A <code><a href="https://rdrr.io/r/graphics/layout.html">layout()</a></code> függvény első paraméterében szereplő mátrix azonos értékeket is tartalmazhat, ekkor egymás melletti rajzterületek összevonására van lehetőségünk:</p>
+<div class="sourceCode" id="cb553"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, widths<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, heights<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout.show</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/felosztas-lo-3-abra-1.png" width="30%" style="display: block; margin: auto;"></div>
+<p>A fenti két felosztási módszertől alapjaiban eltérő a <code><a href="https://rdrr.io/r/graphics/screen.html">split.screen()</a></code> függvénnyel történő felosztás.</p>
+<div class="sourceCode" id="cb554"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/screen.html">split.screen</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>A példában 2 sor és 1 oszlop mentén a rajzterületet egy felső és alsó részre osztottuk. Ezek azonosítója a visszatérési értéknek megfelelően 1 és 2. Az azonosítókat felhasználhatjuk az adott rajzterület továbbosztásához:</p>
+<div class="sourceCode" id="cb555"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/screen.html">split.screen</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, screen<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p>A 2-es rajzterületet osztjuk 1 sor és 3 oszlop mentén három egyenlő részre, ezek új azonosítóival tér vissza a függvény. A rajzterület kiválasztását a <code><a href="https://rdrr.io/r/graphics/screen.html">screen()</a></code> függvénnyel végezzük, paraméterben egy rajzterület azonosítóját kell megadnunk. Rajzterület tartalmát az <code><a href="https://rdrr.io/r/graphics/screen.html">erase.screen()</a></code> függvénnyel törölhetjük, a rajzterület felosztásából a <code><a href="https://rdrr.io/r/graphics/screen.html">close.screen()</a></code> függvénnyel léphetünk ki.</p>
+</div>
+<div id="az-eszközfelület-részei" class="section level2" number="13.3">
+<h2>
+<span class="header-section-number">B.3</span> Az eszközfelület részei<a class="anchor" aria-label="anchor" href="#az-eszk%C3%B6zfel%C3%BClet-r%C3%A9szei"><i class="fas fa-link"></i></a>
+</h2>
+<p>Az eszközfelületen egyetlen ábra létrehozásakor a következő részeket különböztethetjük meg: külső margó, ábraterület, belső margó, rajzterület. A <a href="hagyom%C3%A1nyos-grafika.html#fig:eszkozterulet-abra">B.1</a> ábrán belülről kifelé haladva a rajzterület és a belső margó látható, melyek együtt egy olyan ábraterületet alkotnak, amely teljesen kitölti az eszközfelületet. Külső margó alapértelmezés szerint nincs, ezt magunknak kell beállítani.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:eszkozterulet-abra"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/eszkozterulet-abra-1.png" alt="Az eszközterület részei (külső margó nélkül)" width="60%"><p class="caption">
+ÁBRA B.1: Az eszközterület részei (külső margó nélkül)
+</p>
+</div>
+<p>A rajzterületre kerülnek az ábrázolandó pontok, vonalak, görbék, 2 és 3 dimenziós alakzatok. A belső margón foglal helyet az ábra címe és alcíme, a tengelyek feliratai, a beosztások címkéi és maguk a beosztások is. A rajzterület és a belső margó határán helyezkedik el a két tengely, valamint a rajzterületet körbevevő szegély is.
+A belső margók a <code>mai=</code> (inch-ben mért) és <code>mar=</code> (szövegsorokban mért) paraméterek segítségével kérdezhetők le és állíthatók be.</p>
+<div class="sourceCode" id="cb556"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mai"</span>, <span class="st">"mar"</span><span class="op">)</span><span class="op">)</span> <span class="co"># belső margók lekérdezése</span></span>
+<span><span class="co">#&gt; $mai</span></span>
+<span><span class="co">#&gt; [1] 1.02 0.82 0.82 0.42</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $mar</span></span>
+<span><span class="co">#&gt; [1] 5.1 4.1 4.1 2.1</span></span></code></pre></div>
+<p>A kapott értékek rendre az alsó, bal oldali, felső és jobb oldali margókat jelentik.</p>
+<p>A külső margók az <code>omi=</code> és az <code>oma=</code> paraméterek segítségével kezelhetők és mint láttuk alapértelmezetten nem kerülnek beállításra:</p>
+<div class="sourceCode" id="cb557"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"omi"</span>, <span class="st">"oma"</span><span class="op">)</span><span class="op">)</span> <span class="co"># külső margók lekérdezése</span></span>
+<span><span class="co">#&gt; $omi</span></span>
+<span><span class="co">#&gt; [1] 0 0 0 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $oma</span></span>
+<span><span class="co">#&gt; [1] 0 0 0 0</span></span></code></pre></div>
+<p>Az <code>omi=</code> az inch-ben mért, az <code>oma=</code> pedig a szövegsorban mért margónagyságot határozza meg. Ha 2 szövegsornyira állítjuk mindegyik külső margót</p>
+<div class="sourceCode" id="cb558"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>oma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span> ,<span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"omi"</span>, <span class="st">"oma"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $omi</span></span>
+<span><span class="co">#&gt; [1] 0.4 0.4 0.4 0.4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $oma</span></span>
+<span><span class="co">#&gt; [1] 2 2 2 2</span></span></code></pre></div>
+<p>akkor az eszközfelület a <a href="hagyom%C3%A1nyos-grafika.html#fig:eszkozterulet-kulsomargo-abra">B.2</a> ábrának megfelelően épül fel.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:eszkozterulet-kulsomargo-abra"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/eszkozterulet-kulsomargo-abra-1.png" alt="Az eszközterület külső margóval" width="60%"><p class="caption">
+ÁBRA B.2: Az eszközterület külső margóval
+</p>
+</div>
+<p>A margókban (külső vagy belső) szöveges információt az <code><a href="https://rdrr.io/r/graphics/mtext.html">mtext()</a></code> függvénnyel helyezhetünk el. Az <code>side=</code> paraméter a margó kiválasztását jelenti (1=alsó, 2=bal, 3=felső, 4=jobb), a <code>line=</code> paraméterrel a margó szövegsorát adjuk meg (0-val kezdődik), az <code>outer=</code> paraméter pedig a külső vagy belső margó közötti választásról gondoskodik (<code>TRUE</code>=külső margó, <code>FALSE</code>=belső margó). A külső és belső margóba írhatunk a következő parancsokkal:</p>
+<div class="sourceCode" id="cb559"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span><span class="op">(</span><span class="st">"Külső margó"</span>, outer<span class="op">=</span><span class="cn">T</span>, line<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span><span class="op">(</span><span class="st">"Belső margó"</span>, outer<span class="op">=</span><span class="cn">F</span>, line<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p>A belső és külső margóba írható szövegsorokról a <a href="hagyom%C3%A1nyos-grafika.html#fig:eszkozterulet-kulsomargo-sorok-abra">B.3</a> ábra tájékoztatást. Az <code><a href="https://rdrr.io/r/graphics/mtext.html">mtext()</a></code> függvény <code>line=</code> paramétere határozza meg a szöveg helyét, az <code>adj=</code> paraméter a szöveg igazítását (a tengelyekkel párhuzamos irányban az <code>adj=0</code> balra igazít, <code>adj=1</code> jobbra igazít).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:eszkozterulet-kulsomargo-sorok-abra"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/eszkozterulet-kulsomargo-sorok-abra-1.png" alt="Szövegsorok a külső és belső margón" width="60%"><p class="caption">
+ÁBRA B.3: Szövegsorok a külső és belső margón
+</p>
+</div>
+<p>Amennyiben az eszközfelületünket több ablakra osztjuk az alapértelmezett felosztásban az ablakokban egy-egy ábraterület található, amelyek belső margóval és rajzterülettel rendelkeznek (<a href="hagyom%C3%A1nyos-grafika.html#fig:eszkozterulet-tobb-abra">B.4</a>. ábra).</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:eszkozterulet-tobb-abra"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/eszkozterulet-tobb-abra-1.png" alt="Szövegsorok a külső és belső margón" width="70%"><p class="caption">
+ÁBRA B.4: Szövegsorok a külső és belső margón
+</p>
+</div>
+<p>A külső margó most is hiányzik, de a szokásos grafikus paraméterek segítségével beállíthatjuk, ekkor a <a href="hagyom%C3%A1nyos-grafika.html#fig:eszkozterulet-tobb-kulsomargo-abra">B.5</a> ábrának megfelelő felosztást kapjuk.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:eszkozterulet-tobb-kulsomargo-abra"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/eszkozterulet-tobb-kulsomargo-abra-1.png" alt="Szövegsorok a külső és belső margón" width="70%"><p class="caption">
+ÁBRA B.5: Szövegsorok a külső és belső margón
+</p>
+</div>
+<p>Természetesen a margókba most is írhatunk tetszőleges szöveget az <code><a href="https://rdrr.io/r/graphics/mtext.html">mtext()</a></code> függvény segítségével a <a href="hagyom%C3%A1nyos-grafika.html#fig:eszkozterulet-tobb-kulsomargo-szovegsorok-abra">B.6</a> ábrának megfelelően.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:eszkozterulet-tobb-kulsomargo-szovegsorok-abra"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/eszkozterulet-tobb-kulsomargo-szovegsorok-abra-1.png" alt="Szövegsorok a külső és belső margón" width="70%"><p class="caption">
+ÁBRA B.6: Szövegsorok a külső és belső margón
+</p>
+</div>
+</div>
+<div id="magas-szintű-rajzfüggvények" class="section level2" number="13.4">
+<h2>
+<span class="header-section-number">B.4</span> Magas-szintű rajzfüggvények<a class="anchor" aria-label="anchor" href="#magas-szint%C5%B1-rajzf%C3%BCggv%C3%A9nyek"><i class="fas fa-link"></i></a>
+</h2>
+<p>A magas-szintű rajzfüggvények az aktív grafikai eszközön hoznak létre új ábrát, ami a legtöbbször a régi tartalom törlésével jár. Az ábrához többek között tengelyek, címkék és feliratok tartoznak, amelyek megjelenítéséről a grafikai paraméterekkel gondoskodhatunk.</p>
+<p>A legtöbbször használt magas-szintű függvények:</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart()</a></code> - egydimenziós pontdiagram</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> - kétdimenziós pontdiagram, vonaldiagram</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code> - hisztogram</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/barplot.html">barplot()</a></code> - oszlopdiagram</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot()</a></code> - dobozdiagram</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/curve.html">curve()</a></code> - függvény ábrázolása</li>
+<li>
+<code><a href="https://rdrr.io/r/graphics/pie.html">pie()</a></code> - kördiagram</li>
+</ul>
+<div id="a-stripchart-függvény" class="section level3" number="13.4.1">
+<h3>
+<span class="header-section-number">B.4.1</span> A <code>stripchart()</code> függvény<a class="anchor" aria-label="anchor" href="#a-stripchart-f%C3%BCggv%C3%A9ny"><i class="fas fa-link"></i></a>
+</h3>
+<p>A <code><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart()</a></code> legegyszerűbb formájában egyetlen numerikus változó értékeit jeleníti meg, horizontálisan, egymásra rajzolt négyzet pontkarakterekkel. A <strong>MASS</strong> csomag <code>survey</code> adatbázisát használjuk, és testmagasságokat jelenítünk meg cm-ben mérve.</p>
+<div class="sourceCode" id="cb560"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">survey</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">survey</span><span class="op">$</span><span class="va">Height</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/strip-simple-abra-1.png" width="60%" style="display: block; margin: auto;"></div>
+<p>A horizontális megjelenítést vertikálisra (<code>vertical = T</code>), a négyzetet pedig színezett pontokra cseréljük (<code>pch=21, col="blue", bg="lightblue"</code>), és elvetjük a pontok egymásra rajzolását (<code>method = "jitter"</code>).</p>
+<div class="sourceCode" id="cb561"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, vertical <span class="op">=</span> <span class="cn">T</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"blue"</span>, bg<span class="op">=</span><span class="st">"lightblue"</span>, method <span class="op">=</span> <span class="st">"jitter"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/strip-p2-abra-1.png" width="60%" style="display: block; margin: auto;"></div>
+<p>A <code>pch=</code> paraméter lehetséges értékeiről lesz még szó később. Figyeljük meg, hogy a <code>bg=</code> (és a <code>col=</code> is) más jelentésű a <code><a href="https://rdrr.io/r/graphics/par.html">par()</a></code> argumentumaként, és más jelentésű a magas-szintű függvények argumentumában. Minden magas-szintű függvényben, így a <code>strripchart()</code>-ban is a rajzterületen megjelenített grafikus elem háttérszínét és vonalszínét határozza meg. Ez a két argumentum (<code>bg=</code> és <code>col=</code>) tehát általánosan használható minden más magas-szintű függvényben is. A <code>vertical=</code> és a <code>method=</code> azonban inkább az egydimenziós pontdiagramra jellemző beállítások.</p>
+<p>Melyek a legfontosabb általános, minden magas-szintű függvényben használható paraméterek:</p>
+<ul>
+<li><p><code>main=</code><br>
+Az ábra címe, felül, középen, kiemelten fog megjelenni.</p></li>
+<li><p><code>sub=</code><br>
+Az ábra alcíme, amely az ábra alján jelenik meg.</p></li>
+<li><p><code>xlab=</code>, <code>ylab=</code><br>
+Az x és y tengely felirata, ha elhagyjuk, akkor az ábrázolt objektum nevét olvashatjuk.</p></li>
+<li><p><code>xlim=</code>, <code>ylim=</code><br>
+Az x és y tengelyek ábrázolási tartományát határozzuk meg. Értékeik egy-egy kételemű numerikus vektor, melyek az ábrázolt intervallum alsó és felső határait adják.</p></li>
+<li><p><code>fg=</code>, <code>bg=</code>,<code>col=</code>, <code>col.axis=</code>, <code>col.lab=</code>, <code>col.main=</code>, <code>col.sub=</code><br>
+Az ábra színeinek megadására használt paraméterek.</p></li>
+<li><p><code>main=</code><br>
+Az ábra címe, felül, középen, kiemelten fog megjelenni.</p></li>
+<li><p><code>sub=</code><br>
+Az ábra alcíme, amely az ábra alján jelenik meg.</p></li>
+<li><p><code>xlab=</code>, <code>ylab=</code><br>
+Az x és y tengely felirata, ha elhagyjuk, akkor az ábrázolt objektum nevét olvashatjuk.</p></li>
+<li><p><code>xlim=</code>, <code>ylim=</code><br>
+Az x és y tengelyek ábrázolási tartományát határozzuk meg. Értékeik egy-egy kételemű numerikus vektor, melyek az ábrázolt intervallum alsó és felső határait adják.</p></li>
+<li><p><code>axes=</code><br>
+A tengelyek és a rajzterületet szegélyeinek megjelenítését szabályozzuk. Alapértelmezett értéke <code>TRUE</code>. Ha <code>FALSE</code> értéket adunk, akkor az <code><a href="https://rdrr.io/r/graphics/axis.html">axis()</a></code> és a <code><a href="https://rdrr.io/r/graphics/box.html">box()</a></code> függvényekkel a tengelyeket és a szegélyt később is megrajzolhatjuk.</p></li>
+<li>
+<p><code>bty=</code><br>
+A rajzterület szegélyezését állíthatjuk be. Értéke egy karakter lehet, melyek jelentése a következő:</p>
+<ul>
+<li>
+<code>"o"</code> teljes keretet rajzol</li>
+<li>
+<code>"l"</code> bal oldalt és lent lesz csak szegély</li>
+<li>
+<code>"7"</code> fent és jobboldalt rajzol keretet</li>
+<li>
+<code>"c"</code> alul, baloldalt és felül lesz rajzol szegélyt</li>
+<li>
+<code>"u"</code> baloldalt, alul és jobboldalt kapunk keretet</li>
+<li>
+<code>"]"</code> felül, jobboldalt és alul jelenik meg szegély</li>
+<li>
+<code>"n"</code> nem jelenít meg szegélyt</li>
+</ul>
+</li>
+<li>
+<p><code>las=</code><br>
+Az x és y tengelyek címkéi lehetnek párhuzamosak és merőlegesek a tengelyeikre nézve. A lehetséges eseteknek megfelelően a paraméter értéke lehet:</p>
+<ul>
+<li>
+<code>0=</code> párhuzamosak a tengelyükkel (alapértelmezés)</li>
+<li>
+<code>1=</code> x-re párhuzamos, y-ra merőleges</li>
+<li>
+<code>2=</code> merőlegesek a tengelyükre</li>
+<li>
+<code>3=</code> x-re merőleges, y-ra párhuzamos</li>
+</ul>
+</li>
+<li><p><code>pch=</code> A kirajzolt pont határozza meg. Értéke vagy egy karakter és ekkor az lesz a megjelenített pont alakja, vagy tipikusan egy skalár 0 és 25 között.</p></li>
+<li><p><code>cex=</code>, <code>cex.axis=</code>, <code>cex.lab=</code>, <code>cex.main=</code>, <code>cex.sub=</code><br>
+Az egyes összetevők relatív mérete</p></li>
+<li><p><code>family=</code>, <code>font=</code>, <code>font.axis=</code>, <code>font.lab=</code>, <code>font.main=</code>, <code>font.sub=</code><br>
+Az egyes összetevők betűtípusa</p></li>
+<li><p><code>xaxt</code>, <code>yaxt</code><br>
+Az x és y tengely kirajzolását tilthatjuk meg, ha <code>n</code> értékkel látjuk el. Alapértelmezett az <code>s</code>, ekkor megrajzolja az illető tengelyt. (Hasonló a szerepe, mint az <code>axes=</code> argumentumnak.)</p></li>
+<li><p><code>mgp=c(3,1,0)</code><br>
+A tengely egyes részeinek a rajzterület szélétől mért távolságát meghatározó 3 elemű vektor. Az első érték a tengelyfelirat, a második a tengelycímkék, a harmadik magának a tengely vonalának a margóját adja meg.</p></li>
+<li><p><code>lab</code><br>
+Háromelemű numerikus vektor, amelynek az első két elemével az x és az y tengely beosztásainak a számát határozhatjuk meg. A tényleges osztásszám az általunk megadott értéktől eltérhet. A harmadik elemet nem veszi figyelembe az R.</p></li>
+<li><p><code>xaxp, yaxp</code><br>
+Leginkább lekérdezésre szánt 3 elemű numerikus vektor. Az első és második elem a két szélső beosztás értéket adja, a harmadik elem pedig az osztályok számát.</p></li>
+<li><p><code>xaxs, yaxs</code><br>
+Az alapértelmezett <code>r</code> érték mellett a tengelyek által átfogott intervallum az ábrázolandó adatokból kiszámolt vagy az <code>xlim=</code>, <code>ylim=</code> paraméterekből kapott intervallumnál 4%-al nagyobb lesz. Pontos egyezéshez az <code>i</code> értéket kell megadnunk.</p></li>
+</ul>
+<p>A fenti paraméterek felhasználásával készítsünk egy kicsit szebb ábrát.</p>
+<div class="sourceCode" id="cb562"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, vertical <span class="op">=</span> <span class="cn">T</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"blue"</span>, bg<span class="op">=</span><span class="st">"lightblue"</span>, method <span class="op">=</span> <span class="st">"jitter"</span>, main<span class="op">=</span><span class="st">"Főcím: Testmagasság eloszlása"</span>, sub<span class="op">=</span><span class="st">"Alcím: Egyetemi hallgatók adatai"</span>, ylab<span class="op">=</span><span class="st">"Testmagasság (cm)"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/strip-p3-abra-1.png" width="60%" style="display: block; margin: auto;"></div>
+<p>A további szépítéshez a korábban megismert grafikus paramétereket kell használnunk. Érdemes megváltoztatni a margót (<code>mar=</code>), a tengelybeosztás címkéinek írásirányát (<code>las=</code>), a tengelyfeliratok és a tengelybeosztás címkéinek távolságát a tengelyektől (<code>mgp=</code>), valamint a beosztások méretét (<code>tcl=</code>).</p>
+<div class="sourceCode" id="cb563"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3.9</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>las<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mgp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.9</span>, <span class="fl">0.1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>tcl<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">survey</span><span class="op">$</span><span class="va">Height</span>, vertical <span class="op">=</span> <span class="cn">T</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"blue"</span>, bg<span class="op">=</span><span class="st">"lightblue"</span>, method <span class="op">=</span> <span class="st">"jitter"</span>, main<span class="op">=</span><span class="st">"Főcím: Testmagasság eloszlása"</span>, sub<span class="op">=</span><span class="st">"Alcím: Egyetemi hallgatók adatai"</span>, ylab<span class="op">=</span><span class="st">"Testmagasság (cm)"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/strip-p4-abra-1.png" width="60%" style="display: block; margin: auto;"></div>
+<p>Végül használjuk a szokásos formula argumentumot az <code>x=</code> argumentumban (<code>Height~Sex</code>), amely ebben az esetben a <code>data=</code> argumentum megadását is szükségessé teszi. Az ábrán külön jelennek meg a nők és férfiak testmagasságai. A megjelenítéshez tartozó <code>ylim=</code> paraméteren is változtassunk, az y tengely láthatósági tartományát állítsuk be 140 és 210 közé (<code>ylim=c(140, 210)</code>)</p>
+<div class="sourceCode" id="cb564"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3.9</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>las<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mgp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.9</span>, <span class="fl">0.1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>tcl<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Height</span><span class="op">~</span><span class="va">Sex</span>, data<span class="op">=</span><span class="va">survey</span>, vertical <span class="op">=</span> <span class="cn">T</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"blue"</span>, bg<span class="op">=</span><span class="st">"lightblue"</span>, method <span class="op">=</span> <span class="st">"jitter"</span>, main<span class="op">=</span><span class="st">"Főcím: Testmagasság eloszlása"</span>, sub<span class="op">=</span><span class="st">"Alcím: Egyetemi hallgatók adatai"</span>, ylab<span class="op">=</span><span class="st">"Testmagasság (cm)"</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">140</span>, <span class="fl">210</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/strip-p5-abra-1.png" width="60%" style="display: block; margin: auto;"></div>
+<p>Egy másik példában egy üzletben eladott kalapácsok számát rögzítettük 25 napon keresztül. A <code>method=</code> argumentum <code>"stack"</code> értékével érjük el, hogy egymásra halmozza az azonos pontokat. Ez nagyon jól jöhet diszkrét változók eloszlásának megismeréséhez.</p>
+<div class="sourceCode" id="cb565"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wch/extrafont">extrafont</a></span><span class="op">)</span></span>
+<span><span class="co"># font_import() # 1x kell végrehajtani</span></span>
+<span><span class="co"># fonts()       # tájékozódhatunk az elérhető fontokról</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/extrafont/man/loadfonts.html">loadfonts</a></span><span class="op">(</span>device<span class="op">=</span><span class="st">"win"</span>, quiet <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>family<span class="op">=</span><span class="st">"Times New Roman"</span><span class="op">)</span></span>
+<span><span class="va">mh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span>,  <span class="fl">6</span>, <span class="fl">12</span>,  <span class="fl">6</span>,  <span class="fl">9</span>, <span class="fl">16</span>, <span class="fl">20</span>, <span class="fl">11</span>, <span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">11</span>,  <span class="fl">9</span>, <span class="fl">12</span>, <span class="fl">11</span>, <span class="fl">7</span>, <span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">14</span>, <span class="fl">21</span>, <span class="fl">12</span>,  <span class="fl">6</span>, <span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">6</span>,</span>
+<span>        <span class="fl">10</span>, <span class="fl">10</span>,  <span class="fl">6</span>, <span class="fl">12</span>,  <span class="fl">6</span>,  <span class="fl">9</span>, <span class="fl">16</span>, <span class="fl">20</span>, <span class="fl">11</span>, <span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">11</span>,  <span class="fl">9</span>, <span class="fl">12</span>, <span class="fl">11</span>, <span class="fl">7</span>, <span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">14</span>, <span class="fl">21</span>, <span class="fl">12</span>,  <span class="fl">6</span>, <span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart</a></span><span class="op">(</span><span class="va">mh</span>, method<span class="op">=</span><span class="st">"stack"</span>, pch<span class="op">=</span><span class="fl">21</span>, cex<span class="op">=</span><span class="fl">1.5</span>, offset<span class="op">=</span><span class="fl">2</span><span class="op">/</span><span class="fl">5</span>, col<span class="op">=</span><span class="st">"blue"</span>, bg<span class="op">=</span><span class="st">"lightblue"</span>, axes<span class="op">=</span><span class="cn">F</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1500000</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, at <span class="op">=</span> <span class="va">mh</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"Eladások"</span>, family<span class="op">=</span><span class="st">"Calibri"</span>, cex.main<span class="op">=</span><span class="fl">1.3</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/strip-p6-abra-1.png" width="60%" style="display: block; margin: auto;"></div>
+<p>A fenti ábra elkészítéséhez</p>
+<p>A fenti ábrában használt globális paramétereket és <code><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart()</a></code> függvényhívásban megjelenő általános argumentumokat minden további ábrában felhasználhatjuk esztétikus grafika létrehozására. Az áttekinthetőség miatt ezeket a továbbiakban mellőzzük, de a publikációban felhasznált ábrák természetesen ezeket a beállításokat nem nélkülözhetik.</p>
+</div>
+<div id="a-plot-függvény" class="section level3" number="13.4.2">
+<h3>
+<span class="header-section-number">B.4.2</span> A <code>plot()</code> függvény<a class="anchor" aria-label="anchor" href="#a-plot-f%C3%BCggv%C3%A9ny"><i class="fas fa-link"></i></a>
+</h3>
+<p>A <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> az R legalapvetőbb függvénye ábrák létrehozására. Egyik legegyszerűbb felhasználása, hogy az x és y tengelyek mentén a függvény bemeneti paramétereiben meghatározott értékpárokhoz (mint x és y értékekhez) egy-egy pontot jelenítsen meg az ábrán (<a href="hagyom%C3%A1nyos-grafika.html#fig:plot-alap-abra">B.7</a> ábra):</p>
+<div class="sourceCode" id="cb566"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">&lt;-</span><span class="fl">21</span><span class="op">:</span><span class="fl">30</span></span>
+<span><span class="va">y</span><span class="op">&lt;-</span><span class="fl">51</span><span class="op">:</span><span class="fl">60</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:plot-alap-abra"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/plot-alap-abra-1.png" alt="Egyszerű kétdimenziós pontdiagram" width="60%"><p class="caption">
+ÁBRA B.7: Egyszerű kétdimenziós pontdiagram
+</p>
+</div>
+<p>Az <code>x</code> és <code>y</code> numerikus vektorok 10-10 eleműek, a <a href="hagyom%C3%A1nyos-grafika.html#fig:plot-alap-abra">B.7</a> ábrán is 10 pontot látunk. Az első pontnak megfelelő pontkarakter a (21, 51) koordinátájú pontban rajzolódik ki, ezek a koordináták az <code>x</code> és <code>y</code> vektor első elemei. A második kis karika rajzolásához a numerikus vektorok 2. elemeit használja a <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>, ez a (22, 52) koordinátájú pont lesz. A többi 8 pont is hasonlóan, az azonos pozíción lévő vektorelemeknek megfelelő értékpárok alapján jelenik meg az ábrán.</p>
+<p>A <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> függvény egyetlen vektorral is hívható:</p>
+<div class="sourceCode" id="cb567"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">21</span><span class="op">:</span><span class="fl">30</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:plot-egykoordinata-plot"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/plot-egykoordinata-plot-1.png" alt="étdimenziós pontdiagram egy vektorból" width="60%"><p class="caption">
+ÁBRA B.8: étdimenziós pontdiagram egy vektorból
+</p>
+</div>
+<p>A <a href="hagyom%C3%A1nyos-grafika.html#fig:plot-egykoordinata-plot">B.8</a> ábrán a <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> függvény a bemeneti <code>y</code> vektor alapján jelenít meg 10 pontot. A pontok megjelenítéséhez szükséges két koordináta közül most csak az egyik az y koordináta áll rendelkezésre, ezt éppen az <code>y</code> vektor elemei alkotják. Az x koordináták az <code>y</code> vektor indexeiből állnak, amely egy 10 elemű vektor esetén az 1,2, …, 10 elemeket jelenti. Az első ábrázolt pont koordinátái ennek megfelelően az (1, 21), a második (2, 22) és így tovább, az utolsó (10, 30).</p>
+<p>A <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> függvény paraméterében a numerikus vektorok helyett faktorok is szerepelhetnek. Ha egyetlen faktorral hívjuk, akkor oszlopdiagramot kapunk, ha faktorral és numerikus vektorral, akkor dobozdiagramot kapunk. Ezeket az eseteket foglalja össze a <a href="hagyom%C3%A1nyos-grafika.html#fig:plot-tobb-abra">B.9</a> ábra.</p>
+<div class="sourceCode" id="cb568"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, ncol<span class="op">=</span><span class="fl">2</span>, byrow<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html">gl</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>, main<span class="op">=</span><span class="st">"Egy változó"</span>, xlab<span class="op">=</span><span class="st">"Az x vektor indexei"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">f</span>, main<span class="op">=</span><span class="st">"Egy változó"</span>, sub<span class="op">=</span><span class="st">"Kategorikus változó"</span>, las<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="st">"red"</span>, pch<span class="op">=</span><span class="fl">16</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span>, main<span class="op">=</span><span class="st">"Két változó"</span>,  ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span>, bty<span class="op">=</span><span class="st">"l"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">y</span><span class="op">~</span><span class="va">f</span>, main<span class="op">=</span><span class="st">"Két változó"</span>, xlab<span class="op">=</span><span class="st">"Kategórikus változó"</span>, ylab<span class="op">=</span><span class="st">"Kvantitatív változó"</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:plot-tobb-abra"></span>
+<img src="40-Hagyomanyos-grafika_files/figure-html/plot-tobb-abra-1.png" alt="étdimenziós pontdiagram egy vektorból" width="60%"><p class="caption">
+ÁBRA B.9: étdimenziós pontdiagram egy vektorból
+</p>
+</div>
+<p>A <a href="hagyom%C3%A1nyos-grafika.html#fig:plot-tobb-abra">B.9</a> ábra megjelenítéséhez a <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> függvényekben a <code><a href="https://rdrr.io/r/graphics/stripchart.html">stripchart()</a></code>-nál ismertetett paramétereket használtuk.</p>
+<p>A <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> függvény fontos argumentuma a <code>type=</code>, amelyikkel jelentősen módosíthatjuk azonos adatok esetén is a megjelenítést. A lehetséges értékeket és a hozzájuk tartozó megjelenítést a <a href="#fig:plot-tipus-abra"><strong>??</strong></a> ábra tartalmazza.</p>
+<div class="sourceCode" id="cb569"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,ncol<span class="op">=</span><span class="fl">3</span>, byrow<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>; <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="fl">10</span>,lambda<span class="op">=</span><span class="fl">5</span><span class="op">)</span>; <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,y<span class="op">=</span><span class="va">y</span><span class="op">-</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"p"</span>,main<span class="op">=</span><span class="st">'type="p"'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"l"</span>,main<span class="op">=</span><span class="st">'type="l"'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"b"</span>,main<span class="op">=</span><span class="st">'type="b"'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"c"</span>,main<span class="op">=</span><span class="st">'type="c"'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"o"</span>,main<span class="op">=</span><span class="st">'type="o"'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"h"</span>,main<span class="op">=</span><span class="st">'type="h"'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"s"</span>,main<span class="op">=</span><span class="st">'type="s"'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"S"</span>,main<span class="op">=</span><span class="st">'type="S"'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">m</span>,type<span class="op">=</span><span class="st">"n"</span>,main<span class="op">=</span><span class="st">'type="n"'</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/plot-tipus-abra-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<div id="a-curve-függvény" class="section level3" number="13.4.3">
+<h3>
+<span class="header-section-number">B.4.3</span> A <code>curve()</code> függvény<a class="anchor" aria-label="anchor" href="#a-curve-f%C3%BCggv%C3%A9ny"><i class="fas fa-link"></i></a>
+</h3>
+<p>A <code><a href="https://rdrr.io/r/graphics/curve.html">curve()</a></code> függvény segítségével egy x-ben változó függvény grafikonját rajzolhatjuk meg. Az első argumentum kifejezése írja le az ábrázolandó függvényt, amely R-beli matematikai függvények nevét is tartalmazhatja. A <code>from=</code> és <code>to=</code> paraméterek határozzák meg a megjelenítés értelmezési tartományát, az <code>n=</code> paraméter pedig, hogy összesen hány behelyettesítés történjen a függvénybe. A <a href="#curve-abra"><strong>??</strong></a> ábra tartalmaz néhány példát a <code><a href="https://rdrr.io/r/graphics/curve.html">curve()</a></code> függvény használatára.</p>
+<div class="sourceCode" id="cb570"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fl">12</span><span class="op">*</span><span class="va">x</span><span class="op">**</span><span class="fl">2</span><span class="op">+</span><span class="fl">3</span><span class="op">*</span><span class="va">x</span><span class="op">-</span><span class="fl">1</span>, from<span class="op">=</span><span class="op">-</span><span class="fl">10</span>, to<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="va">sin</span>, from<span class="op">=</span><span class="op">-</span><span class="fl">5</span>, to<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="va">x</span>, from<span class="op">=</span><span class="op">-</span><span class="fl">20</span>, to<span class="op">=</span><span class="fl">20</span>, n<span class="op">=</span><span class="fl">200</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, mean<span class="op">=</span><span class="fl">5</span>, sd<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, from<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, to<span class="op">=</span><span class="fl">11</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<div id="a-hist-függvény" class="section level3" number="13.4.4">
+<h3>
+<span class="header-section-number">B.4.4</span> A <code>hist()</code> függvény<a class="anchor" aria-label="anchor" href="#a-hist-f%C3%BCggv%C3%A9ny"><i class="fas fa-link"></i></a>
+</h3>
+<p>A <code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code> függvény segítségével hisztogramot rajzolhatunk, azaz bizonyos osztályintervallumokhoz tartozó téglalapokat láthatunk egymás mellet, melyek területükkel jelzik az osztályintervallum (relatív)gyakoriságát. Az osztályintervallumok létrehozását a bemenő adatvektor alapján a <code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code> függvény is végezheti, de tipikusabb a <code>breaks=</code> paraméterrel vezérelni az intervallumok létrehozását. A <code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code> függvény legfontosabb argumentumai a következők:</p>
+<ul>
+<li>
+<p><code>breaks=</code><br>
+Az értéke lehet:</p>
+<ul>
+<li>skalár (ekkor az osztályintervallumok számát jelenti),</li>
+<li>numerikus vektor (az osztályintervallumok határai),</li>
+<li>karaktersorozat (az osztályhatárok megállapítására használt algoritmus neve (“Sturges”, “Scott”, “FD” / “Freedman-Diaconis”) vagy</li>
+<li><ol start="4" style="list-style-type: decimal">
+<li>egy saját függvény neve, amely az osztályokat létrehozza.</li>
+</ol></li>
+</ul>
+</li>
+<li><p><code>freq=</code><br>
+Gyakoriság (<code>TRUE</code>) vagy relatív gyakoriság (<code>FALSE</code>) megjelenítése között választhatunk a paraméter segítségével. Alapértelmezetten <code>TRUE</code>, de ha nem azonos nagyságúak az osztályintervallumok, akkor <code>FALSE</code> lesz az alapértelmezett értéke.</p></li>
+<li><p><code>right=</code><br>
+Az osztályintervallumok bal vagy jobb oldali zártságát szabályozhatjuk vele. Alapértelmezett értéke <code>TRUE</code>, ami jobb oldali zártságot jelent, azaz ezek az értékek még az osztályhoz tartoznak.</p></li>
+<li><p><code>include.lowest=</code><br>
+Amennyiben a <code>right=</code> értéke <code>TRUE</code> és a legkisebb érték az első osztályintervallum bal szélső értéke, akkor az argumentum <code>TRUE</code> értéke esetén (ez az alapértelmezett) az osztályintervallumhoz sorolja a függvény ezt az elemet is. Ha a <code>right=</code> értéke <code>FALSE</code> (jobb oldali nyitottság), akkor mindez a legnagyobb értékre és az utolsó osztály jobb szélső értékére értendő.</p></li>
+<li><p><code>plot=</code><br>
+Ha megváltoztatjuk az alapértelmezett <code>TRUE</code> értéket <code>FALSE</code>-ra, akkor nem történik meg a hisztogram kirajzolása, hanem a visszatérési értékkel (ami egy lista) dolgozhatunk tovább.</p></li>
+<li><p><code>labels=</code><br>
+Az oszlopok tetején (relatív)gyakoriságot jelenít meg.</p></li>
+</ul>
+<div class="sourceCode" id="cb571"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">rx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="fl">120</span>, lambda<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">x</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span>, labels<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">x</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">3.5</span><span class="op">)</span>, right<span class="op">=</span><span class="cn">TRUE</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>, labels<span class="op">=</span><span class="cn">T</span>, ylab<span class="op">=</span><span class="st">"gyakoriság"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">x</span>, freq<span class="op">=</span><span class="cn">F</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">3.5</span><span class="op">)</span>, right<span class="op">=</span><span class="cn">TRUE</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.6</span><span class="op">)</span>, labels<span class="op">=</span><span class="cn">T</span>, ylab<span class="op">=</span><span class="st">"relatív gyakoriság"</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">rx</span>, freq<span class="op">=</span><span class="cn">F</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">3</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"relatív gyakoriság"</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>, main<span class="op">=</span><span class="st">"Hisztogram"</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/hisztogram-abra-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>A <code><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot()</a></code> függvény</p>
+<p>A <code><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot()</a></code> függvény a hisztogramhoz hasonlóan az adatmegtekintés vizualizálását segíti ún. dobozdiagramok megjelenítésével. A dobozdiagramról a minta terjedelme (legkisebb és legnagyobb értéke), az alsó- és felsőkvartilis, illetve a medián olvasható le. Általában több csoport adatait hasonlítjuk össze a dobozdiagram segítségével.
+A <code><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot()</a></code> függvény <code>range=</code> paraméterével a kiugró értékek kezelését befolyásolhatjuk.</p>
+<div class="sourceCode" id="cb572"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">rx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html">rchisq</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">rx</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">rx</span>,range<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">count</span><span class="op">~</span><span class="va">spray</span>, data<span class="op">=</span><span class="va">InsectSprays</span>, col<span class="op">=</span><span class="st">"lightgray"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">decrease</span><span class="op">~</span><span class="va">treatment</span>, data<span class="op">=</span><span class="va">OrchardSprays</span>, col<span class="op">=</span><span class="st">"bisque"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<div id="a-pie-függvény" class="section level3" number="13.4.5">
+<h3>
+<span class="header-section-number">B.4.5</span> A <code>pie()</code> függvény<a class="anchor" aria-label="anchor" href="#a-pie-f%C3%BCggv%C3%A9ny"><i class="fas fa-link"></i></a>
+</h3>
+<p>A kördiagramot a <code><a href="https://rdrr.io/r/graphics/pie.html">pie()</a></code> függvénnyel készíthetünk. A radius argumentum a kör sugarát adja meg, a clockwise a körcikkek körbejárási irányát adja meg.</p>
+<div class="sourceCode" id="cb573"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pie.html">pie</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">12</span><span class="op">)</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pie.html">pie</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">5</span><span class="op">)</span>, radius<span class="op">=</span><span class="fl">0.9</span>, clockwise <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">pie.sales</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.12</span>, <span class="fl">0.3</span>, <span class="fl">0.26</span>, <span class="fl">0.16</span>, <span class="fl">0.04</span>, <span class="fl">0.12</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">pie.sales</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Honda"</span>, <span class="st">"Toyota"</span>, <span class="st">"Mazda"</span>, <span class="st">"Volkswagen"</span>, <span class="st">"Egyéb"</span>, <span class="st">"Skoda"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pie.html">pie</a></span><span class="op">(</span><span class="va">pie.sales</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pie.html">pie</a></span><span class="op">(</span><span class="va">pie.sales</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">gray</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.4</span>,<span class="fl">1.0</span>,length<span class="op">=</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<div id="a-barplot-függvény" class="section level3" number="13.4.6">
+<h3>
+<span class="header-section-number">B.4.6</span> A <code>barplot()</code> függvény<a class="anchor" aria-label="anchor" href="#a-barplot-f%C3%BCggv%C3%A9ny"><i class="fas fa-link"></i></a>
+</h3>
+<p>A <code><a href="https://rdrr.io/r/graphics/barplot.html">barplot()</a></code> függvény oszlopdiagram létrehozását teszi lehetővé. Numerikus vektorból vagy mátrixból hozhatunk létre oszlopdiagramot. Használhatjuk a horiz argumentumot, amellyel fekvő vagy álló oszlopdiagramot hozhatunk létre vagy a space-t, amellyel az oszlopok egymás közötti távolságát adhatjuk meg. Mátrix bemenő paraméter esetén az egy oszlopban lévő elemeket egy csoportba sorolja a <code><a href="https://rdrr.io/r/graphics/barplot.html">barplot()</a></code> függvény. A <code>beside=</code> argumentum <code>FALSE</code> értéke mellett a csoportok egymás mellett, a csoportok elemei pedig egymás felett jelennek meg. A <code>beside=</code> <code>TRUE</code> értéke mellett a csoportok elemei egymás mellett szerepelnek, de a csoportok között nagyobb lesz a távolság. A fentieket szemlélteti a 6.15. ábra.</p>
+<div class="sourceCode" id="cb574"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>,main<span class="op">=</span><span class="st">"Vektor argumentum\nhoriz=F"</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">heat.colors</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="fl">12</span>, lambda<span class="op">=</span><span class="fl">5</span><span class="op">)</span>, main<span class="op">=</span><span class="st">"Vektor argumentum\nhoriz=T"</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">heat.colors</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>, horiz<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, ncol<span class="op">=</span><span class="fl">3</span><span class="op">)</span>; <span class="va">m</span></span>
+<span><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span><span class="co">#&gt; [1,]    1    5    9</span></span>
+<span><span class="co">#&gt; [2,]    2    6   10</span></span>
+<span><span class="co">#&gt; [3,]    3    7   11</span></span>
+<span><span class="co">#&gt; [4,]    4    8   12</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">m</span>, main<span class="op">=</span><span class="st">"Mátrix argumentum\nbeside=F"</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">m</span>, main<span class="op">=</span><span class="st">"Mátrix argumentum\nbeside=T, space=c(1,4)"</span>, beside<span class="op">=</span><span class="cn">T</span>, space<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">4</span><span class="op">)</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+</div>
+<div id="alacsony-szintű-rajzfüggvények" class="section level2" number="13.5">
+<h2>
+<span class="header-section-number">B.5</span> Alacsony-szintű rajzfüggvények<a class="anchor" aria-label="anchor" href="#alacsony-szint%C5%B1-rajzf%C3%BCggv%C3%A9nyek"><i class="fas fa-link"></i></a>
+</h2>
+<p>Az alacsony-szintű függvények segítségével meglévő ábráinkhoz adhatunk hozzá elemeket. Szöveget írhatunk a külső vagy belső margóra az <code><a href="https://rdrr.io/r/graphics/mtext.html">mtext()</a></code>, az ábraterületre pedig a <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> függvénnyel. Az ábraterültre pontokat helyezhetünk el <code><a href="https://rdrr.io/r/graphics/points.html">points()</a></code>, vonalakat a <code><a href="https://rdrr.io/r/graphics/lines.html">lines()</a></code> és az <code><a href="https://rdrr.io/r/graphics/abline.html">abline()</a></code> függvénnyel. Továbbá rajzolhatunk téglalapot a <code><a href="https://rdrr.io/r/graphics/rect.html">rect()</a></code>, sokszöget a <code><a href="https://rdrr.io/r/graphics/polygon.html">polygon()</a></code> függvénnyel. Az ábránkra tengelyeket rajzolhatunk az <code><a href="https://rdrr.io/r/graphics/axis.html">axis()</a></code>, szegélyeket a <code><a href="https://rdrr.io/r/graphics/box.html">box()</a></code>, jelmagyarázatot a <code><a href="https://rdrr.io/r/graphics/legend.html">legend()</a></code>, címet és alcímet a <code><a href="https://rdrr.io/r/graphics/title.html">title()</a></code> függvénnyel.</p>
+<div id="szöveg-elhelyezése" class="section level4" number="13.5.0.1">
+<h4>
+<span class="header-section-number">B.5.0.1</span> Szöveg elhelyezése<a class="anchor" aria-label="anchor" href="#sz%C3%B6veg-elhelyez%C3%A9se"><i class="fas fa-link"></i></a>
+</h4>
+<p>Az <code><a href="https://rdrr.io/r/graphics/mtext.html">mtext()</a></code> függvényben a szöveg helyét a <code>line=</code> argumentum határozza meg: az alapértelmezett 0 segítségével a margóra tudunk írni, de kintebb vagy beljebb is tudunk írni a margóhoz képest pozitív vagy negatív érték megadása esetén. A <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> függvényben a szöveg helyét a felhasználó koordinátarendszerében értendő x és y argumentum értékei határozzák meg.
+Mindkét függvény esetében az <code>adj</code> argumentum határozza meg a szöveg igazítását, ami tipikusan 0 és 1 közötti numerikus érték, de a legtöbb grafikus eszközön kibővíthetjük ezt a tartományt. A <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> függvény esetében ez a paraméter kételemű vektor is lehet, az első érték az x a második az y irányában határozza meg az igazítást. Az <code><a href="https://rdrr.io/r/graphics/mtext.html">mtext()</a></code> függvény esetében egyetlen érték is elegendő igazításra, a másik pozíció a <code>line=</code> argumentum értékéből következik. Mindezt a @ref(fig:szoveg_elhelyez) ábráról is leolvashatjuk.</p>
+<div class="sourceCode" id="cb575"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, xlab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="va">y</span><span class="op">]</span><span class="op">)</span>, ylab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="va">y</span><span class="op">)</span>, type<span class="op">=</span><span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span><span class="op">(</span><span class="st">"mtext(line= -1,side=3)"</span>, line<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, side<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span><span class="op">(</span><span class="st">"mtext(line=1,side=3,adj=0.2)"</span>, line<span class="op">=</span><span class="fl">1</span>, side<span class="op">=</span><span class="fl">3</span>, adj<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span><span class="op">(</span><span class="st">"mtext(line=0,side=4,adj=1)"</span>, line<span class="op">=</span><span class="fl">0</span>, side<span class="op">=</span><span class="fl">4</span>, adj<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">7</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">7</span>, pch<span class="op">=</span><span class="fl">3</span>, cex<span class="op">=</span><span class="fl">4</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="st">"text(2,2)"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="st">"text(6,6,adj=c(0,0))"</span>, adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span>, <span class="st">"text(4,4,adj=c(1,0))"</span>, adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span>, <span class="st">"text(5,5,adj=c(0,1))"</span>, adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">6</span>, <span class="st">"text(6,6,adj=c(1,1))"</span>, adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7</span>, <span class="st">"text(7,7,adj=c(0.5,0.5))"</span>, adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>,<span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/szoveg_elhelyez-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>Az x és y tengely feliratában alsó és felső indexet is használhatunk. Ehhez az <code><a href="https://rdrr.io/r/base/expression.html">expression()</a></code> függvényt használjuk fel, amellyel kifejezéseket hozhatunk létre az R-ben. Alsó indexek írására a szögletes zárójelet (<code>x[y]</code>), felső indexre a hatványozás jelét (<code>x^y</code>) használhatjuk.
+A megjelenítendő szöveg betűtípusát is megváltoztathatjuk a <code>font=</code> és a <code>family=</code> argumentumok segítségével. A <code>font=</code> értékei: 1=normál, 2=félkövér,3=dőlt és 4=félkövér/dőlt. A <code>family=</code> argumentum egy betűcsalád nevét tartalmazhatja, alapértelmezett értékei a <code>"serif"</code>, <code>"sans"</code>, <code>"mono"</code> és <code>"symbol"</code> lehetnek. A számítógépen egyéb betűcsaládok a <code><a href="https://rdrr.io/r/grDevices/windowsFonts.html">windowsFonts()</a></code> és a <code>windowFont()</code> függvények használata után lesznek elérhetőek az R-ben, Windows platformon. Érdemes kipróbálni a platformfüggetlen <strong>extrafont</strong> csomagot a fontok kezelésére.</p>
+<div class="sourceCode" id="cb576"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/windowsFonts.html">windowsFonts</a></span><span class="op">(</span>font.comic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/windowsFonts.html">windowsFont</a></span><span class="op">(</span><span class="st">"Comic Sans MS"</span><span class="op">)</span>, font.verdana <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/windowsFonts.html">windowsFont</a></span><span class="op">(</span><span class="st">"Verdana"</span><span class="op">)</span>,</span>
+<span>             font.trebuchet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/windowsFonts.html">windowsFont</a></span><span class="op">(</span><span class="st">"Trebuchet MS"</span><span class="op">)</span>, font.book.antiqua <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/windowsFonts.html">windowsFont</a></span><span class="op">(</span><span class="st">"Book Antiqua"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, type<span class="op">=</span><span class="st">"n"</span>, xlab<span class="op">=</span><span class="st">""</span>, ylab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">1.4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">8</span>, <span class="st">"serif"</span>, family<span class="op">=</span><span class="st">"serif"</span>, font<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">6</span>, <span class="st">"sans"</span>, family<span class="op">=</span><span class="st">"sans"</span>, font<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">4</span>, <span class="st">"mono"</span>, family<span class="op">=</span><span class="st">"mono"</span>, font<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span>, <span class="st">"symbol"</span>, family<span class="op">=</span><span class="st">"symbol"</span>, font<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">8</span>, <span class="st">"Comic Sans MS"</span>, family<span class="op">=</span><span class="st">"font.comic"</span>, font<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">6</span>, <span class="st">"Verdana"</span>, family<span class="op">=</span><span class="st">"font.verdana"</span>, font<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">4</span>, <span class="st">"Trebuchet MS"</span>, family<span class="op">=</span><span class="st">"font.trebuchet"</span>, font<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">2</span>, <span class="st">"Book Antiqua"</span>, family<span class="op">=</span><span class="st">"font.book.antiqua"</span>, font<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<div id="pontok-vonalak" class="section level3" number="13.5.1">
+<h3>
+<span class="header-section-number">B.5.1</span> Pontok, vonalak<a class="anchor" aria-label="anchor" href="#pontok-vonalak"><i class="fas fa-link"></i></a>
+</h3>
+<p>A <code><a href="https://rdrr.io/r/graphics/points.html">points()</a></code> függvény <code>x=</code> és <code>y=</code> paramétere a megjelenítendő pontok koordinátáit tartalmazzák, míg a <code><a href="https://rdrr.io/r/graphics/lines.html">lines()</a></code> függvény ugyanezen paraméterek mellett egyenes szakaszokkal köti össze pontokat. A megjelenítendő pontok alakját a <code>pch=</code>, a vonalak típusát pedig a <code>lty=</code> paraméter határozza meg.</p>
+<div class="sourceCode" id="cb577"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, type<span class="op">=</span><span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span><span class="op">+</span><span class="fl">7</span>, pch<span class="op">=</span><span class="st">"*"</span>, cex<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span><span class="op">+</span><span class="fl">4.4</span>, lty<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span><span class="op">+</span><span class="fl">4</span>, lty<span class="op">=</span><span class="fl">2</span>, lwd<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span><span class="op">+</span><span class="fl">3.6</span>, lty<span class="op">=</span><span class="fl">3</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span><span class="op">+</span><span class="fl">3.2</span>, lty<span class="op">=</span><span class="fl">4</span>, lwd<span class="op">=</span><span class="fl">2.5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span><span class="op">+</span><span class="fl">2.8</span>, lty<span class="op">=</span><span class="fl">5</span>, lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span><span class="op">+</span><span class="fl">2.2</span>, lty<span class="op">=</span><span class="fl">6</span>, lwd<span class="op">=</span><span class="fl">3.5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span>, pch<span class="op">=</span><span class="fl">16</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">x</span>, lty<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>Egyeneseket az <code><a href="https://rdrr.io/r/graphics/abline.html">abline()</a></code> segítségével is létrehozhatunk. Legfontosabb argumentumok az <code>a=</code> és a <code>b=</code>, amelyek az y tengellyel való metszéspontot és az egyenes meredekséget adják meg. Függőleges és vízszintes egyeneseket is rajzolhatunk a <code>v=</code> és <code>h=</code> paraméterek megadásával.</p>
+<div class="sourceCode" id="cb578"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span>,<span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span>, type<span class="op">=</span><span class="st">"n"</span>,xlab<span class="op">=</span><span class="st">""</span>,ylab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fl">0</span>, v<span class="op">=</span><span class="fl">0</span>, col <span class="op">=</span> <span class="st">"gray60"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0</span>, <span class="st">"abline ( h = 0 )"</span>,col<span class="op">=</span><span class="st">"gray60"</span>,adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="op">-</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.1</span>, <span class="st">"abline ( v = 0 )"</span>,col<span class="op">=</span><span class="st">"gray60"</span>,adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="op">-</span><span class="fl">0.1</span><span class="op">)</span>,srt<span class="op">=</span><span class="fl">90</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, v <span class="op">=</span> <span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, col <span class="op">=</span> <span class="st">"lightgray"</span>, lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="fl">1</span>, b<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="st">"abline( 1, 2 )"</span>, col<span class="op">=</span><span class="st">"blue"</span>,adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">.1</span>,<span class="op">-</span><span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="op">-</span><span class="fl">2</span>, b<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">1</span>,<span class="op">-</span><span class="fl">3</span>,<span class="st">"abline( -2, -1 )"</span>, col<span class="op">=</span><span class="st">"blue"</span>,adj<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">.1</span>,<span class="op">-</span><span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<div id="téglalapok-poligonok-nyilak" class="section level3" number="13.5.2">
+<h3>
+<span class="header-section-number">B.5.2</span> Téglalapok, poligonok, nyilak<a class="anchor" aria-label="anchor" href="#t%C3%A9glalapok-poligonok-nyilak"><i class="fas fa-link"></i></a>
+</h3>
+<p>A <code><a href="https://rdrr.io/r/graphics/rect.html">rect()</a></code> függvénnyel téglalapot rajzolhatunk az ábraterületre. A téglalapok bal alsó és jobb felső sarkának x és y koordinátáját kell megadnunk, ezek rendre: <code>xleft=</code>, <code>ybottom=</code>, <code>xright=</code>, <code>ytop=</code>.</p>
+<div class="sourceCode" id="cb579"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">100</span><span class="op">:</span><span class="fl">500</span>,<span class="fl">100</span><span class="op">:</span><span class="fl">500</span>, type<span class="op">=</span><span class="st">"n"</span>, xlab<span class="op">=</span><span class="st">""</span>, ylab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">*</span><span class="fl">350</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">*</span><span class="fl">330</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span><span class="op">(</span><span class="fl">100</span><span class="op">+</span><span class="va">x</span>, <span class="fl">100</span><span class="op">+</span><span class="va">y</span>, <span class="fl">150</span><span class="op">+</span><span class="va">x</span>, <span class="fl">170</span><span class="op">+</span><span class="va">y</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">11</span>, start<span class="op">=</span><span class="fl">.7</span>, end<span class="op">=</span><span class="fl">.1</span><span class="op">)</span>, border<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">gray</a></span><span class="op">(</span><span class="va">x</span><span class="op">/</span><span class="fl">400</span><span class="op">)</span>, lwd<span class="op">=</span><span class="va">x</span><span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%%</a></span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;"></div>
+<p>A <code><a href="https://rdrr.io/r/graphics/polygon.html">polygon()</a></code> függvény tetszőleges egyenesekkel határolt síkidomok létrehozásáért felelős. Az <code>x=</code> és <code>y=</code> paraméterében várja a csúcspontok koordinátáit. A lenti példában a vonalak rajzolására használatos <code><a href="https://rdrr.io/r/graphics/segments.html">segments()</a></code> függvény is bemutatásra kerül, azt láthatjuk, hogy a <code><a href="https://rdrr.io/r/graphics/polygon.html">polygon()</a></code> függvény argumentuma, hogyan feleltethető meg a <code><a href="https://rdrr.io/r/graphics/segments.html">segments()</a></code> függvény bemenő paraméterének.</p>
+<div class="sourceCode" id="cb580"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_segments</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/segments.html">segments</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">x</span><span class="op">[</span><span class="va">i</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span>, <span class="va">y</span><span class="op">[</span><span class="va">i</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/segments.html">segments</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>, <span class="va">y</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span>, <span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">y</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span>,<span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span>, type<span class="op">=</span><span class="st">"n"</span>, xlab<span class="op">=</span><span class="st">""</span>, ylab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fl">0</span>, v<span class="op">=</span><span class="fl">0</span>, col<span class="op">=</span><span class="st">"gray60"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span>, v<span class="op">=</span><span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span>, col<span class="op">=</span><span class="st">"lightgray"</span>, lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html">polygon</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, col<span class="op">=</span><span class="st">"gray"</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">+</span><span class="fl">2</span></span>
+<span><span class="fu">my_segments</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html">polygon</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, col<span class="op">=</span><span class="st">"gray"</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">+</span><span class="fl">2</span></span>
+<span><span class="fu">my_segments</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">my_func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span> <span class="op">(</span><span class="fl">5</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, mean<span class="op">=</span><span class="op">-</span><span class="fl">2</span>, sd<span class="op">=</span><span class="fl">.6</span><span class="op">)</span><span class="op">-</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="va">my_func</span>, from<span class="op">=</span><span class="op">-</span><span class="fl">4</span>, to<span class="op">=</span><span class="fl">0</span>, add<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">xp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>,<span class="op">-</span><span class="fl">2.5</span>,<span class="fl">.01</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html">polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">xp</span>, <span class="op">-</span><span class="fl">2.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu">my_func</span><span class="op">(</span><span class="va">xp</span><span class="op">)</span>, <span class="op">-</span><span class="fl">4</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="fu">my_func</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fl">5</span><span class="op">)</span>, from<span class="op">=</span><span class="fl">1</span>, to<span class="op">=</span><span class="fl">5</span>, add<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">xp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">.01</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html">polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="va">xp</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fu">my_func</span><span class="op">(</span><span class="va">xp</span><span class="op">-</span><span class="fl">5</span><span class="op">)</span>, <span class="op">-</span><span class="fl">4</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;"></div>
+</div>
+<div id="egyéb-kiegészítők" class="section level3" number="13.5.3">
+<h3>
+<span class="header-section-number">B.5.3</span> Egyéb kiegészítők<a class="anchor" aria-label="anchor" href="#egy%C3%A9b-kieg%C3%A9sz%C3%ADt%C5%91k"><i class="fas fa-link"></i></a>
+</h3>
+<p>Ha ábránk létrehozása során korábban nem gondoskodtunk cím/alcím, tengelyek, szegély vagy jelmagyarázat megrajzolásáról, akkor alacsony-szintű rajzfüggvényekkel utólag is hozzáadhatjuk ezeket a grafikánkhoz.</p>
+<p>A <code>tilte()</code> függvény segítségével különböző címkéket helyezhetünk el az kész ábrán. A fontosabb argumentumai a következők:</p>
+<ul>
+<li>
+<code>main=</code>, <code>sub=</code><br>
+Az ábra címének és alcímének meghatározására használjuk.</li>
+<li>
+<code>xlab=</code>, <code>ylab=</code><br>
+Tengelyfeliratok hozzáadása.</li>
+<li>
+<code>line=</code><br>
+Az alapértelmezett szövegpozíciót írhatjuk felül, ha meghatározzuk a szövegsor sorszámát.</li>
+<li>
+<code>outer=</code><br>
+Az ábra címét a külső margóra írhatjuk ha <code>TRUE</code> értéket adunk meg.</li>
+</ul>
+<p>A <code><a href="https://rdrr.io/r/graphics/box.html">box()</a></code> függvény a rajzterület keretezésére szolgál, legfontosabb argumentuma:</p>
+<ul>
+<li>
+<code>which=</code><br>
+A bekeretezendő terület meghatározása. Értékei lehetnek:
+<ul>
+<li>
+<code>"plot"</code> rajzterület szegélyezése</li>
+<li>
+<code>"figure"</code> ábraterület szegélyezése</li>
+<li>
+<code>"inner"</code> több ábra esetén az ábraterületeket fogja össze</li>
+<li>
+<code>"outer"</code> az eszközfelület szegélyezése</li>
+</ul>
+</li>
+</ul>
+<p>A tengelyek megjelenítését szabályzó grafikai paraméterek, az <code><a href="https://rdrr.io/r/graphics/axis.html">axis()</a></code> függvény használata során adhatók meg. Az <code><a href="https://rdrr.io/r/graphics/axis.html">axis()</a></code> függvény fontos argumentumai:</p>
+<ul>
+<li>
+<code>side=</code><br>
+A rajzolandó tengely helye: 1=lennt, 2=balra, 3=fennt, 4=jobbra.</li>
+<li>
+<code>at=NULL</code><br>
+A beosztások helyét határozza meg. Ha az értéke NULL, akkor automatikusan számolja az R, egyébként a megadott numerikus vektor elemeinek megfelelő helyre kerül beosztás.</li>
+<li>
+<code>labels=</code><br>
+A beosztások címkéit határozza meg.</li>
+</ul>
+<p>Jelmagyarázat többnyire a rajzterületen belül foglal helyet, a pozícióját is a felhasználói koordinátákban kell megadni. A jelmagyarázat létrehozását számos paraméter segíti, de az ábrán szereplő és a jelmagyarázatban használt jelek közötti összhangot nekünk kell megteremteni, az R semmilyen ellenőrzést nem végez ezzel kapcsolatban.</p>
+<p>A <code><a href="https://rdrr.io/r/graphics/legend.html">legend()</a></code> függvény argumentumai:</p>
+<ul>
+<li>
+<code>x=</code>, <code>y=</code><br>
+A jelmagyarázat bal felső sarkának a koordinátái a rajzterület koordinátáiban mérve. Az <code>x</code> argumentum karakteres értékével az igazítást adhatjuk meg: <code>bottomright</code>, <code>bottom</code>, <code>bottomleft</code>, <code>left</code>, <code>topleft</code>, <code>top</code>, <code>topright</code>, <code>right</code>, <code>center</code>.</li>
+<li>
+<code>legend=</code><br>
+A jelmagyarázat szövegét tartalmazó karakteres vektor.</li>
+<li>
+<code>fill=</code>, <code>lty=</code>, <code>lwd=</code>, <code>pch=</code><br>
+A jelmagyarázat szövegét és az ábrán használt jeleket összekötő szimbólumok létrehozására használható argumentumok.</li>
+<li>
+<code>inset=0</code><br>
+Ha kulcsszavakat használunk az igazításra, akkor a margótól mért távolságot itt adhatjuk meg.</li>
+<li>
+<code>merge=0</code><br>
+Ha pontokat és vonalakat is használunk a jelmagyarázatban, akkor <code>TRUE</code> érték mellett ezeket kombinálja a megjelenítéskor.</li>
+<li>
+<code>horiz=FALSE</code><br>
+A jelmagyarázat tájolását befolyásoló logikai paraméter.</li>
+<li>
+<code>ncol=1</code><br>
+A jelmagyarázat oszlopainak a számát határozza meg.</li>
+<li>
+<code>text.col=</code>, <code>bg=</code><br>
+A szöveg színe és a háttérszín jelmagyarázatban.</li>
+</ul>
+<div class="sourceCode" id="cb581"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">op</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>oma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>,<span class="fl">.5</span>,<span class="fl">2</span>,<span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,main<span class="op">=</span><span class="st">""</span>,axes<span class="op">=</span><span class="cn">F</span>,xlab<span class="op">=</span><span class="st">""</span>,ylab<span class="op">=</span><span class="st">""</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">gray</a></span><span class="op">(</span><span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fl">5.5</span>,<span class="fl">0</span>,<span class="st">"Alapértelmezett"</span>,font<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"Cím a külső margón"</span>,outer<span class="op">=</span><span class="cn">T</span>,line<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"Cím a belső margón"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>sub<span class="op">=</span><span class="st">"ALCÍM"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>xlab<span class="op">=</span><span class="st">"x"</span>,ylab<span class="op">=</span><span class="st">"y"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="st">"outer"</span>,lty<span class="op">=</span><span class="fl">1</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span><span class="op">(</span><span class="fl">.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="st">"inner"</span>,lty<span class="op">=</span><span class="fl">2</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span><span class="op">(</span><span class="fl">.4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="st">"figure"</span>,lty<span class="op">=</span><span class="fl">3</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span><span class="op">(</span><span class="fl">.6</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="st">"plot"</span>,lty<span class="op">=</span><span class="fl">4</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span><span class="op">(</span><span class="fl">.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>;<span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>xaxs<span class="op">=</span><span class="st">"i"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>yaxs<span class="op">=</span><span class="st">"i"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mgp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">.5</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,main<span class="op">=</span><span class="st">'xaxs="i",yaxs="i",mgp=c(2,.5,0)'</span>,axes<span class="op">=</span><span class="cn">F</span>,</span>
+<span>     xlab<span class="op">=</span><span class="st">"axis(1,at=1:10,tcl=.3)"</span>,ylab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="st">"plot"</span>,lty<span class="op">=</span><span class="fl">4</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span><span class="op">(</span><span class="fl">.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>,at<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,tcl<span class="op">=</span><span class="fl">.3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>xaxs<span class="op">=</span><span class="st">"r"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>yaxs<span class="op">=</span><span class="st">"r"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mgp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="op">-</span><span class="fl">.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,main<span class="op">=</span><span class="st">'xaxs="r",yaxs="r",mgp=c(3,1,-.2)'</span>,axes<span class="op">=</span><span class="cn">F</span>,xlab<span class="op">=</span><span class="st">"axis(1,at=3:8,labels=LETTERS[1:6])"</span>,ylab<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="st">"plot"</span>,lty<span class="op">=</span><span class="fl">4</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span><span class="op">(</span><span class="fl">.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>,at<span class="op">=</span><span class="fl">3</span><span class="op">:</span><span class="fl">8</span>,labels<span class="op">=</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mgp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,main<span class="op">=</span><span class="st">""</span>,axes<span class="op">=</span><span class="cn">F</span>,xlab<span class="op">=</span><span class="st">""</span>,ylab<span class="op">=</span><span class="st">""</span>,type<span class="op">=</span><span class="st">"n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="st">"figure"</span>,lty<span class="op">=</span><span class="fl">3</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span><span class="op">(</span><span class="fl">.6</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span><span class="op">(</span><span class="st">"plot"</span>,lty<span class="op">=</span><span class="fl">4</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span><span class="op">(</span><span class="fl">.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,<span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,lw<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,inset<span class="op">=</span><span class="fl">.1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"top"</span>,<span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,lty<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,inset<span class="op">=</span><span class="fl">.1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,<span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,lty<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,pch<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span>,inset<span class="op">=</span><span class="fl">.05</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"right"</span>,<span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,lw<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,pch<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,<span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,fill<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span>,text.col<span class="op">=</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">7</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">25</span>,ncol<span class="op">=</span><span class="fl">4</span>,cex<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="40-Hagyomanyos-grafika_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb582"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div id="interaktív-grafikus-függvények" class="section level2" number="13.6">
+<h2>
+<span class="header-section-number">B.6</span> Interaktív grafikus függvények<a class="anchor" aria-label="anchor" href="#interakt%C3%ADv-grafikus-f%C3%BCggv%C3%A9nyek"><i class="fas fa-link"></i></a>
+</h2>
+<p>Az R hagyományos grafikus rendszere elsősorban statikus ábrák létrehozását támogatja, a kész grafikán további interaktív műveletekre csak korlátozottan van lehetőség. Ezek közül most a <code><a href="https://rdrr.io/r/graphics/locator.html">locator()</a></code> és az <code><a href="https://rdrr.io/r/graphics/identify.html">identify()</a></code> függvényeket tekintjük át.
+A <code><a href="https://rdrr.io/r/graphics/locator.html">locator()</a></code> függvény lehetővé teszi, hogy a felhasználó a rajzterületen az egér bal gombjával kijelöljön egy vagy több pontot. A függvény visszatérési értéke egy lista, amely a megjelölt pontok x és y koordinátáit sorolja fel.</p>
+<div class="sourceCode" id="cb583"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/locator.html">locator</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span></span></code></pre></div>
+<p>A <code><a href="https://rdrr.io/r/graphics/locator.html">locator()</a></code> függvény fontosabb argumentumai:</p>
+<ul>
+<li>
+<code>n=</code> A meghatározandó pontok maximális számát adhatjuk meg. Alapértelmezetten 512 pont helyét kaphatjuk meg.</li>
+<li>
+<code>type=</code> Értéke az ”n”, ”p”, ”l” vagy ”o” karakter valamelyike lehet. Az alapértelmezett ”n” esetében az egérkattintás után nem történik megjelenítés, míg ”p” és ”o” hatására egy pont fog megjelenni, ”l” vagy ”o” estén pedig vonal fogja összekötni a megjelölt helyeket.</li>
+</ul>
+<p>Az <code><a href="https://rdrr.io/r/graphics/identify.html">identify()</a></code> függvény a rajzterületen megjelenő adatpontokhoz rendel címkét. A <code><a href="https://rdrr.io/r/graphics/locator.html">locator()</a></code> függvényhez hasonlóan az egér bal gombjával itt is ki kell jelölni egy pontot a rajzterületen, majd a függvény a megjelölt ponthoz legközelebb lévő adatponthoz rendel egy címkét. Az <code>indentify()</code> függvény visszatérési értéke az azonosított adatpontok indexe.</p>
+<div class="sourceCode" id="cb584"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mammals</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mammals</span><span class="op">$</span><span class="va">body</span>, <span class="va">mammals</span><span class="op">$</span><span class="va">brain</span>, log<span class="op">=</span><span class="st">"xy"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/identify.html">identify</a></span><span class="op">(</span><span class="va">mammals</span><span class="op">$</span><span class="va">body</span>, <span class="va">mammals</span><span class="op">$</span><span class="va">brain</span>, <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">mammals</span><span class="op">)</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<p>Az <code><a href="https://rdrr.io/r/graphics/identify.html">identify()</a></code> függvény fontosabb argumentumai:</p>
+<ul>
+<li><p><code>x=</code>, <code>y=</code><br>
+Numerikus vektorok, amelyek az ábra adatpontjainak x és y koordinátáit határozzák meg.</p></li>
+<li><p><code>labels=</code><br>
+Karakteres vektor, amely egyes adatpontok címkéit tartalmazza. Az x és y argumentumokkal azonos hosszú vektor, alapértelmezetten sorszámokat tartalmaz.</p></li>
+<li><p><code>pos=FALSE</code><br>
+Ha FALSE az értéke, akkor a függvény az azonosított adatpontok indexével fog visszatérni. Ha TRUE, akkor egy listával, amely az ind elemében az indexeket, pos elemében pedig a címke adatponthoz viszonyított helyét tartalmazza (1=lennt, 2=balra, 3=fennt, 4=jobbra, illetve 0=ekkor az <code>atpen=TRUE</code> volt)</p></li>
+<li><p><code>n=</code><br>
+A megjelelölendő pontok száma.</p></li>
+<li><p><code>plot=TRUE</code><br>
+Logikai érték, amely ha TRUE (ez az alapértelmezett), akkor megjelenít címkéket, egyébként nem.</p></li>
+<li><p><code>atpen=FALSE</code><br>
+A címke pozíciója TRUE érték esetén az egérkattintás helye lesz, FALSE esetén automatikusan kerül meghatározásra.</p></li>
+<li><p><code>offset=0.5</code><br>
+A címke és az adatpont távolsága. A numerikus érték a karakterszélességhez mért. Az atpen=FALSE esetén nem használja az R.</p></li>
+<li><p><code>tolarence=0.25</code><br>
+Inch-ben mért numerikus érték, amely az egérkattintás és a „közeli” adatpont közötti maximális távolságot jelenti.</p></li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="megoldasok.html"><span class="header-section-number">A</span> Megoldások</a></div>
+<div class="next"><a href="szinek.html"><span class="header-section-number">C</span> Színek</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#hagyom%C3%A1nyos-grafika"><span class="header-section-number">B</span> Hagyományos grafika</a></li>
+<li><a class="nav-link" href="#grafikus-eszk%C3%B6z%C3%B6k"><span class="header-section-number">B.1</span> Grafikus eszközök</a></li>
+<li><a class="nav-link" href="#az-eszk%C3%B6zfel%C3%BClet-feloszt%C3%A1sa"><span class="header-section-number">B.2</span> Az eszközfelület felosztása</a></li>
+<li><a class="nav-link" href="#az-eszk%C3%B6zfel%C3%BClet-r%C3%A9szei"><span class="header-section-number">B.3</span> Az eszközfelület részei</a></li>
+<li>
+<a class="nav-link" href="#magas-szint%C5%B1-rajzf%C3%BCggv%C3%A9nyek"><span class="header-section-number">B.4</span> Magas-szintű rajzfüggvények</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#a-stripchart-f%C3%BCggv%C3%A9ny"><span class="header-section-number">B.4.1</span> A stripchart() függvény</a></li>
+<li><a class="nav-link" href="#a-plot-f%C3%BCggv%C3%A9ny"><span class="header-section-number">B.4.2</span> A plot() függvény</a></li>
+<li><a class="nav-link" href="#a-curve-f%C3%BCggv%C3%A9ny"><span class="header-section-number">B.4.3</span> A curve() függvény</a></li>
+<li><a class="nav-link" href="#a-hist-f%C3%BCggv%C3%A9ny"><span class="header-section-number">B.4.4</span> A hist() függvény</a></li>
+<li><a class="nav-link" href="#a-pie-f%C3%BCggv%C3%A9ny"><span class="header-section-number">B.4.5</span> A pie() függvény</a></li>
+<li><a class="nav-link" href="#a-barplot-f%C3%BCggv%C3%A9ny"><span class="header-section-number">B.4.6</span> A barplot() függvény</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#alacsony-szint%C5%B1-rajzf%C3%BCggv%C3%A9nyek"><span class="header-section-number">B.5</span> Alacsony-szintű rajzfüggvények</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#pontok-vonalak"><span class="header-section-number">B.5.1</span> Pontok, vonalak</a></li>
+<li><a class="nav-link" href="#t%C3%A9glalapok-poligonok-nyilak"><span class="header-section-number">B.5.2</span> Téglalapok, poligonok, nyilak</a></li>
+<li><a class="nav-link" href="#egy%C3%A9b-kieg%C3%A9sz%C3%ADt%C5%91k"><span class="header-section-number">B.5.3</span> Egyéb kiegészítők</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#interakt%C3%ADv-grafikus-f%C3%BCggv%C3%A9nyek"><span class="header-section-number">B.6</span> Interaktív grafikus függvények</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/abarik/aeer/blob/master/40-Hagyomanyos-grafika.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/abarik/aeer/edit/master/40-Hagyomanyos-grafika.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Adatkezelés és egyváltozós elemzések R-ben</strong>" was written by Abari Kálmán. It was last built on 2022-07-14.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

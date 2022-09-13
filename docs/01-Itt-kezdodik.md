@@ -28,7 +28,7 @@ Nézzük az adatelemzés lépéseit és egyben könyvünk felépítését!
 A bevezető példa megoldását R-ben fogjuk elvégezni (és nem más eszközben, mint például az SPSS, jamovi, JASP, SAS stb.). Érdemes tehát ismerni az R céljait és lehetőségeit, jó ha van egy összképünk a használt statisztikai programcsomagról. Ezt az áttekintést nyújtja 2 fejezet. 
 
 **3. fejezet: Az R telepítése.**  
-Az adatelemzés konkrét lépéseinek elvégzéséhez telepített *Alap R* és *RStudio* szükséges. Ha ezek nem állnak rendelkezésre, vagy még nem is találkoztunk ezekkel az eszközökkel, akkor a 3. fejezet nekünk szól. 
+Adatelemzésünk konkrét lépéseinek elvégzéséhez telepített *Alap R* és *RStudio* szükséges. Ha ezek nem állnak rendelkezésre, vagy még nem is találkoztunk ezekkel az eszközökkel, akkor a 3. fejezet nekünk szól. 
 
 **4. fejezet: Munka az R-ben.**  
 Az adatelemzés végrehajtásához az *RStudio*-t ajánljuk, és azon belül pedig a projektek használatát szorgalmazzuk. A 4. fejezetben megismerjük az *RStudio* legalapvetőbb funkcióit, a parancsállományok létrehozását és futtatását.
@@ -44,7 +44,7 @@ A fenti előzmények után elkezdhetjük a bevezető példa megoldását:
 Az R parancsok létrehozásának vannak szabályai, amelyeket a munka során be kell tartanunk. Ismernünk kell jó néhány függvényt, és általában el kell tudnunk igazodni az R nyelvben. Az 5. fejezet ezért kulcsfontosságú, tanulmányozzuk alaposan, és lehetőleg minden kitűzött feladatát oldjuk meg.
 
 **6. fejezet: Beolvasás**  
-Az adatelemzés első lépése az adatállomány beolvasása. Adataink változatos formában állhatnak rendelkezésre, a 6. fejezetben ezek beolvasására kapunk receptet.
+Minden adatelemzés első lépése az adatállomány beolvasása. Adataink változatos formában állhatnak rendelkezésre, a 6. fejezetben ezek beolvasására kapunk receptet.
 
 A bevezető példa megoldásához az RMarkdown állomány egyik csonkját bővítsük a lenti sorokkal.
 
@@ -62,9 +62,9 @@ A bevezető példa megoldásához az RMarkdown állomány egyik csonkját bőví
 
 
 ```r
-str(felmeres)              # dataframe szerkezete
+str(felmeres)              # a dataframe szerkezete
 names(felmeres)            # változónevek  
-unique(felmeres$modszer)   # különböző értékek - osztaly
+unique(felmeres$modszer)   # különböző értékek
 ```
 
 A karakteres vagy numerikus vektorok faktorrá konvertálása az egyik leggyakoribb előkészítő parancs.
@@ -89,13 +89,11 @@ Most a felmérés eredményeinek statisztikai mutatóit íratjuk ki a két taní
 
 ```r
 # install.packages("psych") # psych csomag telepítése
-psych::describeBy(x = felmeres$eredmeny, group = felmeres$modszer, mat=T)
-#>     item      group1 vars  n      mean        sd    median   trimmed       mad
-#> X11    1      modern    1 13 0.6541958 0.1968892 0.6621212 0.6568871 0.2044191
-#> X12    2 hagyományos    1 13 0.3800117 0.1272075 0.3628788 0.3913912 0.1190573
-#>            min       max     range       skew  kurtosis         se
-#> X11 0.32575758 0.9530303 0.6272727 -0.2885768 -1.189491 0.05460724
-#> X12 0.08333333 0.5515152 0.4681818 -0.6434813 -0.114030 0.03528102
+psych::describeBy(x = felmeres$eredmeny, group = felmeres$modszer,
+                  mat=T, fast=T, digits = 2)
+#>     item      group1 vars  n mean   sd  min  max range   se
+#> X11    1      modern    1 13 0.65 0.20 0.33 0.95  0.63 0.05
+#> X12    2 hagyományos    1 13 0.38 0.13 0.08 0.55  0.47 0.04
 ```
 
 **9. fejezet: Grafika.**  
@@ -125,110 +123,29 @@ wilcox.test(eredmeny~modszer, data=felmeres)
 #> 	Wilcoxon rank sum exact test
 #> 
 #> data:  eredmeny by modszer
-#> W = 145, p-value = 0.001248
+#> W = 145, p-value = 0.001
 #> alternative hypothesis: true location shift is not equal to 0
 ```
 
 **11. fejezet: Publikálás.**  
-Az adatelemzési folyamat utolsó lépése, az elemzés eredményének publikációkész formába alakítása. A 11. fejezetben megismerjük azokat a legegyszerűbb folyamatokat, amelyekkel többnyire formanyelvtől függetlenül, publikációkész eredményközlést végezhetünk.
+Az adatelemzési folyamat utolsó lépése, az elemzés eredményének publikációkész formába öntése. A 11. fejezetben megismerjük azokat a legegyszerűbb folyamatokat, amelyekkel többnyire formanyelvtől függetlenül, publikációkész eredményközlést végezhetünk.
 
-Most a bevezető példában kapott eredmények publikálását végezzük el. A korábban használt `psych::describeBy()` függvény hívását úgy módosítjuk, hogy az bármely formanyelven (PDF, HTML, Docx) megfelelő eredményt adjon. Ehhez mindössze egészítsük ki a következő sorokkal a leíró statisztikai elemzést, majd a *Knit* nyomógomb segítségével fordítsuk le az RMarkdown állományt. A leírü statisztikai mutatók máris táblázatos, könnyen áttekinthető formában jelennek meg.
+Most a bevezető példában kapott eredmények publikálását végezzük el. A korábban használt `psych::describeBy()` függvény hívását úgy módosítjuk, hogy az bármely formanyelven (PDF, HTML, Docx) megfelelő eredményt adjon. Ehhez mindössze egészítsük ki a következő sorokkal a leíró statisztikai elemzést, majd a *Knit* nyomógomb segítségével fordítsuk le az RMarkdown állományt. A leíró statisztikai mutatók máris táblázatos, könnyen áttekinthető formában jelennek meg.
 
 
 ```r
-options(OutDec = ",")  # a tizdesjel beállítása
-st <- psych::describeBy(x = felmeres$eredmeny, 
-                                 group = felmeres$modszer, 
-                                 mat=T, digits = 3)
-knitr::kable(t(st), align = c("c", "c"))
+options(OutDec = ",")  # a tizedesjel beállítása
+st <- psych::describeBy(x = felmeres$eredmeny, group = felmeres$modszer, 
+                        mat=T, fast=T, digits = 2)
+knitr::kable(st[-1], align = c("c", "c"), row.names = F)
 ```
 
-<table>
- <thead>
-  <tr>
-   <th style="text-align:left;">   </th>
-   <th style="text-align:center;"> X11 </th>
-   <th style="text-align:center;"> X12 </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> item </td>
-   <td style="text-align:center;"> 1 </td>
-   <td style="text-align:center;"> 2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> group1 </td>
-   <td style="text-align:center;"> modern </td>
-   <td style="text-align:center;"> hagyományos </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> vars </td>
-   <td style="text-align:center;"> 1 </td>
-   <td style="text-align:center;"> 1 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> n </td>
-   <td style="text-align:center;"> 13 </td>
-   <td style="text-align:center;"> 13 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> mean </td>
-   <td style="text-align:center;"> 0,654 </td>
-   <td style="text-align:center;"> 0,380 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> sd </td>
-   <td style="text-align:center;"> 0,197 </td>
-   <td style="text-align:center;"> 0,127 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> median </td>
-   <td style="text-align:center;"> 0,662 </td>
-   <td style="text-align:center;"> 0,363 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> trimmed </td>
-   <td style="text-align:center;"> 0,657 </td>
-   <td style="text-align:center;"> 0,391 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> mad </td>
-   <td style="text-align:center;"> 0,204 </td>
-   <td style="text-align:center;"> 0,119 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> min </td>
-   <td style="text-align:center;"> 0,326 </td>
-   <td style="text-align:center;"> 0,083 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> max </td>
-   <td style="text-align:center;"> 0,953 </td>
-   <td style="text-align:center;"> 0,552 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> range </td>
-   <td style="text-align:center;"> 0,627 </td>
-   <td style="text-align:center;"> 0,468 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> skew </td>
-   <td style="text-align:center;"> -0,289 </td>
-   <td style="text-align:center;"> -0,643 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> kurtosis </td>
-   <td style="text-align:center;"> -1,189 </td>
-   <td style="text-align:center;"> -0,114 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> se </td>
-   <td style="text-align:center;"> 0,055 </td>
-   <td style="text-align:center;"> 0,035 </td>
-  </tr>
-</tbody>
-</table>
+
+
+|   group1    | vars | n  | mean |  sd  | min  | max  | range |  se  |
+|:-----------:|:----:|:--:|:----:|:----:|:----:|:----:|:-----:|:----:|
+|   modern    |  1   | 13 | 0,65 | 0,20 | 0,33 | 0,95 | 0,63  | 0,05 |
+| hagyományos |  1   | 13 | 0,38 | 0,13 | 0,08 | 0,55 | 0,47  | 0,04 |
 
 Publikációnk szerves része a magyarázó ábra. A korábban rajzolt dobozdiagramunkat csinosítsuk ki a következő sorok R csonkba helyezésével. A `ggsave()` függvény a háttértárra rögzítésről is gondoskodik.
 
@@ -252,20 +169,32 @@ A bevezető példa megoldásához természetesen a hipotézisvizsgálat szövege
 ### Összefoglalás {#itt-kezdodik-1-summary}
 
 <div class="rmdsummary">
-<p>Ebben az alfejezetben egy adatelemzési példát oldottunk meg, melynek segítségével illusztrálni tudtuk a további fejezetek tartalmát. A 2. fejezetben áttekintést adunk az R-ről, a 3.-ban az <em>Alap R</em> és <em>RStudio</em> telepítését, a 4.-ben az <em>RStudio</em> használatát mutatjuk be. Az 5. fejezetben kellő részletességgel ismertetjük az R nyelvet. A további fejezetekben az adatelemzés szokásos lépéseit vesszük sorra, a 6. fejezetben a beolvasást, a 7. fejezetben az adatok előkészítését, a 8. és 9. fejezetben a leíró statisztikai műveleteket mutatjuk be. A 10. fejezet az egyváltozós hipotézisvizsgálatoké, az utolsó, 11. fejezet az eredmények publikálását foglalja össze.</p>
+<p>Ebben az alfejezetben egy adatelemzési példát oldottunk meg, melynek
+segítségével illusztrálni tudtuk a további fejezetek tartalmát. A 2.
+fejezetben áttekintést adunk az R-ről, a 3.-ban az <em>Alap R</em> és
+<em>RStudio</em> telepítését, a 4.-ben az <em>RStudio</em> használatát
+mutatjuk be. Az 5. fejezetben kellő részletességgel ismertetjük az R
+nyelvet. A további fejezetekben az adatelemzés szokásos lépéseit vesszük
+sorra, a 6. fejezetben a beolvasást, a 7. fejezetben az adatok
+előkészítését, a 8. és 9. fejezetben a leíró statisztikai műveleteket
+mutatjuk be. A 10. fejezet az egyváltozós hipotézisvizsgálatoké, az
+utolsó, 11. fejezet az eredmények publikálását foglalja össze.</p>
 </div>
 
 ### Feladatok  {#itt-kezdodik-1-exercise}
 
 <div class="rmdexercise">
 <ol style="list-style-type: decimal">
-<li>Milyen online vagy nyomtat könyvek segítik az R elsajátítását? Próbáljuk összegyűjteni a magyar nyelvű könyveket is!</li>
+<li>Milyen online vagy nyomtat könyvek segítik az R elsajátítását?
+Próbáljuk összegyűjteni a magyar nyelvű könyveket is!</li>
 <li>Térképezzük fel az online videókurzusokat is az R tanulásához!</li>
-<li>A bevezető példa (<em>Két tanítási módszer összehasonlítása</em>) megoldásában a hipotézisvizsgálat alapján adjunk szöveges értékelést!</li>
+<li>A bevezető példa (<em>Két tanítási módszer összehasonlítása</em>)
+megoldásában a hipotézisvizsgálat alapján adjunk szöveges
+értékelést!</li>
 </ol>
 </div>
 
-[A fenti feladatok megoldása](#itt-kezdodik-1-exercise-solution)
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html}  [ A fenti feladatok megoldása](#itt-kezdodik-1-exercise-solution)
 
 
 ## A könyv felépítése
@@ -291,7 +220,7 @@ A könyv 11 fejezetből áll, és fejezetenként 3 vagy több alfejezetből. Mos
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | 1.1. Elindulás                            | A könyv fejezeteinek bemutatása egy konkrét adatelemzésen keresztül               |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
-| 1.2. A könyv felépítése                   | A könyv egyes alfejezeteinek rövid bemutatása (jelen alfejezet)                   |
+| 1.2. A könyv felépítése                   | Jelen alfejezet, amelyben a könyv egyes alfejezeteit mutatjuk be röviden          |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | 1.3. Próbák listája                       | A könyvben szereplő egyváltozós statisztikai eljárások listája                    |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
@@ -319,19 +248,33 @@ A könyv 11 fejezetből áll, és fejezetenként 3 vagy több alfejezetből. Mos
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | **4. Munka az R-ben**                     |                                                                                   |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
-| 4.1. Az RStudio használata                | Az *RStudio* jellemzői és felépítése, a projektek használata és a segítségkérés   |
+| 4.1. Az RStudio használata                | Az *RStudio* jellemzői és felépítése, a projektek használata                      |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | 4.2. Segítség az R használatához          | Segítségkérési lehetőségek az R-ben, a beépített súgó használata                  |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
-| 4.3. Az Alap R használata                 | Az *Alap R* konzola, az *RGui*, az *R Commander* és a kötegelt üzemmód lehetőségei|
+| 4.3. Az Alap R használata                 | Az *Alap R* konzolja, az *RGui*, az *R Commander* és a kötegelt üzemmód           |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 |                                           |                                                                                   |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | **5. Az R nyelv**                         |                                                                                   |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
-|                                           |                                                                                   |
+| 5.1 Adatobjektumok                        | Az objektumok fogalma és létrehozásuk, egyszerű kifejezések                       |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 5.2 Függvények                            | A függvény fogalma, a függvényhívás módja, a kifejezés teljes fogalma             |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 5.3 Adatszerkezetek                       | Az R egyszerű és összetett adatszerkezetei, létrehozásuk és indexelésük           |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 5.4 További adatszerkezetek és függvények | A dátum, tömb, táblázat és tibble adatszerkezetek kezelése                        |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 5.5 Objektumok és típusok                 | Az R objektum-orientált lehetőségei                                               |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | **6. Beolvasás**                          |                                                                                   |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 6.1 Excel, SPSS és RDS állományok         | A *rio* csomag lehetőségei                                                        |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 6.2 Tidyverse beolvasás                   | A *tidyverse* csomag lehetőségei                                                  |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 6.3 Tagolt szöveges állományok            | A hagyományos R lehetőségei                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 |                                           |                                                                                   |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
@@ -365,7 +308,9 @@ A könyv 11 fejezetből áll, és fejezetenként 3 vagy több alfejezetből. Mos
 ### Összefoglalás {#itt-kezdodik-2-summary}
 
 <div class="rmdsummary">
-<p>Ebben a részben röviden bemutattuk a könyv összes alfejezetét. A későbbiekben térképként használhatja az Olvasó az itt ismertetett táblázatot.</p>
+<p>Ebben a részben röviden bemutattuk a könyv összes alfejezetét. A
+későbbiekben térképként használhatja az Olvasó az itt ismertetett
+táblázatot.</p>
 </div>
 
 
@@ -378,25 +323,28 @@ A könyv 11 fejezetből áll, és fejezetenként 3 vagy több alfejezetből. Mos
 </div>\EndKnitrBlock{rmdexercise}
 
 
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html} [ A fenti feladatok megoldása](#itt-kezdodik-2-exercise-solution)
+
 ## Próbák listája
 
 <div class="rmdlevel3">
 <p>Ebben a fejezetben:</p>
 <ul>
-<li>áttekintést adunk az egy- és kétváltozós hipotézisvizsgálatokról.</li>
+<li>áttekintést adunk az egy- és kétváltozós
+hipotézisvizsgálatokról.</li>
 </ul>
 </div>
 
 
 A 10. fejezetben bemutatjuk az egy- és kétváltozós hipotézisvizsgálatok végrehajtását. Ebben a fejezetben felsoroljuk a legfontosabb próbákat, összesen öt táblázatban soroljuk fel őket:
 
-* egy mintát vizsgáló próbák (\@ref(tab:egyminta1) táblázat),
-* páros mintát vizsgáló próbák (\@ref(tab:parosminta1) táblázat),
-* két független mintát vizsgáló próbák (\@ref(tab:ketminta1) táblázat),
-* több összetartozó mintát vizsgáló próbák (\@ref(tab:tobbosszeminta1) táblázat),
-* több független mintát vizsgáló próbák (\@ref(tab:tobbminta1) táblázat).
+* egy mintát vizsgáló próbák (\@ref(tab:egyminta1). táblázat),
+* páros mintát vizsgáló próbák (\@ref(tab:parosminta1). táblázat),
+* két független mintát vizsgáló próbák (\@ref(tab:ketminta1). táblázat),
+* több összetartozó mintát vizsgáló próbák (\@ref(tab:tobbosszeminta1). táblázat),
+* több független mintát vizsgáló próbák (\@ref(tab:tobbminta1). táblázat).
 
-A táblázatokban megadjuk, hogy a vizsgálatnak mi a célja, vagyis a populációbeli változó(k) melyik paraméterére vonatkoznak a próbák, a várható értékre, a mediánra, a varianciára vagy a valószínűségre. A 10. fejezetben foglalkozunk az eloszlásvizsgálatok közül a normalitást ellenőrző próbákkal is, így a \@ref(tab:egyminta1) táblázat ezeket is számba veszi.
+A táblázatokban megadjuk, hogy a vizsgálatnak mi a célja, vagyis a populációbeli változó(k) melyik paraméterére vonatkoznak a próbák, a várható értékre, a mediánra, a varianciára vagy a valószínűségre. A 10. fejezetben foglalkozunk az eloszlásvizsgálatok közül a normalitást ellenőrző próbákkal is, így a \@ref(tab:egyminta1). táblázat ezeket is számba veszi.
 
 
 Table: (\#tab:egyminta1) Egy minta vizsgálata
@@ -503,7 +451,12 @@ Table: (\#tab:tobbminta1) Több független minta vizsgálata
 ### Összefoglalás {#itt-kezdodik-3-summary}
 
 <div class="rmdsummary">
-<p>Ebben a részben rövid áttekintést adtunk a könyv 10. fejezetében sorra kerülő statisztikai próbákról. Megneveztük a próbákat, R parancsokkal szemléltettük használatukat, valamint jeleztük a céljukat. A táblázatok áttekintésével képet kaphatunk arról, hogy a későbbiekben milyen jellegű statisztikai következtetéseket tudunk levonni az R használatával.</p>
+<p>Ebben a részben rövid áttekintést adtunk a könyv 10. fejezetében
+sorra kerülő statisztikai próbákról. Megneveztük a próbákat, R
+parancsokkal szemléltettük használatukat, valamint jeleztük a céljukat.
+A táblázatok áttekintésével képet kaphatunk arról, hogy a későbbiekben
+milyen jellegű statisztikai következtetéseket tudunk levonni az R
+használatával.</p>
 </div>
 
 
@@ -518,4 +471,4 @@ Table: (\#tab:tobbminta1) Több független minta vizsgálata
 1. Mely próbák maradtak ki ebből a könyvből? Hol találunk ezek R-beli végrehajtására példát? 
   </div>\EndKnitrBlock{rmdexercise}
 
-
+`<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:forestgreen;overflow:visible;position:relative;"><path d="M182.6 246.6C170.1 259.1 149.9 259.1 137.4 246.6L57.37 166.6C44.88 154.1 44.88 133.9 57.37 121.4C69.87 108.9 90.13 108.9 102.6 121.4L159.1 178.7L297.4 41.37C309.9 28.88 330.1 28.88 342.6 41.37C355.1 53.87 355.1 74.13 342.6 86.63L182.6 246.6zM182.6 470.6C170.1 483.1 149.9 483.1 137.4 470.6L9.372 342.6C-3.124 330.1-3.124 309.9 9.372 297.4C21.87 284.9 42.13 284.9 54.63 297.4L159.1 402.7L393.4 169.4C405.9 156.9 426.1 156.9 438.6 169.4C451.1 181.9 451.1 202.1 438.6 214.6L182.6 470.6z"/></svg>`{=html} [ A fenti feladatok megoldása](#itt-kezdodik-3-exercise-solution)
