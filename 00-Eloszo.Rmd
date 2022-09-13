@@ -30,7 +30,7 @@ A fejezetek végén összefoglaljuk a tanultakat. Megismételjük a legfontosabb
 
 ```{block, type='rmdsummary'}
 
-**Összefoglalás.** Miről szólt az előszó? A könyv 11 fejezetet tartalmaz, az alfejezeteket három különböző ikon egyikével jelöltük: *egy hegy*, *két hegy* vagy *három hegy*.
+**Összefoglalás.** Nem csak a fejezet áttanulmányozása után, hanem időről-időre javasoljuk a fejezet végi összefoglalások áttekintését. Ezzel leellenőrizhetjük R tudásunk frissességét, eldönthetjük, hogy érdemes-e újra átolvasni a fejezetben leírtakat. És mit jegyezzünk meg az előszóból: a könyv 11 fejezetet tartalmaz, az alfejezeteket nehézségük alapján három különböző ikon egyikével jelöltük: *egy hegy*, *két hegy* vagy *három hegy*.
 
 ```
 

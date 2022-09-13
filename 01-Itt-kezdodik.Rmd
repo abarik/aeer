@@ -31,7 +31,7 @@ Nézzük az adatelemzés lépéseit és egyben könyvünk felépítését!
 A bevezető példa megoldását R-ben fogjuk elvégezni (és nem más eszközben, mint például az SPSS, jamovi, JASP, SAS stb.). Érdemes tehát ismerni az R céljait és lehetőségeit, jó ha van egy összképünk a használt statisztikai programcsomagról. Ezt az áttekintést nyújtja 2 fejezet. 
 
 **3. fejezet: Az R telepítése.**  
-Az adatelemzés konkrét lépéseinek elvégzéséhez telepített *Alap R* és *RStudio* szükséges. Ha ezek nem állnak rendelkezésre, vagy még nem is találkoztunk ezekkel az eszközökkel, akkor a 3. fejezet nekünk szól. 
+Adatelemzésünk konkrét lépéseinek elvégzéséhez telepített *Alap R* és *RStudio* szükséges. Ha ezek nem állnak rendelkezésre, vagy még nem is találkoztunk ezekkel az eszközökkel, akkor a 3. fejezet nekünk szól. 
 
 **4. fejezet: Munka az R-ben.**  
 Az adatelemzés végrehajtásához az *RStudio*-t ajánljuk, és azon belül pedig a projektek használatát szorgalmazzuk. A 4. fejezetben megismerjük az *RStudio* legalapvetőbb funkcióit, a parancsállományok létrehozását és futtatását.
@@ -47,7 +47,7 @@ A fenti előzmények után elkezdhetjük a bevezető példa megoldását:
 Az R parancsok létrehozásának vannak szabályai, amelyeket a munka során be kell tartanunk. Ismernünk kell jó néhány függvényt, és általában el kell tudnunk igazodni az R nyelvben. Az 5. fejezet ezért kulcsfontosságú, tanulmányozzuk alaposan, és lehetőleg minden kitűzött feladatát oldjuk meg.
 
 **6. fejezet: Beolvasás**  
-Az adatelemzés első lépése az adatállomány beolvasása. Adataink változatos formában állhatnak rendelkezésre, a 6. fejezetben ezek beolvasására kapunk receptet.
+Minden adatelemzés első lépése az adatállomány beolvasása. Adataink változatos formában állhatnak rendelkezésre, a 6. fejezetben ezek beolvasására kapunk receptet.
 
 A bevezető példa megoldásához az RMarkdown állomány egyik csonkját bővítsük a lenti sorokkal.
 
@@ -63,9 +63,9 @@ A statisztikai elemzés elkezdése előtt számos adatkezelési tevékenységre 
 A bevezető példa megoldásához az RMarkdown állomány egyik csonkját bővítsük a lenti sorokkal. Az adatkezelés legtöbbször a beolvasott állomány *jellemzőinek lekérésével* kezdődik.
 
 ```{r tidy=FALSE, results='hide'}
-str(felmeres)              # dataframe szerkezete
+str(felmeres)              # a dataframe szerkezete
 names(felmeres)            # változónevek  
-unique(felmeres$modszer)   # különböző értékek - osztaly
+unique(felmeres$modszer)   # különböző értékek
 ```
 
 A karakteres vagy numerikus vektorok faktorrá konvertálása az egyik leggyakoribb előkészítő parancs.
@@ -87,7 +87,8 @@ Most a felmérés eredményeinek statisztikai mutatóit íratjuk ki a két taní
 
 ```{r}
 # install.packages("psych") # psych csomag telepítése
-psych::describeBy(x = felmeres$eredmeny, group = felmeres$modszer, mat=T)
+psych::describeBy(x = felmeres$eredmeny, group = felmeres$modszer,
+                  mat=T, fast=T, digits = 2)
 ```
 
 **9. fejezet: Grafika.**  
@@ -114,16 +115,15 @@ wilcox.test(eredmeny~modszer, data=felmeres)
 ```
 
 **11. fejezet: Publikálás.**  
-Az adatelemzési folyamat utolsó lépése, az elemzés eredményének publikációkész formába alakítása. A 11. fejezetben megismerjük azokat a legegyszerűbb folyamatokat, amelyekkel többnyire formanyelvtől függetlenül, publikációkész eredményközlést végezhetünk.
+Az adatelemzési folyamat utolsó lépése, az elemzés eredményének publikációkész formába öntése. A 11. fejezetben megismerjük azokat a legegyszerűbb folyamatokat, amelyekkel többnyire formanyelvtől függetlenül, publikációkész eredményközlést végezhetünk.
 
-Most a bevezető példában kapott eredmények publikálását végezzük el. A korábban használt `psych::describeBy()` függvény hívását úgy módosítjuk, hogy az bármely formanyelven (PDF, HTML, Docx) megfelelő eredményt adjon. Ehhez mindössze egészítsük ki a következő sorokkal a leíró statisztikai elemzést, majd a *Knit* nyomógomb segítségével fordítsuk le az RMarkdown állományt. A leírü statisztikai mutatók máris táblázatos, könnyen áttekinthető formában jelennek meg.
+Most a bevezető példában kapott eredmények publikálását végezzük el. A korábban használt `psych::describeBy()` függvény hívását úgy módosítjuk, hogy az bármely formanyelven (PDF, HTML, Docx) megfelelő eredményt adjon. Ehhez mindössze egészítsük ki a következő sorokkal a leíró statisztikai elemzést, majd a *Knit* nyomógomb segítségével fordítsuk le az RMarkdown állományt. A leíró statisztikai mutatók máris táblázatos, könnyen áttekinthető formában jelennek meg.
 
 ```{r eval=TRUE, results='asis'}
-options(OutDec = ",")  # a tizdesjel beállítása
-st <- psych::describeBy(x = felmeres$eredmeny, 
-                                 group = felmeres$modszer, 
-                                 mat=T, digits = 3)
-knitr::kable(t(st), align = c("c", "c"))
+options(OutDec = ",")  # a tizedesjel beállítása
+st <- psych::describeBy(x = felmeres$eredmeny, group = felmeres$modszer, 
+                        mat=T, fast=T, digits = 2)
+knitr::kable(st[-1], align = c("c", "c"), row.names = F)
 ```
 
 Publikációnk szerves része a magyarázó ábra. A korábban rajzolt dobozdiagramunkat csinosítsuk ki a következő sorok R csonkba helyezésével. A `ggsave()` függvény a háttértárra rögzítésről is gondoskodik.
@@ -160,7 +160,7 @@ Ebben az alfejezetben egy adatelemzési példát oldottunk meg, melynek segíts�
 
 ```
 
-`r if (knitr:::is_html_output()) '[A fenti feladatok megoldása](#itt-kezdodik-1-exercise-solution)'`
+`r if (knitr:::is_html_output()) fontawesome::fa("check-double", fill = "forestgreen")`  `r if (knitr:::is_html_output()) '[ A fenti feladatok megoldása](#itt-kezdodik-1-exercise-solution)'`
 
 
 ## A könyv felépítése
@@ -189,7 +189,7 @@ knitr::asis_output('\n\n\\begingroup\\fontsize{10}{11}\\selectfont')
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | 1.1. Elindulás                            | A könyv fejezeteinek bemutatása egy konkrét adatelemzésen keresztül               |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
-| 1.2. A könyv felépítése                   | A könyv egyes alfejezeteinek rövid bemutatása (jelen alfejezet)                   |
+| 1.2. A könyv felépítése                   | Jelen alfejezet, amelyben a könyv egyes alfejezeteit mutatjuk be röviden          |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | 1.3. Próbák listája                       | A könyvben szereplő egyváltozós statisztikai eljárások listája                    |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
@@ -217,19 +217,33 @@ knitr::asis_output('\n\n\\begingroup\\fontsize{10}{11}\\selectfont')
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | **4. Munka az R-ben**                     |                                                                                   |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
-| 4.1. Az RStudio használata                | Az *RStudio* jellemzői és felépítése, a projektek használata és a segítségkérés   |
+| 4.1. Az RStudio használata                | Az *RStudio* jellemzői és felépítése, a projektek használata                      |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | 4.2. Segítség az R használatához          | Segítségkérési lehetőségek az R-ben, a beépített súgó használata                  |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
-| 4.3. Az Alap R használata                 | Az *Alap R* konzola, az *RGui*, az *R Commander* és a kötegelt üzemmód lehetőségei|
+| 4.3. Az Alap R használata                 | Az *Alap R* konzolja, az *RGui*, az *R Commander* és a kötegelt üzemmód           |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 |                                           |                                                                                   |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | **5. Az R nyelv**                         |                                                                                   |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
-|                                           |                                                                                   |
+| 5.1 Adatobjektumok                        | Az objektumok fogalma és létrehozásuk, egyszerű kifejezések                       |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 5.2 Függvények                            | A függvény fogalma, a függvényhívás módja, a kifejezés teljes fogalma             |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 5.3 Adatszerkezetek                       | Az R egyszerű és összetett adatszerkezetei, létrehozásuk és indexelésük           |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 5.4 További adatszerkezetek és függvények | A dátum, tömb, táblázat és tibble adatszerkezetek kezelése                        |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 5.5 Objektumok és típusok                 | Az R objektum-orientált lehetőségei                                               |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 | **6. Beolvasás**                          |                                                                                   |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 6.1 Excel, SPSS és RDS állományok         | A *rio* csomag lehetőségei                                                        |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 6.2 Tidyverse beolvasás                   | A *tidyverse* csomag lehetőségei                                                  |
++-------------------------------------------+-----------------------------------------------------------------------------------+
+| 6.3 Tagolt szöveges állományok            | A hagyományos R lehetőségei                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
 |                                           |                                                                                   |
 +-------------------------------------------+-----------------------------------------------------------------------------------+
@@ -374,6 +388,8 @@ Ebben a részben röviden bemutattuk a könyv összes alfejezetét. A későbbie
 ```
 
 
+`r if (knitr:::is_html_output()) fontawesome::fa("check-double", fill = "forestgreen")` `r if (knitr:::is_html_output()) '[ A fenti feladatok megoldása](#itt-kezdodik-2-exercise-solution)'`
+
 ## Próbák listája
 
 ```{block, type='rmdlevel3'}
@@ -387,13 +403,13 @@ Ebben a fejezetben:
 
 A 10. fejezetben bemutatjuk az egy- és kétváltozós hipotézisvizsgálatok végrehajtását. Ebben a fejezetben felsoroljuk a legfontosabb próbákat, összesen öt táblázatban soroljuk fel őket:
 
-* egy mintát vizsgáló próbák (\@ref(tab:egyminta1) táblázat),
-* páros mintát vizsgáló próbák (\@ref(tab:parosminta1) táblázat),
-* két független mintát vizsgáló próbák (\@ref(tab:ketminta1) táblázat),
-* több összetartozó mintát vizsgáló próbák (\@ref(tab:tobbosszeminta1) táblázat),
-* több független mintát vizsgáló próbák (\@ref(tab:tobbminta1) táblázat).
+* egy mintát vizsgáló próbák (\@ref(tab:egyminta1). táblázat),
+* páros mintát vizsgáló próbák (\@ref(tab:parosminta1). táblázat),
+* két független mintát vizsgáló próbák (\@ref(tab:ketminta1). táblázat),
+* több összetartozó mintát vizsgáló próbák (\@ref(tab:tobbosszeminta1). táblázat),
+* több független mintát vizsgáló próbák (\@ref(tab:tobbminta1). táblázat).
 
-A táblázatokban megadjuk, hogy a vizsgálatnak mi a célja, vagyis a populációbeli változó(k) melyik paraméterére vonatkoznak a próbák, a várható értékre, a mediánra, a varianciára vagy a valószínűségre. A 10. fejezetben foglalkozunk az eloszlásvizsgálatok közül a normalitást ellenőrző próbákkal is, így a \@ref(tab:egyminta1) táblázat ezeket is számba veszi.
+A táblázatokban megadjuk, hogy a vizsgálatnak mi a célja, vagyis a populációbeli változó(k) melyik paraméterére vonatkoznak a próbák, a várható értékre, a mediánra, a varianciára vagy a valószínűségre. A 10. fejezetben foglalkozunk az eloszlásvizsgálatok közül a normalitást ellenőrző próbákkal is, így a \@ref(tab:egyminta1). táblázat ezeket is számba veszi.
 
 
 Table: (\#tab:egyminta1) Egy minta vizsgálata
@@ -519,4 +535,4 @@ Ebben a részben rövid áttekintést adtunk a könyv 10. fejezetében sorra ker
   
 ```
 
-
+`r if (knitr:::is_html_output()) fontawesome::fa("check-double", fill = "forestgreen")` `r if (knitr:::is_html_output()) '[ A fenti feladatok megoldása](#itt-kezdodik-3-exercise-solution)'`
