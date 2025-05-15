@@ -1,0 +1,648 @@
+# Beolvasás {#sec-beolvasas}
+
+```{r}
+#| results: "asis"
+#| echo: false
+
+source("_common.R")
+```
+
+```{r}
+#| fig-align: center
+#| echo: false
+#| out-width: '65%'
+
+knitr::include_graphics(path = "images/ch_06_small.png")
+```
+
+{{< pagebreak >}}
+
+## Alapvető formátumok `r emoji("slightly-smiling-face")` {#sec-alapveto-formatumok}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a táblázatkezelők állományainak beolvasását,
+-   a tagolt szöveges állományok fogalmát,
+-   és azok beolvasását az *Alap R* segítségével.
+:::
+
+Az R-ben adatokkal dolgozunk, amelyek beolvasására és kiírására az R számos eljárást kínál. Adatokat beolvashatunk a billentyűzetről, a vágóasztalról és külső adatforrásból, állományból vagy adatbázisból is. Az R-ben feldolgozott adatokat a vágóasztalra, adatbázisba vagy állományba írhatjuk ki. Ebben a fejezetben csak a két legtermészetesebb beolvasási módszert ismertetjük, az adatok beolvasást táblázatkezelők (például Microsoft Excel, LibreOffice Calc) állományaiból és tagolt szöveges állományokból.
+
+### Táblázatkezelők
+
+A táblázatkezelők saját állományai (például `.xlsx` és `.ods`) kezelhetők a legkényelmesebben az adatelemzés során. Az adatbevitel és a rögzített adatok karbantartása, későbbi módosítása ebben a formátumban a legegyszerűbb, ráadásul a számítógép alapú tesztek/kérdőívek sokszor ilyen típusú állományokba írják a válaszokat. A táblázatkezelők saját állományait olyan munkafüzetnek tekintjük, amely munkalapokból áll, így akár több adatbázist is tárolhatunk egyetlen állományban. Egy Excel vagy LibreOffice Calc adatmátrix esetén tudnunk kell, hogy az melyik munkalapon helyezkedik el, ritkábban pedig azt is, melyik tartományban foglal helyet a beolvasandó adatbázis.
+
+Az Excel és LibreOffice Calc adattáblák beolvasást a `{rio}` csomag `import()` függvényével végezzük, melynek egyetlen kötelező argumentuma a fájl elérési útja (`file=`).
+
+Előkészítettünk egy 4 munkalapos Excel és LibreOffice Calc adatbázist (`agatha_christie_m.xlsx` és `agatha_christie_m.ods`), amelynek mindegyik munkalapján ugyanazt az adatbázist találjuk meg, de egyre zajosabb környezetben.
+
+Az 1. munkalapon nincsenek zavaró cellák, csupán a adatbázisunk értékes adatcellái az `A1` cellától kezdődően. Ebben az esetben nincs szükség más argumentumra, csak az állomány elérési útjára.
+
+```{r}
+#| tidy: false
+#| warning: false
+#| message: false
+
+library(rio)
+ac.1 <- import(file = "adat/agatha_christie_m.xlsx") # MS Excel
+ac.1 <- import(file = "adat/agatha_christie_m.ods")  # LibreOffice Calc
+```
+
+A 2. munkalapon már nem az `A1` cellában kezdődik az adatbázis, de továbbra sincs zavaró egyéb cella. Az `import()` megtalálja az adatbázist a munkalapon az Excel adatbázis esetében, de a LibreOffice Calc adattábla beolvasásához pontosítani kell az adatbázis helyét. A tartomány közvetlen megadásával (`range="F7:I52"`) utasítjuk az `import()` függvényt, hogy honnan olvassa be az adatbázisunkat. Természetesen a megadott cellatartomány az oszlopneveket is tartalmazza annak első sorában.
+
+Az `XLSX` és az `ODS` beolvasása közötti eltérés rávilágít az `import()` függvény működésére. Nem maga az `import()` végzi a közvetlen beolvasást, hanem okosan kiválasztja a beolvasandó állomány kiterjesztése alapján, hogy melyik csomag, melyik konkrét függvényét hívja. Az Excel állományokat a *Tidyverse R* `{readxl}` csomag `read_excel()` függvénye fogja beolvasni, a LibreOffice Calc állományokat a `{readODS}` csomag `read_ods()` függvénye, amelyek hívását már az `import()` végzi. Mivel két különböző függvény dolgozik a háttérben, így az `XLSX` és az `ODS` állományokat beolvasó parancs paraméterezése is eltérhet, és esetünkben el is tér. A `file=` argumentum azonban közös, és természetesen a munkalap sorszámát is meg kell adnunk, amely mindkét esetben a `sheet=2`-vel történik.
+
+```{r}
+#| tidy: false
+
+ac.2 <- import(file = "adat/agatha_christie_m.xlsx", sheet=2)
+ac.2 <- import(file = "adat/agatha_christie_m.ods",  sheet=2, range="F7:I52")
+```
+
+A 3. munkalapon már az első 6 sor zavaró, nem az adatbázishoz tartozó adatokat tartalmaz, így azokat elegendő kihagyni (`skip=6`) a beolvasásból az Excel esetében, míg az `ODS`-hez továbbra is a tartomány pontos megadása szükséges a sikeres beolvasásához.
+
+```{r}
+#| tidy: false
+
+ac.3 <- import(file = "adat/agatha_christie_m.xlsx", sheet=3, skip=6)
+ac.3 <- import(file = "adat/agatha_christie_m.ods",  sheet=3, range="F7:I52")
+```
+
+A 4. munkalapon már rendkívül terhelt az adatbázisunk a környező zavaró celláktól, így közvetlenül a tartomány megadásával (`range="F7:I52"`) utasítjuk az `import()` függvényt Excel esetében is, hogy honnan olvassa be az adatbázisunkat.
+
+```{r}
+#| tidy: false
+
+ac.4 <- import(file = "adat/agatha_christie_m.xlsx", sheet=4, range="F7:I52")
+ac.4 <- import(file = "adat/agatha_christie_m.ods",  sheet=4, range="F7:I52")
+```
+
+Jegyezzük meg, ha csak tehetjük, adatainkat táblázatkezelő programmal hozzuk létre és annak saját formátumában (`XLSX` vagy `ODS`) tároljuk.
+
+### Tagolt szöveges állomány
+
+A tagolt szöveges állományok kitüntetett szerepet játszanak a statisztikai adatfeldolgozásban, ugyanis minden statisztikai programcsomag és táblázatkezelő be tud olvasni ilyen formátumú állományokat, és ki tud exportálni ilyen formátumba. A tagolt szöveges állományok létrehozásához pedig egy jegyzettömbszerű szövegszerkesztő is elegendő, tehát ez a formátum elég nagy szabadságot ad az adataink kezeléshez.
+
+#### Tagolt szöveges állomány létrehozása
+
+A tagolt szöveges állomány egy egyszerű, formázást nem tartalmazó szöveges állomány, amelyet azonos szerkezetű sorok alkotnak. A sorokat az operációs rendszernek megfelelő sorvége karakterek zárják. Jegyzettömbszerű szövegszerkesztő használata során, az {{< kbd Enter >}} leütésével ezek a sorvége karakterek kerülnek fizikailag a szöveges állományba. Linux és macOS operációs rendszer alatt az `LF` karakter, Windows platformon a `CR` és `LF` karakterek. Ezeket sorvége karaktereknek hívjuk, az `LF` a soremelés (`\n`), a `CR` a kocsi vissza (`\r`) karakter. Annak ellenére, hogy különböző platformokon más-más jelzi a sorvégét, a beolvasó függvények felismerik ezeket, és helyesen értelmezik. Ezzel nekünk nem kell külön foglalkoznunk.
+
+Minden tagolt szöveges állományban van egy kitüntetett karakter, a tagoló karakter. Ez tipikusan a pontosvessző (`;`), a szóköz, a tabulátor (`\t`) vagy a vessző (`,`) karakter. A tagolt szöveges állomány összes sorában ezek egyikét használjuk az adatértékek elválasztására, ráadásul minden sorban azonos számú adatértéknek kell szerepelni, ennek megfelelően minden sorban azonos számú tagoló karakter van.
+
+Nézzünk példát pontosvesszővel tagolt szöveges állományra:
+
+``` txt
+nem;kor;pulzus
+fiú;12;71
+fiú;11;69
+lány;14;70
+```
+
+Összesen 4 sora van, soronként 3 adatértékkel, és 2 pontosvesszővel. Látható, hogy az első sor kitüntetett, azaz igazából nem méréssel kapott adatokat tartalmaz, hanem megnevezi azokat. Gyakori, hogy a tagolt szöveges állományok első sora ilyen speciális fejlécsor, amely oszlopneveket tartalmaz. Ez nem kötelező, elképzelhető, hogy az első sorban már közvetlenül adatértékek helyezkednek el.
+
+Nézzünk egy szóközzel tagolt szöveges állományt:
+
+``` markdown
+nem kor pulzus atlag
+fiú 12 71 3,92
+fiú 11 69 4,12
+lány 14 70 5,00
+```
+
+Ez a tagolt szöveges állomány 4 sort, soronként 4 adatértéket és 3 elválasztó szóközt tartalmaz. Az első sora fejlécsor. Látható, hogy tizedes törtek is szerepelnek az állományban, a tizedesvesszőt valóban vesszővel jelöltük. Ez nem minden esetben van így, tizedes pont is elválaszthatná az egész és tört részt.
+
+Tekintsünk egy elsőre kicsit rendezetlen szöveges állományt:
+
+``` markdown
+Általános iskolai felmérés
+2019.03.02.
+
+#2.b
+nem,kor,pulzus,atlag
+fiú,12,71,3.92
+#fiú,11,69,4.12
+lány,14,70,5.00 # ellenőrizni
+```
+
+Az állomány második felében fedezhetünk fel rendezettséget, a fejlécet 4 oszlopnévvel, és alatta a sorokat 4-4 adatértékkel. Ez a rész olyan, mint egy vesszővel elválasztott szöveges állomány, ahol a tizedes törtekben pontot használunk az egész és tört rész elválasztására.
+
+Az állomány eleje azonban egyáltalán nem hasonlít a tagolt szöveges állományokra, és ráadásul kettős kereszttel (`#`), vagyis megjegyzésnek szánt szövegekkel tarkított soraink is vannak. Az ilyen szabadabb stílusú állományok is beolvashatók az R-be, csupán meg kell adnunk, hogy az elejéről hány sort hagyjon figyelmen kívül (3 sort), és mit tekintsen megjegyzésnek (a kettős keresztet) a beolvasását végző eljárás. Ebben az esetben a fejlécen kívül még 2 adatsor lesz a beolvasott adattáblában.
+
+Melyek a tagolt szöveges állományok fontos jellemzői:
+
+-   a tagoló karakter,
+-   a decimális elválasztó,
+-   van-e fejlécsor,
+-   hány sort lépjünk át az elejéről,
+-   mi a megjegyzés karakter,
+-   milyen kódolású az állomány.
+
+Ahogyan említettük tagolt szöveges állományt egy jegyzettömbszerű szövegszerkesztővel mi is létrehozhatunk, de ha módunk van rá, akkor a minél kényelmesebb adatbevitel miatt, használjunk táblázatkezelőt, és az abban elkészült táblázatos formában lévő adatokat exportáljuk ki tagolt szöveges állományba. Például magyar Excel esetén választhatjuk a `CSV (pontosvesszővel tagolt)`, vagy a `Szöveges (tabulátorral tagolt)` formátumot. Érdemes minden esetben megőrizni a táblázatkezelő saját formátumában az adatokat, mert a kényelmes szerkesztés miatt továbbra is abban érdemes az adatokat módosítani, de a változtatások után, utolsó lépésként, végezzük el az exportot tagolt szöveges állományba.
+
+#### A `read.table()` család
+
+Tagolt szöveges állományok beolvasásának hagyományos módja a `read.table()` függvénycsalád használata. Azért nevezzük függvénycsaládnak, mert valójában több függvényt használhatunk, amelyek csak a paraméterek alapértelmezett értékében térnek el egymástól:
+
+-   `read.table(  sep="",   dec=".")`
+-   `read.csv(    sep=",",  dec=".")`
+-   `read.csv2(   sep=";",  dec=",")`
+-   `read.delim(  sep="\t", dec=".")`
+-   `read.delim2( sep="\t", dec=",")`
+
+Érdemes a fenti függvénynevek megtanulása helyett egyetlen függvényt, a `read.table()`-t használni, és inkább a lehetséges paraméterek jelentését jegyezzük meg:
+
+-   `file=` - A beolvasandó állomány elérési útja. A könyvtárakat a `/` karakterrel válasszuk el egymástól.
+-   `sep=` - A tagoló karakter a beolvasandó állományban. Tipikus értékei: `sep=";"`, `sep=" "`, `sep=","` és tabulátor elválasztó esetén `sep="\t"`.
+-   `dec=` - A decimális elválasztó, vagyis a tizedesvessző alakja az állományban. Tipikusan a `dec=","` beállítást kell használnunk, de előfordulhat, hogy pont a tizedes elválasztó, így a `dec="."` paraméterre van szükségünk.
+-   `header=` - Ha van fejléc a szöveges állományban, akkor a `header=TRUE`, egyébként a `header=FALSE` beállítást használjuk.
+-   `na.strings=` - A hiányzó érték jelölése a szöveges állományban. Az alapértelmezett beállítás a legtöbb esetben megfelelő, hiszen a `""` (semmi) és az `"NA"` jelölésből alapértelmezés szerint hiányzó érték lesz.
+-   `comment.char=` - A tipikus megjegyzés karakter a `#`, de meg tudjuk változtatni, ha szükséges.
+-   `skip=` - A szöveges állomány első néhány sorát figyelmen kívül hagyhatjuk.
+-   `stringsAsFactors=` - A `stringsAsFactors=TRUE` beállítással elérhetjük a karakteres oszlopok automatikus faktorrá konvertálását.
+-   `fileEncoding=` - A beolvasandó szöveges állományt alkotó karakterek kódolási szabványát adhatjuk meg. Tipikusan az UTF-8 kódolású szöveges állományok beolvasása során kell használnunk (`fileEncoding="UTF-8"`), de a magyar környezetben készült szöveges állományok esetében is rögzíthetjük a kódolási szabványt (`fileEncoding="latin2"`).
+-   `strip.white=` - A felesleges szóközök és tabulátorok eltávolítása az adatok elejéről és végéről.
+-   `quote=` - A szöveges állományban lévő adatvédő idézőjelek alakja. Alapértelmezés szerint a `'` szimpla és a `"` dupla idézőjeleket is figyeli a `read.table()`, amely sok esetben hibás beolvasásához vezethet. Ha nincs külön adatvédő idézőjel az állományban, akkor használjuk a `quote=""` beállítást, ha van, akkor pontosan adjuk meg (`quote="'"` vagy `quote='"'`).
+
+Végezzük el az `egyetem.csv` tagolt szöveges állomány beolvasását, amelynek első néhány sora a következő:
+
+``` txt
+hallgato;Height;neme;lefekves;felkeles;Drink
+1;67;female;-2,5;5,5;víz
+2;64;female;1,5;8;üdítő
+3;61;female;-1,5;7,5;tej
+```
+
+A beolvasandó állományunk egy első sorában oszlopneveket tartalmazó szöveges állomány, amelynek a tartalmát a következő parancsok egy `df` adattáblában helyezik el. Az állományban az adatokat (és az oszlopneveket is) pontosvessző (`;`) választja el, a numerikus értékekben pedig tizedesvessző szerepel.
+
+```{r}
+#| tidy: false
+
+data.file <- "https://github.com/abarik/rdata/raw/master/r_alapok/egyetem.csv"
+df <- read.table(file = data.file, header=T, 
+                                   sep=";", 
+                                   dec=",", 
+                                   strip.white = T, 
+                                   stringsAsFactors = F, 
+                                   fileEncoding = "latin2")
+str(df)
+```
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A statisztikai munka első lépése az adatmátrix beolvasása. Adatainkat legkényelmesebb Excel vagy LibreOffice Calc táblázatkezelők saját formátumú adatállományiban tárolni (`XLSX`, `ODS`), de néha nem kerülhetjük el a tagolt szöveges állományok használatát. A táblázatkezelők adatállományait a `{rio}` csomag `import()` függvényével olvashatjuk be, a tagolt szöveges állományokat az *Alap R* `read.table()` függvénnyel.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  Olvassuk be a [leniency.xls](https://onlinestatbook.com/2/case_studies/data/leniency.xls) Excel állományt, állapítsuk meg hány sora és oszlopa van.
+2.  Olvassuk be a [socsupport.csv](https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/socsupport.csv) tagolt szöveges állományt, állapítsuk meg hány sora és oszlopa van.
+3.  Olvassuk be a [tv.txt](https://onlinestatbook.com/2/case_studies/data/tv.txt) tagolt szöveges állományt, állapítsuk meg hány sora és oszlopa van.
+:::
+
+## A *Tidyverse R* és az inline beolvasás `r emoji("thinking-face")` {#sec-tidy-inline}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a tagolt szöveges állományok *Tidyverse R* beolvasását,
+-   és az inline beolvasás eseteit.
+:::
+
+### A `read_delim()` függvénycsalád
+
+A *Tidyverse R* is képes a tagolt szöveges állományok beolvasására, és rendszerint gyorsabb, jobban paraméterezhető lehetőséget nyújt. Lényeges különbség az előző részben látott `read.table()` családhoz képest, hogy alapértelmezés szerint *tibble* típusú adattábla a beolvasás eredménye.
+
+A `read_delim()` család tagjai:
+
+-   `read_delim()`
+-   `read_csv()`
+-   `read_csv2()`
+-   `read_tsv()`
+
+Minden esetben használjuk a `read_delim()` függvényt, amely nagyon hasonló paraméterekkel rendelkezik, mint a `read.table()`:
+
+-   `file=` - Ugyanaz, mint a `read.table()` függvénynél.
+-   `delim=` - Ugyanaz, mint a `read.table()` függvénynél a `sep=` argumentum.
+-   `locale=` - A decimális elválasztó és a kódolási szabvány beállításához a `locale()` függvényt használjuk. Ha a szokásos vessző a tizedes vessző alakja, akkor a `locale = locale(decimal_mark = ",")`, egyébként a `locale = locale(decimal_mark = ".")` beállítást használjuk. Ha a kódolási szabványt is be szeretnénk állítani a vessző decimális elválasztó mellett, akkor a `locale = locale(decimal_mark = ".", encoding = "UTF-8")` beállításra van szükségünk az UTF-8 beállításához.
+-   `col_names=` - Ugyanaz, mint a `read.table()` függvénynél a `header=` argumentum.
+-   `na=` - Ugyanaz, mint a `read.table()` függvénynél a `na.strings=` argumentum.
+-   `comment=` - Ugyanaz, mint a `read.table()` függvénynél a `comment.char=` argumentum.
+-   `skip=` - Ugyanaz, mint a `read.table()` függvénynél.
+-   `trim_ws=` - Ugyanaz, mint a `read.table()` függvénynél a `strip.white=` argumentum.
+-   `quote=` - Ugyanaz, mint a `read.table()` függvénynél.
+
+Végezzük el a már korábban megismert `egyetem.csv` tagolt szöveges állomány beolvasását a *Tidyverse R* segítségével:
+
+```{r}
+#| tidy: false
+#| warning: false
+#| message: false
+
+data.file <- "https://github.com/abarik/rdata/raw/master/r_alapok/egyetem.csv"
+library(tidyverse)
+dt <- read_delim(file = data.file, col_names=T,  delim=";", trim_ws= T,
+                  locale=locale(decimal_mark=",", 
+                                encoding = "latin2"))
+str(dt)
+```
+
+### Inline beolvasás {#sec-inline-beolvasas}
+
+Ebben a könyvben a külső adatállományokból való beolvasás mellett az inline adatbeolvasást is részletesen bemutatjuk. Kisebb adatbázisok, egyszerűbb adatfeldolgozás esetén az adatokat közvetlenül a parancsállományban is elhelyezhetjük, ezt nevezzük *sorok közötti*, vagy más néven *inline* adatbeolvasásának. A szokásos eset azonban a külső adatállományból való adatbeolvasás.
+
+Az adatok inline beolvasása azt jelenti, hogy nem külső állományból, hanem az R parancsállományba gépelt adatokból indulunk ki. Felhasználjuk a `c()`, `factor()` és a `data.frame()` függvényeket az *Alap R*-ből, valamint a `tibble()` vagy `tribble()` függvényeket a *Tidyverse R*-ből. Esetleg használhatjuk az állományok beolvasását végző, most megismert `read.table()` (*Alap R*) és `read_delim()` (*Tidyverse R*) függvénycsaládokat is.
+
+A legegyszerűbb adatfeldolgozási feladatok egyetlen változót érintenek, ezek pedig numerikus vektorban vagy faktorban tárolhatók az R-ben. Ez az inline beolvasás legegyszerűbb esete.
+
+```{r}
+#| tidy: false
+
+# 4 óvodás testmagassága cm-ben
+magassag <- c(132, 143, 129, 145)
+mean(magassag)  # testmagasság átlaga
+
+# a 4 óvodás neme
+nem <- factor(c("fiú", "lány", "lány", "fiú"), levels=c("fiú","lány")) 
+table(nem, useNA = "ifany")  # gyakorisági táblázat a nemre
+```
+
+Több változó tárolása esetén *adattábla* (*data frame*) vagy *tibble* típusú objektumot hozunk létre a korábban már megismert `data.frame()` és `tibble()` függvények segítségével. Előkészítő lépésként természetesen az oszlopokat alkotó vektorokra is szükség van.
+
+```{r}
+#| tidy: false
+
+library(tidyverse)
+magassag <- c(132, 143, 129, 145)
+nem <- factor(c("fiú", "lány", "lány", "fiú"), levels=c("fiú","lány")) 
+df <- data.frame(magassag, nem) # data frame létrehozása
+dt <- tibble(magassag, nem)     # tibble létrehozása
+```
+
+A létrehozott adattáblák is nagyon hasonlítanak egymásra, és felhasználásuk is azonos módon történik:
+
+```{r}
+#| tidy: false
+
+df  # data frame
+dt  # tibble
+mean(df$magassag)               # testmagasság átlaga
+mean(dt$magassag)               # testmagasság átlaga
+table(df$nem, useNA = "ifany")  # gyakorisági táblázat a nemre
+table(dt$nem, useNA = "ifany")  # gyakorisági táblázat a nemre
+```
+
+Nem kell feltétlenül az adattáblát alkotó oszlopokat külön numerikus vagy faktor oszlopokban előzőleg előkészíteni, ezeket a `data.frame()` vagy `tibble()` argumentumába közvetlenül is beírhatjuk:
+
+```{r}
+#| tidy: false
+
+# adattábla létrehozása
+df <- data.frame(
+  magassag = c(132, 143, 129, 145),
+  nem = factor(c("fiú", "lány", "lány", "fiú"), levels=c("fiú","lány")) 
+)
+# tibble létrehozása
+dt <- tibble(
+  magassag = c(132, 143, 129, 145),
+  nem = factor(c("fiú", "lány", "lány", "fiú"), levels=c("fiú","lány")) 
+)
+```
+
+Tibble létrehozásának másik módja a `tribble()` függvény, amelynek argumentumába táblázatos formában adhatjuk meg az adatokat. A változóneveket a `~` karakter vezeti be, minden adatértéket és oszlopnevet vessző választ el egymástól a `tribble()` argumentumában.
+
+```{r}
+#| tidy: false
+
+dt <- tribble(
+  ~magassag,  ~nem,
+  132, "fiú",
+  143, "lány",
+  129, "lány",
+  145, "fiú"
+)
+dt
+```
+
+Vegyük észre, hogy a `nem` oszlop a fenti példában karakteres vektor, a faktorrá alakításáról a `factor()` függvénnyel gondoskodhatunk.
+
+```{r}
+dt$nem <- factor(dt$nem, levels = c("fiú", "lány")) 
+dt
+```
+
+A `read.table()` és `read_delim()` függvénycsaládokat is használhatjuk inline beolvasásra. Mindkét esetben egy inline, szóközzel tagolt szöveges állományt illesztettünk a legkönnyebben a kódba, ennek megfelelően állítjuk be a tagoló karaktereket. A `read.table()` esetében körbevettük a `textConnection()` függvénnyel is a beillesztett adatokat, erre a *Tidyverse R* `read_delim()` függvényénél már nincs szükség. A `nem` faktorrá konvertálásáról se felejtkezzünk el.
+
+```{r}
+#| tidy: false
+#| message: false
+#| warning: false
+
+# adattábla létrehozása
+df <- read.table(file = textConnection("
+magassag nem
+132 fiú
+143 lány
+129 lány
+145 fiú
+"), header=T, sep=" ")
+df$nem <- factor(df$nem, levels=c("fiú", "lány")) 
+df
+# tibble létrehozása
+dt <- read_delim("
+magassag nem
+132 fiú
+143 lány
+129 lány
+145 fiú
+", col_names=T, delim=" ")
+dt$nem <- factor(dt$nem, levels=c("fiú", "lány")) 
+dt
+```
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A `read_delim()` függvénycsalád a tagolt szöveges állományok beolvasásának *Tidyverse R* verziója. Rendszerint gyorsabb, jobban paraméterezhető lehetőséget nyújt az *Alap R*-hez képest. Előfordul, hogy adatainkat a parancsainkban rejtjük el, a sorok között. Tipikusan kisebb méretű adatmátrixok létrehozására használjuk a `data.frame()`, `tibble()` vagy `tribble()` függvényeket, de szintén az inline beolvasást támogatja a `read.table(file=textConnection())` és a `read_delim()`.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  Olvassuk be a *Tidyverse R* segítségével a [tv.txt](https://onlinestatbook.com/2/case_studies/data/tv.txt) tagolt szöveges állományt, állapítsuk meg hány sora és oszlopa van.
+2.  Olvassuk be *Tidyverse R* segítségével a [socsupport.csv](https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/socsupport.csv) tagolt szöveges állományt, állapítsuk meg hány sora és oszlopa van.
+3.  Olvassuk be a *Tidyverse R* segítségével a [leniency.xls](https://onlinestatbook.com/2/case_studies/data/leniency.xls) Excel állományt, állapítsuk meg hány sora és oszlopa van.
+4.  Rögzítsük a következő adatbázist inline módon legalább 3 módszerrel! Az [adatbázis](https://magyarnevek.hu/nevek/utonevstatisztika) a magyar utónevek gyakorisági statisztikáját tartalmazza!
+
+| ev   | helyezes | nev     | nem  | elso | masodik |
+|------|----------|---------|------|------|---------|
+| 2021 | 1        | Levente | fiú  | 1332 | 180     |
+| 2021 | 2        | Máté    | fiú  | 1314 | 242     |
+| 2021 | 3        | Dominik | fiú  | 1289 | 259     |
+| 2021 | 1        | Hanna   | lány | 1355 | 336     |
+| 2021 | 2        | Zoé     | lány | 1138 | 420     |
+| 2021 | 3        | Anna    | lány | 1133 | 500     |
+
+:::
+
+## Kiírás és más lehetőségek `r emoji("exploding-head")` {#sec-kiiras-es-mas}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a tagolt szöveges állományok kiírását,
+-   bináris állományok olvasását és írását,
+-   más statisztikai programcsomagok adatállományainak olvasását és írását,
+-   és a fix széles mezővel rendelkező állományok olvasását.
+:::
+
+### Tagolt szöveges állomány
+
+Adattáblák és mátrixok kiírására a `write.table()`\index{write.table()} függvényt használhatjuk az *Alap R*-ből és a `write_delim()` függvényt a *Tidyverse R*-ből. Mindkét függvény egy-egy függvénycsalád reprezentánsa, de az *Alap R*-ből elegendő ismerni az említett tagot, a *Tidyverse R*-ből pedig az említetten kívül a `write_csv2()` függvényt. Néhány új argumentummal kell megismerkednünk, a korábban tanult argumentumok jelentését még egyszer nem soroljuk fel.
+
+A `write.table()` mátrixok és adattáblák kiírására is alkalmas, míg a `write_delim()` és a `write_csv2()` csak az adattáblákat rögzíti. Az első paraméter (`x=`) a kiírandó objektum neve mindhárom függvény esetében.
+
+Az első példában a `write.table()` függvénnyel egy mátrixot és a korábban létrehozott `df` adattáblát írjuk ki. A `row.names=` és a `col.names=` logikai paraméterek szabályozzák, hogy a sor és oszlopnevek szerepeljenek-e a kimeneti állományban. Ezek alapértelmezett értéke `TRUE`.
+
+```{r}
+#| tidy: false
+
+x.mat <- matrix(1:12, nrow=3) # mátrix létrehozása
+# mátrix kiírása
+write.table(x.mat, "output/adat/x_mat.txt", col.names=F, row.names=F) 
+# adattábla kiírása
+write.table(x = df, file = "output/adat/df_out.txt", sep = "\t", 
+            quote = F, dec = ",", row.names = F, col.names = T, 
+            fileEncoding = "UTF-8")
+```
+
+A *Tidyverse R* kiíró függvényei UTF-8 kódolású állományt hoznak létre minden esetben, és a decimális elválasztó alakja `write_delim()` esetében pont, `write_csv2()` esetében pedig vessző. A sornevek soha nem íródnak ki, az oszlopnevek kiírását a `col_names=` argumentummal szabályozhatjuk.
+
+```{r}
+#| tidy: false
+
+library(tidyverse)
+# tabulátorral tagolt szöveges állomány létrehozása
+write_delim(x = dt, file = "output/adat/tbl_out.txt", delim = "\t", col_names = T)
+# pontosvesszővel tagolt szöveges állomány létrehozása
+write_csv2(x = dt, file = "output/adat/tbl_out.csv", col_names = T)
+```
+
+### R objektumok
+
+Az R-rel való munka során sok objektummal dolgozunk, többségük külső állományok beolvasásával jön létre, melyeket aztán a munka során változatos módon manipulálunk. Az *adattábla* és a *tibble* típusú objektumok képezik a statisztikai munka kiinduló pontját. Egyéb objektumok mentéséről eddig nem beszéltünk, pedig a munka során ezek mentése és beolvasása is érdekes lehet.
+
+Egy objektum értékét eltárolhatjuk szöveges állományban a `dput()` függvénnyel, és visszaolvashatjuk a `dget()`-tel:
+
+```{r}
+#| tidy: false
+#| eval: false
+
+library(MASS)
+# survey kiírása txt-be
+dput(x = survey, file = "output/adat/dput_out.txt")
+# survey beolvasása txt-ből        
+df <- dget(file = "output/adat/dput_out.txt") 
+```
+
+Igazán gyors kiírást és visszaolvasást nem várhatunk a szöveges állományoktól, így nagyobb adatbázisok esetében (is) érdemes az objektumok bináris mentését és visszaállítását választani. A `saveRDS()` és a `readRDS()` *Alap R* függvényekkel tudjuk megoldani, hogy az R saját `RDS` formátumú bináris állományába mentsünk ki, majd töltsünk vissza egy-egy objektumot.
+
+```{r}
+#| eval: false
+
+# survey kiírása bináris állományba
+saveRDS(object = survey, file = "output/adat/survey.rds") 
+# survey beolvasása bináris állományból
+df <- readRDS(file = "output/adat/survey.rds")          
+```
+
+A *Tidyverse R* `write_rds()` és `read_rds()` függvényei ugyanezt a tevékenységet végzik, de alapértelmezés szerint nem tömörítenek, így némileg gyorsabb működést biztosítanak:
+
+```{r}
+#| eval: false
+
+library(tidyverse)
+# survey kiírása bináris állományba
+write_rds(x = survey, file = "output/adat/survey_2.rds")
+# survey beolvasása bináris állományból
+df <- read_rds(file = "output/adat/survey_2.rds")
+```
+
+Egyszerre több objektum tárolását is elvégezhetjük az R másik saját bináris formátuma, az `RData` segítségével. A `save()` függvényben felsoroljuk a tárolni kívánt objektumok nevét, és megadunk egy `.RData` kiterjesztésű állományt. A visszaolvasás a `load()` segítségével történik. Figyeljük meg, hogy a `load()` használata során nincs szükség az értékadás (`<-`) operátorra, mert az `RData` állomány tartalmazza az objektumneveket is, így ezekkel a nevekkel jönnek létre a munkaterületen a bináris állományban eltárolt objektumok. Az azonos nevű, már létező objektumokat figyelmeztetés nélkül felülírja a `load()`, így legyünk óvatosak a függvény használatával.
+
+```{r}
+#| eval: false
+
+# survey és Animals kiírása bináris állományba
+save(survey, Animals, file = "output/adat/MASS_2.RData")
+# survey és Animals beolvasása bináris állományból
+load(file = "output/adat/MASS_2.RData")
+```
+
+Az összes objektum, amely pillanatnyilag a munkaterületen tartózkodik, elmenthető a `save.image()` segítségével. Visszatöltés szintén a `load()`-dal lehetséges.
+
+```{r}
+#| eval: false
+
+# minden objektum mentése bináris állományba a munkaterületről
+save.image(file = "output/adat/osszes_obj.RData")
+# az objektumok beolvasása a munkaterületre
+load(file = "output/adat/osszes_obj.RData")
+```
+
+### Egyéb adatállományok
+
+#### Az univerzális `rio::import()`
+
+Az R számos más formátumú adatállomány beolvasását támogatja az eddig tanultakon kívül. Például az *Alap R* `{foreign}` csomagja DBF, Stata, Minitab, SPSS, SAS és Epi adatállományokat is be tud olvasni. A *Tidyverse R* `{haven}` csomagja SPSS, Stata, és SAS fájlokat, a `{readxl}` csomagja pedig Excel XLS és XLSX állományokat is. Json állományokat olvashatunk be a `{jsonlite}`, XML állományokat az `{xml2}` csomaggal.
+
+A `{rio}` csomag különleges helyzetben van, ugyanis minden eddig felsorolt adatállomány beolvasását támogatja egyetlen parancs, az `import()` segítségével. A beolvasandó állomány kiterjesztéséből tudni fogja, hogy pontosan milyen módon (melyik csomag melyik függvénye segítségével) olvassa be az adatállományt. Az `import()` támogatja az *adattábla* és a *tibble* létrehozását is a `setclass=` argumentuma segítségével.
+
+Példaképp pontosvesszővel tagolt szöveges, SPSS és XLSX állományokat olvasunk be:
+
+```{r}
+#| tidy: false
+
+library(rio)
+data.file <- "https://github.com/abarik/rdata/raw/master/r_alapok/egyetem.csv"
+# CSV beolvasása
+df <- import(file = data.file, sep=";", header=T, dec=",")
+str(df)
+data.file <- "https://github.com/abarik/rdata/raw/master/r_alapok/nepesseg.sav"
+# SPSS beolvasása
+df <- import(file = data.file)
+str(df)
+data.file <- "https://github.com/abarik/rdata/raw/master/r_alapok/pothoff2.xlsx"
+# XLSX beolvasása
+dt <- import(file = data.file, setclass = "tibble")
+str(dt)
+```
+
+A `{rio}` csomag univerzális állománykiíró függvénye az `export()`. Szintén a kiírandó állomány kiterjesztése dönti el, hogy pontosan melyik konkrét függvényt fogja működtetni az `export()`, ennek megfelelően a háttérben lévő függvény argumentumaival esetlegesen mi is bővíthetjük az `export()` argumentumlistáját. A következő példákban pontosvesszővel tagolt, SPSS, SAS, XLSX. ODS és RDS adatállományokat hozunk létre:
+
+```{r}
+#| tidy: false
+
+export(x=df, file="output/adat/rio_out.csv", dec=",", sep=";") # CSV
+export(x=df, file="output/adat/rio_out.sav")                   # SPSS
+export(x=df, file="output/adat/rio_out.sas7bdat")              # SAS
+export(x=df, file="output/adat/rio_out.xlsx")                  # Excel   
+export(x=df, file="output/adat/rio_out.ods")                   # LibreOffice Calc
+export(x=df, file="output/adat/rio_out.RDS")                   # RDS
+```
+
+### Adatok csomagokban
+
+Az adatelemzési munkánk R-ben az adattáblák létrehozásával kezdődik. Az adatokat külső adatállományból többféle módszerrel beolvashatjuk, illetve inline módon is létrehozhatjuk. Azonban számos csomag tartalmaz saját adattáblát, amelyeket például az R megismerése során is használhatunk. A csomagokban elérhető adattáblák nevét és rövid leírását a `data()` függvény segítségével ismerhetjük meg.
+
+```{r}
+#| eval: false
+#| tidy: false
+
+data(package="MASS")  # a MASS csomagban lévő adattáblák
+data()                # betöltött csomagokban lévő adattáblák
+# a telepített csomagokban lévő adattáblák
+data(package = .packages(all.available = TRUE)) 
+```
+
+Amennyiben egy adattáblára szükségünk van egy csomagból, akkor a csomag betöltése nélkül is elérhetjük az adattáblát:
+
+```{r}
+#| tidy: false
+
+data(survey, package="MASS") # adattábla elérése csomagból
+head(survey[1:6], n=3)       # az első 3 sor az első 6 oszlopból
+```
+
+A szokásos eljárás azonban a csomag betöltése, amely után az adattábla nevét szabadon használhatjuk:
+
+```{r}
+library(tidyr)
+smiths
+```
+
+Ha az adattábla részletesebb leírására vagyunk kíváncsiak egy betöltött csomagból, akkor a `?` operátort vagy a `help()` függvényt is használhatjuk:
+
+```{r}
+#| tidy: false
+#| eval: false
+
+?survey                      # a survey leírása (MASS be van töltve)
+help(topic = "smiths")       # a smiths leírása (tidyr be van töltve)
+help(smiths, package="tidyr")# a smiths leírása (tidyr nincs betöltve)
+```
+
+### Fix széles mezők
+
+Ritkábban szükség lehet fix széles mezőket tartalmazó szöveges állományok beolvasására is. A `read.fwf()` (*Alap R*) és `read_fwf()` (*Tidyverse R*) függvények gondoskodnak arról, hogy az egyes mezőkben lévő adatokat úgy tudjuk azonosítani, hogy az előre rögzített, minden sorban azonos karakterekben mért szélességet adjuk meg a paraméterben.
+
+Tekintsük a következő fix mezőszélességekkel rendelkező állományt:
+
+``` markdown
+nev;telefon;kor
+    Ági+3630459785921,2
+ Zoltán+3630459785942,4
+    Bea+3630459785938,6
+```
+
+Az állomány tartalmaz egy fejlécsort, ami az oszlopok elnevezését segíti, és most pontosvesszővel tagolt. Ez a sor még nem tartozik a fix széles adatmezőkhöz. A következő három sorban azonban 7 pozíción a nevet, 12 pozíción a telefonszámot, 3 pozíción az egy tizedesre pontos életkort soroljuk fel.
+
+Ideiglenesen hozzuk létre ezt az állományt magunk is a `cat()` függvénnyel. A `tempfile()` függvényt használjuk egy a rendszerünkben érvényes ideiglenes állomány nevének meghatározására. A `cat()` függvénnyel egy 4 soros szöveges állományt hozunk létre. Az első sor pontosvesszővel elválasztott oszlopneveket tartalmaz, a következő három sor pedig 3 fix széles adatmezőt.
+
+```{r}
+#| tidy: false
+
+file <- tempfile()  # ideiglenes állománynév
+cat(file = file, "nev;telefon;kor",
+                 "   Laci+3630459785921,2",
+                 " Marika+3630459785942,4", 
+                 "Barbara+3630459785938,6", sep="\n")
+```
+
+A beolvasást először az *Alap R* `read.fwf()` függvényével végezzük el. A `width=` paraméterében kell megadnunk az egyes mezők hosszát. A függvény a megadott mezőhossz értékek alapján egy ideiglenes, tabulátorral elválasztott szöveges állományt hoz létre, amely a `read.table()` függvénnyel kerül ténylegesen feldolgozásra. A `header=TRUE` paraméterrel jelezzük, hogy az első sor oszlopneveket tartalmaz, a `sep=` paraméter pedig az első sorban használt elválasztó karaktert jelöli. A `sep=` paraméterre csak akkor van szükség, ha oszlopneveket tartalmazó sort is be akarunk olvasni. Láthatjuk, hogy a függvény által visszaadott adattábla 3 sort és 3 oszlopot tartalmaz.
+
+```{r}
+#| tidy: false
+
+# fix széles mezőkkel rendelkező szöveges állomány beolvasása
+df <- read.fwf(file = file, header=T, sep=";", dec=",", strip.white=T,
+               widths=c(7,12,4),
+               colClasses=c("character", "character", "double"), 
+               fileEncoding = "UTF-8")
+df
+str(df)
+```
+
+A *Tidyverse R* `read_fwf()` függvénye nagyon hasonlóan működik. Nem támogatja az oszlopnevek kiolvasását az állományból, így az első sort átlépjük (`skip=1`) és az oszlopneveket a `col_names=` argumentumban soroljuk fel, a szélességek megadására használt `fwf_width()` függvényben. Az oszlopok típusát itt is megadjuk a `col_types=` argumentumban.
+
+```{r}
+#| tidy: false
+
+library(tidyverse)
+# fix széles mezőkkel rendelkező szöveges állomány beolvasása
+dt <- read_fwf(file = file, skip=1, 
+               locale=locale(decimal_mark=",", encoding = "UTF-8"), 
+               col_positions = 
+                 fwf_widths(widths = c(7, 12, 4), 
+                            col_names = c("nev", "telefon", "kor")), 
+                col_types = "ccd")
+dt
+```
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+Adataink számos formátumban állhatnak rendelkezésre az adatelemzés elején, és szükség lehet adataink exportjára is a publikációhoz. Univerzális lehetőséget kínál a `{rio}` csomag, amely az `import()` és az `export()` függvényével a lehető legegyszerűbben oldja meg a fenti műveleteket. Ha R környezetek között szeretnénk az adatok gyors átvitelét biztosítani, akkor a bináris formátumot használó `.RDS` vagy `.Rdata` kiterjesztésű állományokat használjuk. Ezek írását és olvasását az *Alap R*, a *Tidyverse R* és a `{rio}` csomag is támogatja. Ritkábban szükség lehet csomagban tárolt adatok, vagy fix széles adatmezőket tartalmazó szöveges állományok használatára.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  A `cat()` függvénnyel a `dput()`-hoz hasonlóan szöveges állományba írhatjuk egy karakteres, numerikus vagy logikai vektor értékét. Mindkét függvénnyel végezzük el a kiírást, és vessük össze a kapott szöveges állományok tartalmát!
+2.  A [Kaggle egyik adatbázisában](https://www.kaggle.com/skateddu/metacritic-games-stats-20112019) 4000 videójáték értékelése található. Töltsük le a CSV adatállományt, és nyissuk meg. Keressük meg az [R-bloggers](https://www.r-bloggers.com) oldalon az adatállományhoz kapcsolódó cikket, és próbáljunk ki néhány elemző parancsot. A blogger melyik csomag, melyik függvényével végezte a beolvasást?
+3.  Keressük fel és tanulmányozzuk a [Great R packages for data import, wrangling and visualization](https://www.computerworld.com/article/2921176/great-r-packages-for-data-import-wrangling-visualization.html) oldalt! A bevezetésben lefektetett alapelvek közül melyiket erősíti meg ez az oldal?
+4.  Töltsünk le 10 érdekesnek tűnő adatállományt a [TidyTuesday - A weekly social data project in R](https://github.com/rfordatascience/tidytuesday) oldalról, és nyissuk meg őket!
+5.  Töltsük be az `{Ecdat}` csomagot, ha szükséges telepítsük! Vizsgáljuk meg az `{Ecdat}` csomag tartalmát, nevezzünk meg legalább 5 objektumot ebből a csomagból! Olvassuk be `d2` néven az `{Ecdat}` csomag `Diamond` adattábláját! Kérjünk leírást erről az adattábláról!
+:::

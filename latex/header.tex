@@ -1,0 +1,59 @@
+\usepackage{emoji}
+\usepackage{booktabs, caption, longtable, colortbl, array}
+\usepackage{hyperref}
+\usepackage{biblatex}
+\usepackage{icomma}
+              
+% header.tex
+\usepackage[newparttoc] {titlesec}
+\usepackage{tocloft}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+% Fejezetek (chapter) sorszámozásának módosítása
+\titleformat{\chapter}[hang]
+  {\normalfont\huge\bfseries}
+  {\thechapter.}{1em}{}
+
+% Szintek (section, subsection, stb.) sorszámozásának módosítása
+\titleformat{\section}[hang]
+  {\normalfont\Large\bfseries}
+  {\thesection.}{1em}{}
+
+\titleformat{\subsection}[hang]
+  {\normalfont\large\bfseries}
+  {\thesubsection.}{1em}{}
+
+\titleformat{\subsubsection}[hang]
+  {\normalfont\normalsize\bfseries}
+  {\thesubsubsection.}{1em}{}
+
+
+\renewcommand{\cftchapaftersnum}{.}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftsubsubsecaftersnum}{.}
+
+
+% 'Part' szakaszok sorszámozásának engedélyezése római számokkal
+\renewcommand{\thepart}{\Roman{part}} % Római számok használata a 'Part' sorszámozásához
+
+% 'Rész' címek formázása a dokumentumban
+\titleformat{\part}[display] % 'display' forma külön sorba helyezi a címet
+  {\normalfont\Huge\bfseries\filcenter} % Stílus: normál betűkép, nagy méret, félkövér, középre igazítva
+  {\thepart. rész} % 'Rész' szó és a sorszám ponttal
+  {0pt} % Cím és sorszám közötti távolság
+  {\Huge} % A cím mérete
+  []
+
+% 'Part' szakaszok megjelenítése a tartalomjegyzékben
+\renewcommand{\cftpartaftersnum}{.} % Pont hozzáadása a sorszám után a tartalomjegyzékben
+\renewcommand{\cftpartaftersnum}{.} % Pont hozzáadása a sorszám után a tartalomjegyzékben

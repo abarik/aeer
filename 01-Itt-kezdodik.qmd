@@ -1,0 +1,504 @@
+# Itt kezdődik {#sec-itt-kezdodik}
+
+```{r}
+#| results: "asis"
+#| echo: false
+
+source("_common.R")
+```
+
+```{r}
+#| fig-align: center
+#| echo: false
+#| out-width: '55%'
+
+knitr::include_graphics(path = "images/ch_01_small.png")
+```
+
+{{< pagebreak >}}
+
+## Elindulás `r emoji("slightly-smiling-face")` {#sec-elindulas}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintünk egy konkrét adatelemzési példát és a könyv tartalmát,
+-   lehetőséget adunk az előzetes R ismeretek felmérésére,
+-   és segítünk a megfelelő fejezet kiválasztásában a folytatáshoz.
+:::
+
+Könyvünk elsődleges célja az R bemutatása kezdő felhasználók számára, de minden bizonnyal azok is találni fognak hasznos részeket, akik már rendelkeznek R ismeretekkel. Bevezetést nyújtunk az R által lefedett három nagy terület mindegyikébe: az adatkezelésbe, a grafikus megjelenítésbe és az adatelemzésbe is. A leírtak megértéséhez némi statisztikai alapismereten túl semmilyen előzetes tudás nem szükséges.
+
+Most egy konkrét adatelemzési példa segítségével bemutatjuk, hogy mit nyújt e könyv az Olvasó számára. A bevezető példa megoldása során az előismeretekkel rendelkező Olvasó a saját R tudását is felmérheti, és ezzel egyben segítséget kaphat a tudásához és céljaihoz legjobban illeszkedő fejezet kiválasztására, amellyel tovább folytathatja az olvasást.
+
+:::: {.callout-caution appearance="minimal"}
+::: {#exm-bevezeto-1 name="Két tanítási módszer összehasonlítása"}
+Egy 2020-as kutatásunkban 7. osztályos tanulóknak Excel ismereteket oktattunk két különböző megközelítésben. Az egyik csoportban hagyományos, míg a másikban modern (Sprego) tanítási módszert használtunk. A tanulási időszak az Excel ismeretek felmérésével zárult. Az összegyűjtött adatok az `excel_2020.xlsx` állományban állnak rendelkezésre.\
+*Forrás: @Csapo2020*
+:::
+::::
+
+Nézzük az adatelemzés lépéseit és egyben könyvünk felépítését!
+
+**2. fejezet: Mi az R?**\
+A fenti [-@exm-bevezeto-1]. példa megoldását R-ben fogjuk elvégezni (és nem más eszközben, mint például az SPSS, jamovi, JASP, SAS stb.). Érdemes tehát ismerni az R céljait és lehetőségeit, jó ha van egy összképünk a használt statisztikai programcsomagról. Ezt az áttekintést nyújtja a [-@sec-mi-az-r]. fejezet.
+
+**3. fejezet: Az R telepítése.**\
+Adatelemzésünk konkrét lépéseinek elvégzéséhez telepített *Alap R* és *RStudio* szükséges. Ha ezek nem állnak rendelkezésre, vagy még nem is találkoztunk ezekkel az eszközökkel, akkor a [-@sec-az-r-telepitese]. fejezet nekünk szól.
+
+**4. fejezet: Munka az R-ben.**\
+Az adatelemzés végrehajtásához az *RStudio*-t ajánljuk, és azon belül pedig a projektek használatát szorgalmazzuk. A [-@sec-munka-az-r-ben]. fejezetben megismerjük az *RStudio* legalapvetőbb funkcióit, a parancsállományok létrehozását és futtatását.
+
+A fenti előzmények után elkezdhetjük a bevezető példa megoldását:
+
+1.  indítsuk el az *RStudio*-t,
+2.  hozzunk létre egy új projektet,
+3.  hozzunk létre egy új *Quarto* állományt,
+4.  helyezzük el a lentebb szereplő R parancsokat az állomány egyes R csonkjaiban.
+
+**5. fejezet: Az R nyelv.**\
+Az R parancsok létrehozásának vannak szabályai, amelyeket a munka során be kell tartanunk. Ismernünk kell jó néhány függvényt, és általában el kell tudnunk igazodni az R nyelvben. Az [-@sec-az-r-nyelv]. fejezet ezért kulcsfontosságú, tanulmányozzuk alaposan, és lehetőleg minden kitűzött feladatát oldjuk meg.
+
+**6. fejezet: Beolvasás.**\
+Minden adatelemzés első lépése az adatállomány beolvasása. Adataink változatos formában állhatnak rendelkezésre, a [-@sec-beolvasas]. fejezetben ezek beolvasására kapunk receptet.
+
+A bevezető példa megoldásához a *Quarto* állomány egyik csonkját bővítsük a lenti sorokkal.
+
+```{r}
+# install.packages("rio")  # rio csomag telepítése
+library(rio)  # rio csomag betöltése
+felmeres <- import(file = "adat/excel_2020.xlsx") # beolvasás
+```
+
+**7. fejezet: Adatkezelés.**\
+A statisztikai elemzés elkezdése előtt számos adatkezelési tevékenységre lehet szükség. Ezt a sokszor rendkívül időigényes folyamatot a [-@sec-adatmanipulacio]. fejezetben részletezzük.
+
+A bevezető példa megoldásához a *Quarto* állomány egyik csonkját bővítsük a lenti sorokkal. Az adatkezelés legtöbbször a beolvasott állomány jellemzőinek lekérésével kezdődik.
+
+```{r}
+#| tidy: false
+
+str(felmeres)              # az adatmátrix szerkezete
+names(felmeres)            # változónevek  
+unique(felmeres$modszer)   # különböző értékek
+```
+
+A karakteres vagy numerikus vektorok faktorrá konvertálása az egyik leggyakoribb előkészítő parancs.
+
+```{r}
+#| tidy: false
+
+felmeres$modszer <- factor(felmeres$modszer)
+```
+
+A táblázatok és ábrák megfelelő megjelenéséhez, végezzük el a faktorszintek sorrendbe állítását.
+
+```{r}
+#| tidy: false
+
+felmeres$modszer <- factor(felmeres$modszer, 
+                           levels=c("modern", "hagyományos"))
+```
+
+**8. fejezet: Mutatók és táblázatok.**\
+Ha az adatainkat már megfelelő formába hoztuk, akkor továbbléphetünk az elemzés felé. A [-@sec-mutatok-tablazatok]. fejezet a leíró statisztikai elemzésekből a mutatók és a táblázatok létrehozását mutatja be.
+
+Most a felmérés eredményeinek statisztikai mutatóit íratjuk ki a két tanítási módszert használó csoportban.
+
+```{r}
+#| tidy: false
+
+# install.packages("psych") # psych csomag telepítése
+psych::describeBy(x = felmeres$eredmeny, group = felmeres$modszer,
+                  mat=T, fast=T, digits = 2)
+```
+
+**9. fejezet: Grafika.**\
+A grafikus megjelenítés is a leíró statisztikai elemzés része. A [-@sec-modern grafika]. fejezetben részletesebben olvashatunk a publikációkész ábrák létrehozásáról.
+
+Most a numerikus változók esetén használt egyik elterjedt ábrázolási formát, a dobozdiagramot használjuk két tanítási csoport eredményének grafikus összehasonlítására.
+
+```{r}
+#| warning: false
+#| message: false
+#| tidy: false
+#| fig-width: 3
+#| fig-asp: 0.8
+#| fig-align: center
+
+library(ggplot2)
+ggplot(data = felmeres, mapping = aes(x=modszer, y=eredmeny)) + 
+  geom_boxplot()
+```
+
+**10. fejezet: Hipotézisvizsgálatok.**\
+A statisztikai hipotézisvizsgálat minden adatelemzés központi része, a gyűjtött adatokból a populációra nézve következtetést vonhatunk le. A [-@sec-hipotezisvizsgalatok]. fejezetben a leggyakoribb egyváltozós elemzéseket mutatjuk be.
+
+Most Mann--Whitney-próbát hajtunk végre a két tanítási módszer eredményességének összehasonlítására.
+
+```{r}
+# Mann--Whitney-próba
+wilcox.test(eredmeny~modszer, data=felmeres)
+```
+
+**11. fejezet: Publikálás.**\
+Az adatelemzési folyamat utolsó lépése, az elemzés eredményének publikációkész formába öntése. A [-@sec-publikacio]. fejezetben megismerjük azokat a legegyszerűbb folyamatokat, amelyekkel többnyire formanyelvtől függetlenül, publikációkész eredményközlést végezhetünk.
+
+Most a bevezető példában kapott eredmények publikálását végezzük el. A korábban használt `psych::describeBy()` függvény hívását úgy módosítjuk, hogy az bármely formanyelven (PDF, HTML, DOCX) megfelelő eredményt adjon. Ehhez mindössze egészítsük ki a következő sorokkal a leíró statisztikai elemzést, majd a *Render* nyomógomb segítségével fordítsuk le a *Quarto* állományt. A leíró statisztikai mutatók máris táblázatos, könnyen áttekinthető formában jelennek meg.
+
+```{r}
+#| tidy: false
+#| results: asis
+#| tbl-pos: h
+
+options(OutDec = ",")  # a tizedesjel beállítása
+st <- psych::describeBy(x = felmeres$eredmeny, 
+                        group = felmeres$modszer, 
+                        mat=T, fast=T, digits = 2)
+st |>
+  dplyr::select(Csoport=group1,
+                N=n, Átlag=mean, SD=sd,
+                Min.=min, Max.=max) |>
+  gt::gt() |>
+  gt::tab_header(
+    title = gt::md("Leíró statisztikai adatok"),
+    subtitle = gt::md("A **Sprego adatok** elemzése")
+    ) |> 
+  gt::tab_options(latex.use_longtable = TRUE)
+```
+
+
+```{r}
+#| include: false
+
+options(OutDec = ".")  # a tizedespont visszaállítása
+```
+
+Publikációnk szerves része a magyarázó ábra. A korábban rajzolt dobozdiagramunkat csinosítsuk ki a következő sorok R csonkba helyezésével. A `ggsave()` függvény a háttértárra rögzítésről is gondoskodik.
+
+```{r}
+#| warning: false
+#| message: false
+#| tidy: false
+#| fig-width: 4
+#| fig-asp: 0.8
+#| fig-align: center
+
+library(ggplot2)
+p1 <- ggplot(data = felmeres, mapping = aes(x=modszer, y=eredmeny)) + 
+  geom_boxplot() + 
+  labs(x=NULL, y="Eredmény (%)", 
+       title="7. osztályos tanulók Excel eredménye", 
+       subtitle = "Két tanulási módszer összehasonlítása",
+       caption = "Csapó és mtsai. (2020)") + 
+  scale_y_continuous(labels = scales::percent) + theme_bw()
+ggsave(filename = "output/kep/tanulasi_modszer.png", plot = p1)
+p1
+```
+
+A bevezető példa megoldásához természetesen a hipotézisvizsgálat szöveges értékelése is hozzátartozik, de ezt most az alfejezet végén szereplő egyik kitűzött feladatra halasztjuk. A hangsúly a könyv vázlatos tartalomjegyzékének bemutatásán volt, részletesebb, de felsorolásszerű tartalomjegyzéket a következő két alfejezetben találunk.
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+Ebben az alfejezetben egy adatelemzési példát oldottunk meg, melynek segítségével illusztrálni tudtuk a további fejezetek tartalmát. A 2. fejezetben áttekintést adunk az R-ről, a 3.-ban az *Alap R* és *RStudio* telepítését, a 4.-ben az *RStudio* használatát mutatjuk be. Az 5. fejezetben kellő részletességgel ismertetjük az R nyelvet. A további fejezetekben az adatelemzés szokásos lépéseit vesszük sorra, a 6. fejezetben a beolvasást, a 7. fejezetben az adatok előkészítését, a 8. és 9. fejezetben a leíró statisztikai műveleteket mutatjuk be. A 10. fejezet az egyváltozós hipotézisvizsgálatoké, az utolsó, 11. fejezet az eredmények publikálását foglalja össze.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  Milyen online vagy nyomtat könyvek segítik az R elsajátítását? Próbáljuk összegyűjteni a magyar nyelvű könyveket is!
+2.  Térképezzük fel az online videókurzusokat is az R tanulásához!
+3.  Az [-@exm-bevezeto-1]. példa (*Két tanítási módszer összehasonlítása*) hipotézisvizsgálatának eredménye alapján adjunk szöveges értékelést!
+:::
+
+## A könyv felépítése `r emoji("thinking-face")` {#sec-konyv-felepitese}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a könyv részletes felépítését,
+-   és ezzel tovább segítjük a választást a folytatáshoz.
+:::
+
+A könyv 11 fejezetből áll, és fejezetenként 3 vagy több alfejezetből. Most röviden bemutatjuk az egyes alfejezetek tartalmát. A szimbólumokkal utalunk az egyes fejezetek tartalmára, nehézségi szintjére.
+
+1\. Itt kezdődik
+
+:   -   **1.1. Elindulás** `r emoji("slightly-smiling-face")`\
+        A könyv fejezeteinek bemutatása egy konkrét adatelemzésen keresztül ([-@sec-elindulas]).
+
+    -   **1.2. A könyv felépítése** `r emoji("thinking-face")`\
+        Jelen alfejezet, amelyben a könyv egyes alfejezeteit mutatjuk be röviden.
+
+    -   **1.3. Próbák listája** `r emoji("exploding-head")`\
+        A könyvben szereplő egyváltozós statisztikai eljárások listája ([-@sec-probak-listaja]).
+
+2\. Mi az R?
+
+:   -   **2.1. Az R bemutatása** `r emoji("slightly-smiling-face")`\
+        A parancssoros R jellemzői, az R nyelv, az *Alap R* és a csomag fogalma ([-@sec-az-r-bemutatasa]).
+
+    -   **2.2. A modern R** `r emoji("thinking-face")`\
+        Megtanuljuk a *Tidyverse R* fogalmát, megtudjuk mi a modern R ([-@sec-modern-r]).
+
+    -   **2.3. Múlt és jelen** `r emoji("exploding-head")`\
+        Az R rövid története, alapelvek az R tanulásához, és az R alaptudás elemei ([-@sec-mult-es-jelen]).
+
+3\. Az R telepítése
+
+:   -   **3.1. Az *Alap R* és az *RStudio* telepítése** `r emoji("slightly-smiling-face")`\
+        Megismerjük az *Alap R* és az *RStudio* telepítését ([-@sec-fo-komponensek]).
+
+    -   **3.2. A *Tidyverse R* telepítése** `r emoji("thinking-face")`\
+        A `{tidyverse}` csomag(gyűjtemény) telepítése ([-@sec-tidyverse-r-telepitese]).
+
+    -   **3.3. Az R frissítése** `r emoji("exploding-head")`\
+        Az *Alap R*, az *RStudio* és a csomagok frissítésének módszerei ([-@sec-r-frissitese]).
+
+4\. Munka az R-ben
+
+:   -   **4.1. Az *RStudio* használata** `r emoji("slightly-smiling-face")`\
+        Az *RStudio* jellemzői és felépítése, a projektek használata ([-@sec-az-rstudio-hasznalata]).
+
+    -   **4.2. Segítség az R használatához** `r emoji("thinking-face")`\
+        Segítségkérési lehetőségek az R-ben, a beépített súgó használata ([-@sec-segitseg-az-r-hez]).
+
+    -   **4.3. Az *Alap R* használata** `r emoji("exploding-head")`\
+        Az *Alap R* konzolja, az *RGui*, az *R Commander* és a kötegelt üzemmód ([-@sec-alap-r-hasznalata]).
+
+5\. Az R nyelv
+
+:   -   **5.1. Adatobjektumok** `r emoji("slightly-smiling-face")`\
+        Az objektumok fogalma és létrehozásuk, egyszerű kifejezések ([-@sec-adatobjektumok]).
+
+    -   **5.2. Függvények** `r emoji("slightly-smiling-face")`\
+        A függvény fogalma, a függvényhívás módja, a kifejezés teljes fogalma ([-@sec-fuggvenyek]).
+
+    -   **5.3. Adatszerkezetek** `r emoji("slightly-smiling-face")`\
+        Az R egyszerű és összetett adatszerkezetei, létrehozásuk és indexelésük ([-@sec-adatszerkezetek]).
+
+    -   **5.4. További adatszerkezetek és függvények** `r emoji("thinking-face")`\
+        A dátum, tömb, táblázat és tibble adatszerkezetek kezelése ([-@sec-tovabbi-adatszerkezetek]).
+
+    -   **5.5. Haladó nyelvi elemek** `r emoji("exploding-head")`\
+        Az R objektum-orientált lehetőségei ([-@sec-halado-nyelvi-elemek]).
+
+6\. Beolvasás
+
+:   -   **6.1. Alapvető formátumok** `r emoji("slightly-smiling-face")`\
+        A táblázatkezelők állományainak és a tagolt szöveges állományok beolvasása ([-@sec-alapveto-formatumok]).
+
+    -   **6.2. A *Tidyverse R* és az inline beolvasás** `r emoji("thinking-face")`\
+        Az inline beolvasás és a *Tidyverse R* beolvasási lehetőségei ([-@sec-tidy-inline]).
+
+    -   **6.3. Kiírás és más lehetőségek** `r emoji("exploding-head")`\
+        Univerzális állománykiírás és a fix széles állományok kezelése ([-@sec-kiiras-es-mas]).
+
+7\. Adatmanipuláció
+
+:   -   **7.1. Adatkezelés az *Alap R*-ben** `r emoji("slightly-smiling-face")`\
+        Adatmanipuláció standard eszközökkel ([-@sec-adatkezeles-alap-r]).
+
+    -   **7.2. Adatkezelés *Tidyverse R*-ben** `r emoji("thinking-face")`\
+        Adatmanipuláció modern eszközökkel ([-@sec-adatkezeles-tidy]).
+
+    -   **7.3. Haladó adatkezelés** `r emoji("exploding-head")`\
+        Az adatkezelés összetettebb esetei ([-@sec-halado-adatkezeles]).
+
+8\. Mutatók és táblázatok
+
+:   -   **8.1. Az *Alap R* lehetőségei** `r emoji("slightly-smiling-face")`\
+        Az alapértelmezett mutató és táblázat kiírató függvények az R-ben ([-@sec-alap-r-lehetosegei]).
+
+    -   **8.2. A *Tidyverse R* lehetőségei** `r emoji("thinking-face")`\
+        Mutatók és táblázatok a *Tidyverse R*-ben ([-@sec-tidyverse-r-lehetosegei]).
+
+    -   **8.3. Haladó lehetőségek** `r emoji("exploding-head")`\
+        Speciális csomagok mutatókra és táblázatokra ([-@sec-halado-lehetosegek]).
+
+9\. Grafika
+
+:   -   **9.1. A ggplot2 alapjai** `r emoji("slightly-smiling-face")`\
+        A ggplot2 alapelve és alapvető ábratípusai ([-@sec-ggplot2-alapjai]).
+
+    -   **9.2. Számítások az ábrán** `r emoji("thinking-face")`\
+        Automatikus és direkt összesítések megjelenítése ábrán ([-@sec-szamitasok-abran]).
+
+    -   **9.3. Ábrák testreszabása** `r emoji("exploding-head")`\
+        Publikációkész ggplot2 ábrák beállításai ([-@sec-abrak-testreszabasa]).
+
+10\. Hipotézisvizsgálatok
+
+:   -   **10.1. Paraméteres próbák** `r emoji("slightly-smiling-face")`\    
+        T-próbák, varianciaelemzés, korreláció- és regressziószámítás ([-@sec-parameteres-probak]).
+        
+    -   **10.2. Nemparaméteres próbák** `r emoji("slightly-smiling-face")`\
+        Az ismert rangpróbák ([-@sec-nemparameteres-probak]).
+    
+    -   **10.3. Normalitás vizsgálata** `r emoji("slightly-smiling-face")`\
+        Próbák a normális eloszlás vizsgálatára ([-@sec-normalitas-vizsgalata]).
+        
+    -   **10.4. Varianciára vonatkozó próbák** `r emoji("slightly-smiling-face")`\
+        A szóráshomogenitásra vonatkozó klasszikus próbák ([-@sec-varianciara-vonatkozo-probak]).
+        
+    -   **10.5. Valószínűség próbái** `r emoji("slightly-smiling-face")`\
+        Próbák populációbeli arányokra ([-@sec-valoszinuseg-probai]).
+        
+    -   **10.6. Hatásméret** `r emoji("thinking-face")`\
+        Hatásméret meghatározásának esetei ([-@sec-hatasmeret]).
+        
+    -   **10.7. Statisztikai erő és mintanagyság** `r emoji("thinking-face")`\
+        A statisztikai erő és mintanagyság kiszámítása ([-@sec-statisztikai-ero-es-mintanagysag]).
+
+    -   **10.8. Jamovi az R-ben** `r emoji("exploding-head")`\
+        A jamovi funkció R-ben a `{jmv}` csomagon keresztül ([-@sec-alternativak-jmv-csomag]).
+    
+        
+
+11\. Publikáció
+
+:   -   **11.1. Quarto HTML dokumentum** `r emoji("slightly-smiling-face")`\
+        A *Quarto* publikációs rendszer megismerése, HTML dokumentumok létrehozása ([-@sec-quartodoc]).
+
+    -   **11.2. Hivatkozások** `r emoji("thinking-face")`\
+        Hivatkozás képekre, ábrákra és más tudományos írásokra a *Quarto* doumentumon belül ([-@sec-quarto-hivatkozasok]).
+
+    -   **11.3. Más Quarto formátumok** `r emoji("exploding-head")`\
+        A *Quarto* lehetőségei PDF, Word és könyv formátumú tudományos írások létrehozására ([-@sec-quarto-mas-formatumok]).
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+Ebben a részben röviden bemutattuk a könyv összes alfejezetét. A későbbiekben térképként használhatja az Olvasó az itt ismertetett felsorolást.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  Az adatfeldolgozás 4 lépése a következő: (1) adatok beolvasása, (2) adatok előkészítése elemzésre, (3) adatok elemzése és (4) az eredmények publikálása. A könyv mely fejezetei tartoznak az adatfeldolgozás fenti lépéseihez?
+2.  Az R-rel való munka általunk javasolt módja: *RStudio*-ban, projektmódban, R vagy *Quarto* állományokat szerkesztünk és hajtunk végre. Mely fejezetekben találunk hasznos információkat az R ezen használatával kapcsolatban?
+
+:::
+
+## Próbák listája `r emoji("exploding-head")` {#sec-probak-listaja}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a könyvben szereplő egy- és kétváltozós hipotézisvizsgálatokat.
+:::
+
+A [-@sec-hipotezisvizsgalatok]. fejezetben bemutatjuk az egy- és kétváltozós hipotézisvizsgálatok végrehajtását. Ebben a fejezetben felsoroljuk a legfontosabb próbákat:
+
+-   egy mintát vizsgáló próbák ([-@tbl-egyminta1]. táblázat),
+-   páros mintát vizsgáló próbák ([-@tbl-parosminta1]. táblázat),
+-   két független mintát vizsgáló próbák ([-@tbl-ketminta1]. táblázat),
+-   több összetartozó mintát vizsgáló próbák ([-@tbl-tobbosszeminta1]. táblázat),
+-   több független mintát vizsgáló próbák ([-@tbl-tobbminta1]. táblázat),
+-   korreláció- és regressziószámítás ([-@tbl-korrregrsz11]. táblázat).
+
+A táblázatokban megadjuk, hogy a vizsgálatnak mi a célja, vagyis a populációbeli változó(k) melyik paraméterére vonatkoznak a próbák, a várható értékre, a mediánra, a varianciára vagy a valószínűségre. A [-@sec-hipotezisvizsgalatok]. fejezetben foglalkozunk az eloszlásvizsgálatok közül a normalitást ellenőrző próbákkal is, így az [-@tbl-egyminta1]. táblázat ezeket is számba veszi.
+
+| Cél           | Próba neve                  | R függvény                          |
+|---------------|-----------------------------|-------------------------------------|
+| várható érték | egymintás t-próba           | `t.test()`                          |
+| medián        | egymintás előjel-próba      | `DescTools::SignTest()`             |
+|               | egymintás Wilcoxon-próba    | `wilcox.test()`                     |
+| variancia     | egymintás khí-négyzet próba | `TeachingDemos::sigma.test()`       |
+| valószínűség  | egzakt binomiális próba     | `binom.test()`                      |
+|               | aránypróba                  | `prop.test()`                       |
+|               | egzakt multinominális-próba | `RVAideMemoire::multinomial.test()` |
+|               | khí-négyzet próba           | `chisq.test()`                      |
+|               | G-próba                     | `RVAideMemoire::G.test()`           |
+| normalitás    | Shapiro-Wilk próba          | `shapiro.test()`                    |
+|               | Kolmogorov-Smirnov próba    | `DescTools::LillieTest()`           |
+|               | D’Agostino-próba            | `fBasics::dagoTest()`               |
+
+: Egy minta vizsgálata {#tbl-egyminta1}
+
+| Cél           | Próba neve            | R függvény               |
+|---------------|-----------------------|--------------------------|
+| várható érték | páros t-próba         | `t.test(paired=T)`       |
+| medián        | páros előjel-próba    | `DescTools::SignTest()`  |
+|               | páros Wilcoxon-próba  | `wilcox.test(paired=T)`  |
+| variancia     | Pitman--Morgan próba  | `PairedData::Var.test()` |
+| valószínűség  | McNemar-próba         | `mcnemar.test()`         |
+|               | McNemar-–Bowker-próba | `mcnemar.test()`         |
+
+: Páros minta vizsgálata {#tbl-parosminta1}
+
+| Cél           | Próba neve                  | R függvény                      |
+|---------------|-----------------------------|---------------------------------|
+| várható érték | kétmintás t-próba           | `t.test(var.equal=T)`           |
+|               | Welch-féle d-próba          | `t.test(var.equal=F)`           |
+| medián        | Mann--Whitney-próba         | `wilcox.test()`                 |
+|               | kétmintás Mood medián-próba | `RVAideMemoire::mood.medtest()` |
+| variancia     | F-próba                     | `var.test()`                    |
+| valószínűség  | khí-négyzet próba           | `chisq.test()`                  |
+|               | Fisher-féle egzakt próba    | `fisher.test()`                 |
+|               | G-próba                     | `RVAideMemoire::G.test()`       |
+
+: Két független minta vizsgálata {#tbl-ketminta1}
+
++----------------+-----------------------------+----------------------------------+
+| Cél            | Próba neve                  | R függvény                       |
++================+=============================+==================================+
+| várható érték  | egyszempontos összetartozó\ | `afex::aov_ez()`                 |
+|                | mintás varianciaelemzés     |                                  |
++----------------+-----------------------------+----------------------------------+
+| medián         | Friedman-próba              | `friedman.test()`                |
++----------------+-----------------------------+----------------------------------+
+| valószínűség   | Cohran-Q próba              | `RVAideMemoire::cochran.qtest()` |
++----------------+-----------------------------+----------------------------------+
+
+: Több összetartozó minta vizsgálata {#tbl-tobbosszeminta1}
+
++---------------+-------------------------------------------+---------------------------------+
+| Cél           | Próba neve                                | R függvény                      |
++===============+===========================================+=================================+
+| várható érték | egyszempontos varianciaelemzés            | `aov()`                         |
++---------------+-------------------------------------------+---------------------------------+
+|               | Welch-féle egyszempontos varianciaelemzés | `oneway.test()`                 |
++---------------+-------------------------------------------+---------------------------------+
+| medián        | Kruskal--Wallis-próba                     | `kruskal.test()`                |
++---------------+-------------------------------------------+---------------------------------+
+|               | többmintás Mood medián-próba              | `RVAideMemoire::mood.medtest()` |
++---------------+-------------------------------------------+---------------------------------+
+| variancia     | Levene-próba                              | `DescTools::LeveneTest()`       |
++---------------+-------------------------------------------+---------------------------------+
+|               | Bartlett-próba                            | `bartlett.test()`               |
++---------------+-------------------------------------------+---------------------------------+
+|               | Fligner--Killeen                          | `fligner.test()`                |
++---------------+-------------------------------------------+---------------------------------+
+
+: Több független minta vizsgálata {#tbl-tobbminta1}
+
+
++---------------+------------------------------------+--------------------------------+
+| Cél           | Próba/Eljárás neve                 | R függvény                     |
++===============+====================================+================================+
+| Pearson r     | Korrelációs hipotézisvizsgálat     | `cor.test(method ="pearson")`  |
++---------------+------------------------------------+--------------------------------+
+| Kendall TauB  | Korrelációs hipotézisvizsgálat     | `cor.test(method ="kendall")`  |
++---------------+------------------------------------+--------------------------------+
+| Spearman rho  | Korrelációs hipotézisvizsgálat     | `cor.test(method ="spearman")` |
++---------------+------------------------------------+--------------------------------+
+| függés        | Egyszerű lineáris regresszió       | `summary(lm())`                |
++---------------+------------------------------------+--------------------------------+
+
+: Korreláció- és regressziószámítás {#tbl-korrregrsz11}
+
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+Ebben a részben rövid áttekintést adtunk a könyv [-@sec-hipotezisvizsgalatok]. fejezetében sorra kerülő statisztikai próbákról. Megneveztük a próbákat, R parancsokkal szemléltettük használatukat, valamint jeleztük a céljukat. A táblázatok áttekintésével képet kaphatunk arról, hogy a későbbiekben milyen jellegű statisztikai következtetéseket tudunk levonni az R használatával.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  Minden statisztikai próba esetében négy dolgot érdemes tudni: (1) a statisztikai próba neve, (2) null- és ellenhipotézise, (3) alkalmazási feltételei, és (4) a próba végrehajtásának módja valamely statisztikai programcsomagban. A [-@sec-hipotezisvizsgalatok]. fejezetben a statisztikai próbák végrehajtását természetesen R-beli eszközökkel mutatjuk be. Ismerjük a fenti táblázatokban megnevezett próbák null- és ellenhipotézisét, valamint az alkalmazási feltételeit? Próbáljuk ezeket felidézni! Hol találunk ezekről információt?
+2.  Mely próbák maradtak ki ebből a könyvből? Hol találunk ezek R-beli végrehajtására példát?
+:::

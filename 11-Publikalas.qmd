@@ -1,0 +1,927 @@
+# Publikáció {#sec-publikacio}
+
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+```{r}
+#| fig-align: center
+#| echo: false
+#| out-width: '75%'
+
+knitr::include_graphics(path = "images/ch_11_small.png")
+```
+
+{{< pagebreak >}}
+
+A statisztikai adatelemzés hosszadalmas folyamatának utolsó, és egyben legizgalmasabb lépése a kapott eredmények megosztása másokkal. Nem meglepő, hogy a statisztikai programcsomagok ezt a publikációs lépést is támogatják. Az *Alap R* a *Quarto* dokumentumkezelő rendszerrel kiegészítve kiváló eszköz publikációkész riportok elkészítésére. Ráadásul mindezt a reprodukálható kutatás maximális támogatása mellett végezhetjük. Egyetlen dokumentumban transzparens módon eltárolhatjuk a 
+
+- kutatási kérdéseinket és hipotéziseinket, 
+- az adatbeolvasó, előkészítő és elemző R parancsainkat, 
+- a kutatási eredményeket bemutató ábráinkat és táblázatainkat, 
+- valamint a szöveges magyarázatainkat és hivatkozásainkat, 
+
+amelyek teljes értékűvé teszik a kutatási beszámolónkat. Ezen dokumentum és az adatállományok birtokában bárki képes lesz a kutatási eredményeink későbbi reprodukálására.
+
+A *Quarto* egy nyílt forráskódú publikációs rendszer, amely lehetővé teszi tudományos dokumentumok, prezentációk, weboldalak, blogok és könyvek létrehozását. A *Quarto* támogatja többek között az R és Python programozási nyelveket, így dinamikus és reprodukálható tartalmak készítését is lehetővé teszi.
+
+A *Quarto* a *Pandoc markdown*-t használja a természetes nyelvű szövegek formázott létrehozásához, támogatja a LaTeX képleteket és a hivatkozásokat is. Ezen felül a *Quarto* kereszthivatkozásokkal segíti az ábrák és táblázatok szövegbe integrálását.
+
+A *Quarto* támogatja a különböző formátumokba történő exportálást, beleértve a *HTML*, *PDF*, *MS Word* és *ePub* formátumokat, így a felhasználók széles körben terjeszthetik munkáikat. A *Quarto* célja, hogy egységes és rugalmas platformot biztosítson dokumentumok erőfeszítés nélküli létrehozására, elősegítse a tudás megosztását és a reprodukálható kutatást.
+
+## Quarto HTML dokumentum `r emoji("slightly-smiling-face")` {#sec-quartodoc}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   bemutatjuk a *Quarto* dokumentum felépítését és
+-   a HTML dokumentum létrehozása során használható beállításokat.
+:::
+
+Korábban megállapítottuk, hogy a parancsállományok `.R` kiterjesztésű szöveges fájlok, amelyek R parancsokat vagy `#` jellel kezdődő megjegyzéssorokat tartalmaznak. Az *RStudio* azonban további lehetőséget kínál az R kód és a természetes nyelvű szöveg integrált tárolására. Ezek közé tartozik a *Quarto* dokumentum, amely az *R Markdown* formátum közvetlen utódja. Ebben a könyvben kizárólag a *Quarto* formátumot tárgyaljuk, amely jelentős átfedést mutat az *R Markdown* dokumentumokkal, de számos új funkcióval is kiegészíti elődjét.
+
+Hozzunk létre egy új *Rstudio* projektet, és benne egy *Quarto* állományt a `File / New File / Quarto Document...` menüpont segítségével. A dialógusdobozban felkínált opciókat fogadjuk el. A `Source` panelben egy alapértelmezett tartalommal kitöltött *Quarto* állományt látunk. Helyettesítsük azt a következő sorokkal:
+
+```{r echo = FALSE, comment = ""}
+cat(readr::read_file("quarto/gen_file.qmd"))
+```
+
+Mentsük el az állományt `quarto_pelda.qmd` néven, majd nyomjuk meg a {{< kbd Ctrl-Shift-K >}} billentyűkombinációt (használhatjuk a `Render` gombot is a panel tetején). Ezzel a `.qmd` állomány fordítását (renderelését) kezdeményezzük HTML formátumba. A jobb alsó panelben meg is jelenik a HTML dokumentum, és a projekt könyvtárunkban a `quarto_pelda.html` állomány is létrejött. A HTML állomány tartalmazza a formázott természetes nyelvű szöveget, az R input parancsokat, valamint az R parancsok outputját, legyen az szöveges vagy ábra jellegű.
+
+A *Quarto* állományok `.qmd` kiterjesztésű egyszerű szöveges állományok (az *R Markdown* állományok `.Rmd` kiterjesztésűek voltak). Egy *Quarto* állomány három részből épül fel:
+
+-   minden *Quarto* állomány egy *fejrésszel* kezdődik, amit a `---` sorok határolnak,
+-   az állományban a fejrész után bárhol elhelyezhetünk *természetes nyelvű szöveget*, amelyet a *Pandoc markdown* szabályai szerint formázhatunk,
+-   a természetes nyelvű szövegek között, bárhol, R parancsok is elhelyezhetők, de azokat speciális határolók (```` ``` ````) közé kell írnunk, ezek az ún. *R csonkok*.
+
+### A fejléc {#sec-fejlec-html}
+
+A *Quarto* fejléce az állomány metaadatait írja le YAML formátumban. Egy szokásos, kicsit kibővített fejléc, magyar nyelvű HTML állományok létrehozásához a következő lehet:
+
+``` yaml
+---
+title: "Kutatási beszámoló"
+subtitle: "A kérdőíves vizsgálat tanulságai 2021-2024" 
+author: "Abari Kálmán"
+date: today
+execute:
+  echo: true
+  warning: false
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    theme: Cerulean
+    title-block-banner: true
+    embed-resources: true
+    self-contained-math: true
+    toc: true
+    toc-location: left
+    toc-expand: 2
+    number-sections: true
+    number-depth: 3
+lang: hu
+author-title: Szerző
+published-title: Dátum
+toc-title: Tartalomjegyzék
+---
+```
+
+A fejléc a dokumentum címét (`title`), alcímét (`subtitle`) és szerzőjét (`author`) állítja be, majd a dátumot az aktuális napi dátumra állítja a `date: today` megadásával. Az `execute` attribútum alatti
+
+-   `echo: true` engedélyezi a kód megjelenítését (alapértelmezés szerint csak a kimenet jelenik meg),
+-   `warning: false` letiltja a figyelmeztető üzenetek megjelenítését.
+
+A `chunk_output_type: console` azt határozza meg, hogy amikor a kódot az *RStudio*-ban futtatjuk (azaz amikor a {{< kbd Ctrl-Shift-R >}} billentyűkombinációval "csak" futtatjuk, és nem a {{< kbd Ctrl-Shift-K >}} billentyűkombinációval rendereljük), a kimenet szokásos módon az *RStudio* konzoljában jelenjen meg. A másik lehetőség a `chunk_output_type: inline`, amely a kimenetet a kód alatt jeleníti meg. Ezt az opciót lehetőség szerint ne használjuk, mivel a kimenet megjelenítése a konzolban sokkal kényelmesebb és áttekinthetőbb.
+
+A generált állomány formátumára vonatkozó közvetlen beállítások a `format:` alatt találhatók:
+
+-   `html:` - a dokumentum HTML formátumban fog létrejönni, a további beállítások mind erre a HTML állományra vonatkoznak,
+-   `theme: Cerulean` - a HTML dokumentum megjelenésének témája `Cerulean` lesz, amely egyike a *Quarto* által támogatott Bootswatch témáknak, amelyek előre definiált stílusokat és színvilágot biztosítanak a weboldalak számára,
+-   `title-block-banner: true` - engedélyezi a címblokk mögötti háttérszín beállítását a dokumentum elején, amely most a `theme` értékétől fog függeni,
+-   `embed-resources: true` - az erőforrásokat (például képeket, stíluslapokat, betűtípusokat) beágyazza a HTML fájlba, így nem lesz szükség külön külső fájlokra; ez a beállítás kulcsfontosságú az önálló és könnyen hordozható HTML állomány előállításához,
+-   `self-contained-math: true` - a matematikai képleteket beágyazza, így azok offline is megjeleníthetők lesznek,
+-   `toc: true` - a HTML dokumentum tartalomjegyzéket fog megjeleníteni,
+-   `toc-location: left` - a tartalomjegyzék a bal oldalon fog elhelyezkedni,
+-   `toc-expand: 2` - a tartalomjegyzékben az első két szint automatikusan kibontva jelenik meg,
+-   `number-sections: true` - a dokumentum címeit számozással látjuk el,
+-   `number-depth: 3` - a számozás mélysége maximum 3 szint mélységig terjed (pl. 1., 1.1., 1.1.1.).
+
+A YAML fejléc utolsó része a nyelvi és metaadat beállításokkal kapcsolatos:
+
+-   `lang: hu` - a dokumentum nyelve magyar lesz,
+-   `author-title: Szerző` - az "Author" címke helyett "Szerző" jelenik meg a HTML dokumentumban,
+-   `published-title: Dátum` - a publikálás dátumát "Dátum" címkével jelöljük,
+-   `toc-title: Tartalomjegyzék` - a tartalomjegyzék címe magyarul fog szerepelni, azaz "Tartalomjegyzék" lesz.
+
+A fenti YAML konfiguráció biztosítja számunkra, hogy a *Quarto* dokumentum egy szépen formázott, magyar nyelvű, számozott fejezetekkel és bal oldali tartalomjegyzékkel rendelkező HTML fájl legyen, amely offline is teljesen működőképes lesz.
+
+### Pandoc markdown
+
+A *Quarto* dokumentum természetes nyelvű szövegrészét a *Pandoc markdown* szabályai szerint formázhatjuk. A *Pandoc markdown* a széles körben használt *Markdown* formanyelvet egészíti ki néhány új funkcióval, azonban a cél közös: formázott szöveg létrehozása a lehető legegyszerűbben. Mindössze néhány speciális karakterrel kell kiegészítenünk a szöveget, és fordítás után máris kész a formázott dokumentum. Ilyen karakterek például a `#` a címek formázásához, a `*` és a `**` a *dőlt* és **félkövér** szöveghez, a `~~` az ~~áthúzott~~ szöveghez, a `^` és a `~` a ^felső-^ és ~alsóindexekhez~, a `|` a táblázatokhoz, a `[]()` a [hivatkozásokhoz](https://www.markdownguide.org/cheat-sheet/), a `![ ]()` a képek beillesztéséhez, a `$` a LaTex képletekhez (például a mintabeli szórás kiszámítása: $s = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n-1}}$), és így tovább.
+
+Egy rövid összefoglalót találunk a következő részben a *Pandoc markdown* szabályairól, de a teljes leírásért látogassuk meg a [Pandoc dokumentációját](https://pandoc.org/MANUAL.html#pandocs-markdown). Érdemes a következő részt a *Quarto* dokumentumunkban is kipróbálni, azaz másoljuk be a következő sorokat a `quarto_pelda.qmd` állományba (a fejléc után), majd rendereljük le a dokumentumot a szokásos billentyűkombinációval: {{< kbd Ctrl-Shift-K >}}. Legyünk óvatosak, az utolsó sorban lévő kép beillesztése csak akkor fog sikerülni, ha a projektkönyvárunkban gondoskodunk egy `images` könyvtárról és benne egy `quarto.png` képállományt is elhelyezünk. A kívánt cél elérése érdekében javasolt a fenti lépéseket végrehajtani, ellenkező esetben töröljük a `![Quarto logó](images/quarto.png)` sort a *Quarto* dokumentumból.
+
+``` markdown
+# Szöveg formázása
+
+*dőlt* **félkövér** ~~áthúzott~~ `kód`
+
+felsőindex^2^ alsóindex~2~
+
+# Címek
+
+# 1. szintű cím (főcím)
+
+## 2. szintű cím (alcím)
+
+### 3. szintű cím (al-alcím)
+
+
+# Felsorolások
+
+- Egyszerű listaelem
+
+- Második listaelem
+
+    - elem 2.1
+
+    - elem 2.2.
+
+- Harmadik listaelem
+
+# Számozás
+
+1. Első elem
+
+2. Második elem\
+   Ide írhatunk bármit, az a 2. elemhez fog tartozni
+
+3. Harmadik elem
+
+
+# Képletek (LaTeX szintaxis szerint)
+
+
+- Inline matematikai képlet: $E = mc^2$
+
+- Blokkszintű képlet\
+  $$\sum_{i=1}^{n} x_i$$
+
+# Táblázatok
+
+| Név  | Kor | Város   |
+|------|----|----------|
+| Anna | 25 | Budapest |
+| Béla | 30 | Debrecen |
+
+# Hivatkozások és képek
+
+Egyszerű link: <https://google.com>
+
+Link beillesztése: [Google](https://google.com) 
+
+Kép beillesztése: ![Quarto logó](images/quarto.png)
+```
+
+A formázási lehetőségek magabiztos használata érdekében érdemes a fenti sorokat módosítani, újabb felsorolt elemeket, hivatkozásokat, formázott szövegrészeket is létrehozni. Fontos a táblázatok és a képletek használatának gyakorlása is, mivel ezek a leggyakrabban használt elemek a tudományos dokumentumokban.
+
+#### A vizuális szerkesztő
+
+Egy vizuális szerkesztőt is biztosít számunkra az *RStudio*, amely segítségével a *Quarto* dokumentumokat még egyszerűbben szerkeszthetjük. Ha már magabiztosan írunk *Markdown* dokumentumokat, akkor a vizuális szerkesztő használatára könnyű lesz áttérni, hiszen nem különbözik lényegesen a *Google Docs* vagy az *MS Word* használatától.
+
+Ha korábban még nem használtunk *Markdown* típusú dokumentumokat, akkor a vizuális szerkesztő használata segíthet a *Markdown* formanyelv gyorsabb elsajátításában is. Mégis azt javasoljuk, hogy a *Quarto* dokumentumok írásához kezdetben inkább a szöveges szerkesztőt használjuk, és csak akkor térjünk át a vizuális szerkesztőre, ha már magabiztosan használjuk a *Markdown* formanyelvet. A vizuális szerkesztő használata ugyanis bizonyos esetekben több időt emészt fel, és a *Markdown* formanyelv elsajátítása sokkal hasznosabb lehet a későbbiekben.
+
+A *Quarto* dokumentumok szerkesztése közben a panel bal felső sarkában tudunk a `Source` és a `Visual` nézet között váltani. A `Source` nézetben a szöveges szerkesztőt látjuk, a `Visual` nézetben pedig a formázott dokumentumot ([-@fig-vizualis-rstudio-01] ábra). A `Visual` nézetben a dokumentumot a böngészőben látható formában tekinthetjük meg, és a változtatások azonnal láthatóak lesznek. Erre látunk példát a [-@fig-vizualis-rstudio-01] ábrán, ahol a korábban elkészített `quarto_pelda.qmd` állományt a vizuális szerkesztővel szerkesztjük.
+
+```{r rstudio-utf8, fig.align='center', echo=FALSE, out.width='70%', fig.link='', fig.cap="Vizuális szövegszerkesztő az *RStudio*-ban"}
+#| label: fig-vizualis-rstudio-01
+#| 
+knitr::include_graphics('images/ch_11_visual_editor.jpg', dpi = NA)
+```
+
+
+### R csonkok
+
+Az R csonkok teszik igazán dinamikussá, élővé a *Quarto* dokumentumot. A HTML létrehozása során ugyanis az R csonkba írt parancsok is végrehajtódnak, és a futási eredmények is bekerülnek a végső dokumentumba, legyen az egy szöveges mutató, táblázat vagy ábra. 
+
+R csonkot a természetes nyelvű szövegek közé bárhová beszúrhatunk, ennek 3 módját választhatjuk:
+
+- billentyűparanccsal: {{< kbd Ctrl-Alt-I >}},
+- az *Insert* gombbal az *RStudio* szerkesztő eszköztárában,
+- kézi gépeléssel a csonk kezdő és záró sorával:
+    - kezdősor: ```` ```{r} ````
+    - zárósor: ```` ``` ````
+
+Nézzünk egy példát egy egyszerű R csonkra:
+
+```` r
+`r ''````{r}
+#| label: gyakorlas-01
+
+1 + 1  # összeadás
+
+# egy ábra
+plot(women) 
+```
+````
+
+Egy R csonk tehát speciális kezdő és záró sorral rendelkezik, a kettő között található a csonk tartalma. A csonk tartalma két részből áll:
+
+- tetszőleges számú csonkbeállításal kezdhetünk, melyek mindegyikét a `#|` karakterkombináció vezeti be,
+- ezt követi egy vagy több R parancs, de akár megjegyzések is beszúrhatunk a szokásos `#` karakterrel kezdődően.
+
+A fenti példában a csonk címkéjét állítjuk be (`#| label: gyakorlas-01`), ami lényegében a csonk azonosítását végzi. Fontos tudni, hogy egyedi értékre van szükségünk a teljes *Quarto* állományra nézve, nem fordulhat elő duplikáció a címke nevében. A csonk címkéjének beállítása legalább két okból fontos:
+
+- egy hosszabb *Quarto* állományban könnyebben navigálhatunk a különböző csonkok között a szerkesztő panel alján található legördülő kódnavigátor segítségével,
+- táblázatokat és ábrákat azonosíthatunk ezzel a címkével, így kereszthivatkozások létrehozásához használhatjuk fel őket.
+
+A `label` beállítás mellett számos további opció is rendelkezésre áll, melyek segítségével testre szabhatjuk a csonkot. A több tucat beállítási lehetőségek közül azok a legfontosabbak, amelyek a csonkban lévő kód futtatását és az eredmények megjelenítését szabályozzák:
+
+- `eval: false` - megakadályozza a kód futtatását, így eredmény sem fog megjelenni, 
+- `include: false` - futtatja a kódot, de nem jeleníti meg az R kódot vagy az outputot a végső dokumentumban, 
+- `echo: false` - megakadályozza az R kód megjelenítését a végső dokumentumban,
+- `message: false` és `warning: false` - megakadályozza az üzenetek és figyelmeztetések megjelenítését a végső dokumentumban,
+- `results: hide` és `fig-show: hide` - megakadályozza a kimenetek és ábrák megjelenítését a végső dokumentumban.
+
+
+A [-@tbl-csonk-output] táblázat összefoglalja, mely kimeneteket tiltják le az egyes beállítások a csonk elején.
+
+
+```{r}
+#| echo: false
+#| label: tbl-csonk-output
+#| tbl-cap: "A csonkban megadható beállítás, mely kimeneteket tiltja le"
+
+tibble::tibble(Beállítás = c("eval: false",
+                         "include: false",
+                         "echo: false",
+                         "results: hide",
+                         "fig-show: hide",
+                         "message: false",
+                         "warning: false"),
+           `Kód futása` = c("X", "", "", "", "", "", ""),
+           "Kód"        = c("", "X", "X", "", "", "", ""), 
+           "Output"     = c("X", "X", "", "X", "", "", ""),
+           "Ábra"       = c("X", "X", "", "", "X", "", ""),
+           "Üzenet"     = c("X", "X", "", "", "", "X", ""),
+           "Figyelmeztetés"  = c("X", "X", "", "", "", "", "X")
+          ) |> 
+  
+  dplyr::mutate(Beállítás=kableExtra::cell_spec(Beállítás, ifelse(knitr:::is_html_output(),"html", "latex"),
+                                 monospace = T)) |> 
+  knitr::kable(escape = F, booktabs = T, align="lcccccc",
+               format = ifelse(knitr:::is_html_output(),"html", "latex")) |> 
+  kableExtra::kable_styling(full_width = F,
+                            latex_options = c("striped"),
+                            bootstrap_options = c("striped", "hover"))
+```
+
+Ha a végső HTML állományban csak egy ábrát szeretnénk megjeleníteni, akkor a szokásos csonkmegjelenés a következő lehet:
+
+```` r
+`r ''````{r}
+#| label: fig-egyszeru-abra-01
+#| fig.cap: "Egy egyszerű ábra"
+#| echo: false
+#| message: false
+#| warning: false
+
+# egy ábra
+plot(women) 
+```
+````
+
+A fenti példában tiltjuk az R kód megjelenítését (`echo: false`), az üzenetek és figyelmeztetések megjelenítését (`message: false`, `warning: false`), így csak az ábra fog megjelenni a végső HTML állományban. A csonk címkéje (`label`) a későbbi kereszthivatkozásokhoz szükséges, a `fig.cap` beállítás pedig az ábra címét adja meg.
+
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A *Quarto* dokumentumok három részből állnak: a fejrészből, a természetes nyelvű szövegből és az R csonkokból. A fejrészben a dokumentum metaadatait állítjuk be, a természetes nyelvű szövegben a *Pandoc markdown* szabályait követve formázhatjuk a szöveget, az R csonkokban pedig R parancsokat futtathatunk és azok outputját megjeleníthetjük a végső HTML dokumentumban. Az R csonkokban számos beállítás segítségével testre szabhatjuk a kód futtatását és az output megjelenítését.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  Hogyan állíthatjuk be a *Quarto* HTML dokumentum számára a fejezetet sorszámozásánál a pontra végződést, azaz az "1" és "1.1" helyet az "1." és "1.1." megjelenítését.
+2.  Milyen témákat használhatunk még a HTML dokumentumok megjelenítése során a fejezetben használt `Cerulean` témán kívül?
+3. Hol találunk részletes leírást a *Markdown* és a *Quarto* dokumentumok formázási lehetőségeiről?
+4. Miért mondhatjuk, hogy a *Quarto* dokumentum egy fordított parancsállomány?
+5. Mit jelent az inline R kód futtatása a *Quarto* dokumentumokban, hogyan használjuk ezeket? Nézzen utána a *Quarto* dokumentációjában!
+:::
+
+
+## Hivatkozások `r emoji("thinking-face")` {#sec-quarto-hivatkozasok}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   megismerjük a *Quarto* dokumentumokban használható szövegközi hivatkozások és a dokumentum végén megjelenő irodalomjegyzék létrehozásának szabályait, valamint
+-   a dokumentumon belüli kereszthivatkozásokat táblázatokra és ábrákra.
+:::
+
+
+Egy tudományos írás nem nélkülözheti a bibliográfiai hivatkozásokat, hiszen ezek segítségével tudjuk a kutatásunkat a korábbi eredményekhez kapcsolni, és a saját eredményeinket a szakirodalommal összehasonlítani. Legalább ennyire fontos az is, hogy a saját a táblázatainkra és ábráinkra is megfelelően hivatkozzunk az írásunkban, hiszen ezek is a tudományos írások alapvető elemei. Ebben a fejezetben tehát a *Quarto* dokumentumokban használható hivatkozásokat ismerjük meg.
+
+### Bibliográfia
+
+A tudományos írásokban két helyen fordulnak elő a hivatkozások:
+
+- a szövegközi hivatkozásként: a hivatkozásokat a szövegben a hivatkozott gondolat vagy eredmény után zárójelben vagy a szerző neve után zárójelben adjuk meg,
+- a bibliográfiában: az írásunk végén a hivatkozott művek teljes listáját adjuk meg, amely tartalmazza a hivatkozott művek szerzőit, címét, kiadási évét és egyéb fontos adatokat.
+
+Tegyük fel, hogy a tudományos írásunkban egy cikkre és egy könyvre szeretnénk a fenti módon hivatkozni. A következő lépések szükségesek a hivatkozások megadásához:
+
+1. Összeállítjuk a bibliográfiát egy `.bib` fájlban. Ehhez érdemes igénybe venni valamilyen hivatkozáskezelőt, amely nagyban megkönnyíti a hivatkozások kezelését. Ilyen lehet a *Zotero*, a *Mendeley* vagy a *JabRef*.
+2. A `.bib` fájlt bemásoljuk a projektkönyvtárunkba és a *Quarto* dokumentum fejrészében a `bibliography:` beállítással hivatkozunk rá.
+3. Gondoskodunk a hivatkozási stílus beállításáról, amely a `csl:` beállítással történik, szintén a fejrészben.
+4. A szövegközi hivatkozásokat a `@` karakterrel és a hivatkozás azonosítójával adjuk meg, ahol az azonosító a `.bib` fájlban található egyedi azonosító.
+5. A tudományos írás végén megjelenő bibliográfia generálásáról automatikusan gondoskodik a *Quarto* dokumentum, de ennek a beállítását is finomíthatjuk.
+
+Nézzük a fenti lépéseket a gyakorlatban. Először is készítsünk egy `mestint.bib` fájlt és mentsük el a projektkönyvtárunkba. Legalább a következő két hivatkozást helyezzük el benne:
+
+``` bib
+@Book{harari2015sapiens,
+  title={Sapiens. Az emberiség rövid története},
+  author={Harari, Yuval Noah},
+  year={2023},
+  publisher={Animus Kiadó}
+}
+
+@Article{Dillion2023,
+  author       = {Dillion, Danica and Tandon, Niket and Gu, Yuling and Gray, Kurt},
+  date         = {2023},
+  journaltitle = {Trends in Cognitive Sciences},
+  title        = {Can AI language models replace human participants?},
+  doi          = {10.1016/j.tics.2023.04.008},
+  issn         = {1364-6613},
+  number       = {7},
+  pages        = {597--600},
+  volume       = {27},
+  publisher    = {Elsevier BV},
+}
+```
+
+A `.bib` fájlokban minden egyes publikációhoz egyedi azonosítót kell megadni, amelyet a hivatkozásokban használunk majd. Ezek most a `harari2015sapiens` és a `Dillion2023` azonosítók lesznek.
+
+
+Egészítsük ki a `quarto_pelda.qmd` állomány fejlécét a következő beállításokkal:
+
+
+``` yaml
+bibliography: mestint.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+```
+
+A `bibliography:` beállítás a `.bib` fájlra mutat, amely a bibliográfiai adatokat tartalmazza, a `csl:` beállítás pedig a hivatkozási stílust határozza meg. A hivatkozási stílusokat a [Citation Style Language](https://citationstyles.org/) weboldalról tölthetjük le, ahol több száz különböző stílus közül választhatunk. Most online módon írjuk elő az APA stílust használatát.
+
+A szövegközi hivatkozásokat tipikusan `[@azonosító]` formátumban adjuk meg a szövegben, ahol a forrásazonosító a `.bib` fájlban található egyedi azonosító, de léteznek olyan variációk, amelyek többféle szövegközi hivatkozást is lehetővé tesznek. Helyezzük el ezeket a sorokat a `quarto_pelda.qmd` állományban:
+
+``` markdown
+- A szokásos szövegközi hivatkozás [@harari2015sapiens].
+- Akár több műre is hivatkozhatunk a szövegben [@harari2015sapiens; @Dillion2023].
+- Megadhatunk oldalszámot is [@Dillion2023, p. 2].
+- Megadhatunk több oldalt is [@harari2015sapiens, pp. 12-15].
+- Megadhatunk tetszőleges szöveget is [lásd @harari2015sapiens, pp. 12-15].
+- Más jellegű szövegközi hivatkozások is megadhatók:
+    - @harari2015sapiens 
+    - @Dillion2023 [p. 2]
+    - Harari népszerű könyvében [-@harari2015sapiens] megjegyzi
+```
+
+Fordítás után a HTML állományban ezek a sorok a [-@fig-szovegkozi-01] ábrán látható módon jelennek meg.
+
+```{r rstudio-utf8, fig.align='center', echo=FALSE, out.width='80%', fig.link='', fig.cap="Szövegközi hivatkozások a HTML szövegben"}
+#| label: fig-szovegkozi-01
+#| 
+knitr::include_graphics('images/ch_11_idezet.png', dpi = NA)
+```
+
+Ha végiglapozzuk a fordítás után kapott HTML állományt, akkor a dokumentum végén a bibliográfiai listát is megtaláljuk. Azonban direkt módon is gondoskodhatunk az irodalomjegyzékről, amelyet a következő módon hozhatunk létre a *Quarto* dokumentumokban:
+
+``` markdown
+# Irodalomjegyzék
+
+::: {#refs}
+:::
+```
+
+A [-@fig-biblio-01] ábra a fenti kódrészlet hatását mutatja be. Az irodalomjegyzék így már felveszi a dokumentumban használt formázási stílust.
+
+```{r rstudio-utf8, fig.align='center', echo=FALSE, out.width='80%', fig.link='', fig.cap="Bibliográfia a tudományos szöveg végén"}
+#| label: fig-biblio-01
+#| 
+knitr::include_graphics('images/ch_11_biblio.png', dpi = NA)
+```
+
+
+### Táblázatok
+
+Táblázatok létrehozásához alapvetően két megközelítést használhatunk a *Quarto* dokumentumokban:
+
+- A *Pandoc markdown* szabályai alapján, vagy
+- R csonk segítségével is létrehozhatunk táblázatokat.
+
+A *Pandoc markdown* szabályait követve táblázatokat például a következő módon hozhatunk létre:
+
+``` markdown
+| Név  | Kor | Város   |
+|------|----|----------|
+| Anna | 25 | Budapest |
+| Béla | 30 | Debrecen |
+
+: Egy egyszerű táblázat (1) {#tbl-st-01}
+```
+
+| Név  | Kor | Város   |
+|------|----|----------|
+| Anna | 25 | Budapest |
+| Béla | 30 | Debrecen |
+
+: Egy egyszerű táblázat (1) {#tbl-st-01}
+
+
+A fenti példában egy egyszerű táblázatot hozunk létre a *Pandoc markdown* szabályai szerint. A táblázatokat a `|` karakterekkel és a `---` sorokkal hozhatjuk létre, ahol a `|` karakterekkel határoljuk a cellákat, a `---` sorok pedig a cellák fejlécét határozzák meg. A táblázat címét és címkéjét a `:` és a `{#}`  karakterrel adjuk meg, amely a későbbi kereszthivatkozásokhoz szükséges.
+
+R csonk segítségével táblázatot például így hozhatunk létre:
+
+```` r
+`r ''````{r}
+#| label: tbl-st-02
+#| tbl-cap: "Egy egyszerű táblázat (2)"
+#| message: false
+#| warning: false
+
+data.frame(Név = c("Anna", "Béla"),
+               Kor = c(25, 30),
+               Város = c("Budapest", "Debrecen")) |> 
+  knitr::kable(escape = F, booktabs = T, align="lcc")
+```
+````
+
+```{r}
+#| label: tbl-st-02
+#| tbl-cap: "Egy egyszerű táblázat (2)"
+#| message: false
+#| warning: false
+#| echo: false
+
+data.frame(Név = c("Anna", "Béla"),
+               Kor = c(25, 30),
+               Város = c("Budapest", "Debrecen")) |> 
+  knitr::kable(escape = F, booktabs = T, align="lcc")
+```
+
+
+A fenti példában egy egyszerű táblázatot hozunk létre az R csonkok segítségével. Táblázatokat a `knitr::kable()` függvény segítségével hozhatjuk létre, amely számos beállítási lehetőséget kínál a táblázatok testreszabására. A táblázat címét a `tbl-cap:` beállítással adjuk meg, amely a `label:` beállítás a későbbi kereszthivatkozásokhoz szükséges. 
+
+A fenti táblázatokra a szövegből a következő módon hivatkozhatunk:
+
+``` markdown
+A példákat a [-@tbl-st-01]. és a [-@tbl-st-02]. táblázatokban láthatjuk.
+```
+
+A példákat a [-@tbl-st-01]. és a [-@tbl-st-02]. táblázatokban láthatjuk.
+
+A `{kintr}` csomag `kable()` függvényének tudása kibővíthető a [`{kableExtra}`](https://haozhu233.github.io/kableExtra/) csomag számos további függvényével, amelyek igazán látványos és praktikus táblázatok létrehozására szolgálnak. Érdemes más táblázatkészítő csomagokat is megismerni, például a [`{gt}`](https://gt.rstudio.com/) csomagot, amely mára szinte iparági szabvány lett a táblázatok készítésében.
+
+### Ábrák
+
+Az ábrák létrehozásához két eltérő megközelítést használhatunk a *Quarto* dokumentumokban, attól függően, hogy rendelkezésre áll-e egy kész képállomány, vagy a képet a fordítási folyamat során, az R csonkba illesztett parancsok segítségével szeretnénk-e létrehozni.
+
+Amennyiben a kész képállomány rendelkezésre áll, például a `quarto.png` állomány a projekt könyvtár `images` alkönyvtárában, akkor az ábra végső dokumentumba illesztésére még mindig 2 módunk van.
+
+Az első módszer a *Pandoc markdown* szintaxis szerinti beillesztés, amely a legkevésbé rugalmas megoldás, de a legegyszerűbb is.
+
+``` markdown
+![Egy egyszerű ábra (1)](images/quarto.png){#fig-sf-01 width=20%}
+```
+
+![Egy egyszerű ábra (1)](images/quarto.png){#fig-sf-01 width=20%}
+
+
+A második módszer szerint használhatjuk egy új R csonkban a `knitr::include_graphics()` függvényt is:
+
+```` r
+`r ''````{r}
+#| label: fig-sf-02
+#| fig.cap: "Egy egyszerű ábra (2)"
+#| out.width: 15%
+#| echo: false
+#| message: false
+#| warning: false
+
+# egy ábra
+knitr::include_graphics("images/quarto.png")
+```
+````
+
+```{r}
+#| label: fig-sf-02
+#| fig.cap: "Egy egyszerű ábra (2)"
+#| out.width: 15%
+#| echo: false
+#| message: false
+#| warning: false
+
+# egy ábra
+knitr::include_graphics("images/quarto.png")
+```
+
+Az eddigiektől lényegesen eltérő helyzet, amikor nem áll rendelkezésre képállomány. Ilyenkor a képet a fordítás során hozzuk létre, azaz ábra készítéséhez R kódot kell használunk:
+
+```` r
+`r ''````{r}
+#| label: fig-sf-03
+#| fig.cap: "Egy egyszerű ábra (3)"
+#| fig.width: 2.6
+#| fig.asp: 0.7
+#| echo: false
+#| message: false
+#| warning: false
+
+# egy ábra
+library(ggplot2)
+p1 <- ggplot(women, aes(x=height, y=weight)) +
+  geom_point() +
+  labs(x="Magasság", y="Testsúly") +
+  theme_minimal()
+p1
+```
+````
+
+```{r}
+#| label: fig-sf-03
+#| fig.cap: "Egy egyszerű ábra (3)"
+#| fig.width: 2.6
+#| fig.asp: 0.7
+#| echo: false
+#| message: false
+#| warning: false
+
+# egy ábra
+library(ggplot2)
+p1 <- ggplot(women, aes(x=height, y=weight)) +
+  geom_point() +
+  labs(x="Magasság", y="Testsúly") +
+  theme_minimal()
+p1
+```
+
+    
+Bármelyik módszert is választjuk, az ábrákra a szövegből a következő módon hivatkozhatunk:
+
+``` markdown
+A fenti 3 módszer eredménye a [-@fig-sf-01]., [-@fig-sf-02]. és [-@fig-sf-03]. ábrán.
+```
+
+A fenti 3 módszer eredménye a [-@fig-sf-01]., [-@fig-sf-02]. és [-@fig-sf-03]. ábrán.
+
+A fenti 3 ábrát 3 különféle módon hoztuk létre. 
+
+- A [-@fig-sf-01]. ábrát a *Pandoc markdown* szabályai alapján szúrtuk be és a `{#fig-sf-01 width=20%}` beállítással azonosítót rendeltünk a képhez, valamint a szélességét is beállítottuk. Ez a képek beszúrásának legegyszerűbb módja, egyben a legkevesebb beállítási lehetőséget is kínálja.
+- A [-@fig-sf-02]. ábrát is kész képállományra alapoztuk, de ez már szélesebb körű beállítási lehetőséget rejt, köszönhetően az R csonk beállításainak. A következő ábrára vonatkozó beállításokat használtuk:
+
+    - `label: fig-sf-02` - az ábra azonosítóját itt adtuk meg,
+    - `fig.cap: "Egy egyszerű ábra (2)"` - az ábra címét itt adtuk meg,
+    - `out.width: 15%` - az ábrát átméretezzük az erdeti kép méretének 15%-ára, és mivel a méretezés megőrzi a képarányt, ezért a szélesség megadása elegendő,
+    
+- A [-@fig-sf-03]. ábrát az R csonkban futtatott parancsok segítségével hoztuk létre. Az ábra azonosítóját, a címét itt is megadtuk az R csonkban, továbbá:
+
+    - a `fig.width: 2.6` - az ábra szélességét itt adtuk meg inch-ben mérve,
+    - a `fig.asp: 0.7` - az ábra magasság/szélesség arányát itt adtuk meg.
+
+
+Láttuk, hogy amennyiben R csonkot használunk az ábrák létrehozásához -- akár kész kép, akár generáló R parancsok esetén --, a kép megjelenését számos módon befolyásolhatjuk. A fenti eseteken túl szokásos még:
+
+- az ábrák igazítását a `fig.align` beállítással szabályozhatjuk, amely az ábra igazítását határozza meg (értékei: `left`, `right`, `center`),
+- az ábrák átméretezése történhet a `fig.width` és a `fig.height` beállításokkal, amelyek az ábra szélességét és magasságát adják meg inch-ben mérve.
+
+Az ábrák publikációját még egy függvény támogatja. A `{ggplot2}` csomag `ggsave()` függvényével a `ggplot()` parancsokkal készült ábrát a háttértárra menthetjük. A `p1` objektumunk épp egy ilyen ábrát tartalmaz. A `ggsave()` függvény a `filename=` argumentuma adja meg a fájl nevét, amelybe az ábrát menteni szeretnénk. Az állomány választott kiterjesztése fogja eldönteni a kimeneti képformátumot. A `plot=` paraméterben megadhatjuk, hogy melyik ábrát szeretnénk menteni. A `width=` és `height=` beállításokkal megadhatjuk az ábra szélességét és magasságát inch-ben mérve. A `dpi=` beállítással pedig a felbontást (dots per inch) adhatjuk meg, míg a `scale=` beállítással kicsinyíthetjük vagy nagyíthatjuk az ábrát. 
+
+A `p1` ábránk mentését a következő módon végezhetjük el:
+
+```{r}
+# ábra mentése háttértárra
+ggsave(filename = "output/images/egyszeru_abra_3.png",
+       plot = p1,
+       width = 5,
+       height = 4,
+       dpi = 300,
+       scale = 0.9)
+```
+
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A *Quarto* dokumentumokban a szövegközi hivatkozások és a bibliográfiai hivatkozások létrehozásához szükség van az összegyűjtött irodalmakat tartalmazó `.bib` fájlra, amelyre a QMD fejrészében a `bibliography:` beállítással hivatkozunk. A hivatkozások stílusát a `csl:` beállítással határozzuk meg, amely a hivatkozási stílus fájlra mutat. A szövegközi hivatkozásokat tipikusan `[@citation-key]` formátumban adjuk meg a szövegben, az irodalomjegyzék helyét a `::: {#refs} :::` karaktersorozatok jelölik ki. Táblázatokat és ábrákat a *Pandoc markdown* szabályai szerint, vagy R csonk segítségével is létrehozhatunk. Utóbbi több lehetőséget kínál, ugyanis a csonk beállításai között a `#| label:` a táblázat/ábra azonosítóját a `|# tbl-cap:`/`|# fig.cap:` a táblázat/ábra címét adja meg. Magyar szövegből szokásos a `[-@tbl-key]` és `[-@fig-key]` formátumú hivatkozás az adott táblázatra, illetve ábrára.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  A korábban említett `knitr::kable()` + `{kableExtra}` pár és a `{gt}` csomag mellett számos további csomag is segíti a táblázatok létrehozását. Melyek ezek?
+2.  A `{gt}` csomag használatával készítse el a fejezetben használt táblázatot!
+3. Készítsen egy HTML dokumentumot, amely ábrával és képpel is bemutatja a top 10 legtöbb bevételt hozó Pixar filmet. Használjuk a [Pixar Box Office Varázslat](https://www.kaggle.com/code/aradhanahirapara/pixar-s-box-office-magic-analyzing-28-years-of-an/notebook) oldalon található adatbázist és elemzési segítséget. A HTML dokumentum tartalmazzon hivatkozásokat az adatbázisra és a használt csomagokra, illetve magára az R-re is, továbbá a beillesztett képre és az ábrára is hivatkozzunk a szövegből. A dokumentum végén szerepeljen irodalomjegyzék is.
+
+:::
+
+
+
+
+## Más Quarto formátumok `r emoji("exploding-head")` {#sec-quarto-mas-formatumok}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   a *Quarto* változatos tartalmi és kimeneti formátumait ismerjük meg,
+-   a PDF és MS Word formátumú dokumentumokat és prezentációkat, valamint
+-   a könyvek létrehozásának lehetőségeit ismertetjük.
+
+:::
+
+A *Quarto* dokumentumok többfajta tartalmi és kimeneti formátumot támogatnak. Eddig az egy dokumentumra épülő, kimenetként a HTML formátumot használó lehetőségre szűkítettük a *Quarto* bemutatását. Egyszerűbb esetekben ez tökéletes választás lehet, de a *Quarto* ennél sokkal többet tud. Ha a *Quarto* segítségével készíthető számtalan állományt csoportosítani szeretnénk, akkor két megközelítést alkalmazhatunk:
+
+Figyelhetünk a létrehozandó dokumentum *tartalmára*, strukturális felépítésére. A felépítésre vonatkozó szempontok alapján minimálisan a következő tartalmi típusokat különböztethetjük meg:
+
+- **Dokumentum**  
+  Folyamatos szöveges tartalom, világos tagolással. Ez az egydokumentumos megközelítés jól használható cikkek, riportok, jegyzetek, rövidebb dokumentációk készítésére.
+
+- **Prezentáció**  
+  Diákra osztott, tömör, vizuális hangsúlyú tartalom. Kiváló eszköz konferenciákra, oktatásra, szakmai bemutatókra készítendő tartalom esetén.
+
+- **Könyv**  
+  Több fejezetre és alfejezetre tagolt, összetett, hosszú tartalom. Segítségével tankönyvek, kézikönyvek, részletes dokumentációk hozhatók létre.
+
+- **Weboldal**  
+  Több egymással összekapcsolt dokumentumból (oldalakból) álló, navigációval ellátott tartalom.  Online tudásbázisok, dokumentációs portálok, blogok és komplex oktatási oldalak készítésére használjuk.
+    
+A másik megközelítés szerint kiemelhetjük az elkészítendő állomány végleges *fájlformátumát*. A kimeneti formátumokat a következő csoportokba sorolhatjuk:
+
+- **Webes formátumok** (HTML)  
+  Könnyen hordozható, webböngészőkben megjeleníthető, akár interaktív, dinamikus elemekkel gazdagítható fájlformátum.
+
+- **Nyomtatható formátumok** (PDF)  
+  Rögzített oldaltördelésű, nyomtatásra, offline olvasásra optimalizált fájlformátum, amelynek  formázása stabil és kötött.
+
+- **Irodai szerkeszthető formátumok** (MS Word, ODT, PPTX)  
+  További szerkesztésre alkalmas, széles körben használt, népszerű fájlformátumok.
+
+- **E-könyv formátumok** (ePub)  
+  Digitális könyvolvasókra optimalizált, reszponzív, újratördelhető, kényelmes olvasást lehetővé tevő fájlformátum.
+
+
+A [-@tbl-quarto-tartalmi-tipusok] táblázat a tartalmi típusok és támogatott technikai formátumok tipikus kapcsolatait mutatja be.
+
+| Quarto dokumentumtípus | HTML | PDF | MS Word | ODT | ePub | PPTX |
+|------------------------|------|-----|---------|-----|------|------|
+| Dokumentum             | `r emoji("check-mark-button")`   | `r emoji("check-mark-button")`  | `r emoji("check-mark-button")`      | `r emoji("check-mark-button")`  | `r emoji("check-mark-button")`   | |
+| Prezentáció            | `r emoji("check-mark-button")`   | `r emoji("check-mark-button")`  |       |   |    | `r emoji("check-mark-button")`  |
+| Könyv                  | `r emoji("check-mark-button")`   | `r emoji("check-mark-button")`  | `r emoji("check-mark-button")` | | `r emoji("check-mark-button")`   | |
+| Weboldal               | `r emoji("check-mark-button")`   |   |       |   |  | |
+
+: A *Quarto* dokumentumok tartalmi típusai és támogatott technikai formátumai {#tbl-quarto-tartalmi-tipusok}
+
+
+### Dokumentum és prezentáció
+
+A **Dokumentum** és a **Prezentáció** tartalmi típusok esetén a *Quarto* dokumentumokat többféle formátumban is elmenthetjük. A **Dokumentum** esetén a HTML, PDF, MS Word és ODT formátumok is támogatottak, a **Prezentáció** esetén pedig a HTML, PDF és a PPTX formátumok is elérhetőek. Ez a két tartalmi típus egymáshoz nagyon hasonló munkamenetet támogat, amely lényegében megegyezik a korábban látott egydokumentumos HTML dokumentumok készítésének folyamatával:
+
+1. Létrehozzuk a QMD állományt a projektkönyvtárunkban
+  
+    - dokumentum esetén a `File / New File / Quarto Document...` menüpontot választjuk és el is mentjük `dok_pelda.qmd` néven
+    - prezentáció esetén a `File / New File / Quarto Presentation...` menüpontot választjuk és `prez_pelda.qmd` néven mentjük el.
+
+2. A megjelenő dialógus dobozban beállítjuk a dokumentum vagy prezentáció címét, szerzőjét, továbbá 
+
+    - dokumentum esetén kiválasztjuk a kimeneti fájlfomátumot: HTML, PDF vagy MS Word (telepített MS Word esetén)
+    - prezentáció esetén kiválasztjuk a kimeneti fájlfomátumot: HTML (Reveal JS alapon), PDF (Beamer alapon, telepített LaTex esetén) vagy a PPTX (telepített PowerPoint esetén)
+    
+3. Tovább specifikálhatjuk a dokumentum vagy prezentáció beállításait a YAMl fejlécben, majd elkészítjük a dokumentum vagy prezentáció tartalmát.
+
+4. A dokumentum vagy prezentáció fordításához a `Render` gombot használjuk, vagy a `Ctrl + Shift + K` billentyűkombinációt.
+
+A QMD állomány létrehozása után érdemes áttekinteni a fejléc tartalmát. A fejléc tartalmát HTML dokumentum esetén már megismertük (lásd a [-@sec-fejlec-html] fejezetet), azonban a PDF és MS Word dokumentumok esetén speciális beállításokat is megadhatunk.
+
+A PDF dokumentum fejléce tipikusan következőképpen néz ki:
+
+``` yaml
+---
+title: "PDF dokumentum"
+format:
+  pdf:
+    pdf-engine: lualatex
+    documentclass: scrreport
+    toc: true
+    number-sections: true
+    fontfamily: libertinus
+    keep-tex: true
+    cap-location: top
+lang: hu
+language: hungarian.yml
+bibliography: mestint.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+---
+```
+
+A YAML fejrészben a `format:pdf` alatt állíthatjuk be a PDF dokumentumra specifikus formázását. A PDF dokumentumok esetén a következő beállításokat használhatjuk:
+
+- `pdf-engine`: a PDF dokumentum fordításához használt motor, amely lehet `pdflatex`, `lualatex` vagy `xelatex`,
+- `documentclass`: a LaTeX dokumentum osztálya, amely lehet `scrartcl`, `scrreprt`, `scrbook`, `article`, `report`, `book`,
+- `toc`: a tartalomjegyzék megjelenítését írjuk elő,
+- `number-sections`: a fejezetek sorszámozását állítjuk be,
+- `fontfamily`: a dokumentum alap betűtípusát állítjuk be (vonatkozni fog a szövegre és a fejlécekre is),
+- `keep-tex`: a fordítás során a LaTeX állományok megtartása,
+- `cap-location`: a kép és táblázat feliratok elhelyezése, amely lehet `top` vagy `bottom`.
+
+Számos további beállítás is elérhető a PDF dokumentumok esetén, amelyekről a [Quarto dokumentáció](https://quarto.org/docs/reference/formats/pdf.html) ad részletes tájékoztatást. Vegyük figyelembe, hogy a PDF dokumentumok esetén a LaTeX környezet telepítése szükséges, amit könnyen elvégezhetünk a [MiKTex](https://miktex.org/download) vagy a [TinyTex](https://yihui.org/tinytex/) oldalon található útmutatások segítségével.
+
+Az MS Word állományok esetén a YAML fejléc tipikusan a következőképpen néz ki:
+
+``` yaml
+---
+title: "Dokumentum 1.0"
+format:
+  word:
+    toc: true
+    number-sections: true
+    number-offset: 1
+    reference-doc: template.docx
+---
+```
+
+A fenti fejléc legnagyobb újdonsága, hogy sablondokumentumot használunk a `reference-doc:` beállítással, amely a dokumentum formázását határozza meg. A sablon dokumentumot a Microsoft Word programban készíthetjük elő, amelyet `template.docx` néven projektkönyvárunkban mentünk el. A sablon dokumentumban a végleges Word állomány megjelenését előkészítjük, gondoskodunk a címsorok, felsorolások, számozások, képek és táblázatok formázásáról. A fordítás során a QMD állomány tartalma ebbe a sablonba kerül beillesztésre. Ez nagyszerű lehetőség a dokumentumok formázásának testreszabására, hiszen a sablon dokumentumban a Word programban elérhető összes formázási lehetőséget használhatjuk. 
+
+Amennyiben PowerPoint prezentációt szeretnénk készíteni, akkor a YAML fejléc a következőképpen nézhet ki:
+
+``` yaml
+---
+title: "Kiselőadás 1.0"
+author: "Abari Kálmán"
+format:
+  pptx:
+    incremental: true   
+    reference-doc: template.pptx
+---
+```
+
+Ahogyan a fenti fejléc is mutatja, prezentációk készítéséhez is érdemes sablont használni, amely formailag meghatározza a prezentáció megjelenését. A sablon dokumentumot a Microsoft PowerPoint programban készíthetjük elő, amelyet `template.pptx` néven projektkönyvárunkban mentünk el. Meghatározzuk a diák háttérszínét, a betűtípusokat, a címsorok és szövegek formázását, a táblázatok és ábrák megjelenését. A fordítás során a QMD állomány tartalma ebbe a prezentációs sablonba kerül beillesztésre.
+
+A *Quarto* prezentációk esetében, a fejlécet követő tartalmat a diasor felépítésének megfelelően kell megadnunk. A diasor felépítése a következőképpen nézhet ki egy, a mindennapos testmozgás fontosságáról szóló diasor esetén. A fenti fejléc utáni tartalom a következő lehetne:
+
+``` markdown
+
+# A mindennapos testmozgás fontossága
+
+## Miért fontos a mindennapos testmozgás? {.incremental}
+
+-  A mindennapos testmozgás segít megőrizni a testi és lelki egészséget.
+-  A rendszeres testmozgás csökkenti a stresszt és javítja a hangulatot.
+
+## Hogyan kezdjünk neki? {.nonincremental}
+
+-  Kezdjük kis lépésekkel, például napi 10-15 perces sétával.
+-  Fokozatosan növeljük a mozgás időtartamát és intenzitását.
+
+## Milyen sportágakat válasszunk?
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+| Sportág | Előnyök |
+|---------|---------|
+| Futás | Jó állóképesség, zsírégetés |
+| Úszás | Kíméli az ízületeket, teljes testet átmozgat |
+| Kerékpározás | Kíméli az ízületeket, szép lábakat formál |
+| Jóga | Stresszoldás, hajlékonyság növelése |
+
+:::
+
+::: {.column width="40%"}
+
+[Quarto](images/quarto.png){#fig-quarto width=50%}
+
+:::
+
+::::
+```
+
+Prezentációk összeállításánál figyelembe kell venni, hogy a tartalmat a diákra kell osztani:
+
+-  a címdiákat a `#` karakterrel kezdődő sorral jelöljük,
+-  a tartalommal rendelkező diákat a `##` karakterrel kezdődő sorral jelöljük, és többnyire felsorolásokat használunk,
+-  a felsorolt elemek megjelenését kattintásra is előírhatjuk, ezt a fejlécben lévő `incremental: true` beállítással minden diára előírhatjuk, de diánkénti megadásra is van lehetőség a `{.incremental}` és `{.nonincremental}` beállításokkal,
+-  a dia tartalmát megoszthatjuk a `{.column}` beállítással, amely a dián belüli oszlopok létrehozására szolgál.
+
+
+Összefoglalóan azt mondhatjuk, hogy a **Dokumentum** és a **Prezentáció** tartalmi típusok esetén a *Quarto* dokumentumokat többféle formátumban is elmenthetjük, és ezt a fejlécben található `format:` beállítással irányíthatjuk. Lehetséges értékei a `html`, `pdf`, `docx`, `odt` és `pptx`. A kiválasztott fájlformátum a fejléc további beállításaira is hatással van, más opciók közül választunk ha a dokumentumot HTML, Word vagy PDF formátumban szeretnénk elkészíteni, és perezentációk esetén is különböznek a beállításai lehetőségek HTML, PDF és PPTX esetén.
+
+### Könyv
+
+A könyv tartalmi típus esetén a *Quarto* dokumentumokat többféle formátumban is elmenthetjük. Szóba jöhet a HTML, PDF, MS Word és ODT formátum is. A könyv létrehozásához speciális projektet érdemes létrehozni, ugyanis számos állomány létrejön a folyamat végén, amelyek nagyszerű kiindulópontok lehetnek a teljes könyv létrehozásához. A lépések a következők:
+
+1. Induljunk el a `File / New Project...` menüponttal, majd válasszuk a `New Directory` lehetőséget és a `Quarto Book` opciót. Határozzuk meg a könyvünk projektkönyvtárának a nevét (legyen `book_pelda`) és helyét, majd kattintsunk a `Create Project` gombra.
+2. Számos állomány létrejött, melyek egyik része a könyvhöz kapcsolódó beállításokért, másik része a könyv tartalmáért felelős. Ezeknek az állományoknak a tartalmát érdemes áttekinteni, illetve meghatározni. Végső soron könyvünk tartalmáért mi leszünk a felelősek. Később részletesen bemutatjuk a lehetőségeket, de most megtehetjük, hogy nem változtatunk semmin.
+3. A könyv fordítását a {{< kbd Ctrl-Shift-B >}} billentyűkombinációval kezdeményezhetjük, vagy a jobb felső panel `Build` fülén a `Render Book` gombját is használhatjuk, ahol egyenként is eldönthetjük, hogy melyik formátumban szeretnénk elkészíteni a könyvet (például PDF vagy HTML formátumban).
+
+Ha követtük a fenti lépéseket, akkor a könyvünk máris elkészült, az alapértelmezett tartalommal. A `book_pelda` nevű projektkönyvtárunk `_book` alkönyvtárában megtaláljuk az `index.html` állományt, amely a HTML alapú könyvünk kezdőlapja, illetve a `book_pelda.pdf` állományt, amely PDF formátumban tartalmazza a teljes könyvünket (telepített LaTeX esetén).
+
+A könyvünk testreszabásához tekintsük át projektkönyvtárunk tartalmát:
+
+- `_quarto.yml` - a könyv beállításait tartalmazó fájl, amelyben a könyv címét, szerzőjét, nyelvét és egyéb beállításait adhatjuk meg,
+- `index.qmd` - a könyv kezdőlapját/kezdőoldalát tartalmazó fájl, ez lesz az első fájl, amelyet a fordításkor az R feldolgoz; lényegében itt kezdődik a könyvünk, könnyen lehet, hogy az előszóval.
+- `intro.qmd`, `summary.qmd`, `references.qmd` - a könyv további fejezeteit tartalmazó fájlok, amelyek a könyv tartalmát alkotják
+- `cover.jpg` - a könyv borítóképét tartalmazó fájl, amelyet a `cover-image:` beállítással hivatkozunk meg a YAML fejlécben,
+- `references.bib` - a könyvben használt irodalomjegyzék fájlja, amelyet a `bibliography:` beállítással hivatkozunk meg a YAML fejlécben.
+
+A fenti alapértelmezetten létrehozott állományokon túl érdemes kiegészíteni a projektkönyvtárunkat a következő könyvtárakkal és fájlokkal:
+
+- `docs/` - alkönyvtár a projektkönyvtárban a könyv tartalmának tárolására, a `_book` helyett,
+- `images/` - alkönyvtár a projektkönyvtárban, amelyben a könyvbe beszúrandó képeket tárolhatjuk,
+- `hungarian.yml` - a magyar nyelvű fordítást tartalmazó fájl, amelyet a `language:` beállítással hivatkozható meg a YAML fejlécben; a kiinduló példányát, amelyik még nem tartalmaz magyar nyelvű fordítást, a [Document Language](https://quarto.org/docs/authoring/language.html) oldalról tölthetjük le, és a szükséges fordítást magunk végezzük el,
+- érdemes átnevezni és esetlegesen új fájlokkal kiegészíteni az alapértelmezett `intro.qmd`, `summary.qmd`, `references.qmd` fájlokat, hogy a könyvünk tartalmát jobban tükröző állományneveket kapjunk. 
+
+A könyvünk beállításait a `_quarto.yml` fájlban végezhetjük el. A fájl tartalma hasonló az eddig egydokumentumos QMD állományok fejlécéhez (azaz a YAML fejléchez), de a könyv esetén további beállítások is elérhetőek. A könyv YAML fejlécének tipikus tartalma a következőképpen nézhet ki:
+
+``` yaml
+project:
+  type: book
+  output-dir: docs
+
+lang: hu
+language: hungarian.yml  
+
+bibliography: references.bib
+biblio-style: apalike
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+
+book:
+  title: "Miért fontos a mozgás?"
+  author: "Abari Kálmán"
+  subtitle: "A mozgásformák összahasonlítása"
+  description: "A mozgásformák és a napi rutin szerepe az egészségmegőrzésben."
+  date: today
+  cover-image: cover.jpg
+  search: true
+
+  chapters:
+    - index.qmd
+    - part: Alapozás
+      chapters:
+        - 01-Bevezetes.qmd
+        - 02-Mozgas.qmd
+        - 03-Mozgas-osszetevok.qmd
+    - part: Mozgásformák 
+      chapters:
+        - 04-Mozgasformak.qmd
+        - 05-Osszehasonlitas.qmd
+    - part: Mi kell tennem?
+      chapters:
+        - 06-Napi-1-2-orat.qmd
+        - 07-Napi-rutin.qmd
+    - 08-Irodalomjegyzek.qmd
+  appendices:
+    - app-01-Tablazatok.qmd
+    - app-02-Kerdesek.qmd
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+```
+
+A fenti YAML fejlécben a `project:` rész újdonság, innen derül ki, hogy valójában *Quarto* könyvet készítünk (`type: book`). Az `output-dir:` beállítás határozza meg, hogy a fordítás során létrejövő fájlok hova kerüljenek. A `lang:` beállítás a nyelvet határozza meg, míg a `language:` beállítás a nyelvi fájlra mutat, amely a címkék fordítását tartalmazza (például `Author` helyett a `Szerző` címke fog megjelenni). A `bibliography:` beállítás az irodalomjegyzékre mutat, míg a `biblio-style:` beállítás az irodalomjegyzék stílusát határozza meg. A `csl:` beállítás a hivatkozási stílus fájlra mutat.
+
+A `book:` beállítás a könyv címét, szerzőjét, alcímét, leírását és a borítókép fájlját határozza meg. A `search: true` beállítás a keresőmező megjelenítését írja elő. A `chapters:` beállítás a könyv fejezeteit és alfejezeteit határozza meg, ahol a `part:` beállítás a fejezetek csoportosítására szolgál. Az `appendices:` beállítás az esetleges függelékek megadására szolgál.
+
+A fenti beállítások hatására a fordítás után a [-@fig-quarto-konyv]. ábrán látható HTML könyvet kapjuk eredményül.
+
+![Egy lehetséges *Quarto* könyv első oldala, HTML formátumban](images/ch_11_konyv.jpg){#fig-quarto-konyv width=85%}
+
+Saját könyvünk sikeres felépítéséhez számos példát találunk az interneten. Az egyik ilyen forrás az [R for Data Science (2e)](https://r4ds.hadley.nz/), amelyet a könyv tartalmának megismerése mellett, annak szerkezetének tanulmányozására is ajánlok. A könyv teljes tartalma, annak szerkezete a `_quarto.yml` állománnyal együtt a könyv GitHub oldalán érhető el: <https://github.com/hadley/r4ds/>.
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A *Quarto* az egydokumentumos HTML állományoknál jóval több kimeneti formátumot és tartalmi típust is támogat. Létrehozhatunk dokumentumot HTML, PDF, MS Word és ODT formátumban, prezentációt pedig HTML, PDF és PPTX formátumban. Az adott fájlformátum beállításait a YAMl fejlécben kell elvégeznünk. Prezentáció készítésénél még arra kell figyelnünk, hogy a tartalmat diákra kell osztani. A többdokumentumos formátumok közül a könyv lehetőséget mutattuk be, amelyre egy külön *Quarto Book* opciót biztosít az *RStudio* projektlétrehozó mechanizmusa. Egy *Quarto* könyv QMD fájlok sorozata, amely a könyv tartalmát jelenti. A könyv az `index.qmd` fájltól indul, majd tetszőleges számú QMD állomány következik. A sorrendet és az egyéb beállítási lehetőségeket a `_quarto.yml` fájl tartalmazza.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  Az előző rész egyik feladata HTML dokumentum elkészítését írta elő, amely ábrával és képpel is bemutatja a top 10 legtöbb bevételt hozó Pixar filmet (forrás: [Pixar Box Office Varázslat](https://www.kaggle.com/code/aradhanahirapara/pixar-s-box-office-magic-analyzing-28-years-of-an/notebook)). Alakítsuk át ezt a HTML állományt:
+
+- PDF dokumentummá,
+- MS Word dokumentummá,
+- HTML prezentációvá,
+- PDF prezentációvá,
+- PPTX prezentációvá,
+- *Ouarto* könyv formátummá.
+
+2. Készítsünk egy *Ouarto* könyvet a [-@sec-hipotezisvizsgalatok]. fejezetben bemutatott hipotézisvizsgálatokból!
+:::

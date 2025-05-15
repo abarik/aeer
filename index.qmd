@@ -1,0 +1,78 @@
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+
+# Előszó {#sec-eloszo .unnumbered}
+
+Kedves Olvasó!
+
+Köszönjük, hogy bizalmat szavaz könyvünknek, és az R megismeréséhez ezt az utat választja. Az első lépésektől a komplett adatelemzési feladatok megoldásáig vezetjük az Olvasót, és főként kezdő vagy újrakezdő felhasználókhoz szólunk. Utunk során áttekintjük az adatfeldolgozás minden lépését: az adatok beolvasását, előkészítését, elemzését és az eredmények publikálását is.
+
+Könyvünk összesen 11 fejezetet tartalmaz. Az egyes fejezeteket alkotó alfejezeteket három különböző ikon egyikével jelöltük meg, amelyek jelzőtáblaként szolgálnak az R megismerésének útján. Az egyes ikonok jelentése a következő:
+
+::: {.callout-note icon="false"}
+## `r emoji("slightly-smiling-face")` Könnyű szint
+
+Egy enyhén mosolygó arc, amely a nyugodt és könnyen érthető tananyagrészeket jelképezi. Az így jelölt fejezet az R alaptudás része, megismerése feltétlenül javasolt. A könyvben megfogalmazott célok ezen fejezetek áttekintésével is elérhetők, azaz komplett adatelemzéseket hajthatunk végre csupán ezek végig olvasásával is.
+:::
+
+
+::: {.callout-note icon="false"}
+## `r emoji("thinking-face")` Közepes szint
+
+A gondolkodó arc tartozik a közepes nehézségű részekhez, amelyek már némi figyelmet és elemzést igényelnek. Ezek olyan kiegészítő tudást tartalmazó fejezetek, amelyek újabb eszközök megismerését teszik lehetővé, és/vagy hozzájárulnak az `r emoji("slightly-smiling-face")` fejezetek mélyebb megértéséhez.
+:::
+
+::: {.callout-note icon="false"}
+## `r emoji("exploding-head")` Nehéz szint
+
+A fejrobbanás emoji jól érzékelteti az összetett, kihívást jelentő tananyagrészeket, amelyekért komolyan meg kell dolgozni. Az R ismeretek további részletezése, a meglévő eszközök finomabb kezelése, vagy további beállítási lehetőségek olvashatók ezekben a fejezetekben. Elképzelhető, hogy ritkábban felmerülő problémák megoldásához kapunk itt segítséget.
+:::
+
+A fejezetek hármas tagolása azt a célt szolgálja, hogy minél hamarabb örömet és sikert okozhasson az R használata, ugyanakkor további olvasással a részletesebb ismeretek utáni vágyunkat is kielégíthessük. Könyvünk olvasását tehát az 1. fejezet `r emoji("slightly-smiling-face")` alfejezetével ([-@sec-elindulas].) érdemes kezdeni, ott kapunk ajánlást a folytatásra. A további fejezetek olvasási sorrendje teljes mértékben az elvégzendő feladattól, tudásunktól és kíváncsiságunktól függ.
+
+A fejezetek végén összefoglaljuk a tanultakat. Megismételjük a legfontosabb fogalmakat és felsoroljuk a megismert függvényeket.
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A fejezet végén található összefoglalások segítenek a tanultak áttekintésében, és a fejezetben szereplő függvények, parancsok, beállítások gyors visszakeresésében. Érdemes időről időre visszatérni ezekhez az összefoglalókhoz, így ellenőrizhetjük mennyire naprakész az R tudásunk, és eldönthetjük, hogy szükséges-e ismételten átolvasni a fejezet tartalmát.
+
+:::
+
+Az R tanulmányozása kitartást és némi időt igényel. Nagyon fontos szerepet kap a gyakorlás, ezért minden fejezet végén találunk feladatokat.
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+A fejezet végi feladatok megoldásával jelentősen hozzájárulunk a magabiztos R tudás megszerzéséhez. Találunk szórakoztató és érdekes feladatokat is.
+:::
+
+
+::: {.content-visible when-format="html"}
+A PDF és EPUB változatban letölthető könyvekhez képest jelen honlap számos bővítést tartalmaz, például
+
+-   a kitűzött feladatok megoldását,
+-   a statisztikai próbák rövid elméleti összefoglalóját,
+-   és a *hagyományos grafika* lehetőségeit is itt mutatjuk be.
+
+A teljes könyv, az adatbázisok és az R kódok megtalálhatók a [következő címen](https://github.com/abarik/aeer).
+
+A könyvet Máth János lektorálta, és Friss Kinga illusztrálta.
+:::
+
+::: {.content-visible unless-format="html"}
+Az <https://github.com/abarik/aeer> címen megtaláljuk a teljes könyv forrását, az adatbázisokat és az R kódokat is. A <https://abarik.github.io/aeer_m/> címen a kitűzött feladatok megoldását találjuk. 
+:::
+
+Kívánunk sok erőt és türelmet a könyv olvasásához, és bízunk benne, hogy a kitartó munka hamar meggyőzi az Olvasót arról, milyen csodálatos lehetőségeket rejt az R.
+
+Örömmel fogadjuk Olvasóink észrevételeit az <abari.kalman@gmail.com> címen.
+
+::: {.flushright data-latex="" style="text-align: right;"}
+Abari Kálmán\
+2025. április 30.
+:::

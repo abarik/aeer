@@ -1,0 +1,63 @@
+project:
+  type: book
+  output-dir: docs
+from: markdown+emoji
+  
+lang: hu
+language: hungarian.yml  
+
+bibliography: aeer.bib
+biblio-style: apalike
+csl: apahun
+
+book:
+  title: "Adatkezelés és egyváltozós elemzések R-ben"
+  author: "Abari Kálmán"
+  chapters:
+    - index.qmd
+    - part: "Az R nyelv és környezet"
+      chapters:
+        - 01-Itt-kezdodik.qmd
+        - 02-Mi-az-R.qmd
+        - 03-Az-R-telepitese.qmd
+        - 04-Munka-az-R-ben.qmd
+        - 05-Az-R-nyelv.qmd
+    - part: "Adatkezelés"
+      chapters:
+        - 06-Beolvasas.qmd
+        - 07-Adatmanipulacio.qmd
+    - part: "Leíró statisztika"
+      chapters:
+        - 08-Mutatok-es-tablazatok.qmd
+        - 09-Grafika.qmd
+    - part: "Következtetések"
+      chapters:
+        - 10-Hipotezisvizsgalatok.qmd
+        - 11-Publikalas.qmd
+    - 20-Utoszo.qmd
+    - 51-Irodalomjegyzek.qmd
+  # appendices:
+    # - 41-Probak.qmd                  # Csak a HTML változatban
+    # - 42-Szinek.qmd                  # Csak a HTML változatban
+    # - 43-Hagyomanyos-grafika.qmd     # Csak a HTML változatban
+    # - 44-Oravazlat.qmd               # Csak a HTML változatban
+
+
+format:
+  docx:
+    toc: true
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+    fontfamily: libertinus
+    fontsize: 12pt
+    monofont:  Cascadia Mono
+    monofontoptions: 'Scale=0.75'
+    keep-tex: true
+    pdf-engine: lualatex
+    include-before-body: latex/before_body.tex
+    include-in-header: latex/header.tex
+    number-sections: true
+    toc: true
+    code-overflow: wrap

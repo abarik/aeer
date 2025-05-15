@@ -1,0 +1,35 @@
+---
+title: "A Csillagok háborúja c. film karaktereinek átlagos testmagassága"
+author: Abari Kálmán
+date: 2025-04-30
+format: html
+---
+
+# Bevezetés
+
+Ebben a dokumentumban a `tidyverse` csomag `starwars` adatkészletét fogjuk elemezni.
+
+# Adatok betöltése és előkészítése
+
+```{r}
+#| label: setup
+library(tidyverse)
+
+# Az adatok áttekintése
+glimpse(starwars)
+```
+
+# Alapvető leíró statisztikák
+
+Az adatkészlet **`r nrow(starwars)`** karakter adatait tartalmazza. 
+
+```{r}
+#| label: summary-stats
+
+# install.packages("dplyr")      # a dplyr csomag telepítése
+# install.packages("psych")      # a psych csomag telepítése
+data(starwars, package="dplyr")  # adatbázis beolvasása csomagból
+# testmagasság átlagok fajonként
+psych::describeBy(starwars$height, starwars$species, fast=T, mat=T)
+```
+

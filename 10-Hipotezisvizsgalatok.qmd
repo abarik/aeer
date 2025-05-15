@@ -1,0 +1,2934 @@
+# Hipotézisvizsgálatok {#sec-hipotezisvizsgalatok}
+
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+```{r}
+#| fig-align: center
+#| echo: false
+#| out-width: '50%'
+
+knitr::include_graphics(path = "images/ch_10_small.png")
+```
+
+{{< pagebreak >}}
+
+A statisztikai elemzések során a kutató a legtöbb figyelmet a különböző hipotézisek tesztelésére és a p értékeken alapuló döntések meghozatalára fordítja. Ez a teljes kutatási folyamat talán legizgalmasabb része, hiszen a kiinduló hipotéziseinkről hozzunk döntést: elfogadjuk vagy elvetjük őket.
+
+A statisztikailag szignifikáns hatások feltárásának a hipotézisvizsgálat fontos eszköze, azonban ismert, hogy a p értéket befolyásolja a minta mérete. Az alacsony p érték nem feltétlenül utal nagy hatásra vagy a gyakorlatban jelentős hatásra. Ne feledjük, hogy a szignifikáns eredmények nem feltétlenül relevánsak számunkra, tehát a statisztikai szignifikancia és a szakmai szignifikancia elválik egymástól. Az utóbbi időben a statisztikai elemzésekben megnőtt a leíró statisztika, a mutatók, táblázatok és ábrák, valamint a konfidencia intervallumok és a hatásmértékek meghatározásának szerepe. Ezért a legalapvetőbb egy- és kétdimenziós hipotézisvizsgálatok bemutatása és a p értékek mellett, a hatásmértékre és a konfidencia intervallumokra is hangsúlyt helyezünk.
+
+A hipotézisvizsgálatok eredményének értelmezéséhez statisztikai alapismeretek szükségesek, terjedelmi okok miatt ezekre csak utalunk. Az elméleti háttér iránt érdeklődő olvasó számos nagyszerű szakkönyvből tájékozódhat, ilyen például @Brace2016, @vargha2000Matstat, @biostatnemstat2007, @Mangiafico2016, @dalgaard2008introductory és @rasch2011statistics.
+
+Ebben a fejezetben a statisztika azon klasszikus próbáit foglaltuk össze, amelyek jellemzően egy- vagy kétmintás hipotézisvizsgálatokat jelentenek. Az öt alfejezet a nullhipotézisben szereplő állításoknak és paramétereknek megfelelően a statisztikai próbák különböző csoportjait fedi le:
+
+-   paraméteres próbák ([-@sec-parameteres-probak]. fejezet),
+-   nemparaméteres próbák ([-@sec-nemparameteres-probak]. fejezet),
+-   normalitás vizsgálatára vonatkozó próbák ([-@sec-normalitas-vizsgalata]. fejezet),
+-   varianciára vonatkozó próbák ([-@sec-varianciara-vonatkozo-probak]. fejezet),
+-   valószínűségre vonatkozó próbák ([-@sec-valoszinuseg-probai]. fejezet).
+
+A fejezet további témakörei:
+
+-   hatásméret számítása az egyes próbák esetén([-@sec-hatasmeret]. fejezet),
+-   statisztikai erő és mintanagyság számítása ([-@sec-statisztikai-ero-es-mintanagysag]. fejezet),
+-   a próbák alternatívái, a `{jmv}` csomag lehetőségei ([-@sec-alternativak-jmv-csomag]. fejezet).
+
+Megjegyezzük, hogy az itt ismertetett statisztikai következtetéseket a Neyman--Pearson-féle megközelítésre alapozzuk, a másik két alternatívát, a bayesiánus és a likelihood megközelítést nem vagy alig érintjük [@Dienes2016]. A próbák bemutatása során arra fókuszálunk, hogyan hajtjuk végre az adott eljárást a R-ben, ezért fiktív miniadatbázisokkal dolgozunk és az elméleti hátteret teljesen nélkülözzük.
+
+## Az adatelemző munka `r emoji("slightly-smiling-face")` {#sec-pelda-probak}
+
+Mielőtt belevágunk az egyes statisztikai próbák leltárszerű felsorolásába oldjunk meg egy konkrét példát, amely megmutatja számunkra, hogy az eddig tanult beolvasó, adatelőkészítő, leíró statisztikai és grafikai funkciók hogyan simulnak bele ebbe a nagy fejezetbe, ahol hipotézisvizsgálat végrehajtásához, hatásvizsgálathoz és statisztikai erő számításához adunk muníciót.
+
+Egy adott statisztikai próba elvégzése előtt tisztában kell lennünk a próbával kapcsolatos alapvető ismeretekkel, mikor, milyen feltételek mellett, és persze hogyan végezhető el. Jelen fejezet csupán az utolsó pontban nyújt támogatást, a próbák elméleti hátterét és alkalmazási feltételeit nem tárgyaljuk részletesen. Nézzük meg azonban, hogy a klasszikus kétmintás t-próba esetén milyen előzetes tudásra kell építenünk.
+
+**Hipotézisek kétmintás t-próba esetén:**
+
+-   *Nullhipotézis*: A populációbeli változó várható értékei, amelyekből az adatokat mintavételezték, mindkét csoportban egyenlők ($H_0:\mu_1=\mu_2$).
+-   *Alternatív hipotézis*: A populációbeli változó várható értékei, amelyekből az adatokat mintavételezték, a két csoportban nem egyenlők ($H_1:\mu_1 \neq \mu_2$).
+
+**Alkalmazási feltételek kétmintás t-próba esetén:**
+
+-   Kétmintás adatok. Azaz egy mérési változó két csoportban, két populációban.
+-   A függő változó intervallum/arány, és folytonos.
+-   A független változó kétszintű faktor, vagyis két csoportunk van.
+-   Az egyes populációk adatai normál eloszlásúak.
+-   Student-féle t-próbához a két mintának azonos szórással kell rendelkeznie. A Welch-féle t-próba, amelyet alapértelmezés szerint használ az R, nem feltételez egyenlő szórást.
+-   A csoportok közötti megfigyelések függetlenek. Vagyis nem párosított vagy ismételt mérési adatok.
+
+A fenti ismeretek birtokában már belevághatunk egy konkrét statisztika adatelemzésbe, ami mint látni fogjuk épp kétmintás t-próba végrehajtásához vezet.
+
+:::: {.callout-caution appearance="minimal"}
+::: {#exm-zajostanulas-1 name="Tanulás zajban"}
+Huszonnégy ember részt vett egy kísérletben, amelyben annak megállapítását tűzték ki célul, hogy a háttérzaj (zene, ajtócsapódás, kávékészítés zaja stb.) hogyan befolyásolja a rövid távú memóriát (szavak visszahívását). A résztvevők fele (NOISE csoport) megpróbált memorizálni 2 perc alatt egy 20 szavas listát, miközben fülhallgatón keresztül az előre felvett zaj szólt. A többi résztvevő is viselt fülhallgatót (NO NOISE csoport), de ők nem hallottak zajt a szavak memorizálása közben. Közvetlenül ezután megállapították, hogy hány szóra emlékeztek vissza. Vizsgáljuk meg, hogy van-e eltérés a visszahívott szavak számában a két kondícióban, vagyis a zajnak van-e hatása a rövidtávú memóriára!\
+*Forrás: @dancey2011statistics alapján*
+:::
+::::
+
+Tudjuk, hogy az adatelemzés 4 alapvető lépésre bontható:
+
+1. Adatok beolvasása, amelyről a [-@sec-beolvasas]. fejezetben olvashatunk részletesen.
+2. Adatok előkészítése elemzésre, amelyről [-@sec-adatmanipulacio]. fejezet számol be részletesen, de természetesen épít az R nyelvet bemutató [-@sec-az-r-nyelv]. nagy fejezetre is.
+3. Adatok elemzése, amely magába foglalja a leíró statisztikai elemzéseket (a mutatókról és a táblázatokról a [-@sec-mutatok-tablazatok]. fejezetben, az ábrák készítéséről a [-@sec-modern grafika]. fejezetben olvashatunk) és a jelen fejezetben bemutatott statisztikai próbákat.
+4. Eredmények publikációja, amelyet a következő, [-@sec-publikacio]. fejezetben részletezünk, és nagyon röviden az 1-3. pontokban létrehozott R parancsok QMD állományba illesztését jelenti.
+
+Tekintsük át, hogy a fenti lépések, hogyan teszik lehetővé a fenti, [-@exm-zajostanulas-1]. példa megoldását.
+
+Végezzük el az adatok beolvasását, ellenőrzését és átalakítását! Az adatbázist a jobb áttekinthetőség kedvéért inline módon olvassuk be ([-@sec-tidy-inline]. fejezet). Az adatbázis tartalmát a `head()` függvénnyel ellenőrizzük, amely az első néhány sort jeleníti meg. Ez a lehetőség már az adatelőkészítő lépésen belül az információ gyűjtésére szolgál és az [-@sec-informacio-megtekintese-1]. és [-@sec-informacio-megtekintese-2]. fejezetekben tértünk ki rá. 
+
+```{r}
+#| tidy: false
+
+# adatok beolvasása
+d <- read.table(file = textConnection("
+    NOISE   NO.NOISE
+     5.00      15.00
+    10.00       9.00
+     6.00      16.00
+     6.00      15.00
+     7.00      16.00
+     3.00      18.00
+     6.00      17.00
+     9.00      13.00
+     5.00      11.00
+    10.00      12.00
+    11.00      13.00
+    9.00       11.00
+"), header=T, sep="")
+# az adatbázis tartalma
+head(d) # az első 6 sor
+```
+
+Adatbázisunk kényelmi okok miatt széles formátumban van, amelyet a `{tidyr}` csomag `pivot_longer()` függvényével át kell alakítanunk hosszú formátumra (lásd [-@sec-szeles-hosszu]. fejezet).
+
+```{r}
+#| tidy: true
+
+# széles-hosszú átalakítás
+library(tidyverse)
+d <- d |> 
+  pivot_longer(cols = everything(), 
+               names_to = "csoport", 
+               values_to = "szavak")
+head(d) # az első 6 sor
+```
+
+Utolsó adatelőkészítő parancsunk a karakteres `csoport` oszlop faktorrá konvertálása lesz, és ezt követően az `str()` függvénnyel ellenőrizzük az adatbázis végső szerkezetét ([-@sec-adatmanipulacio]. fejezet).
+
+```{r}
+#| tidy: false
+
+# faktorrá alakítás, és a szintek átnevezése
+d <- d |> 
+  mutate(csoport = factor(csoport, 
+                          levels = c("NO.NOISE", "NOISE"), 
+                          labels = c("nincs zaj", "van zaj")))
+
+
+str(d) # az adatbázis szerkezete
+```
+
+Miután mindent rendben találtunk az adatmátrixszal kapcsolatban tovább léphetünk a leíró statisztikai elemzésre, amelyet most a `psych` csomag `describeBy()` függvényével hajtunk végre ([-@sec-psych-csomag]. fejezet).
+
+```{r}
+# leíró statisztikai mutatók
+psych::describeBy(d$szavak, d$csoport, mat=TRUE, digits=2, fast=T)
+```
+
+Miután betekintést nyertünk az adatainkba, azaz megtudtuk például, hogy mindkét csoportban 12-en vannak, és a zaj nélküli tanulás után majdnem dupla annyi szót tudnak átlagosan visszaidézni, érdemes ábrával is ellenőrizni az adataink eloszlását. Az átlagokat és a 95%-os konfidencia intervallumokat jelenítjük meg ([-@sec-szamitasok-abran]. fejezet).
+
+```{r}
+#| tidy: false
+#| fig-align: center
+#| fig-width: 3.6
+
+library(ggplot2)
+ggplot(d, aes(x=csoport, y=szavak)) +
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar", width=0.2) +
+  stat_summary(fun=mean, geom="point", size=3, shape=21, fill="white")
+```
+
+A leíró ábráink nem nélkülözhetik a hisztogramok megjelenítését, de most emellett simított hisztogramot és a normális eloszlás görbéjét is berajzoljuk, a két csoport eloszlásának vizsgálatához ([-@sec-histogram]. fejezet).
+
+```{r}
+#| fig-align: center
+#| fig-width: 5
+#| fig-asp: 0.4
+#| warning: false
+#| message: false
+#| tidy: false
+
+library(ggplot2)
+library(ggh4x)
+p1 <- ggplot(d, aes(x=szavak)) + 
+  geom_histogram(binwidth = 2,
+                 colour="#009392FF", fill="#E9E29CFF") + 
+  facet_wrap(~csoport, ncol=1)
+p2 <- ggplot(d, aes(x=szavak))  + geom_density() + 
+  stat_theodensity(colour="red") + facet_wrap(~csoport, ncol=1)
+p3 <- ggplot(d, aes(x=szavak, fill=csoport, colour=csoport)) + 
+  geom_density(alpha=0.1, linewidth=0.8) + 
+  stat_theodensity(linewidth=0.8) + theme(legend.position = "top")
+gridExtra::grid.arrange(p1, p2, p3, ncol=3)
+```
+
+A statisztikai hipotézisvizsgálat felé lépve megállapíthatjuk, hogy a [-@exm-zajostanulas-1]. példa megoldásához kétmintás t-próba lenne a legmegfelelőbb eljárás. Ellenőrizzük a normalitásra és szóráshomogenitásra vonatkozó feltételeket (ezeket az eljárásokat itt ebben a fejezetben ismerjük meg, konkrétan a [-@sec-normalitas-vizsgalata]. és [-@sec-varianciara-vonatkozo-probak]. alfejezetekben). A normalitást a Shapiro--Wilk-próba segítségével ellenőrizzük.
+
+```{r}
+#| tidy: false
+#| message: false
+#| warning: false
+
+# Shapiro–Wilk próba két csoportra
+library(onewaytests)
+nor.test(formula = szavak ~ csoport, data = d, method = "SW", 
+         plot = NULL, alpha = 0.05)
+```
+
+A homogenitásvizsgálatot Levene-próbával ellenőrizzük.
+
+```{r}
+# Levene-próba
+DescTools::LeveneTest(formula = szavak ~ csoport, data = d, center=mean)
+```
+
+Mivel mindkét alkalmazási feltétel teljesült, bátran elvégezhetjük a kétmintás t-próbát ([-@sec-ketmintas-t]. alfejezet)
+
+```{r}
+#| eval: false
+#| tidy: false
+
+# kétmintás t-próba
+t.test(formula = szavak ~ csoport, data = d, var.equal = T, 
+       conf.level = 0.95)
+#> 
+#> 	Two Sample t-test
+#> 
+#> data:  szavak by csoport
+#> t = 6, df = 22, p-value = 4e-06
+#> alternative hypothesis: true difference in means between group 
+#>   nincs zaj and group van zaj is not equal to 0
+#> 95 percent confidence interval:
+#>  4.4 8.8
+#> sample estimates:
+#> mean in group nincs zaj   mean in group van zaj 
+#>                    13.8                     7.2 
+```
+
+A próba szignifikáns ($p<0,001$), vagyis valós különbség van a két csoport között, más szóval a zajos tanulásnak szignifikáns, negatív hatása van a rövidtávú memóriára. Érdemes kiszámítani ennek a hatásnak a nagyságát is ([-@sec-hatasmeret]. alfejezet).
+
+```{r}
+# hatásméret számítása és értelmezése
+effectsize::cohens_d(x = szavak ~ csoport, data = d, 
+                     pooled_sd = T, ci = 0.95)
+effectsize::interpret_cohens_d(d = 2.51, rules = "cohen1988")
+```
+
+Látható, hogy ez a hatás ($d=2,51$) nagynak mondható. A statisztikai erővel és mintanagysággal kapcsolatos számításokat az adatgyűjtés előtt szokták elvégezni, de a teljesség kedvéért itt is bemutatjuk ([-@sec-statisztikai-ero-es-mintanagysag]. alfejezet).
+
+```{r}
+#| tidy: false
+
+# statisztikai erő számítása
+library(pwr)
+pwr.t.test(d = 2.51, sig.level = 0.05, n = 12, 
+           type = "two.sample", alternative = "two.sided")
+```
+
+Látható, hogy ekkora hatásmérték és mintaelemszám mellett a statisztikai erő 0,99, ami azt jelenti, hogy a próba 99%-os valószínűséggel képes észlelni a hatást. Arra a kérdésre is választ kaphatunk, hogy mondjuk 95%-os erő mellett, mekkora mintanagyságra lenne szükségünk egy létező, 2,51-es hatás kimutatásához.
+
+```{r}
+#| tidy: false
+
+# mintanagyság számítása
+pwr.t.test(d = 2.51, sig.level = 0.05, power = 0.95, 
+           type = "two.sample", alternative = "two.sided")
+```
+
+Látható, hogy egy 12 elemű (6-6 fős) minta már elegendő lenne. 
+
+A fenti elemzéseket szövegesen úgy foglalhatnánk össze, hogy a kétmintás t-próba eredménye azt mutatja, a két csoport között szignifikáns különbség van a visszahívott szavak számában ($t(22)=6,14; p<0,001; d=2,51$). A zajos környezetben tanuló diákok átlagosan 7,25 szót tudtak visszaidézni, míg a zajmentes környezetben tanuló diákok átlagosan 13,83 szót ($M_{van zaj}=7,25; SD_{van zaj}=2,49$; $M_{nincs zaj}=13,83; SD_{nincs zaj}=2,76$).
+
+A fejezet további részére úgy tekinthetünk, hogy a fenti adatelemzési munkát egyfajta sablonnak tekintve, hogyan tudunk a kétmintás t-próba helyett egy másik, a konkrét adatelemzési tevékenységünkhöz igazodó próbát végrehajtani, a kapcsolódó hatásméretre és statisztikai erőre vonatkozó számításokkal együtt. Ha mindezeket a parancsokat, a beolvasó, adatelőkészítő és leíró statisztikai R sorokkal együtt bemásoljuk a [-@sec-publikacio]. fejezetben részletesen bemutatott *Quarto* dokumentumba, akkor máris teljesítettük e könyv fő célkitűzését, publikációkész adatelemzést hajtottunk végre.
+
+## Paraméteres próbák `r emoji("slightly-smiling-face")` {#sec-parameteres-probak}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a t-próba különböző formáit,
+-   az egyszempontos független és összetartozó mintás varianciaelemzést,
+-   és a korreláció- és regressziószámítás egyszerű eseteit.
+
+:::
+
+A paraméteres próbák a leggyakoribb és legismertebb statisztikai próbák. Ezek közé tartoznak például a t-próba egyes változatai, a varianciaelemzés különböző esetei és a korreláció- és regressziószámítás egyszerű formája.
+
+### Egymintás t-próba {#sec-egymintas-t}
+
+Egymintás teszteket nem használunk túl gyakran, de hasznosak, ha egy adatsort egy adott értékkel szeretnénk összehasonlítani. Például megkérdezhetjük, hogy a tanulói pontszámok várható értéke jelentősen eltér-e az „alapértelmezett" vagy „semleges" 10-es pontszámtól.
+
+Tekintsük a következő, pontszámokat tartalmazó adatmátrixot.
+
+```{r}
+#| tidy: false
+
+adat <- "  pontszam
+                 12
+                  8
+                  7
+                 11
+                  8
+                 12  "
+ 
+# adatmátrix beolvasása
+df01 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+```{r}
+# adatmátrix szerkezete
+str(df01) 
+```
+
+Egymintás t-próbát a `t.test()` függvénnyel végezhetünk el, amely a konfidencia intervallumot is meghatározza.
+
+```{r}
+#| tidy: false
+
+# --= egymintás t-próba =--
+t.test(x = df01$pontszam, mu = 10, conf.level = 0.95)
+```
+
+A fenti output tartalmazza a próbastatisztika értékét (`t=`), a szabadsági fokok számát (`df=`) és a p értéket (`p-value=`). Az `alternative hypothesis:` sor megfogalmazza az ellenhipotézist: a várható érték nem egyenlő 10-zel. A következő két sor a várható értékre vonatkozó 95%-os megbízhatóságú konfidencia intervallum határa $(95\% CI:[7,30;12,03])$, az utolsó sorban pedig a mintaátlag szerepel $(M=9,67)$. A nullhipotézist megtartjuk ($t(5)=-0,363; p=0,732$), azaz a minta várható értéke nem tér el a 10-es alapértéktől.
+
+### Kétmintás t-próba {#sec-ketmintas-t}
+
+A kétmintás (független vagy párosítatlan) t-próba egy általánosan használt teszt, amely a két minta mögötti változók várható értékét hasonlítja össze. Most két tanítási módszer (A és B) hatékonyságát vizsgáljuk. Mindkét módszerrel 4-4 diák tanult, és a hatékonyságot egy dolgozat pontszámával mérjük.
+
+```{r}
+#| tidy: false
+
+adat <- "  modszer   pontszam
+                 A         42
+                 A         38
+                 A         67
+                 A         11
+                 B         28
+                 B         33
+                 B         58
+                 B         32  "
+
+# adatmátrix beolvasása
+df02 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+```{r}
+# faktorrá alakítás
+df02$modszer <- factor(df02$modszer)
+str(df02) # adatmátrix szerkezete
+```
+
+Kétmintás t-próba végrehajtásához továbbra is a `t.test()` függvényt használjuk, de `formula=<numerikus vektor> ~ <faktor>` és `var.equal=T` argumentummal.
+
+```{r}
+#| eval: false
+#| echo: false
+
+# --= kétmintás t-próba =--
+t.test(formula=pontszam ~ modszer, data = df02, var.equal = T, 
+       conf.level = 0.95)
+```
+
+
+```{r}
+#| eval: false
+#| tidy: false
+
+# --= kétmintás t-próba =--
+t.test(formula=pontszam ~ modszer, data = df02, var.equal = T, 
+       conf.level = 0.95)
+#>
+#> 	Two Sample t-test
+#> 
+#> data:  pontszam by modszer
+#> t = 0.13111, df = 6, p-value = 0.9
+#> alternative hypothesis: true difference in means between group A and group B
+#>   is not equal to 0
+#> 95 percent confidence interval:
+#>  -30.90925  34.40925
+#> sample estimates:
+#> mean in group A mean in group B 
+#>           39.50           37.75 
+```
+
+A fenti outputban megjelenik a próbastatisztika értéke (`t=`), a szabadsági fokok száma (`df=`) és a p érték (`p-value=`). Az `alternative hypothesis:` sor itt is megfogalmazza az ellenhipotézist: a két csoport (A és B) várható értékének különbsége nem nulla, azaz a két csoportban nem azonosak a várható értékek. A következő két sorban a várható értékek különbségére vonatkozó 95%-os megbízhatóságú konfidencia intervallum határa jelenik meg, majd az utolsó sorban a mintaátlag, mindkét csoportban. A nullhipotézist itt is megtartjuk ($t(6)=0,131$, $p=0,900$), azaz a két módszer hatékonysága nem tér el egymástól.
+
+A `var.equal=F` argumentummal a fenti függvényhívás a Welch-féle d-próbát hajtja végre.
+
+```{r}
+#| tidy: false
+#| eval: false
+#| echo: false
+
+# --= Welch-féle d-próba =--
+t.test(formula=pontszam ~ modszer, data = df02, var.equal = F, 
+       conf.level = 0.95)
+```
+
+```{r}
+#| eval: false
+#| tidy: false
+
+# --= Welch-féle d-próba =--
+t.test(formula=pontszam ~ modszer, data = df02, var.equal = F, 
+       conf.level = 0.95)
+#> 
+#> 	Welch Two Sample t-test
+#> 
+#> data:  pontszam by modszer
+#> t = 0.13111, df = 4.894, p-value = 0.9009
+#> alternative hypothesis: true difference in means between group A and group B
+#>   is not equal to 0
+#> 95 percent confidence interval:
+#>  -32.78459  36.28459
+#> sample estimates:
+#> mean in group A mean in group B 
+#>           39.50           37.75 
+```
+
+A fenti outputot hasonlóan értelmezzük, mint a kétmintás t-próba esetében. A próba továbbra sem szignifikáns ($t(4,894)=0,131; p=0,901$), a két módszer hatékonysága nem tér el egymástól. A Welch-féle d-próba esetén a szabadsági fok tizedes tört is lehet. 
+
+### Páros t-próba
+
+A páros t-próba páros megfigyeléseket tartalmazó adatmátrixon alapul, két populáció várható értékét teszteli, miszerint a párok közötti különbség statisztikailag különbözik-e nullától. Tegyük fel, hogy súlycsökkentő kúrán vesz részt 4 személy. Mindenki testsúlyát megmérték a kúra előtt, és a kúra után is.
+
+Páros minta adatbázisa két különböző formában is előfordulhat, széles vagy hosszú formában. Tekintsük a súlycsökkentő kúra eredményeit először a széles formában.
+
+```{r}
+#| tidy: false
+
+adat <- "  szemely   elotte   utana
+                 a       72      64
+                 b       88      81
+                 c       77      76
+                 d       91      86  "
+
+# adatmátrix beolvasása
+df03_szeles <- read.table(textConnection(adat), header=T, sep="")
+```
+
+```{r}
+#| tidy: false
+
+# faktorrá alakítás
+df03_szeles$szemely <- factor(df03_szeles$szemely)
+str(df03_szeles) # adatmátrix szerkezete
+```
+
+A fenti adatbázisban a személyek azonosítója is szerepel, de ez elhagyható, valójában nem szükséges a páros t-próbához.
+
+Olvassuk be a fenti adattáblát hosszú formából is.
+
+```{r}
+#| tidy: false
+
+adat <- "  szemely   idopont   testsuly 
+                 a    elotte         72
+                 b    elotte         88
+                 c    elotte         77
+                 d    elotte         91
+                 a     utana         64
+                 b     utana         81
+                 c     utana         76
+                 d     utana         86  "
+
+# adatmátrix beolvasása
+df03_hosszu <- read.table(textConnection(adat), header=T, sep="")
+```
+
+```{r}
+#| tidy: false
+
+# faktorrá alakítások
+df03_hosszu$szemely <- factor(df03_hosszu$szemely)
+df03_hosszu$idopont <- factor(df03_hosszu$idopont)
+str(df03_hosszu) # adatmátrix szerkezete
+```
+
+A fenti hosszú formátumra is igaz, hogy a személy faktor nem feltétlenül szükséges a próba végrehajtásához.
+
+Páros t-próbához továbbra is `t.test()` függvényt használjuk a `paired=T` argumentummal, és széles formátumú adatbázist vár az argumentumába.
+
+```{r}
+#| tidy: false
+
+# --= páros t-próba széles adatbázisból =--
+t.test(x = df03_szeles$elotte, y = df03_szeles$utana, paired=T, 
+       conf.level = 0.95)
+```
+
+Az outputban szokásos módon megjelenik a próbastatisztika értéke (`t=`), a szabadsági fokok száma (`df=`) és a p érték (`p-value=`). Valamint az `alternative hypothesis:` sor végén az ellenhipotézist: a két módszerhez tartozó változók várható értékének különbsége nem egyelő nullával, vagyis a két várható érték nem azonos. Láthatjuk a várható értékek különbségére vonatkozó 95%-os megbízhatóságú konfidencia intervallum határait és mintaátlagot a várható értékek különbségére. A nullhipotézist most elvetjük, a próba 5%-os szinten szignifikáns $(t(3)=3,392; p=0,043)$, azaz a két módszer hatékonysága eltér egymástól.
+
+A páros t-próba elvégzése hosszú formátumú adatbázis esetén is lehetséges, de először a `pivot_wider()` függvénnyel át kell alakítunk széles formátumra az adatbázist. A páros t-próba eredménye természetesen a fentivel megegyező lesz.
+
+```{r}
+#| tidy: false
+
+# --= páros t-próba hosszú adatbázisból =--
+# elvégezzük a hosszú-széles átalakítást
+df03_szeles2 <- tidyr::pivot_wider(data = df03_hosszu, 
+                                   names_from = idopont, 
+                                   values_from = testsuly)
+t.test(x = df03_szeles2$elotte, y = df03_szeles2$utana, paired=T,
+       conf.level = 0.95)
+```
+
+### Egyszempontos varianciaelemzés
+
+Az egyszempontos varianciaanalízis (ANOVA) hasonló a független kétmintás t-próbához, azzal a különbséggel, hogy több mint két csoport összehasonlítására is képes. Most legyen három tanítási módszerünk (A, B és C), módszerenként 4, 4 és 3 diákkal. A módszerek hatékonyságot továbbra is egy dolgozat pontszámával mérjük.
+
+```{r}
+#| tidy: false
+
+adat <- "  modszer pontszam
+                 A       42
+                 A       38
+                 A       67
+                 A       11
+                 B       28
+                 B       33
+                 B       58
+                 B       32
+                 C       76
+                 C       92
+                 C       87  "
+
+# adatmátrix beolvasása
+df04 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+```{r}
+#| tidy: false
+
+# faktorrá alakítás
+df04$modszer <- factor(df04$modszer)
+str(df04) # adatmátrix szerkezete
+```
+
+Egyszempontos varianciaelemzéshez a `summary(aov())` függvényeket használjuk. Tipikusan két lépéseben végezzük a próbát, először új objektumot (például `aov_1`) hozunk létre az `aov()` függvénnyel, majd az objektumra alkalmazzuk a `summary()` függvényt, amely megjeleníti a szokásos anova táblázatot.
+
+```{r}
+#| tidy: false
+
+# --= egyszempontos varianciaelemzés =--
+aov_1 <- aov(formula = pontszam ~ modszer, data=df04)
+summary(aov_1)
+```
+
+A fenti output tartalmazza a csoportok közötti és a csoporton belüli szabadsági fokok számát (`Df`), a próbastatisztika értékét (`F value`) és a p értéket (`Pr(>F)`). A próba szignifikáns ($F(2,8)=8,273; p=0,011$), azaz a három módszer hatékonysága nem azonos, így szükség van utóelemzésre is. Számos módszer közül választhatunk.
+
+Hagyományosan a `TukeyHSD()` függvényt használhatjuk Tukey-próba végrehajtására. Páronkénti összehasonlításokat a `pairwise.t.test()` függvénnyel végezhetünk, a p értékek módosítási lehetőségeit `p.adjust.methods=` argumentumával szabályozzuk, választhatunk például `"bonferroni"`, `"holm"`, `"hochberg"`, `"hommel"`, `"BH"`, `"BY"` és `"none"` értékekből. További információt a `?p.adjust` paranccsal kérhetünk az elérhető lehetőségekről. A legtöbb esetben a közös szóráson alapuló számítást elvetjük a `pool.sd=F` argumentummal.
+
+```{r}
+#| tidy: false
+
+# Egyszempontos varianciaelemzés - utóelemzés
+# - Tukey-próba
+TukeyHSD(x = aov_1, conf.level = 0.95)
+```
+
+A Tukey-próba fenti outputjában az egyes csoportpárok várható értékeinek különbségét (`diff`), a rájuk vonatkozó konfidencia intervallum határait (`lwr` és `upr`), és annak a próbának a p értékét (`p adj`) láthatjuk, amelynek ellenhipotézise a két csoport várható értékének eltérését állítja. Az eredmények alapján a B és A módszerek között nem találunk szignifikáns eltérést ($p=0,988$), míg a C módszer várható értéke szignifikánsan eltér az A és B módszerekétől ($p=0,0187$ és $p=0,0154$).
+
+
+```{r}
+#| tidy: false
+
+# Egyszempontos varianciaelemzés - utóelemzés
+# - Bonferroni-féle páronkénti összehasonlítás, Holm módszer 
+pairwise.t.test(x = df04$pontszam, g = df04$modszer, 
+                p.adjust.method = "holm", pool.sd = F) 
+```
+
+A `pairwise.t.test()` fenti outputjában csak p értékeket láthatunk táblázatos elrendezésben. A statisztikai próbák ellenhipotézise a sor és oszlop mentén megnevezett két csoport várható értékének eltérését állítja. Jelen esetben az A és B módszerek között nem találunk szignifikáns eltérést ($p=0,901$), míg a C módszer várható értéke szignifikánsan eltér az A és B módszerekétől ($p=0,044$ és $p=0,008$).
+
+Mivel a páronkénti összehasonlítások ebben az esetben nem vezetnek konfidencia intervallumok meghatározásához, érdemes a `{DescTools}` csomag `PostHocTest()` függvényét is megismernünk. A `method=` argumentum definiálja a páronkénti összehasonlítás módját, amely lehet `"hsd"`, `"bonf"`, `"lsd"`, `"scheffe"`, `"newmankeuls"` (lásd `?PostHocTest`). A `PostHocTest()` függvény hívása nagyon kényelmes, hiszen az `x=` argumentum a korábban létrehozott `aov_1` modellobjektum. 
+
+```{r}
+#| tidy: false
+
+# Egyszempontos varianciaelemzés - utóelemzés
+# - Tukey-próba
+DescTools::PostHocTest(x = aov_1, method="hsd",  conf.level = 0.95)
+```
+
+Az Tukey-próbán alapuló páros összehasonlítások alapján a B és A módszerek között nem találunk szignifikáns eltérést ($p=0,988$), míg a C módszer várható értéke szignifikánsan eltér az A és B módszerekétől ($p=0,019$ és $p=0,016$). A `lwr.ci` és `upr.ci` oszlopokban a várható értékek különbségére vonatkozó 95%-os megbízhatóságú konfidencia intervallum határai láthatók.
+
+```{r}
+#| tidy: false
+
+# Egyszempontos varianciaelemzés - utóelemzés
+# - Bonferroni-féle páronkénti összehasonlítás, Bonferroni módszer
+DescTools::PostHocTest(x = aov_1, method="bonferroni",  
+                       conf.level = 0.95)
+```
+
+A Bonferroni-féle páros összehasonlítások esetén a B és A módszerek között nem találunk szignifikáns eltérést ($p=1,000$), míg a C módszer várható értéke szignifikánsan eltér az A és B módszerekétől ($p=0,023$ és $p=0,019$). A `lwr.ci` és `upr.ci` oszlopokban a várható értékek különbségére vonatkozó 95%-os megbízhatóságú konfidencia intervallum határai láthatók.
+
+Amennyiben egy kitüntetett csoport várható értékét szeretnénk összehasonlítani a többi csoportéval, azaz a Dunnet-próbát szeretnénk végrehajtani, akkor a `{DescTools}` csomag `DunnettTest()` függvényét használjuk. A kitüntetett (kontroll) csoport nevét a `control=` argumentumban nevezzük meg.
+
+```{r}
+#| tidy: false
+
+# Összetartozó mintás egyszempontos varianciaelemzés - utóelemzés
+# - Dunnett-próba, kontrollcsoport a "C" módszer
+DescTools::DunnettTest(x = df04$pontszam, g = df04$modszer, control="C", 
+                       conf.level=0.95)
+```
+
+A fenti eredmények alapján a C módszer várható értéke szignifikánsan eltér az A és B módszerekétől ($p=0,014$ és $p=0,011$).
+
+Amennyiben az egyszempontos varianciaelemzés szóráshomogenitási feltétele nem teljesül a `oneway.test()` függvényt használjuk.
+
+```{r}
+#| tidy: false
+
+# --= Welch-féle egyszempontos varianciaelemzés =--
+oneway.test(formula = pontszam ~ modszer, data=df04)
+```
+
+A fenti outputból kiolvasható a próbastatisztika értéke (`F=`), a két szabadsági fok (`num df=` és `denom df=`) és a p érték (`p-value=`). A próba ebben az esetben is szignifikáns ($F(2;5,1938)=17,087; p=0,005$), azaz a három módszer hatékonysága nem azonos.
+
+A szóráshomogenitás sérülése esetén a szokásos utóelemzési módszer a Games--Howell próba, amelyhez most az `{rstatix}` csomag `games_howell_test()` függvényét használjuk.
+
+```{r}
+#| tidy: false
+#| warning: false
+#| message: false
+
+# Összetartozó mintás egyszempontos varianciaelemzés - utóelemzés
+# - Games--Howell próba, szóráshomogenitás sérülése esetén
+library(rstatix)
+gh.1 <- games_howell_test(formula = pontszam ~ modszer, data=df04, 
+                  conf.level = 0.95, detailed = F)
+print(as.data.frame(gh.1)[c(-1,-8)], digits=2) # rövidebb kiírás
+```
+
+A fenti output alapján a C módszer várható értéke szignifikánsan eltér az A és B módszerekétől ($p=0,047$ és $p=0,006$). A `estimate` oszlopban a csoportok közötti különbség látható, a `conf.low` és `conf.high` oszlopokban pedig a várható értékek különbségére vonatkozó 95%-os megbízhatóságú konfidencia intervallum határai.
+
+### Összetartozó mintás egyszempontos varianciaelemzés
+
+Az összetartozó mintás egyszempontos varianciaelemzés a páros t-próba általánosításának tekinthető: ugyanazokon a kísérleti egységeken kettőnél több időpontban vagy helyzetben történik mérés. Példánkban négy tanulónak felmérik három sportágban (úszás, futás, labdarúgás) az ügyességét egy 1-10-es skálán.
+
+Az adatok széles vagy hosszú formátumban is előfordulhatnak. Mindkét eset beolvasását megmutatjuk, de megjegyezzük, hogy az R számára csak a hosszú formátum lesz megfelelő. Kezdjük a széles adatmátrixszal és alakítsuk át azonnal hosszú formátumúra.
+
+```{r}
+#| tidy: false
+
+adat <- "  szemely    uszas   futas labdarugas
+                 a        2       9          7
+                 b        1       8          4
+                 c        5       6          2
+                 d        1       7          3  "
+
+# adatmátrix beolvasása
+df05_szeles <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+#| tidy: false
+
+# széles-hosszú átalakítás
+df05_hosszu <- tidyr::pivot_longer(data = df05_szeles, 
+                                   cols = 2:4, 
+                                   names_to = "sport", 
+                                   values_to = "pontszam")
+# faktorrá alakítások
+df05_hosszu$szemely <- factor(df05_hosszu$szemely)
+df05_hosszu$sport   <- factor(df05_hosszu$sport)
+str(df05_hosszu) # adatmátrix szerkezete
+```
+
+Könnyebb dolgunk van, ha az adatok eleve hosszú formátumban állnak rendelkezésre. Ekkor csak a faktorrá alakításokat kell elvégeznünk.
+
+```{r}
+#| tidy: false
+
+adat <- "  szemely      sport  pontszam
+                 a      uszas         2
+                 b      uszas         1
+                 c      uszas         5
+                 d      uszas         1
+                 a      futas         9
+                 b      futas         8
+                 c      futas         6
+                 d      futas         7
+                 a labdarugas         7
+                 b labdarugas         4
+                 c labdarugas         2
+                 d labdarugas         3  "
+
+# adatmátrix beolvasása
+df05_hosszu <- read.table(textConnection(adat), header=T, sep="")
+```
+
+```{r}
+#| tidy: false
+
+# faktorrá alakítások
+df05_hosszu$szemely <- factor(df05_hosszu$szemely)
+df05_hosszu$sport   <- factor(df05_hosszu$sport)
+str(df05_hosszu) # adatmátrix szerkezete
+```
+
+Egyszempontos ismételt méréses varianciaelemzést az `{afex}` csomag `aov_ez()` függvényével tudunk kényelmesen végrehajtani. Az `id=` argumentumba a személyeket azonosító faktort írjuk (`szemely`), a `within=` a csoporton belüli független faktort tartalmazza (`sport`), a függő váltózó (`pontszam`) a `dv=` paraméterbe kerül. Az `aov_ez()` által visszaadott `aov_ez_1` objektumot eltároljuk, a próba eredményét pedig a `summary(aov_ez_1)` szolgáltatja.
+
+```{r}
+#| tidy: false
+#| message: false
+#| warning: false
+
+# --= összetartozó mintás egyszempontos varianciaelemzés =--
+library(afex)
+aov_ez_1 <- aov_ez(id = "szemely", within = "sport", dv="pontszam", 
+                   data = df05_hosszu)
+summary(aov_ez_1)
+```
+
+A megjelenő output három nagyobb részből áll. A középső rész (`Mauchly Tests for Sphericity`) a Mauchly-próba eredményét tartalmazza, amely az összetartozó mintás varianciaanalízis egyik előfeltételét, a szfericitási feltétel meglétét teszteli. Leolvashatjuk a próbastatisztika értékét (`Test statistic`) és a p értéket (`p-value`). Mivel esetünkben a $p=0,190$, így azt mondjuk, hogy a szfericitási feltétel teljesül, és a fenti output felső részét tekintjük. Itt láthatjuk az egyszempontos ismételt méréses varianciaelemzés eredményét (`Univariate Type III Repeated-Measures ANOVA Assuming Sphericity`). Elegendő a táblázat alsó sorát tekinteni (`sport`), amely tartalmazza a szabadsági fokokat (`num Df` és `den Df`), a próbastatisztika értékét (`F value`) és a p értéket (`Pr(>F)`). A próba szignifikáns $(p=0,019)$, így szükség van utóelemzésre.\
+Amennyiben a Mauchly-próba eredménye szignifikáns lenne, akkor az output 3. részét kellene tekinteni, a `Greenhouse-Geisser and Huynh-Feldt Corrections` utáni részt. Itt két további hipotézisvizsgálat eredményét láthatjuk, amely a szfericitás sérülése esetén az összetartozó egyszempontos varianciaelemzés p értékeit szolgáltatja. A `Pr(>F[GG])` a Greenhouse-Geisser korrekció, a `Pr(>F[HF])` Huynh-Feldt korrekció p értékeit mutatja.
+
+A fenti output alapján a három sportág hatékonysága eltér egymástól ($F(2,6)=8,232; p=0,019$), a Mauchly-próba eredménye alapján a szfericitási feltétel fennáll ($p=0,190$). Szükség van utóelemzésre. 
+
+Az összetartozó mintás varianciaelemzés utóelemzésének klasszikus módja R-ben a már korábban megismert `pairwise.t.test()` a `paired=T` argumentummal. A `p.adjust.method=` értékei a korábban megismert értékek lehetnek.
+
+```{r}
+#| tidy: false
+
+# Összetartozó mintás egyszempontos varianciaelemzés - utóelemzés
+# - Bonferroni-féle páronkénti összehasonlítás, Holm módszer 
+pairwise.t.test(x = df05_hosszu$pontszam, g = df05_hosszu$sport, 
+                paired = T, 
+                p.adjust.method = "holm")
+```
+
+Jelen esetben a futás és labdarúgás között szignifikáns eltérést találunk ($p=0,018$), míg a labdarúgás és úszás között nem találunk szignifikáns eltérést ($p=0,379$) és a futás és úszás között sem ($p=0,071$).
+
+Az utóelemzések elvégzésére több lehetőséget nyújt számunkra az `{emmeans}` csomag, amely más módszerekkel is képes módosítani a megjelenő p értékeket a páros összehasonlítások során, illetve kontrollcsoporttal való összehasonlítást is lehetővé tesz. A lenti parancsokban vegyük észre, hogy a korábban eltárolt `aov_ez_1` objektumot használtuk a `emmeans()` függvényben. A `specs=` argumentumban formulával meghatározzuk az összehasonlítás módját. Páronkénti összehasonlítások esetén a `pairwise`, kontroll csoporttal való összehasonlítás esetén a `trt.vs.ctrl` beépített függvénynevet használjuk a formula bal oldalán. A jobb oldalt a `sport` független faktort adjuk meg (`?"contrast-methods"`). Az `adjust=` argumentummal beállíthatjuk a p érték módosítását, a szokásos értékekhez képest használhatjuk még a `"tukey"`,`"scheffe"`,`"sidak"`,`"dunnettx"` és `"mvt"` értékeket is (további információ: `?summary.emmGrid`).
+
+```{r}
+#| tidy: false
+
+# Összetartozó mintás egyszempontos varianciaelemzés - utóelemzés
+# - Tukey-próba
+library(emmeans)
+emmeans(object = aov_ez_1, specs = pairwise ~ sport, 
+        adjust="tukey", level=0.95)
+```
+
+```{r}
+#| tidy: false
+
+# Összetartozó mintás egyszempontos varianciaelemzés - utóelemzés
+# - Bonferroni-féle páronkénti összehasonlítás, Holm módszer 
+library(emmeans)
+emmeans(object = aov_ez_1, specs = pairwise ~ sport, 
+        adjust="holm", level=0.95)
+```
+
+```{r}
+#| tidy: false
+
+# Összetartozó mintás egyszempontos varianciaelemzés - utóelemzés
+# - Dunnett-próba, kontrollcsoport a labdarúgás
+library(emmeans)
+emmeans(object = aov_ez_1, specs = trt.vs.ctrl ~ sport, ref=2, 
+        level=0.95)
+```
+
+Az `emmeans()` függvény outputja mindhárom fenti esetben két részt tartalmaz. Az első rész megmutatja a három kondíció becsült átlagát a standard hibákkal és a konfidenciaintervallumokkal együtt. A másik rész az elvégzett páronkénti próbák eredményét tartalmazza, a táblázat végén a p értékkel. A fenti Tukey- és Holm-féle páronkénti vizsgálat összesen 3 összehasonlítás eredményét tartalmazza, de a kitüntetett csoportot használó Dunnett-próba csak két összehasonlítást végez. Utóbbi esetben a kontrollcsoportot a `ref=` argumentummal jelöljük meg.
+
+### Korreláció és lineáris regresszió
+
+A korreláció és a lineáris regresszió egyaránt képes két kvantitatív változó (lineáris) kapcsolatát feltárni.
+
+A korreláció mutatja meg, hogy az egyik változó szisztematikusan változik-e egy másik változó változásával. A változók egyenrangúak, és tipikusan a kapcsolat iránya és erőssége határozható meg. Bemutatjuk a korreláció három formáját, a Pearson-, Kendall- és Spearman féle korrelációt, bár utóbbi kettőt nemparaméteres eljárásnak tekintjük.
+
+Az egyszerű lineáris regresszió (könyvünkben csak ezt az esetet mutatjuk be) végrehajtása során az egyik változót függetlennek, míg a másikat függőnek tekintjük. A cél a két változó közötti lineáris kapcsolat függvényszerű meghatározása. A lineáris regresszióhoz kapcsolódó tesztek parametrikusak, és feltételezik a normalitást, a homoszkedaszticitást és a maradékok függetlenségét, valamint a két változó közötti lineáris kapcsolatot.
+
+Vizsgáljuk meg öt nyári nap megfigyelésével, a napi középhőmérséklet és az eladott jégkrémek száma közötti lineáris kapcsolatot. Kezdjük az adatok beolvasásával.
+
+```{r}
+#| tidy: false
+
+adat <- "  homerseklet  jegkrem
+                    32      277
+                    30      287
+                    29      149
+                    36      337
+                    25      131  
+                    27      142  
+                    32      201 
+                    31      231  "
+
+# adatmátrix beolvasása
+df06 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+```{r}
+#| tidy: false
+
+# adatmátrix szerkezete
+str(df06)
+```
+
+#### Korrelációszámítás
+
+Korrelációszámítást a `cor.test()` függvénnyel végezhetünk, a `method=` argumentum `"pearson"`, `"kendall"` vagy `"spearman"` értékével döntünk a korreláció típusáról. A `cor.test()` minden esetben szolgáltat p értéket, így dönthetünk a populációbeli korrelációs együtthatók nullától való eltéréséről, konfidencia intervallumot azonban csak a Pearson-féle korrelációs együttható esetében kapunk. Ezért a `{DescTools}` csomag `KendallTauB()` és `SpearmanRho()` függvényét használjuk a megbízhatósági intervallumok meghatározására.
+
+```{r}
+#| tidy: false
+
+# --= Pearson-féle korreláció =--
+cor.test(formula = ~ homerseklet + jegkrem, data=df06,
+         method = "pearson", conf.level = 0.95)
+```
+
+```{r}
+#| tidy: false
+
+# --= Kendall-féle korreláció =--
+cor.test(formula = ~ homerseklet + jegkrem, data=df06,
+         method = "kendall")
+# 95%-os konfidencia intervallum a tau-b-re
+DescTools::KendallTauB(x = df06$homerseklet, y=df06$jegkrem,
+                       conf.level = 0.95)
+```
+
+```{r}
+#| tidy: false
+
+# --= Spearman-féle rangkorreláció =--
+cor.test(formula = ~ homerseklet + jegkrem, data=df06,
+         method = "spearman")
+# 95%-os konfidencia intervallum a rho-ra
+DescTools::SpearmanRho(x = df06$homerseklet, y=df06$jegkrem,
+                       conf.level = 0.95)
+```
+
+A fenti outputokból kiolvasható, hogy mindhárom korrelációs együtthatóra vonatkozó hipotézisvizsgálat szignifikáns a megjelenő p értékek alapján, továbbá láthatjuk a mintabeli $r$, $\tau_b$ és $r_S$ értékeket és a 95%-os megbízhatóságú konfidencia intervallum határait. A Spearman-féle rangkorrelációra vonatkozó vizsgálat alapján például azt mondhatjuk, hogy a hőmérséklet és a jégkrémek közötti rangkorrelációs együttható szignifikánsan eltér a nullától ($r_S=0,814; p=0,014$), azaz a hőmérséklet és a jégkrémek közötti kapcsolat erős pozitív együtt járást mutat. A Spearman-féle rangkorrelációs együtthatóra vonatkozó 95%-os megbízhatóságú konfidencia intervalluma $95\%CI:[0,257; 0,965]$.
+
+#### Regressziószámítás
+
+Egyszerű lineáris regressziót a `summary(lm())` függvényekkel hozhatunk létre. Első lépésben itt is érdemes eltárolni az `lm()` által szolgáltatott modellobjektumot (`lm_1`), majd a `summary()` már a hipotézisvizsgálat eredményét mutatja meg.
+
+Az `lm()` függvényben a `formula=` argumentumot `<függő változó> ~ <független változó>` formában kell megadnunk, amely esetünkben `jegkrem ~ homerseklet` alakú.
+
+```{r}
+#| tidy: false
+
+# --= egyszerű lineáris regresszió =--
+lm_1 <- lm(formula = jegkrem ~ homerseklet, data=df06)
+summary(lm_1)
+```
+
+A fenti viszonylag terjedelmes output első sorai (`Call:`) megismétlik az `lm()` függvényhívás alakját, hogy egy későbbi felhasználás során tudjuk mire vonatkozik az output.
+
+A következő részben (`Residuals:`) a reziduumok eloszlására vonatkozó statisztikai mutatókat olvashatjuk le, amelyekkel gyors ellenőrzést végezhetünk a módszer előfeltételein: a mediánnak nulla körüli értéknek kell lennie, a legkisebb és legnagyobb érték abszolút értékben körülbelül meg kell egyezzen.
+
+A legizgalmasabb `Coefficients:` részben, az `Estimate` oszlopban láthatjuk a regressziós egyenes együtthatóinak mintából becsült értékeit. Továbbá az `Std. Error` oszlopban a becslések standard hibáit is láthatjuk. A `t value` oszlopban az együtthatók t próbastatisztikáinak értékét olvashatjuk le, a `Pr(>|t|)` oszlopban az elvégzett hipotézisvizsgálat `p értékei` olvashatók. Mindkét együtthatóra leolvasható a p érték, de a tengelymetszet `(Intercept)` sorában csak akkor kell figyelni ezt az értéket, ha azt vizsgáljuk, hogy az origón átmegy-e a regressziós egyenes. A `homerseklet` sorában lévő p érték adja meg a választ, hogy a jégkrém fogyasztás függ-e a hőmérséklettől (függ, $p=0,007$).
+
+Az output utolsó három sora a teljes modellre vonatkozik. A `Residual standard error:` a regressziós becslés standard hibáját és a szabadsági fokok számát tartalmazza. A következő sorban (`Multiple R-squared:`) a determinációs együttható és a korrigált determinációs együttható értékét olvashatjuk le, ebben az egyszerű kétváltozós esetben a determinációs együttható megegyezik a korrelációs együttható négyzetével, a korrigált mutatót pedig csak többszörös regresszió esetén érdemes figyelni. Az utolsó sorban a modell egészére vonatkozó F-próbastatisztika értéke, szabadsági fokainak száma és a p érték olvasható. Kétváltozós esetben a meredekségre vonatkozó t-próba eredményével azonos értéket kapunk, többszörös regresszió esetén viszont eltér a két érték.
+
+Példánkban a hőmérséklet és a jégkrémek közötti lineáris kapcsolat szignifikáns ($F(1;6)=16,11; p=0,007$), a hőmérséklet növekedésével a jégkrémek fogyasztása is növekszik. A regressziós egyenes meredeksége $19,37$, azaz 1 fokos hőmérséklet-emelkedés esetén $19,37$ jégkrém fogyasztásának emelkedésével számolhatunk.
+
+A standardizált együtthatók megjelenítésének többszörös lineáris regresszió során van jelentősége, de az együtthatók intervallumbecslése egyszerű lineáris regresszió esetén is érdekes lehet.
+
+```{r}
+#| tidy: false
+
+# standardizált regressziós paraméterek, 
+#  konfidencia intervallumok a regressziós együtthatókra
+lsr::standardCoefs(lm_1) 
+confint(object = lm_1, level = 0.95)
+```
+
+A lineáris regresszió igazi ereje az előrejelző képességében van, azaz tetszőleges független változóbeli értékhez kaphatunk egy modell által becsült függő változóbeli értéket. A `predict()` függvény ennek értelmében a `homerseklet` változó értékeit tartalmazó adattáblát vár a második argumentumában, az első argumentum pedig a korábban már eltárolt `lm_1` modellobjektum lesz.
+
+```{r}
+#| tidy: false
+
+# Predikció lineáris regresszióval
+# adatok előkészítése a predikcióhoz
+uj_adat <- data.frame(homerseklet=c(25, 30, 35))
+predict(object = lm_1, newdata = uj_adat) # predikció végrehajtása
+```
+
+A fenti outputban a 25, 30 és 35 fokos középhőmérséklettel rendelkező napok becsült jégkrém fogyásáról kapunk információt: $117,66$, $214,53$ és $311,40$ jégkrém.
+
+A mintabeli magyarázó változó összes értékére is megkaphatjuk a becsült értékeket a `fitted()` függvény segítségével. Ha megjelenítenénk a magyarázó változó és a függő változó becsült értékeit, akkor a regressziós egyenes pontjait kapnánk vissza.
+
+```{r}
+# a jósolt Y pontok, az egyenes Y pontjai
+fitted(lm_1) 
+```
+
+A lineáris regressziós modell alkalmazási feltételeit is érdemes megvizsgálni. A regressziós diagnosztikának nevezett eljárás több pontot is tartalmaz, amely elvégzéséhez segítő függvényeket ajánl az R. A `residuals()` függvény magukat a reziduumokat szolgáltatja, így a normalitási feltétel segítségével akár tesztelhető is.
+
+```{r}
+# reziduumok kiírása
+residuals(lm_1)
+# reziduumok normalitásának tesztelése
+shapiro.test(residuals(lm_1))
+```
+
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A t-próbák különböző változatai a `t.test()` függvénnyel végezhetők el. A `paired=` argumentumot használva páros mintás t-próbát végezhetünk, a `var.equal=` argumentummal pedig a szóráshomogenitás feltételét is ellenőrizhetjük. A kétmintás t-próba általánosítása az egyszempontos varianciaelemzés, amelyet az `aov()` függvénnyel hajthatunk végre. Az egyszempontos varianciaelemzés utóelemzései közül a Tukey- és Dunnett-próbát a `{DescTools}` csomag `PostHocTest()` és `DunnettTest()` függvényeivel végezhetjük el. A szóráshomogenitás sérülése esetén a Welch-féle varianciaelemzést alkalmazzuk, amelyhez a `oneway.test()` függvényt használjuk. Az összetartozó mintás egyszempontos varianciaelemzéshez az `{afex}` csomag `aov_ez()` függvényét használjuk, amelynek utóelemzéseihez az `{emmeans}` csomagot használjuk. A korrelációszámításhoz a `cor.test()` függvényt használjuk, amelynek `method=` argumentumában a Pearson-, Kendall- és Spearman-féle korrelációt is megadhatjuk. A lineáris regresszióhoz az `lm()` függvényt használjuk, amelynek eredményeit a `summary()` függvénnyel elemezhetjük. A regressziós diagnosztikához a `residuals()` és `fitted()` függvényeket használhatjuk, becslésekhez a `predict()` függvényt.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+1.  Az eddig ismertetett próbák közül az u-próba (z-próba) különböző változatai kimaradtak. A `{DescTools}` csomag `ZTest()` függvénye az egymintás, a kétmintás és a páros eseteket is képes kezelni. Adjunk példát ezekre a próbákra a `?ZTest` tanulmányozása után!
+2.  A kétmintás t-próba és az egyszempontos varianciaelemzés több alternatívája is elérhető a `{onewaytests}` csomagban. Ezen próbák null- és ellenhipotézise ugyanúgy a várható értékekre vonatkozik. Mutassunk példát ezekre az eljárásokra @Dag2018 alapján!
+3.  A páros vizsgálatok elemzésére a `{PairedData}` csomagot használhatjuk. Mutassunk példát azokra a kényelmi lehetőségekre, amelyek az ábrák rajzolását támogatják!
+4.  Egyszempontos varianciaelemzéshez több módszerrel is készíthetünk magyarázó átlagábrát. Foglaljuk össze az ismert eseteket és egészítsük ki a `{PASWR2}` csomag `oneway.plots()`, a `{gplots}` csomag `plotmeans()` és a `{yarrr}` csomag `pirateplot()` függvényével.
+5. Az egyszerű lineáris regresszió alkalmazási feltételei nem merülnek ki a reziduumok normalitásában. Ismertessük a lehetséges további feltételeket, és azok R-beli vizsgálati lehetőségeit! Használjuk a [TidyTuesday](https://github.com/rfordatascience/tidytuesday) csokoládék kakaótartalmát tartalmazó [adatbázisát](https://github.com/rfordatascience/tidytuesday/blob/master/data/2022/2022-01-18/readme.md). Mi a kakaótartalom és a csokoládé kedvelésének kapcsolata? Használjuk a beolvasásához a következő kódokat:
+
+```{r}
+#| tidy: false
+#| results: hide
+
+# install.packages("tidytuesdayR") # tidytuesdayR csomag telepítése
+# A TidyTuesday adatok letöltése a Github-ról
+tuesdata <- tidytuesdayR::tt_load('2022-01-18', )
+# a két vizsgált oszlop leválogatása; tibble-ből data frame konverzió
+chocolate <- as.data.frame(
+  tuesdata$chocolate[c("cocoa_percent", "rating")])
+# a százalékjelet is tartalmazó kakaótartalom numerikussá alakítása
+chocolate$cocoa_percent <- as.numeric(gsub("%", "", 
+                                           chocolate$cocoa_percent))
+```
+
+:::
+
+## Nemparaméteres próbák `r emoji("slightly-smiling-face")` {#sec-nemparameteres-probak}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a klasszikus nemparaméteres próbákat,
+-   az egyváltozós, független kétmintás és páros mintás próbákat,
+-   valamint a 3 vagy több csoport/helyzet mediánjait összevető próbákat és utóvizsgálataikat.
+:::
+
+A nemparaméteres (eloszlásfüggetlen) próbák kisebb statisztikai erővel rendelkeznek a paraméteres próbákhoz képest, így ha lehet, inkább az utóbbi csoportból válasszunk próbát. Sok esetben azonban az alkalmazási feltétel sérülése miatt -- leggyakrabban a normalitási feltétel hiányában, vagy ordinális függő változó esetében --, nem alkalmazhatunk paraméteres próbát. Ekkor a nemparaméteres próbák sietnek a segítségünkre. 
+
+A hagyományos nemparaméteres próbák rang alapú tesztek. A függő változó numerikus értékei helyett a relatív rangokon alapul a vizsgálat.
+
+Például képzeljük el, hogy rendelkezésre áll 6 diák matematika dolgozat pontszáma. A `rank()` függvénnyel állíthatjuk elő a pontszámokhoz tartozó rangokat.
+
+```{r}
+# rangok számítása
+pontszam <- c(11, 7, 3, 14, 14, 16)
+names(pontszam) <- letters[1:6]
+pontszam # nyers pontszámok       
+rank(pontszam) # pontszámok rangsora
+```
+
+A legkisebb pontszámú a `c` tanul, így ő az 1. helyen van. A `b`-nek a következő legkisebb a pontszáma, így az ő rangja 2-es, és így tovább. Figyeljük meg, hogy a `d` és az `e` tanuló pontszámában holtverseny van (azonosak), így mivel ők a 4. és 5. helyen állnak a 4,5-ös közös rangot kapják meg. Ez utóbbi esetet nevezik kapcsolt rangnak. Látni fogjuk, hogy próbáink végrehajtását meghatározza az a tény, hogy tartalmaz a vizsgált változó kapcsolt rangot vagy sem.
+
+A fenti példában azt is vegyük észre, hogy `c` tanuló pontszámát csökkentve (például 3-ról 2-re), ugyanúgy az 1 rangot rendelnénk `c`-hez, vagyis az abszolút pontszámokra vonatkozó információ elvész, és csak a relatív rangsor marad meg a próbák során. 
+
+### Egymintás Wilcoxon-próba
+
+A legegyszerűbb nemparaméteres próba egyetlen -- populációban szimmetrikus -- minta esetén a változó mediánját (nagyságszintjét) hasonlítja össze egy fix értékkel. Ez a fix érték az egymintás t-próbához hasonlóan lehet egy alapértelmezett, semleges, referenciaszerű vagy korábban publikált érték. A példánkban 7 hallgató egy oktató felkészültségét likert skálán (1-5) értékelte.
+
+```{r}
+#| tidy: false
+
+adat <- "  felkeszultseg
+                       3
+                       5
+                       3
+                       5
+                       4
+                       5
+                       4  "
+
+# adatmátrix beolvasása
+df07 <- read.table(textConnection(adat), header=T, sep="")
+str(df07) # adatmátrix szerkezete
+```
+
+Egymintás Wilcoxon-próbát a `wilcox.test()` függvénnyel hajthatjuk végre. Ha a mintaelemszám 50-nél kisebb, és nincsenek kapcsolt rangok, akkor egzakt próbát kapunk, egyébként normális eloszlás közelítésével számolja a p értéket, folytonossági korrekció nélkül. Az egzakt próba végrehajtását magunk is szabályozhatjuk az `exact=T` argumentummal, a folytonossági korrekciót pedig a `correct=T` argumentummal állíthatjuk. Kisebb mintaelemszám esetén a próba egzakt változatát érdemes használni (`exact=T`), de ez csak kapcsolt rangok hiányában áll rendelkezésre.
+
+```{r}
+#| tidy: false
+#| warning: false
+#| message: false
+
+# --= egymintás Wilcoxon-próba, normális közelítés, folyt. korrekció nélkül =--
+wilcox.test(x = df07$felkeszultseg, mu = 3, 
+            conf.int = T, conf.level=0.80, correct=F, exact=F)
+```
+
+A fenti próbában (az alacsony mintaelemszám ellenére) normális közelítéssel számolt egymintás Wilcoxon-próbát hajtottunk végre, folytonossági korrekció nélkül. A próba szignifikáns ($V=15; p=0,038$), azaz a medián nem egyenlő 3-mal. A szokásostól eltérő, 80%-os megbízhatóságú konfidencia intervallum határai: $80\%CI:[4,00; 5,00]$.
+
+### Egymintás előjel-próba
+
+Egyetlen minta esetén az előjel-próba is használható a medián vizsgálatára. A már ismert `df07` adatbázisban 7 hallgató egy oktató felkészültségét likert skálán (1-5) értékelte.
+
+```{r}
+# --= egymintás előjel-próba =--
+library(DescTools)
+SignTest(x = df07$felkeszultseg, mu = 3, conf.level = 0.95)
+```
+
+A fenti output alapján nem tudjuk elvetni a nullhipotézist, miszerint a medián egyenlő 3-mal ($S=5; p=0,063$). A 95%-os megbízhatóságú konfidencia intervallum határai: $95\%CI:[3,00; 5,00]$.
+
+### Mann--Whitney-próba
+
+A Mann--Whitney-próba a kétmintás t-próba nemparaméteres megfelelője. A példánkban 4-4 hallgató most két oktató (A és B) felkészültségét ítéli meg egy likert skálán (1-5).
+
+```{r}
+#| tidy: false
+
+adat <- "  oktato felkeszultseg
+                A             1
+                A             1
+                A             3
+                A             2
+                B             4
+                B             5
+                B             5
+                B             4  "
+
+# adatmátrix beolvasása
+df08 <- read.table(textConnection(adat), header=T, sep="")
+# faktorrá alakítás
+df08$oktato <- factor(df08$oktato)
+str(df08) # adatmátrix szerkezete
+```
+
+A Mann--Whitney-próba végrehajtásához a `wilcox.test()` függvényt használhatjuk, amelynek `formula=` argumentumban a függő változót és a csoportosító változót kell megadnunk. A `conf.int=T` és `conf.level=0.95` argumentumokkal 95%-os megbízhatóságú konfidencia intervallumot kapunk a medián különbségre. A `correct=F` argumentummal kikapcsolhatjuk a folytonossági korrekciót, az `exact=F` argumentummal pedig normális közelítést kérünk a p értékhez.
+
+```{r}
+#| tidy: false
+
+# --= Mann-Whitney-próba =--s
+wilcox.test(formula = felkeszultseg ~ oktato, data=df08, 
+            conf.int = T, conf.level=0.95, correct=F, exact=F)
+```
+
+A fenti eredmény azt mutatja, hogy szignifikáns különbség van a két oktató megítélése között ($W=0; p=0,019$). 
+
+### Kétmintás Mood medián-próba
+
+Két független csoport mediánjának összehasonlítására a Mood medián-próba is használható. A Mood medián-próba végrehajtásához a `{RVAideMemoire}` csomag `mood.medtest()` függvényét használhatjuk, amelynek `formula=` argumentumában a függő változót és a csoportosító változót kell megadnunk. Az `exact=F` argumentummal a normális közelítést kérhetjük a p értékhez. Az `{rcompanion}` csomag `groupwiseMedian()` függvényével pedig megkaphatjuk a mediánok konfidencia intervallumait is. A `bca=FALSE` argumentummal a bootstrap konfidencia intervallumot tilthatjuk, a `conf=0.95` argumentummal pedig 95%-os megbízhatóságú konfidencia intervallumot kérhetünk.
+
+A `df08` adatbázist használjuk, ahol 4-4 hallgató két oktató (A és B) felkészültségét ítéli meg egy likert skálán (1-5).
+
+```{r}
+#| tidy: false
+
+# --= Mood medián-próba =--
+library(RVAideMemoire)
+mood.medtest(formula = felkeszultseg ~ oktato, data=df08, exact=F)
+library(rcompanion)
+groupwiseMedian(formula = felkeszultseg ~ oktato, data=df08, bca=FALSE, 
+                perc=TRUE, conf = 0.95)
+```
+
+A fenti output alapján a két oktató mediánja között szignifikáns különbség van ($\chi^2(1)=4,5; p=0,034$). A mediánok 95%-os megbízhatóságú konfidencia intervallumai 1-3 (A oktató) és 4-5 (B oktató) között helyezkednek el, az A oktató mediánja 1,5, míg a B oktató mediánja 4,5.
+
+### Páros Wilcoxon-próba
+
+A páros Wilcoxon-próba a páros t-próba nemparaméteres megfelelője. A páros t-próba alkalmazásának feltétele, hogy a különbségek normális eloszlásúak legyenek. A páros Wilcoxon-próba esetén ez a feltétel nem szükséges, így a próbát akkor is alkalmazhatjuk, ha a különbségek eloszlása nem normális.
+
+A példánkban 6 hallgató egy oktató felkészültségét egy hónap eltéréssel kétszer ítéli meg. Az adataink szokásos módon széles formátumban fordulnak elő.
+
+```{r}
+#| tidy: false
+
+adat <- "  hallgato  oktober   november
+                  a        2          5
+                  b        2          4
+                  c        1          3
+                  d        3          4
+                  e        3          5
+                  f        4          5  "
+
+# adatmátrix beolvasása
+df09_szeles <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítás
+df09_szeles$hallgato <- factor(df09_szeles$hallgato)
+str(df09_szeles) # adatmátrix szerkezete
+```
+
+Elképzelhető azonban, hogy hosszú formátumban állnak rendelkezésünkre az adatok. 
+
+```{r}
+#| tidy: false
+
+adat <- "  hallgato    idopont  felkeszultseg 
+                 a     oktober              2 
+                 b     oktober              2 
+                 c     oktober              1 
+                 d     oktober              3 
+                 e     oktober              3 
+                 f     oktober              4 
+                 a    november              5
+                 b    november              4
+                 c    november              3
+                 d    november              4
+                 e    november              5
+                 f    november              5  "
+
+# adatmátrix beolvasása
+df09_hosszu <- read.table(textConnection(adat), header=T, sep="")
+```
+
+```{r}
+# faktorrá alakítások
+df09_hosszu$hallgato <- factor(df09_hosszu$hallgato)
+df09_hosszu$idopont <- factor(df09_hosszu$idopont)
+str(df09_hosszu) # adatmátrix szerkezete
+```
+
+Páros minta esetében a `wilcox.test()` függvény `paired=T` argumentumát kell használnunk a két különböző időpontban mért értékek összehasonlításához. Széles formátumú adatmátrix esetén a `x=` argumentumban az egyik, a `y=` argumentumban pedig a másik időpontban mért értékeket kell megadnunk. 
+
+```{r}
+#| tidy: false
+
+# --= páros Wilcoxon-próba, széles adatmátrix =--
+wilcox.test(x = df09_szeles$november, y = df09_szeles$oktober, paired=T, 
+            conf.int = T, conf.level=0.90, correct=F, exact=F)
+```
+
+Hosszú formátumú adatmátrix esetén első lépésben elvégezzük a szélessé alakítást a `tidyr::pivot_wider()` függvénnyel, amelynek `names_from=` argumentumában a csoportosító változót, a `values_from=` argumentumban pedig a függő változót kell megadnunk. 
+
+
+```{r}
+#| tidy: false
+
+# --= páros Wilcoxon-próba, hosszú adatmátrix =--
+# hosszú-széles átalakítás
+df09_szeles2 <- tidyr::pivot_wider(data = df09_hosszu, 
+                                   names_from = idopont, 
+                                   values_from = felkeszultseg)
+wilcox.test(x = df09_szeles2$november, y = df09_szeles2$oktober, paired=T, 
+            conf.int = T, conf.level=0.90, correct=F, exact=F)
+```
+
+Látható, hogy a páros Wilcoxon-próba szignifikáns ($V=21; p=0,026$), vagyis a két időpontban mért mediánok között szignifikáns különbség van. A mediánok 90%-os megbízhatóságú konfidencia intervalluma $90\% CI: [1,00; 2,50]$, azaz a populációbeli mediánok közötti különbség nagyjából 1 és 2,5 között helyezkedik el. 
+
+### Páros előjel-próba
+
+A páros előjel-próba szintén a páros t-próba nemparaméteres megfelelője. A `{DescTools}` csomag `SignTest()` függvényével hajtható végre, amelynek `x=` argumentumában az egyik, `y=` argumentumban pedig a másik időpontban mért értékeket kell megadnunk. A `conf.level=` argumentummal 95%-os megbízhatóságú konfidencia intervallumot kérhetünk.
+
+A példánkban `df09_szeles` adatbázist használjuk, amely 6 hallgató egy oktató felkészültségét egy hónap eltéréssel, összesen kétszer ítéli meg.
+
+```{r}
+#| tidy: false
+
+# --= páros előjel-próba, széles adatmátrix =--
+library(DescTools)
+SignTest(x = df09_szeles$november, y = df09_szeles$oktober, conf.level = 0.95)
+```
+
+A fenti eredmények alapján a páros előjel-próba szignifikáns ($S=6; p=0,031$), vagyis a két időpontban mért mediánok között szignifikáns különbség van. A mediánok 97%-os megbízhatóságú konfidencia intervalluma $97\% CI: [1; 3]$, azaz a populációbeli mediánok közötti különbség nagyjából 1 és 3 között helyezkedik el.
+
+### Kruskal--Wallis-próba
+
+A Kruskal--Wallis-próba a (független) egyszempontos varianciaelemzés nemparaméteres megfelelője. A próbát akkor alkalmazzuk, ha a függő változó eloszlása nem normális, vagy csak ordinális skálán mért. Kezelhetjük úgy a próbát, hogy a különböző csoportok mediánjait hasonlítja össze.
+
+A példánkban 11 hallgató most három oktató (A, B és C) felkészültségét ítéli meg egy likert skálán (1-5).
+
+```{r}
+#| tidy: false
+
+adat <- "  oktato felkeszultseg
+                A             1
+                A             1
+                A             3
+                A             2
+                B             4
+                B             5
+                B             5
+                B             4 
+                C             1 
+                C             2 
+                C             3  "
+
+# adatmátrix beolvasása
+```
+
+
+```{r}
+df10 <- read.table(textConnection(adat), header=T, sep="")
+# faktorrá alakítás
+df10$oktato <- factor(df10$oktato)
+str(df10) # adatmátrix szerkezete
+```
+
+Kruskal--Wallis-próbát a `kruskal.test()` függvénnyel hajthatunk végre, amelynek `formula=` argumentumában a függő változót és a csoportosító változót kell megadnunk. A `data=` argumentumban az adatmátrixot szerepeltetjük.
+
+```{r}
+# --= Kruskal-Wallis próba =--
+kruskal.test(formula = felkeszultseg ~ oktato, data=df10)
+```
+
+```{r}
+# Kruskal-Wallis próba, utóvizsgálatok
+# - Dunn-próba
+library(DescTools)
+DunnTest(formula = felkeszultseg ~ oktato, data=df10, method="holm")
+```
+
+Látható, hogy a Kruskal--Wallis-próba szignifikáns ($\chi^2(2)=7,32$; $p=0,026$), vagyis a három oktatóra vonatkozó vélemények mediánja között szignifikáns különbség van. Az elvégezett utóvizsgálat (Dunn-próba) alapján a B oktató mediánja szignifikánsan eltér az A oktató mediánjától ($p=0,0375$).
+
+### Többmintás Mood medián-próba
+
+A többmintás Mood medián-próba a Kruskal--Wallis-próba alternatívája, több csoport mediánját hasonlítja össze. 
+
+A `df10` adatmátrixot használjuk, amelyben 11 hallgató három oktató (A, B és C) felkészültségét ítéli meg egy likert skálán (1-5). A próba elvégzéséhez a `mood.medtest()` függvényt használjuk, amelyet már a kétmintás esetben megismertünk.
+
+```{r}
+#| tidy: false
+
+# --= Mood medián-próba (többmintás eset) =--
+library(RVAideMemoire)
+mood.medtest(formula = felkeszultseg ~ oktato, data=df10,
+             exact = FALSE)
+library(rcompanion)
+groupwiseMedian(formula = felkeszultseg ~ oktato, data=df10, bca=FALSE, 
+                perc=TRUE, conf = 0.95)
+```
+
+A fenti output megmutatja, hogy a három oktatóra vonatkozó megítélés nem azonos ($\chi^2(2)=11$, $p=0,004$). A mediánokra vonatkozó 95%-os megbízhatóságú konfidencia intervallumok: 1-3 (A oktató), 4-5 (B oktató) és 1-3 (C oktató). 
+
+Az utóvizsgálat elvégzéséhez a `{rcompanion}` csomag `pairwiseMedianTest()` függvényét használhatjuk, amely a páronkénti medián-próbát hajtja végre. 
+
+```{r}
+#| tidy: false
+
+# Utóvizsgálat, Mood medián-próba (többmintás eset)
+# - Páronkénti medián-próba
+library(rcompanion)
+pairwiseMedianTest(formula = felkeszultseg ~ oktato, data=df10,
+                   exact  = NULL, method = "fdr")
+```
+
+A páronkénti medián-próba eredményei alapján a B oktató mediánja szignifikánsan eltér az A oktató mediánjától ($p=0,024$), míg a C oktató mediánja nem tér el szignifikánsan sem az A, sem a B oktató mediánjától ($p=0,823$ és $p=0,270$).
+
+### Friedman-próba
+
+A Friedman-próba a páros Wilcoxon-próba általánosítása, az összetartozó egyszempontos varianciaelemzés nemparaméteres megfelelője. A próbát akkor alkalmazzuk, ha a függő változó eloszlása nem normális, vagy a változó ordinális skálán mért. Kezelhetjük úgy a próbát, hogy a különböző helyzetek/időpontok mediánjait hasonlítja össze.
+
+Példánkban 6 hallgatónak három különböző időpontban kellett értékelni egy oktatót. Tegyük fel, hogy az adataink széles formátumban érhetők el. A próba elvégzéséhez hosszú formátumba kell alakítanunk az adatokat.
+
+```{r}
+#| tidy: false
+
+adat <- "  hallgato  oktober  november  december
+                  a        2         5         3
+                  b        2         4         4
+                  c        1         3         2
+                  d        3         4         1
+                  e        3         5         1
+                  f        4         5         2  "
+
+# adatmátrix beolvasása
+df11_szeles <- read.table(textConnection(adat), header=T, sep="")
+# széles-hosszú átalakítás
+df11_hosszu <- tidyr::pivot_longer(data = df11_szeles, 
+                                 cols = 2:4, 
+                                 names_to = "idopont", 
+                                 values_to = "felkeszultseg")
+```
+
+
+```{r}
+# faktorrá alakítások
+df11_hosszu$hallgato <- factor(df11_hosszu$hallgato)
+df11_hosszu$idopont <- factor(df11_hosszu$idopont)
+dplyr::glimpse(df11_hosszu) # adatmátrix szerkezete
+```
+
+Szerencsés esetben az adatok eleve hosszú formátumban állnak rendelkezésünkre. Ebben az esetben a fenti átalakításokra nincs szükség. A `df11_hosszu` adatmátrixot használjuk a továbbiakban a próba elvégzéséhez.
+
+```{r}
+#| tidy: false
+
+adat <- "  hallgato    idopont  felkeszultseg 
+                 a     oktober              2 
+                 b     oktober              2 
+                 c     oktober              1 
+                 d     oktober              3 
+                 e     oktober              3 
+                 f     oktober              4 
+                 a    november              5
+                 b    november              4
+                 c    november              3
+                 d    november              4
+                 e    november              5
+                 f    november              5
+                 a    december              3
+                 b    december              4
+                 c    december              2
+                 d    december              1
+                 e    december              1
+                 f    december              2  "
+
+# adatmátrix beolvasása
+df11_hosszu <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítások
+df11_hosszu$hallgato <- factor(df11_hosszu$hallgato)
+df11_hosszu$idopont <- factor(df11_hosszu$idopont)
+dplyr::glimpse(df11_hosszu) # adatmátrix szerkezete
+```
+
+Friedman-próbát a `friedman.test()` függvénnyel hajthatunk végre, amelynek `formula=` argumentumában a függő változót és a csoportosító változót kell megadnunk, illetve a személyek azonosító változóját is.
+
+```{r}
+#| tidy: false
+#| message: false
+#| warning: false
+
+# --= Friedman-próba =--
+friedman.test(formula = felkeszultseg ~ idopont | hallgato, 
+              data = df11_hosszu)
+```
+
+A fenti eredmények azt mutatják, hogy a három időpontban mért felkészültség nem azonos ($\chi^2(2)=7,91$; $p=0,019$). 
+
+A Friedman-próba utóvizsgálatát a `{PMCMRplus}` csomag `frdAllPairsNemenyiTest()` függvényével hajthatjuk végre, amelynek `formula=` argumentumában a függő változót és a csoportosító változót kell megadnunk, illetve a személyek azonosító változóját is. A `data=` argumentumban az adatmátrixot szerepeltetjük.
+
+```{r}
+#| tidy: false
+#| message: false
+#| warning: false
+
+# Friedman-próba, utóvizsgálat
+# - Nemenyi-próba
+library(PMCMRplus)
+frdAllPairsNemenyiTest(formula = felkeszultseg ~ idopont | hallgato, 
+              data = df11_hosszu)
+```
+
+Az utóvizsgálat megmutatta, hogy az októberi és a novemberi időpontban mért mediánok között szignifikáns különbség van ($p=0,038$).
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A nemparaméteres próbák olyan statisztikai eljárások, amelyeket akkor alkalmazunk, ha a paraméteres próbák feltételei – például a normalitás vagy a metrikus skálaszint – nem teljesülnek. Tipikus példák az ordinális skálán mért változók, vagy a kis elemszámú minták. Ezek a próbák a nyers értékek helyett azok rangsoraival dolgoznak, így robusztusabbak a szélsőértékekkel és az eloszlási torzulásokkal szemben. Egyetlen minta mediánjának vizsgálatára használható az `wilcox.test()` (egymintás Wilcoxon-próba) vagy a `SignTest()` (egymintás előjel-próba). Két független minta összehasonlítására szintén a `wilcox.test()` (Mann–Whitney-próba) szolgál, míg páros minta esetén ugyanennek a függvénynek a `paired=TRUE` argumentummal ellátott változata (páros Wilcoxon-próba), illetve a `SignTest()` függvény (páros előjel-próba) alkalmazható. Több független csoport mediánjait a `kruskal.test()` (Kruskal–Wallis-próba) vagy a `mood.medtest()` (Mood medián-próba) hasonlítja össze. Az összetartozó mérések esetén a `friedman.test()` függvény (Friedman-próba) használható. Bár ezek a próbák kisebb statisztikai erővel rendelkeznek, megbízható alternatívát nyújtanak nem ideális adatviszonyok mellett is.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1. Több nemparaméteres próbát is használja a `correct=` és az `exact=` argumentumokkal. Tekintsük át ezek lehetséges értékeit az egyes függvények esetén. Nézzünk utána, hogy ezeket milyen körülmények között érdemes használni!
+2. Mood medián-próba esetén a `{RVAideMemoire}` csomag `mood.medtest()` függvényét használtuk, de számos alternatívája létezik az R-ben. Melyek ezek?
+3. A Kruskal--Wallis-próba utóvizsgálatára a Dunn-próbát használtuk, de számos alternatívája létezik az R-ben. Melyek ezek?
+4. A Friedman-próba utóvizsgálatára a Nemenyi-próbát használtuk, de számos alternatívája létezik az R-ben. Melyek ezek?
+:::
+
+
+## Normalitás vizsgálata `r emoji("slightly-smiling-face")` {#sec-normalitas-vizsgalata}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a Shapiro--Wilk és a Kolmogorov--Smirnov próbát,
+-   a ferdeségi és csúcsossági együtthatóra épülő D'Agostino-féle próbát,
+-   mindezt egy és több csoport esetén is.
+
+:::
+
+Egy változó normalitásának vizsgálatára számos teszt érhető el, a leggyakoribbak a Shapiro-Wilk és a Kolmogorov--Smirnov próba. Ezek a tesztek csoportosítás nélküli és csoportosított változók esetén is könnyen használhatók. Minden esetben a nullhipotézis az, hogy az adatok eloszlása nem tér el a normálistól. A szignifikáns p érték ($p < 0,05$) arra utal, hogy az adatok nem normális eloszlásúak.
+
+Normalitás nem csak a két fenti klasszikus próbával ellenőrizhető, a grafikus vizsgálatokkal például hisztogram ([-@sec-histogram]. fejezet) vagy QQ-ábra ([-@exm-juhok-1]. példa) megrajzolásával sokszor megbízhatóbb eredményt kapunk [@Mangiafico2016].
+
+A normalitás ellenőrzése alapozható a két alakmutatóra is, a ferdeségi és a csúcsossági együtthatóra, amelyek értéke normális eloszlás esetén nullával egyenlő.
+
+### Shapiro--Wilk próba {#sec-shapiro-wilk-proba}
+
+A normalitás ellenőrzésének formális eszközét adja a Shapiro--Wilk próba. Elképzelt példánkban 7 film IMDB értékelését gyűjtöttük össze. A cél a normalitás ellenőrzése.
+
+```{r}
+#| tidy: false
+
+adat <- "  ertekeles
+                 3,5
+                 5,7
+                 8,3
+                 5,2
+                 4,5
+                 5,4
+                 4,2  "
+
+# adatmátrix beolvasása
+df12 <- read.table(textConnection(adat), header=T, sep="", dec=",")
+str(df12) # adatmátrix szerkezete
+```
+
+A Shapiro--Wilk próba végrehajtásához mindössze a `shapiro.test()` függvényben a vizsgált mintát kell megadnunk (`x=`). A megengedett mintaelemszám a 3 és 5000 közötti tartományból való.
+
+```{r}
+# --= Shapiro–Wilk próba egy mintára =--
+shapiro.test(x = df12$ertekeles)
+```
+
+A Shapiro--Wilk próba outputja a próbastatisztika értékét (`W=`) és a p értéket (`p-value=`) tartalmazza. Az eredmények alapján a nullhipotézist nem utasítjuk el, azaz a minta normális eloszlásúnak tekinthető ($W=0,90$; $p=0,303$).
+
+A normalitás ellenőrzésére sokszor több csoportban is szükség van. Példánkban 3 műfaj (A, B és C) filmjeinek IMDB értékelése szerepel.
+
+```{r}
+#| tidy: false
+
+adat <- "  mufaj  ertekeles
+               A        6,2
+               A        2,8
+               A        2,1
+               A        2,1
+               A        2,8
+               B        3,3
+               B        5,8
+               B        5,8
+               B        6,8
+               B        5,1
+               C        5,6
+               C        4,8
+               C        5,3
+               C        4,8
+               C        3,2  "
+
+# adatmátrix beolvasása
+df13 <- read.table(textConnection(adat), header=T, sep="", dec=",")
+```
+
+
+```{r}
+# faktorrá alakítás
+df13$mufaj <- factor(df13$mufaj)
+str(df13) # adatmátrix szerkezete
+```
+
+Több minta esetén kényelmes a `{onewaytests}` csomag `nor.test()` függvényét használni. A formula argumentumban megadjuk a numerikus vektort (`ertekeles`) és a csoportosító faktort (`mufaj`). A `method = "SW"` argumentum rögzíti, hogy Shapiro-Wilk próbát hajtunk végre. Lehetséges értékek még: `"SF"` - Shapiro-Francia próba, `"LT"`- Kolmogorov-Smirnov próba Lilliefors változata, `"AD"` - Anderson-Darling próba, `"CVM"` - Cramer-von Mises próba és `"PT"`: Pearson khí-négyzet próba.
+
+A `plot=NULL` argumentummal az ábra megjelenítését most letiltjuk, de a megfelelő karakteres paraméter megadásával (lehetséges értékek: `“qqplot-histogram”`, `“qqplot”` és `“histogram”`) nagyon hasznos vizuális segítséget kapunk a normalitás ellenőrzéséhez.
+
+```{r}
+# --= Shapiro–Wilk próba több csoportra =--
+library(onewaytests)
+nor.test(formula = ertekeles ~ mufaj, data = df13, method = "SW", 
+         plot = NULL, alpha = 0.05)
+```
+
+A fenti outputból szövegesen is kiolvasható a mindegyik csoporton végrehajtott Shapiro--Wilk próba eredménye (`Normality`), ami visszautasított (`Reject`) vagy megtartott (`Not reject`) lehet. A döntést a paraméterében beállított szignifikanciaszint alapján (`alpha=0.05`) hozza meg a függvény. A szokásos próbastatisztika értéket (`Statistic`) és p értéket is (`p.value`) is láthatjuk.
+
+A fenti eredmények alapján a B és C csoportok normális eloszlásúnak tekinthetők, míg az A csoport nem tekinthető normális eloszlású sokaságnak a populációban ($p=0,013$).
+
+### Kolmogorov-Smirnov próba
+
+A normalitás ellenőrzésének másik klasszikus módja a Kolmogorov--Smirnov próba, amelynek Lilliefors változatát mutatjuk be. A Shapiro--Wilk próba tárgyalása során ([-@sec-shapiro-wilk-proba]) bemutatott egymintás és hárommintás adatbázisokat használjuk fel. A cél továbbra is a normalitás ellenőrzése. A minimális mintaelemszám 4.
+
+Egymintás esetben a `{DescTools}` csomag `LillieTest()` függvényét használhatjuk.
+
+```{r}
+# --= Kolmogorov-Smirnov próba Lilliefors változat, egymintás eset =--
+DescTools::LillieTest(df12$ertekeles)
+```
+
+A fenti output a KS-próba Lilliefors változatának próbastatisztika értékét (`D=`) és p értékét (`p-value`) tartalmazza. Az output értelmezése megegyezik a Shapiro--Wilk próbánál megbeszéltekkel, ez az eredmény megerősíti a nullhipotézist, azaz a minta normális eloszlásúnak tekinthető ($D=0,24; p=0,235$).
+
+Több minta esetén most is a `{onewaytests}` csomag `nor.test()` függvényét használjuk, annyi eltéréssel a Shapiro--Wilk próbához képest, hogy a `method = "LT"` argumentumot adjuk meg.
+
+```{r}
+# --= Kolmogorov-Smirnov próba Lilliefors változat, több csoportra =--
+library(onewaytests)
+nor.test(formula = ertekeles ~ mufaj, data = df13, method = "LT", 
+         plot = NULL, alpha = 0.05)
+```
+
+A fenti output értelmezése megegyezik a Shapiro--Wilk próbánál megbeszéltekkel ([-@sec-shapiro-wilk-proba]. fejezet).
+
+### D'Agostino-próba
+
+A D'Agostino--próba a ferdeségi és a csúcsossági együtthatók alapján szintén a változó normalitására vonatkozó nullhipotézist teszteli. A próba végrehajtását az `{fBasics}` csomag `dagoTest()` függvényével kezdeményezhetjük. Egyetlen paramétere a numerikus adatminta.
+
+A próbát elvégezzük az egymintás és a három csoportos adatmátrix esetén is. Mivel a minimális mintaelemszáma a próbának 20, így átváltunk a `{fosdata}` csomag `movies` adatbázisára, amely szintén tartalmaz értékelésre (`rating`) és műfajra (`genres`) vonatkozó adatot minden film esetén.
+
+```{r}
+# adatmátrix előkészítése
+df14 <- fosdata::movies[c("rating", "genres")]
+df14 <- df14[df14$genres %in% c("Thriller","Western", "Sci-Fi"),]
+df14$genres <- factor(df14$genres) 
+summary(df14)
+```
+
+A próba egymintás változatához adjuk meg a `x=df14$rating` argumentumot.
+
+```{r}
+# --= D’Agostino-próba, egymintás eset =--
+library(fBasics)
+dagoTest(x = df14$rating)
+```
+
+A fenti output három statisztikai próba eredményét tartalmazza. Az első a normalitás vizsgálatához a ferdeségi és csúcsossági együtthatókat is használja. Ebben az esetben a próbastatisztika értékét és a p értékét a `Chi2 | Omnibus:` és az `Omnibus  Test:` sorokból olvashatjuk ki. Ehhez az eljáráshoz khí-négyzet eloszlást használ a próba.
+
+Az output további részében külön a ferdeségre és külön a csúcsosságra vonatkozó próbák eredményét olvashatjuk ki. Mindkét próba nullhipotézise az adott együttható zérus értékét állítja, ennek teljesülése támogatja a változó normalitását. A `Z3 | Skewness` után a ferdeségi, míg a `Z4 | Kurtosis:` után a csúcsossági próbák próbastatisztika értéke olvasható. A p értékek rendre a `Skewness Test:` és `Kurtosis Test:` értékeket követik. A ferdeségre és a csúcsosságra vonatkozó próbák standard normális eloszlást használnak. 
+
+Az outputból kiolvasható, hogy a normalitásra és a ferdeségre vonatkozó próba szignifikáns ($p < 0,05$), míg a csúcsosságra vonatkozó próba nem szignifikáns ($p=0,234$). A normalitás sérülését tehát a ferdeség okozza.
+    
+D'Agostino-próba több csoport esetén is végrehajtható, ehhez a standard `by()` függvényt használjuk.
+
+```{r}
+#| tidy: false
+
+# --= D’Agostino-próba, több csoportra =--
+library(fBasics)
+by(data = df14$rating, INDICES = df14$genres, FUN = dagoTest, 
+   description = "", simplify = F)
+```
+
+A fenti outputból mindhárom műfaj esetén el tudjuk dönteni, hogy az értékelés változó eloszlása eltér-e a normális eloszlástól. A normalitásvizsgálat további lehetőségeiért futtassuk a `?dagoTest` parancsot.
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A normalitás vizsgálatára szintén többféle módszer áll rendelkezésre R-ben. A legismertebb a Shapiro-–Wilk-próba (`shapiro.test()`), amely kis és közepes mintákra ajánlott, illetve a Kolmogorov–-Smirnov-próba Lilliefors-módosítása (`LillieTest()` a `{DescTools}` csomagból). A `{onewaytests}` csomag `nor.test()` függvénye lehetővé teszi a normalitás tesztelését több csoportra is, akár többféle eljárással. Ezen kívül létezik a D’Agostino-próba is (`dagoTest()` az  `{fBasics}` csomagból), amely a ferdeségi és csúcsossági mutatók alapján teszteli a normalitást, és omnibusz próbát is tartalmaz. Mindezek mellett a grafikus diagnosztikai eszközök (hisztogram, QQ-ábra) sokszor intuitív és megbízható kiegészítői a normalitásvizsgálatnak.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1. Több kutató a normalitás vizsgálatának grafikus módszerét részesíti előnyben (QQ-ábra, hisztogram) a hipotézisvizsgálatokkal szemben. Keressen bizonyítékot ennek alátámasztására!
+2. Generáljon normális adatokat az `rnorm()` és torzított eloszlásúakat az `rexp()` és `rchisq()` függvényekkel. Vizsgálja meg, mennyire érzékeny a Shapiro–-Wilk-próba a minta méretére!
+:::
+
+## Varianciára vonatkozó próbák `r emoji("slightly-smiling-face")` {#sec-varianciara-vonatkozo-probak}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük az egy minta varianciájára vonatkozó khí-négyzet próbát,
+-   a két független minta varianciáját vizsgáló F-próbát, és ennek páros mintás változatát,
+-   és a több minta esetén használható, a szóráshomogenitás meghatározásáért felelős Bartlett-, Levene- és Fligner--Killeen próbát.
+:::
+
+A szórások vagy varianciák vizsgálata legtöbb esetben más próbák előfeltétel vizsgálata kapcsán kerül előtérbe. Ez az ún. szóráshomogenitás vagy homoszkedaszticitás ellenőrzése. Vannak olyan esetek is, amikor kimondottan a szórás vizsgálata áll a kutatás középpontjában.
+
+A szóráshomogenitás vizsgálata során minden esetben a nullhipotézis az, hogy a két vagy több csoportban a vizsgált változó szórása nem tér el egymástól. A szignifikáns p érték ($p < 0,05$) arra utal, hogy a szóráshomogenitási feltétel nem áll fenn.
+
+### Egymintás khí-négyzet próba a varianciára
+
+Egyetlen kvantitatív minta esetén a variancia (vagy szórás) összehasonlítható egy hipotetikus értékkel. A példánkban 6 tanuló dolgozatának pontszáma alapján a hipotetikus 10 szórástól való esetleges eltérést vizsgáljuk.
+
+Olvassuk be az adatbázisunkat!
+
+```{r}
+#| tidy: false
+
+adat <- "  pontszam
+                 43
+                 25
+                 53
+                 25
+                 34
+                 45  "
+
+# adatmátrix beolvasása
+df15 <- read.table(textConnection(adat), header=T, sep="")
+str(df15) # adatmátrix szerkezete
+```
+
+A `{TeachingDemos}` csomag `sigma.test()` függvényében a hipotetikus varianciát (mint esetünkben: `sigmasq=100`), vagy a hipotetikus szórást kell megadnunk (esetünkben ez `sigma=10` lenne).
+
+```{r}
+#| tidy: false
+
+# --= egymintás khí-négyzet próba a varianciára =--
+library(TeachingDemos)
+sigma.test(x = df15$pontszam, sigmasq = 100, conf.level = 0.95)
+```
+
+A fenti outputot a [-@sec-egymintas-t]. fejezetben megismertek alapján tudjuk értelmezni, azzal a különbséggel, hogy ez a próbastatisztika a khí-négyzet eloszláson alapul, és várható érték helyett a varianciaára vonatkozik az intervallum- és a pontbecsléseket látjuk. A próba nem szignifikáns ($\chi^2(5)=6,52; p=0,519$), azaz a szórás eltérése a hipotetikus 10-es szórástól nem bizonyítható.
+
+### F-próba {#sec-f-proba}
+
+Két független minta esetén a populációbeli varianciák (vagy szórások) egyezését vizsgálhatjuk F-próbával. A példánkban matematika és angol dolgozatok eredményének szórását hasonlítjuk össze. Mindkét dolgozat maximum 20 pontos lehet, és összesen 8 tanulót vontunk be a vizsgálatba.
+
+Olvassuk be az adatmátrixot!
+
+```{r}
+#| tidy: false
+
+adat <- "  tantargy   pontszam
+              matek         14
+              matek         19
+              matek         13
+              matek         20
+              angol         11
+              angol          9
+              angol         18
+              angol         20  "
+
+# adatmátrix beolvasása
+df16 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítás
+df16$tantargy <- factor(df16$tantargy)
+str(df16) # adatmátrix szerkezete
+```
+
+F-próba a `var.test()` függvénnyel hajtható végre, a `formula=` tartalmazza a numerikus vektort (`pontszam`) és a két szintű faktort (`tantargy`).
+
+```{r}
+# --= F-próba két független mintára =--
+var.test(formula = pontszam ~ tantargy, data=df16, conf.level = 0.95)
+```
+
+Az F-próba F eloszlást használ a p érték meghatározásához. A próbastatisztika értéke (`F=`), a két szabadsági fok (`num df=` és `denom df=`) és a p érték (`p-value=`) kiolvasható az outputból. A próba nem szignifikáns ($p=0,512$). Az `alternative hypothesis:` sorban olvashatjuk a próba pontos ellenhipotézisét, amely a két változó varianciájának az arányáról azt állítja, hogy nem egyelő 1-eggyel, vagyis nem egyeznek meg. Az intervallum- és a pontbecslés is a varianciák hányadosára vonatkozik.
+
+A példa adatbázisa szerint a matematika és angol dolgozatok varianciája nem különbözik egymástól szignifikánsan ($F(3,3)=2,297; p=0,512$). 
+
+### Pitman--Morgan próba
+
+Páros minta esetében is vizsgálhatjuk a két kondícióban mért változó varianciájának az egyezőségét. Példánkban azt a hipotézist vizsgáljuk, hogy egy adott tréning előtt és a tréning után az intelligencia varianciája megegyezik egymással! Összesen 12 személyt vontunk be a vizsgálatba.
+
+Széles adatbázissal fogunk dolgozni. Olvassuk be az adatokat!
+
+```{r}
+adat <- "  szemely   IQ1   IQ2
+                 a   127   137
+                 b    98   108
+                 c   105   115
+                 d    83    93
+                 e   113   143
+                 f   133   123
+                 g   127   143
+                 h   133   113
+                 i   144   153
+                 j    90   100
+                 k   107   117
+                 l    98   108  "
+
+# adatmátrix beolvasása
+df17 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítás
+df17$szemely <- factor(df17$szemely)
+str(df17) # adatmátrix szerkezete
+```
+
+A `{PairedData}` csomag `Var.test()` függvénye hajtja végre a párosított mintán alapuló Pitman--Morgan próbát. Az `x=` és `y=` argumentumában megadjuk a két mintát, és gondoskodunk a párosított vizsgálatról a `paired=T` megadásával.
+
+```{r}
+# --= Pitman-Morgan próba páros mintára =--
+library(PairedData)
+Var.test(x = df17$IQ1, y = df17$IQ2, paired = T, conf.level = 0.95)
+```
+
+A fenti output értelmezése megegyezik az F-próba esetén megbeszéltekkel ([-@sec-f-proba]. fejezet), azzal a kivétellel, hogy a pontbecslés a két minta egyenkénti varianciáját tartalmazza. Az eredmények szerint a két minta varianciája nem különbözik egymástól szignifikánsan ($t(10)=0,129; p=0,900$). 
+
+### Bartlett-próba {#sec-bartlett-proba}
+
+A Bartlett-próba az F-próba általánosításának tekinthető abban az értelemben, hogy kettőnél több független mintát is vizsgálhatunk segítségével. Továbbra is a varianciák (szórások) azonosságát vizsgáljuk az egyes csoportok között.
+
+A példánkban matematika, angol és fizika dolgozatok eredményének szórását hasonlítjuk össze. Mindhárom dolgozat maximum 20 pontos. Már 12 tanulót vontunk be a vizsgálatba.
+
+Olvassuk be az adatmátrixot!
+
+```{r}
+#| tidy: false
+
+adat <- "  tantargy   pontszam
+              matek         14
+              matek         19
+              matek         13
+              matek         20
+              angol         11
+              angol          9
+              angol         18
+              angol         20  
+             fizika         12
+             fizika         13
+             fizika         11
+             fizika         12  "
+
+# adatmátrix beolvasása
+df18 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítás
+df18$tantargy <- factor(df18$tantargy)
+str(df18) # adatmátrix szerkezete
+```
+
+Bartlett-próba a `bartlett.test()` függvénnyel hajtható végre, a `formula=` tartalmazza a numerikus vektort (`pontszam`) és a több szintű faktort (`tantargy`). A faktor lehet két szintű is, de tipikusan három vagy annál több különböző értéket tartalmaz.
+
+```{r}
+# --= Bartlett-próba =--
+bartlett.test(formula = pontszam ~ tantargy, data=df18)
+```
+
+A Bartlett-próba khí-négyzet eloszlást használ, az outputban közli a próbastatisztika értékét (`K-squared=`), a szabadsági fokok számát (`df=`) és a p értéket (`p-value=`). 
+
+A próba szignifikáns ($\chi^2(2)=6,319; p=0,042$), azaz a tantárgyak varianciája nem egyezik meg egymással. A próba érzékeny a normális eloszlástól való eltérésre, így ha a normalitás feltétele nem teljesül, akkor a Levene- vagy Fligner--Killeen-próbát érdemes használni.
+
+### Levene-próba
+
+A Levene-próba és annak robusztusabb Brown--Forsythe változata is a Bartlett-próbához hasonlóan több csoportban a varianciák (szórások) egyezését vizsgálja. A próba bemutatásához így az előző, [-@sec-bartlett-proba]. fejezet adatbázisát is használhatjuk.
+
+A Levene-próba végrehajtásához a `{DescTools}` csomag `LeveneTest()` függvényét használjuk. A formula argumentumot a szokásos numerikus vektor (`pontszam`), többszintű faktor (`tantargy`) sorrendben töltjük. A próba eredeti változatához a `center=mean`, a robusztusabb Brown--Forsythe változathoz a `center=median` argumentumot használjuk.
+
+```{r}
+# --= Levene-próba (eredeti változat: center=mean) =--
+library(DescTools)
+LeveneTest(formula = pontszam ~ tantargy, data=df18, center=mean)
+```
+
+```{r}
+# --= robusztus Levene-próba (Brown–Forsythe változat: center=median) =--
+library(DescTools)
+LeveneTest(formula = pontszam ~ tantargy, data=df18, center=median)
+```
+
+A Levene-próba outputjából (változattól függetlenül) a szabadsági fokokat (`Df`), a próbastatisztika értékét (`F value`), és a p értéket (`Pr(>F)`) olvashatjuk ki. Mindkét változatban szignifikáns a próba. Láthatjuk, hogy a Levene-próba F eloszlást használ. Mindkét változat alapján a tantárgyak varianciája nem egyezik meg egymással ($F(2,9)=24,5; p<0,001$).
+
+### Fligner--Killeen próba
+
+A Fligner--Killeen próba egy másik olyan teszt, amely a változók szóráshomogenitásának ellenőrzésére szolgál, és a Levene-próbához hasonlóan ellenálló az adatok normalitástól való eltérésével szemben.
+
+A próba végrehajtásához használt `fligner.test()` paraméterezése teljesen megegyezik a Bartlett-próba és a Levene-próba példáival. Az adatbázis szerkezete és előkészítése is azonos ([-@sec-bartlett-proba]. fejezet).
+
+```{r}
+# --= Fligner-Killeen próba =--
+fligner.test(formula = pontszam ~ tantargy, data=df18)
+```
+
+A próba khí-négyzet eloszlást használ (`?fligner.test`). Az outputból kiolvasható a próbastatisztika értéke (`chi-squared=`), a szabadsági fok (`df=`) és a p érték (`p-value=`). Ez a próba is szignifikáns ($\chi^2(2)=8,556; p=0,014$), azaz a tantárgyak pontszámainak varianciája nem egyezik meg egymással.
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A varianciára vonatkozó próbák a t-próbák és az ANOVA előfeltételeinek ellenőrzésére szolgálnak, de önálló kutatási kérdések esetén is fontosak lehetnek. Egymintás esetben a variancia vagy szórás összehasonlítható egy előre megadott hipotetikus értékkel, amelyhez a `sigma.test()` függvényt használhatjuk a `{TeachingDemos}` csomagból. Ha két független minta szórásának egyezőségét szeretnénk vizsgálni, az F-próba a megfelelő választás, amely a `var.test()` függvénnyel hajtható végre. Páros minták esetében a Pitman–Morgan-próba használható, amely a `{PairedData}` csomag `Var.test()` függvényében a `paired = TRUE` argumentummal aktiválható. Ha három vagy több csoport varianciáját kívánjuk összehasonlítani, többféle próbát is választhatunk. A klasszikus Bartlett-próba (`bartlett.test()`) a varianciák azonosságát teszteli, azonban érzékeny a normalitás sérülésére. Ezért robusztusabb alternatívát kínál a Levene-próba, amely a `LeveneTest()` függvénnyel (a `{DescTools}` csomagból) végezhető el. Az eredeti Levene-próba a csoportok átlagaihoz, míg Brown-–Forsythe változata a mediánokhoz viszonyítva vizsgálja a szórásokat (`center = "mean"` vagy `center = "median"`). A normalitás megsértésével szemben talán a legellenállóbb a Fligner–Killeen-próba (`fligner.test()`), amely szintén a varianciák homogenitását teszteli, de nem igényli a normális eloszlás feltételezését.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1. A szóráshomogenitás (homoszkedaszticitás) vizsgálatára nem csak statisztikai próbák, hanem diagnosztikus ábrák is léteznek, amelyek vizuálisan segítik a szórásazonosság feltételezésének ellenőrzését. Melyek ezek?
+:::
+
+## Valószínűség próbái `r emoji("slightly-smiling-face")` {#sec-valoszinuseg-probai}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a populációbeli arányokra vonatkozó klasszikus próbákat,
+-   az illeszkedésvizsgálat és a kapcsolatvizsgálat gyakori eseteit.
+:::
+
+### Illeszkedésvizsgálat egy valószínűségre
+
+Amennyiben egy nominális változó egyik kategóriájának populációbeli arányára kérdezünk rá, akkor használhatjuk a binomiális próbát. Példánkban a hallgatók nemét vizsgáljuk a pszichológia szakon. Feltételezésünk, hogy nők aránya $0,8$. Az adatok több formában is rendelkezésre állhatnak.
+
+A próba végrehajtásához 3 szám szükséges, amely megfeleltethető a binomiális próbáért felelős `binom.test()` három paraméterének. Ezeket három objektumban is rögzíthetjük, nincs szükségünk adatmátrixra. Nagyobb mintaelemszám esetén a `prop.test()` függvény használata ajánlott, amely a normális eloszlásra épít.
+
+```{r}
+#| tidy: false
+
+x =  84    # nők száma a mintában
+n = 124    # összes mintaelemszám (férfiak+nők)
+p = 0.8    # a nők feltételezett aránya (hipotetikus valószínűség)
+
+# -- = egzakt binomiális próba =--
+binom.test(x = x, n = n, p = p, conf.level = 0.95)
+```
+
+
+```{r}
+# --= egymintás arányteszt, Yates-féle korrekció nélkül =--
+prop.test(x = x, n = n, p = p, correct = F, conf.level = 0.95)
+```
+
+A `binom.test()` outputja megismétli a bemenő paraméterek értékét, a kedvező esetek számát, ami esetünkben a nők száma a mintában: 84 (`number of successes`). Megadja az összes eset számát, vagyis mintaelemszámot, ami a esetünkben a nők és a férfiak száma: 124 (`number of trials`). Ez alapján egy megfigyelt, mintabeli arány is számításra kerül: $0,68$ (`probability of success`). Az `alternative hypothesis:` sorban olvasható a bemenő adatként szintén megadott, feltételezett nő-arány: $0,8$. Az elemzés eredménye a p érték (`p-value`) esetünkben $p=0,001$, ami a nullhipotézis elvetését jelenti, azaz a nők aránya eltér a feltételezett $0,8$-tól. A 95%-os konfidenciaintervallum (`95 percent confidence interval:`) is kiolvasható az outputból: $95\% CI:[0,59; 0,76]$. 
+
+A normális eloszlásra építő `prop.test()` függvény outputja is hasonlóan néz ki, és a következtetésünk is hasonló. Azonban a két próba között van egy lényeges különbség. A `binom.test()` függvény pontos binomiális próbát végez, míg a `prop.test()` függvény egy közelítő normális eloszlásra épít. Ezért a két próba eredményei eltérhetnek egymástól, és ez a különbség nagyobb minták esetén jelentkezik. A `prop.test()` függvény outputja tartalmazza a próbastatisztika értékét (`X-squared=`), a szabadsági fokok számát (`df=`) és a p értéket (`p-value=`). A konfidencia intervallum (`95 percent confidence interval:`) és a mintabeli arány (`sample estimates:`) is kiolvasható az outputból.A nők aránya eltér a feltételezett $0,8$-tól  ($\chi^2(1)=11,65; p<0,001$),A konfidenciaintervallum $95\% CI:[0,59; 0,76]$ és a mintabeli arány $0,68$.
+
+Az adataink természetes formája az adatmátrix. Vizsgáljuk továbbra is a nemek arányát egy elképzelt kisebb adatbázison.
+
+```{r}
+#| tidy: false
+
+adat <- "  nem
+            nő
+            nő
+            nő
+            nő
+            nő
+            nő
+            nő
+         férfi
+         férfi
+         férfi  "
+
+# adatmátrix beolvasása
+df19 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítás
+df19$nem <- factor(df19$nem)
+str(df19) # adatmátrix szerkezete
+```
+
+Ebben az esetben a három bemenő paramétert az adatmátrixból olvassuk ki
+
+```{r}
+#| tidy: false
+
+x = sum(df19$nem %in% "nő")  # nők száma a mintában
+n = sum(!is.na(df19$nem))    # összes mintaelemszám (férfiak+nők)
+p = 0.8    # a nők feltételezett aránya (hipotetikus valószínűség)
+
+# --= egzakt binomiális próba =--
+binom.test(x = x, n = n, p = p, conf.level = 0.95)
+```
+
+
+```{r}
+# --= egymintás arányteszt, Yates-féle korrekció nélkül =--
+prop.test(x = x, n = n, p = p, correct = F, conf.level = 0.95)
+```
+
+Az eredmények értelmezése hasonlóan történik. A binomiális próbát végeztünk annak meghatározására, hogy a minta sikerességi aránya szignifikánsan eltér-e a feltételezett $0,8$-es aránytól. A minta 10 kísérletből állt, melyek közül 7 volt sikeres, és 3 sikertelen. Az eredmények nem jeleztek szignifikáns eltérést a feltételezett aránytól $p = 0,430$. A megfigyelt sikerességi arány $0,7$ volt (7 a 10-ből), ami nem különbözik szignifikánsan a feltételezett $0,8$-as aránytól. A sikertelenségek aránya 0,3 (3 a 10-ből). Ennek alapján a nullhipotézist – miszerint a siker valószínűsége $0,8$ – nem utasíthatjuk el.
+
+A `prop.test()` függvény outputja is hasonlóan néz ki, és a következtetésünk is hasonló ($\chi^2(1)=0,63; p=0,429$). A konfidenciaintervallum $95\% CI:[0,40; 0,89]$ és a mintabeli arány $0,70$.
+
+### Illeszkedésvizsgálat több valószínűségre
+
+Abban az esetben, ha a nominális változónk kettő vagy több szintjére van elképzelésünk a populációbeli valószínűségekre vonatkozóan, akkor az egzakt multinominális-próbát használhatjuk.
+
+Például, ha azt gondoljuk, hogy a három szinttel mért dohányzási szokás változó ma a fiatalok körében így alakul: naponta dohányzik: $0,35$, alkalmi dohányos: $0,05$, nem dohányzik: $0,6$.
+
+A bemenő adatok itt is alapvetően numerikus skalárok. Az `{RVAideMemoire}` csomag `multinomial.test()` függvényét használjuk. A populációbeli valószínűségekre konfidenciaintervallumot is számíthatunk a `{DescTools}` csomag `MultinomCI()` függvényével. Nagyobb mintaelemszám esetén itt is használhatjuk a normális eloszlásra építő `prop.test()` függvényt.
+
+```{r}
+#| tidy: false
+
+naponta_dohanyzik <- 92  # naponta dohányzók száma a mintában
+alkalmi_dohanyos  <- 32  # alkalmai dohányosok száma a mintában
+nem_dohanyzik     <- 149 # nem dohányzók száma a mintában
+
+# a három csoport létszám numerikus vektora
+x <- c(naponta_dohanyzik, alkalmi_dohanyos, nem_dohanyzik)    		 
+p <- c(0.35, 0.05, 0.6) # hipotetikus eloszlás (3 valószínűség)
+
+# --= egzakt multinominális-próba =--
+library(RVAideMemoire)
+RVAideMemoire::multinomial.test(x = x, p = p)
+library(DescTools)
+MultinomCI(x, conf.level=0.95, method="sisonglaz")
+```
+
+
+```{r}
+# --= többmintás arányteszt, Yates-féle korrekció nélkül =--
+prop.test(x = x, n = rep(sum(x), 3), p = p)
+```
+
+A `multinomial.test()` outputja alapján azt mondhatjuk, hogy a három csoport arányai nem egyeznek meg a hipotetikus eloszlással. A p érték ($p<0,001$). A konfidencia intervallumokat is tartalmazó output alapján a naponta dohányzók aránya a mintában $0,34$, a 95%-os megbízhatósági intervallum alsó határa $0,28$, míg a felső határ $0,40$ ($95\% CI:[0,28; 0,40]$). Az alkalmi dohányzók aránya a mintában $0,11$, a 95%-os megbízhatósági intervallum: $95\% CI:[0,06; 0,18]$. A nem dohányzók aránya a mintában $0,55$, a 95%-os megbízhatósági intervallum: $95\% CI:[0,49; 0,61]$.
+
+A `prop.test()` outputja hasonló eredményre vezet, azaz a három csoport arányai nem egyeznek meg a hipotetikus eloszlással ($\chi^2(2)=29,51; p<0,001$).
+
+A szignifikáns p érték miatt érdemes megvizsgálni, melyik csoport esetén van eltérés a hipotetikus aránytól. A `multinomial.theo.multcomp()` függvény egzakt binomiális próbát végez az egyes csoportokra, és a p értékeket korrigálja a többszörös összehasonlítások miatt.
+
+```{r}
+#| tidy: false
+
+# Egzakt multinominális-próba - utóvizsgálat
+# - Páronkénti egzakt binomiális próba
+multinomial.theo.multcomp(x = x, p = p, p.method = "fdr")
+```
+
+A fenti eredmények azt mutatják, hogy a naponta dohányzók aránya nem különbözik szignifikánsan a hipotetikus eloszlástól ($p=0,704$), míg az alkalmi dohányosok aránya szignifikánsan eltér a hipotetikus eloszlástól ($p<0,001$). A nem dohányzók aránya szintén nem különbözik szignifikánsan a hipotetikus eloszlástól ($p=0,120$). 
+
+Több valószínűségre vonatkozó próbát adatmátrixból is építhetünk.
+
+```{r}
+#| tidy: false
+
+adat <- "  dohanyzasi_szokas
+             'nem dohányzik'
+             'nem dohányzik'
+             'nem dohányzik'
+             'nem dohányzik'
+             'nem dohányzik'
+         'naponta dohányzik'
+         'naponta dohányzik'
+         'naponta dohányzik'
+          'alkalmi dohányos'  "
+
+# adatmátrix beolvasása
+df20 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítás
+df20$dohanyzasi_szokas <- factor(df20$dohanyzasi_szokas)
+str(df20) # adatmátrix szerkezete
+```
+
+Ebben az esetben a `multinomial.test()` és a `prop.test()` függvény bemeneti adatait az adatmátrixból olvassuk ki.
+
+```{r}
+#| tidy: false
+
+# naponta dohányzók száma a mintában
+naponta_dohanyzik <- sum(df20$dohanyzasi_szokas %in% "naponta dohányzik") 
+# alkalmai dohányosok száma a mintában
+alkalmi_dohanyos  <- sum(df20$dohanyzasi_szokas %in% "alkalmi dohányos")
+# nem dohányzók száma a mintában
+nem_dohanyzik     <- sum(df20$dohanyzasi_szokas %in% "nem dohányzik")    
+
+# a három csoport létszám numerikus vektora
+x <- c(naponta_dohanyzik, alkalmi_dohanyos, nem_dohanyzik)    		 
+p <- c(0.35, 0.05, 0.6) # hipotetikus eloszlás (3 valószínűség)
+
+# --= egzakt multinominális-próba =--
+library(RVAideMemoire)
+RVAideMemoire::multinomial.test(x = x, p = p)
+library(DescTools)
+MultinomCI(x, conf.level=0.95, method="sisonglaz")
+```
+
+
+```{r}
+# --= többmintás arányteszt, Yates-féle korrekció nélkül =--
+prop.test(x = x, n = rep(sum(x), 3), p = p)
+```
+
+Látjuk a fenti esetben nincs szükség utóvizsgálatra, a p érték $p=0,476$ és $p=0,851$, azaz a három csoport arányai megegyeznek a hipotetikus eloszlással. Az outputból a konfidencia intervallumok is kiolvashatók. 
+
+
+Az általános illeszkedésvizsgálatra eddig két megközelítést láttunk, de még legalább 2 lehetőség rendelkezésre áll. A következő listában összefoglaljuk a legfontosabbakat:
+
+- Egzakt multinomiális próba: `RVAideMemoire::multinomial.test()`
+- Arányteszt: `prop.test()`
+- Khí-négyzet próba illeszkedésvizsgálatra: `chisq.test()`
+- G-próba illeszkedésvizsgálatra: `G.test()`
+
+Tekintsük át röviden a khí-négyzet próbát és a G-próbát. A bemeneteket most konstans értékekből olvassuk ki, de természetesen az adatmátrixból is kiolvashatók a számok, amint korábban már két esetben is láttuk. 
+
+```{r}
+#| tidy: false
+
+naponta_dohanyzik <- 92  # naponta dohányzók száma a mintában
+alkalmi_dohanyos  <- 32  # alkalmai dohányosok száma a mintában
+nem_dohanyzik     <- 149 # nem dohányzók száma a mintában
+
+# a három csoport létszám numerikus vektora
+x <- c(naponta_dohanyzik, alkalmi_dohanyos, nem_dohanyzik)    		 
+p <- c(0.35, 0.05, 0.6) # hipotetikus eloszlás (3 valószínűség)
+
+# --= khí-négyzet próba illeszkedésvizsgálatra =--
+chisq.test(x = x, p = p)
+```
+
+
+```{r}
+# --= G-próba illeszkedésvizsgálatra =--
+library(RVAideMemoire)
+G.test(x = x, p = p)
+```
+
+A khí-négyzet próba outputja alapján azt mondhatjuk, hogy a három csoport arányai nem egyeznek meg a hipotetikus eloszlással ($\chi^2(2)=26,14; p<0,001$). A G-próba eredménye alapján szintén azt mondhatjuk, hogy a három csoport arányai nem egyeznek meg a hipotetikus eloszlással ($G(2)=19,34; p<0,001$).
+
+Érdemes megvizsgálni melyik csoport esetén van eltérés a hipotetikus aránytól. A `chisq.theo.multcomp()` függvényt használhatjuk ezekre az összehasonlításokra.
+
+```{r}
+#| tidy: false
+
+# Khí-négyzet próba illeszkedésvizsgálatra - utóvizsgálat
+# - Páronkénti összehasonlítások adott valószínűségre
+library(RVAideMemoire)
+chisq.theo.multcomp(x = x, p = p, p.method = "fdr")
+```
+
+
+```{r}
+# G-próba illeszkedésvizsgálatra
+# - Páronkénti összehasonlítások
+library(RVAideMemoire)
+G.theo.multcomp(x = x, p = p, p.method = "fdr")
+```
+
+Az khí-négyzet próba utóvizsgálata alapján azt mondhatjuk, hogy a naponta dohányzók aránya nem különbözik szignifikánsan a hipotetikus eloszlástól ($p=0,652$), míg az alkalmi dohányosok aránya szignifikánsan eltér a hipotetikus eloszlástól ($p<0,001$). A nem dohányzók aránya szintén nem különbözik szignifikánsan a hipotetikus eloszlástól ($p=0,101$). A G-próba utóvizsgálata hasonló eredményre vezet: a naponta dohányzók aránya nem különbözik szignifikánsan a hipotetikus eloszlástól ($p=0,651$), míg az alkalmi dohányosok aránya szignifikánsan eltér a hipotetikus eloszlástól ($p<0,001$). A nem dohányzók aránya szintén nem különbözik szignifikánsan a hipotetikus eloszlástól ($p=0,104$). 
+
+
+### Próbák kapcsolatvizsgálatra
+
+Amennyiben két nominális változónk van, akkor a két változó kapcsolatát (vagy függetlenségét) khí-négyzet próbával is vizsgálhatjuk.
+
+Az adatok összesített vagy nyers formában is rendelkezésre állhatnak. Tegyük fel, hogy az eddigi, fiatalok dohányzásával kapcsolatos információ mellett a középkorúak és idősek esetében is rendelkezésre állnak adatok. Vizsgáljuk meg, hogy van-e eltérés a három életkort jellemző dohányzási szokásában.
+
+Kezdjük az összesített adatokkal. A jelen 3x3-as elrendezésnek megfelelő 9 gyakorisági adat, még így is sok formában állhat rendelkezésre, de a legjobb, ha mátrix adatszerkezetbe visszük be őket.
+
+```{r}
+#| tidy: false
+
+adat <- " korosztaly naponta_dohanyzik alkalmi_dohanyos nem_dohanyzik  
+              fiatal                92               32           149        
+           kozepkoru                35               43            97  
+                idos                21               65            87
+"
+# adatmátrix beolvasása
+df21 <- read.table(textConnection(adat), header=T, sep="", 
+                 row.names = 1)
+dm21 <- as.matrix(df21)  # mátrixszá konvertálás
+dm21
+```
+
+```{r}
+# --= khí-négyzet próba mátrixból =--
+chisq.test(x = dm21)
+```
+
+A próba eredménye alapján a három életkori csoport dohányzási szokása nem egyezik meg egymással ($\chi^2(4)=54,50; p<0,001$). Most megvizsgáljuk, hogy a három életkori csoport közül melyik csoportok között van eltérés. A `pairwiseNominalIndependence()` függvény használatával páronkénti összehasonlításokat végezhetünk. A `compare` argumentumban megadhatjuk, hogy a sorok vagy az oszlopok között szeretnénk-e páronkénti összehasonlítást végezni. Az `fisher`, `gtest` és `chisq` argumentumokban megadhatjuk, hogy milyen próbát szeretnénk végezni. Az `method` argumentumban megadhatjuk a p értékek korrekciós módszerét.
+
+```{r}
+#| tidy: false
+
+# Khí-négyzet próba - utóvizsgálat
+# - Páronkénti összehasonlítások
+library(rcompanion)
+pairwiseNominalIndependence(x = dm21, compare = "row",
+                            fisher = F, gtest = F, chisq = T, 
+                            method = "fdr", digits = 3)
+```
+
+
+Az utóvizsgálat világossá tette, hogy minden csoport-pár esetén szignifikáns különbség van: a fiatalok és a középkorúak között $p<0,0015$, a fiatalok és az idősek között $p<0,001$, míg a középkorúak és az idősek között $p=0,014$.
+
+A khí-négyzet próba mellett a G-próba is használható kapcsolatvizsgálatra. 
+
+```{r}
+# --= G-próba kapcsolatvizsgálatra =--
+library(RVAideMemoire)
+G.test(x = dm21)
+```
+
+Az outputbók kiolvasható, hogy a három életkori csoport dohányzási szokása nem egyezik meg egymással ($G(4)=55,60; p<0,001$). Most megvizsgáljuk, hogy a három életkori csoport közül melyik csoportok között van eltérés. A `pairwiseNominalIndependence()` függvény használatával páronkénti összehasonlításokat végezhetünk.
+
+```{r}
+# G-próba - utóvizsgálat
+# - Páronkénti összehasonlítások
+library(rcompanion)
+pairwiseNominalIndependence(x = dm21, compare = "row",
+                            fisher = F, gtest = T, chisq = F, 
+                            method = "fdr", digits = 3)
+```
+
+Az utóvizsgálat alapján minden csoport-pár esetén szignifikáns különbséget talált: a fiatalok és a középkorúak között $p<0,001$, a fiatalok és az idősek között $p<0,001$, míg a középkorúak és az idősek között $p=0,014$.
+
+A harmadik itt bemutatott lehetőség kapcsolatvizsgálatra a Fisher-próba. A Fisher-próba a kisebb mintaszámú csoportok esetén is használható, és a p értékek korrekciójára is van lehetőség. A `fisher.test()` függvény használatával végezhetjük el a Fisher-próbát. A `simulate.p.value` argumentumban megadhatjuk, hogy szimulációval szeretnénk-e kiszámítani a p értéket. Az `conf.level` argumentumban megadhatjuk a konfidenciaintervallum szintjét.
+
+```{r}
+# --= Fisher egzakt próba =--
+fisher.test(dm21, conf.level = 0.95, simulate.p.value = T)
+```
+
+A Fisher-próba outputja alapján a három életkori csoport dohányzási szokása nem egyezik meg egymással ($p<0,001$). Most megvizsgáljuk, hogy a három életkori csoport közül melyik csoportok között van eltérés. A `pairwiseNominalIndependence()` függvény használatával páronkénti összehasonlításokat végezhetünk.
+
+```{r}
+# Fisher egzakt próba - utóvizsgálat
+# - Páronkénti összehasonlítások
+library(rcompanion)
+pairwiseNominalIndependence(x = dm21, compare = "row",
+                            fisher = T, gtest = F, chisq = F, 
+                            method = "fdr", digits = 3)
+```
+
+A Fisher-próba utóvizsgálat alapján minden csoport-pár esetén szignifikáns különbséget talált: a fiatalok és a középkorúak között $p<0,001$, a fiatalok és az idősek között $p<0,001$, míg a középkorúak és az idősek között $p=0,014$.
+
+Eddig megvizsgáltunk három különböző lehetőséget két (független) nominális változó kapcsolatának vizsgálatára:
+
+- Khí-négyzet próba: `chisq.test()`,
+- G-próba: `G.test()`,
+- Fisher-próba: `fisher.test()`.
+
+Minden bemutatott példában konstans értékeket használtunk, de sok esetben adatmátrixban keletkeznek a bemenő adatok. Azt javasoljuk, hogy az `xtabs()` függvény használatával készítsünk egy mátrixot, amely a két nominális változó összesített adatait tartalmazza. Ez a mátrix már bemenete lehet a fenti kapcsolatvizsgálati próbáknak, pontosan úgy, ahogy azt korábban megmutattuk.
+
+Induljunk ki egy adatmátrixból, amely a fiatalok, középkorúak és idősek dohányzási szokásait tartalmazza. Az adatmátrixban a `korosztaly` és a `dohanyzasi_szokas` változók szerepelnek.
+
+```{r}
+#| tidy: false
+
+adat <- "  korosztaly    dohanyzasi_szokas
+               fiatal      'nem dohányzik'
+            középkorú      'nem dohányzik'
+            középkorú      'nem dohányzik'
+            középkorú      'nem dohányzik'
+            középkorú      'nem dohányzik'
+                 idős      'nem dohányzik'
+               fiatal  'naponta dohányzik'
+            középkorú  'naponta dohányzik'
+                 idős  'naponta dohányzik'
+                 idős  'naponta dohányzik'
+               fiatal   'alkalmi dohányos'
+            középkorú   'alkalmi dohányos'
+                 idős   'alkalmi dohányos'  " 
+
+# adatmátrix beolvasása
+df22 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítások
+df22$korosztaly <- factor(df22$korosztaly)
+df22$dohanyzasi_szokas <- factor(df22$dohanyzasi_szokas)
+dplyr::glimpse(df22) # adatmátrix szerkezete
+dm22 <- xtabs(~korosztaly+dohanyzasi_szokas ,data = df22)
+```
+
+A fenti sorokkal létrehozott `dm22` mátrix már bemenete lehet a fenti kapcsolatvizsgálati próbáknak.
+
+### Páros kontingencia táblák
+
+Előfordulhatnak olyan vizsgálatok, ahol ugyanazt a nominális változót két különböző helyzetben vagy időpontban mérjük. Például egy kurzus elején és a kurzus végén felteszünk egy szakmai kérdést, és megnézzük, hogy a helyes és helytelen válaszok aránya hogyan változott.
+
+A példa adatai egy adatmátrixban így szerepelhetnének:
+
+```{r}
+#| tidy: false
+
+adat <- "  elotte         utana
+           helyes        helyes
+           helyes        helyes
+           helyes        helyes
+        helytelen        helyes
+        helytelen        helyes
+        helytelen     helytelen
+        helytelen        helyes
+        helytelen     helytelen
+        helytelen        helyes
+        helytelen        helyes
+        helytelen        helyes  "
+
+# adatmátrix beolvasása
+df23 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítások
+df23$elotte <- factor(df23$elotte)
+df23$utana  <- factor(df23$utana)
+str(df23) # adatmátrix szerkezete
+```
+
+A fenti adatok páros kontingencia táblában is megjeleníthetők. A `xtabs()` függvény használatával készíthetünk egy mátrixot, amely a két nominális változó összesített adatait tartalmazza.
+
+```{r}
+#| tidy: false
+
+# mátrix létrehozása
+dm23 <- xtabs(~elotte+utana,data = df23)
+dm23
+```
+
+A McNemar-próba és McNemar--Bowker-próba alkalmas a két kondícióban mért nominális változók közötti eloszlás-eltérés vizsgálatára. A McNemar-próba a $2\times 2$-es kontingencia táblákra vonatkozik, míg a McNemar--Bowker-próba $N\times N$-es kontingencia táblákra alkalmazható, ahol a nominális változónak kettőnél több értéke is lehet. Mindkét esetben a `mcnemar.test()` függvényt használhatjuk, és a mátrix bemenettel hívjuk meg.
+
+```{r}
+# --= McNemar próba =--
+mcnemar.test(x = dm23)
+```
+
+A McNemar-próba outputja alapján a két kondícióban mért nominális változók eloszlása szignifikánsan eltér egymástól ($\chi^2(1)=4,17; p=0,041$).
+
+Néha az adatok eleve összesítve állnak rendelkezésre, így közvetlenül is elkészíthetjük a McNemar-próba bemenő mátrixát. Nézzük most más adatokkal ugyanazt a példát, azaz a kurzus elején és a kurzus végén felteszünk egy szakmai kérdést, és megnézzük, hogy a helyes és helytelen válaszok aránya hogyan változott. 
+
+```{r}
+#| tidy: false
+
+adat <- "  elotte  utana_helyes  utana_helytelen  
+    elotte_helyes             5               15
+ elotte_helytelen            23                8  "
+# adatmátrix beolvasása
+df24 <- read.table(textConnection(adat), header=T, sep="", 
+                 row.names = 1)
+dm24 <- as.matrix(df24)  # mátrixszá konvertálás
+dm24
+```
+
+```{r}
+# --= McNemar próba =--
+mcnemar.test(x = dm24)
+```
+
+A McNemar-próba outputja alapján a két kondícióban mért nominális változók eloszlása nem tér el egymástól ($\chi^2(1)=1,29; p=0,256$). 
+
+Említettük, hogy a McNemar-próba a $2\times 2$-es kontingencia táblákra vonatkozik, míg a McNemar--Bowker-próba $N\times N$-es kontingencia táblákra alkalmazható, Nézzünk példát utóbbi esetre is.
+
+Megkérdeztük a munkavállalókat egy motivációs beszélgetés előtt és után, hogy mennyire tartja valószínűnek, hogy 5 év múlva még itt fog dolgozni. A lehetséges válasz egy három szintű faktorba rendezhető: "igen", "nem" és "nem tudja". Hozzuk létre a szükséges mátrixot!
+
+```{r}
+#| tidy: false
+
+adat <- "  elotte  utana_igen  utana_nem  utana_nem_tudja  
+      elotte_igen           5         15                8
+       elotte_nem          23          8                8
+ elotte_nem_tudja          76          9                8  "
+ 
+# adatmátrix beolvasása
+df25 <- read.table(textConnection(adat), header=T, sep="", 
+                 row.names = 1)
+dm25 <- as.matrix(df25)  # mátrixszá konvertálás
+dm25
+```
+
+```{r}
+# --= McNemar-Bowker próba =--
+mcnemar.test(x = dm25)
+```
+
+A McNemar--Bowker-próba outputja alapján a két kondícióban mért nominális változók eloszlása szignifikánsan eltér egymástól ($\chi^2(3)=56,79; p<0,001$). Mivel a nominális változónknak három értéke van, ezért szignifikáns esetben a McNemar--Bowker-próba utóvizsgálatára is szükség van. Az `{rcompanion}` csomagban található `nominalSymmetryTest()` függvény használatával végezhetjük el a McNemar--Bowker-próba utóvizsgálatát. A `method` argumentumban megadhatjuk a p értékek korrekciós módszerét.
+
+```{r}
+# McNemar-Bowker próba - utóvizsgálat
+library(rcompanion)
+nominalSymmetryTest(dm25)
+```
+
+A McNemar--Bowker-próba utóvizsgálata alapján három $2\times 2$-es mátrixra vonatkozó szimmetria kerül tesztelésre. A második eset p értéke megmutatja, hogy szignifikáns eltolódás van a "nem tudja" válaszokból az "igen" válaszok felé ($p<0,001$). A másik két lehetséges esetben nincs szignifikáns eltérés a válaszok eloszlásában.
+
+Az adatok természetesen adatmátrixból is származhatnak, így most a McNemar--Bowker-próbát erre az esetre is bemutatjuk. Az adatok az `elotte` és `utana` változókban szerepelnek, és a válaszok "igen", "nem" és "nem tudja" lehetőségeket tartalmaznak. 
+
+```{r}
+#| tidy: false
+
+adat <- "  elotte         utana
+             igen           nem
+             igen           nem
+             igen           nem
+             igen          igen
+              nem    'nem tudja'
+              nem    'nem tudja'
+             igen    'nem tudja'
+       'nem tudja'         igen
+       'nem tudja'          nem  "
+
+# adatmátrix beolvasása
+df26 <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítások
+df26$elotte <- factor(df26$elotte)
+df26$utana  <- factor(df26$utana)
+str(df26) # adatmátrix szerkezete
+```
+
+A mátrixot az `xtabs()` függvény használatával készítjük el, amely már a `mcnemar.test()` függvény bemenete is lehet. 
+
+```{r}
+# mátrix létrehozása
+dm26 <- xtabs(~elotte+utana,data = df26)
+```
+
+### Cohran-Q próba
+
+Ha kettőnél több kondícióban is mérjük ugyanazokat a vizsgálati személyeket, és a függő változónk dichotóm, akkor a Cohran-Q próbát használhatjuk. A Cohran-Q próba a McNemar-próba kiterjesztésének is tekinthető kettőnél több mérési szituációban.
+
+A McNemar-próba esetében használt példát úgy fejleszthetjük tovább, hogy ugyanazt a kérdést feltesszük óra előtt, óra közben és óra végén is.
+
+Kezdjük a széles formával.
+
+```{r}
+#| tidy: false
+
+adat <- "  tanulo     elotte     kozben      utana
+                a     helyes  helytelen     helyes
+                b     helyes     helyes     helyes
+                c  helytelen     helyes     helyes
+                d  helytelen  helytelen     helyes 
+                e  helytelen     helyes     helyes
+                f  helytelen     helyes     helyes
+                g  helytelen     helyes     helyes  "
+
+# adatmátrix beolvasása
+df27_szeles <- read.table(textConnection(adat), header=T, sep="")
+```
+
+
+```{r}
+# faktorrá alakítások
+df27_szeles$tanulo <- factor(df27_szeles$tanulo)
+df27_szeles$elotte <- factor(df27_szeles$elotte)
+df27_szeles$kozben <- factor(df27_szeles$kozben)
+df27_szeles$utana  <- factor(df27_szeles$utana)
+str(df27_szeles) # adatmátrix szerkezete
+```
+
+A Cohran-Q próba az `{RVAideMemoire}` csomagban található `cochran.qtest()` függvény használatával végezhető el. Hosszú adatmátrixot vár, így elkészítjük a hosszú formát is.
+
+```{r}
+#| tidy: false
+
+df27_hosszu <- tidyr::pivot_longer(data = df27_szeles, cols = 2:4,
+                                   names_to = "idopont", 
+                                   values_to = "valasz")
+df27_hosszu$tanulo  <- factor(df27_hosszu$tanulo)
+df27_hosszu$idopont <- factor(df27_hosszu$idopont)
+df27_hosszu$valasz  <- factor(df27_hosszu$valasz)
+```
+
+```{r}
+#| tidy: false
+
+# --= Cohran-Q próba =--
+library(RVAideMemoire)
+cochran.qtest(valasz ~ idopont | tanulo, data = df27_hosszu)
+```
+
+A Cohran-Q próba outputja alapján a három kondícióban mért nominális változók eloszlása szignifikánsan eltér egymástól ($Q(2)=6,33; p=0,042$). A Cohran-Q próba utóvizsgálatát az `{rcompanion}` csomagban található `pairwiseMcnemar()` függvény használatával végezhetjük el. A `method` argumentumban megadhatjuk a p értékek korrekciós módszerét. A "helytelen" válaszok mintabeli arányait is megtaláljuk a 3 különböző időpontban.
+
+```{r}
+#| tidy: false
+
+# utóvizsgálat McNemar-próbával
+library(rcompanion)
+pairwiseMcnemar(valasz ~ idopont | tanulo, data = df27_hosszu, 
+                test = "mcnemar", method = "fdr", digits = 3)
+```
+
+Az utóvizsgálat alapján az "elotte" és "utana"  helyzetben a "helytelen" válaszok arányának a változása okozhatta a Cohran-Q próba szignifikáns eredményét, de ez az eltérés is csak tendenciaszintű ($p=0,760$).
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A valószínűségi próbák célja annak statisztikai eldöntése, hogy a megfigyelt gyakorisági eloszlás eltér-e egy előre feltételezett (hipotetikus) eloszlástól, illetve hogy két nominális változó között van-e kapcsolat. A fejezet három fő témakört ölel fel: illeszkedésvizsgálat egy vagy több valószínűségre, kapcsolatvizsgálat két nominális változó között, valamint ismételt mérésekre alkalmazható próbák, mint a McNemar- és Cohran-Q próba. Egymintás arányvizsgálat esetén binomiális próbát (`binom.test()`) vagy nagyobb minta esetén aránypróbát (`prop.test()`) alkalmazunk, ha például azt szeretnénk eldönteni, hogy egy adott kategória (pl. nők aránya) eltér-e egy feltételezett értéktől. Több kategóriás nominális változóknál egzakt multinomiális próbát (`multinomial.test()`), illetve közelítő módszerként `prop.test()`, `chisq.test()` vagy `G.test()` függvényeket használhatunk. Ha két nominális változó közötti kapcsolatot vizsgálunk, használhatunk khí-négyzet próbát (`chisq.test()`), G-próbát (`G.test()`), vagy kisebb minták esetén Fisher-próbát (`fisher.test()`). Párosított mérések esetén – például ugyanannak a személynek két különböző időpontban adott válaszai – a McNemar-próba (`mcnemar.test()`) és annak kiterjesztett változata, a McNemar-–Bowker-próba alkalmazható. Több időpontban mért dichotóm válasz esetén a Cohran-Q próba (`cochran.qtest()`) használatos, amely a McNemar-próba általánosítása. 
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1. A fejezetben használt teszteknek lehet alkalmazási feltétele. Soroljuk fel ezeket!
+2. A fejezetben ugyanannak a hipotézisnek a vizsgálatára több próbát is bemutattunk. Foglaljuk össze, hogy melyik próbát mikor érdemes használni!
+3. A fejezetben a nominális változók illeszkedésvizsgálatára és kapcsolatvizsgálatára fókuszáltunk. Ordinális változók esetén milyen próbákat használhatunk?
+:::
+
+## Hatásméret `r emoji("thinking-face")` {#sec-hatasmeret}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+- a hatásméret fogalmát és jelentőségét mutatjuk be, illetve
+- a hatásméret kiszámításának különböző módszereit ismertetjük.
+
+:::
+
+Az előző fejezetekben bemutattuk, hogyan használhatjuk fel az adatokat hipotézisek tesztelésére. Ezek a módszerek bináris választ adnak: vagy elutasítjuk, vagy megtartjuk (nem utasítjuk el) a nullhipotézist. Az outputok legtöbbször intervallumbecslést is tartalmaznak a populációbeli paraméterre vonatkozóan, vagyis képet kaphatunk arról, hogy a becslések milyen tartományban tekinthetők megbízhatónak. 
+
+Azonban még egy kérdés biztosan nyitva maradt. Egy p < 0,05 eredmény önmagában még nem árulja el, hogy a megfigyelt eltérés mennyire jelentős vagy lényeges a gyakorlat szempontjából. Sőt az is előfordulhat, hogy egy nem szignifikáns eredmény mögött valójában érzékelhető nagyságú különbség húzódik – csak épp a minta túl kicsi ennek kimutatásához. 
+
+Szükség van a *hatásméret* (*effect size*) kiszámítására, amely lehetővé teszi, hogy kvantitatívan jellemezzük a hatás erősségét, függetlenül a mintanagyságtól. A hatásméret mindig a vizsgált hatás (különbség, kapcsolat, arányeltérés stb.) nagyságát fejezi ki, nem pedig annak valószínűségét vagy szignifikanciáját.
+
+A hatásmérték mutatók lehetőséget adnak arra, hogy a statisztikai eredmények mögötti gyakorlati jelentőséget is megértsük. Például egy $d = 0,80$ hatásméret már erős hatásra utalhat, míg egy $d = 0,20$ csupán gyenge eltérést jelez, még akkor is, ha az utóbbi esetben a p érték szignifikáns lenne.
+
+A hatásméret kiszámításához az `{effectsize}` csomagot használjuk. A korábban bemutatott próbák többségében megadjuk a hatásméret kiszámítását. Egyes esetekben többfajta számítási mód is létezik, próbálunk teljes képet nyújtani az `{effectsize}` csomag határain belül.
+
+Az `{effectsize}` csomag a hatásméret mérőszámok értelmezéséhez is segítséget nyújt. Különböző szerzők általában négy fokozat valamelyikébe sorolják az egyes hatásméreteket: elhanyagolható hatás (very small), kis hatás (small), közepes hatás (moderate) és nagy hatás (large). Ezek a kategóriák segíthetik az eredmények megértését, de tartsuk szem előtt, hogy az egyes szerzők maguk is máshol húzzák meg a határokat és az értelmezés változhat például tudományterülettől, hipotézistől, korábbi eredményektől függően. A hatásméretek értelmezéséről további információt a csomag [weboldalán](https://easystats.github.io/effectsize/articles/interpret.html) találunk.
+
+A következő alfejezetekben a hipotézisvizsgálatok során használt adatmátrixokat használjuk fel. Például a `df01` adatmátrix szerkezetének felidézéséhez vissza kell lapoznunk a [-@sec-egymintas-t]. fejezethez. Minden esetben 2 függvényhívás tartozik a hatásméret meghatározásához: az első a hatásméret kiszámítása, a második pedig az értelmezés. Az utóbbi függvény neve tartalmazza az `interpret_` karaktersorozatot, és konkrét hatásméretet vár bemenetként, amelyet az előtte futtatott hatásméret-számító függvényből nyerünk ki.
+
+Viszonylag kevés kísérőszöveget mutatunk be a következő részben, szándékaink szerint ezen rész egyfajta katalógusként működhet: a próba ismeretében a megfelelő részhez lapozva a hatásméret kiszámítására találunk példát.
+
+### T-próbák
+
+Az t-próbák esetében a `cohens_d()` függvénnyel határozhatjuk meg a hatásméretet. Az `interpret_cohens_d()` adja meg az értelmezést.
+
+```{r}
+# egymintás t-próba: Cohen d 
+effectsize::cohens_d(x = df01$pontszam, mu = 10, ci = 0.95)
+effectsize::interpret_cohens_d(d = -0.15, rules = "cohen1988")
+```
+
+```{r}
+#| tidy: false
+
+# kétmintás t-próba: Cohen d
+effectsize::cohens_d(x = pontszam ~ modszer, data = df02, 
+                     pooled_sd = T, ci = 0.95)
+effectsize::interpret_cohens_d(d = 0.09, rules = "cohen1988")
+```
+
+```{r}
+#| tidy: false
+
+# Welch-féle d: Cohen d
+effectsize::cohens_d(x = pontszam ~ modszer, data = df02, 
+                     pooled_sd = F, ci = 0.95)
+effectsize::interpret_cohens_d(d = 0.09, rules = "cohen1988")
+```
+
+```{r}
+#| tidy: false
+
+# páros t-próba, széles adatbázis: Cohen d
+effectsize::cohens_d(x = df03_szeles$elotte, y = df03_szeles$utana, 
+                     paired=T, ci = 0.95)
+```
+
+### Varianciaelemzések
+
+```{r}
+#| tidy: false
+
+# egyszempontos varianciaelemzés - eta-négyzet
+effectsize::eta_squared(model = aov_1, partial = F, 
+                        generalized = F, ci = 0.95)
+effectsize::interpret_eta_squared(es = 0.67, rules = "cohen1992")
+```
+
+```{r}
+#| tidy: false
+
+# egyszempontos varianciaelemzés - általánosított eta-négyzet
+effectsize::eta_squared(model = aov_ez_1, partial = F, 
+                        generalized = T, ci = 0.95)
+effectsize::interpret_eta_squared(es = 0.66, rules = "cohen1992")
+```
+
+```{r}
+#| tidy: false
+
+# egyszempontos varianciaelemzés - omega-négyzet
+effectsize::omega_squared(model = aov_1, partial = T, ci = 0.95)
+effectsize::interpret_omega_squared(es = 0.57, rules = "cohen1992")
+```
+
+```{r}
+#| tidy: false
+
+# egyszempontos varianciaelemzés  - epsilon-négyzet
+effectsize::epsilon_squared(model = aov_1, partial = T, ci = 0.95)
+effectsize::interpret_epsilon_squared(es = 0.59, rules = "cohen1992")
+```
+
+### Korreláció és regresszió
+
+```{r}
+# korrelációszámítás - Pearson r
+cor(x = df06$homerseklet, y = df06$jegkrem, method = "pearson")
+effectsize::interpret_r(r = 0.94, rules = "funder2019")
+```
+
+```{r}
+# korrelációszámítás - Kendall tau
+cor(x = df06$homerseklet, y = df06$jegkrem, method = "kendall")
+effectsize::interpret_r(r = 1, rules = "funder2019")
+```
+
+```{r}
+# korrelációszámítás - Spearman rho
+cor(x = df06$homerseklet, y = df06$jegkrem, method = "spearman")
+effectsize::interpret_r(r = 1, rules = "funder2019")
+```
+
+```{r}
+# Egyszerű lineáris regresszió: determinációs együttható
+summary(lm_1)$adj.r.squared
+effectsize::interpret_r2(r2 = 0.84, rules = "cohen1988")
+```
+
+### Nemparaméteres próbák
+
+```{r}
+#| tidy: false
+
+# Egymintás Wilcoxon.-próba: rang-biszeriális korreláció
+effectsize::rank_biserial(df07$felkeszultseg, mu=3, ci = 0.95)
+effectsize::interpret_rank_biserial(1, rules = "funder2019")
+```
+
+```{r}
+#| tidy: false
+
+# Mann-Whitney próba
+effectsize::p_superiority(x = felkeszultseg ~ oktato, data=df08, 
+                          parametric = F, verbose = F)
+# - r
+effectsize::rank_biserial(x = felkeszultseg ~ oktato, data=df08, 
+                          parametric = F, verbose = F)
+```
+
+```{r}
+#| tidy: false
+
+# Kruskal-Wallis próba
+effectsize::rank_epsilon_squared(x = felkeszultseg ~ oktato, 
+                                 data=df10, ci = 0.95)
+effectsize::interpret_epsilon_squared(0.73, rules = "cohen1992")
+```
+
+```{r}
+#| tidy: false
+#| message: false
+#| warning: false
+
+# Friedman-próba - Kendall-W
+effectsize::kendalls_w(x = felkeszultseg ~ idopont | hallgato, 
+              data = df11_hosszu, ci = 0.95)
+effectsize::interpret_kendalls_w(0.66, rules = "landis1977")
+```
+
+### Valószínűség próbái
+
+```{r}
+## Illeszkedésvizsgálat
+effectsize::fei(x = table(df20), p = c(0.35, 0.05, 0.6), ci = 0.95)
+effectsize::cohens_w(x = table(df20), p = c(0.35, 0.05, 0.6), ci = 0.95)
+effectsize::pearsons_c(x = table(df20), p = c(0.35, 0.05, 0.6), ci = 0.95)
+```
+
+```{r}
+# kapcsolatvizsgálat: 2x2
+effectsize::phi(x = dm23, adjust = F, ci = 0.95)
+effectsize::interpret_phi(0.48, rules = "funder2019")
+```
+
+```{r}
+effectsize::oddsratio(x = dm23, adjust = F, ci = 0.95)
+effectsize::interpret_oddsratio(OR = 0.12, rules = "cohen1988")
+```
+
+```{r}
+# kapcsolatvizsgálat: NxN
+effectsize::cramers_v(x = dm22, adjust = F, ci = 0.95)
+effectsize::interpret_cramers_v(0.29, rules = "funder2019")
+```
+
+```{r}
+# McNemar-próba
+effectsize::cohens_g(x = dm24, ci = 0.95)
+effectsize::interpret_cohens_g(0.1, rules = "cohen1988")
+```
+
+```{r}
+# McNemar-Bowker próba
+effectsize::cohens_g(x = dm25, ci = 0.95)
+effectsize::interpret_cohens_g(0.28, rules = "cohen1988")
+```
+
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A hatásméret (effect size) egy számértékkel kifejezett mutató, amely azt jelzi, hogy mekkora a vizsgált hatás – függetlenül attól, hogy az statisztikailag szignifikáns-e. Különösen fontos akkor, amikor a minta túl kicsi (és ezért a p érték nem szignifikáns), vagy épp túl nagy (és egy elhanyagolható hatás is szignifikánsnak tűnik). A hatásméretek értelmezése során hasznos támpontot adnak az ún. szabályrendszerek, amelyek a hatásokat elégségesen kis, kis, közepes és nagy kategóriákba sorolják. Ezeket azonban mindig a kutatási kontextushoz illeszkedve kell értékelni. A hatásméretek kiszámításához és értelmezéséhez a `{effectsize}` csomag kínál egységes és széles körben alkalmazható eszközöket. A csomag nemcsak számolja, hanem az `interpret_*()` függvényeken keresztül segít értelmezni is az eredményeket. A fejezet katalógusszerűen mutatja be, hogyan számíthatjuk ki a hatásméretet az adott próbatípushoz tartozó függvénnyel, és hogyan értelmezzük a kapott értékeket. A példák t-próbáktól kezdve varianciaanalízisen, korreláción és nemparaméteres próbákon át egészen a valószínűségi és kontingenciatáblás elemzésekig terjednek.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1. A `{pwr}` csomag `cohen.ES()` függvénye a klasszikus [@Cohen1988] példákat szolgáltatja kicsi, közepes és nagy hatásméret esetén a csomagban található tesztekhez. Határozzuk meg és rendszerezzük ezeket az értékeket!
+2. Az előző fejezetben bemutatott hipotézisvizsgálatok egy részét lefedtük a hatásméret számításával ebben a fejezetben. Mely eljárások maradtak ki, és milyen hatásméret-számításokat használhatunk ezekhez?
+:::
+
+## Statisztikai erő és mintanagyság `r emoji("thinking-face")` {#sec-statisztikai-ero-es-mintanagysag}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+- a statisztikai erő fogalmát, jelentőségét és összefüggéseit ismertetjük, valamint 
+- a statisztikai erő és mintanagyság kiszámításának különböző módszereit mutatjuk be.
+:::
+
+A statisztikai erővel kapcsolatos elemzés fontos része a kísérlet megtervezésének. Lehetővé teszi például, hogy meghatározzuk azt a mintanagyságot, amely egy adott nagyságú hatás kimutatásához szükséges. Egy kísérlet megtervezésekor valóban kulcskérdés, hogy mekkora mintával dolgozzunk. Ha túl kicsi a minta, akkor könnyen lehet, hogy létező hatást nem tudunk kimutatni.
+
+A mintaméret egy olyan négyes tagja, amelynek minden alkotója a másik 3 birtokában meghatározható:
+
+1.  A *minta mérete* a vizsgálatba bevont egyedek száma. Nagyobb mintaméret nagyobb statisztikai erővel jár, és kisebb hatásméret is kimutatható.
+2.  A *hatásmérték*, vagyis az alternatív hipotézisnek megfelelő hatás nagysága a populációban, például a várható értékek eltérése szórásban kifejezve (Cohen-d), vagy a korreláció nagysága (r) két változó kapcsolatvizsgálatában. Minél nagyobb a valóságos hatás mértéke, annál könnyebben észlelhető a hatás, azaz annál nagyobb a próba ereje, és annál kevesebb elemű mintára van szükségünk a hatás kimutatásához.
+3.  A *próba ereje* ($1-\beta$), azaz a nullhipotézis helyes elutasításának valószínűsége. Képlettel $1-\beta$ formában írható, ahol $\beta$ a másodfajú hiba valószínűsége. A másodfajú hiba a nullhipotézis hamis megtartásának valószínűsége (hamis negatív eset). Minél nagyobb az erő, annál valószínűbb, hogy észlelhető egy létező hatás. A próba erejét tipikusan 0,8-ra állítjuk.
+4.  A *szignifikancia szint* ($\alpha$) annak a valószínűsége, hogy hibásan elutasítják a nullhipotézist. Ezt nevezik elsőfajú hibának is (hamis pozitív eset). Minél alacsonyabb a szignifikancia szint, annál valószínűbb, hogy elkerüljük a hamis pozitív eredményt. Az $\alpha$ standard beállítása 0,05.
+
+A statisztikai erővel kapcsolatos vizsgálatokhoz a `{pwr}` csomagot fogjuk használni. A [-@tbl-pwr-fuggvenyek]. táblázat összefoglalja a csomag függvényeit, megmutatja a paraméterezésüket és megnevezi azt a próbát, ahol a függvényt felhasználhatjuk. A függvények paraméterei utalnak a 4 alkotóra, az `n=` mindig a mintaelemszámra, a `power=` a statisztikai erőre, a `sig.level=` a szignifikancia szintre utal. A negyedik összetevő, a hatásmérték próbánként változó paraméternevet jelent. Például t-próbák esetében a `d=` paraméter a Cohen-d hatásmértéket jelenti, a `pwr.r.test()` függvényben az `r=` a korrelációs együtthatóra utal.
+
++---------------------------------+--------------------------------+
+| Függvény                        | Milyen vizsgálatban használjuk |
++=================================+================================+
+| `pwr.t.test(n, d, sig.level,`\  | t-próba (egymintás, páros,\    |
+| `power, type)`                  | kétmintás azonos elemszámok)   |
++---------------------------------+--------------------------------+
+| `pwr.t2n.test(n1, n2, d,`\      | kétmintás t-próba (eltérő\     |
+| `sig.level, power)`             | elemszámok)                    |
++---------------------------------+--------------------------------+
+| `pwr.anova.test(k, n, f,`\      | egyszempontos varianciaelemzés |
+| `sig.level, power)`             |                                |
++---------------------------------+--------------------------------+
+| `pwr.r.test(n, r, sig.level,`\  | korrelációs együttható         |
+| `power)`                        |                                |
++---------------------------------+--------------------------------+
+| `pwr.f2.test(u, v, f2,`\        | lineáris modell                |
+| `sig.level, power)`             |                                |
++---------------------------------+--------------------------------+
+| `pwr.p.test(h, n, sig.level,`\  | egymintás valószínűség         |
+| `power)`                        |                                |
++---------------------------------+--------------------------------+
+| `pwr.2p.test(h, n, sig.level,`\ | két valószínűség, azonos\      |
+| `power)`                        | elemszámok                     |
++---------------------------------+--------------------------------+
+| `pwr.2p2n.test(h, n1, n2,`\     | két valószínűség, eltérő\      |
+| `sig.level, powe)`              | elemszámok                     |
++---------------------------------+--------------------------------+
+| `pwr.chisq.test(w, N, df,`\     | khí-négyzet próba              |
+| `sig.level, power)`             |                                |
++---------------------------------+--------------------------------+
+
+: A `{pwr}` csomag függvényei a paraméterezésükkel és a próbák megnevezésével {#tbl-pwr-fuggvenyek}
+
+Amennyiben a [-@tbl-pwr-fuggvenyek]. táblázat függvényeivel a szükséges mintaelemszám megállapítása a célunk, akkor a másik három mennyiséget meg kell határoznunk, míg a mintaelemszámra vonatkozó paramétert `NULL`-ra kell állítanunk (`n=NULL`). Ezt a módszer kell használnunk abban az esetben is, ha a más összetevőt keresünk: a keresett paramétert `NULL`-ra állítjuk, a másik hármat pedig értékkel látjuk el a függvény hívása során.
+
+A mintaelemszám kiszámításához szükséges statisztikai erő és szignifikancia szint általában a kísérlet körülményeiből könnyen meghatározható, standard értékük a `power=0.8` és `sig.level=0.05` paraméterekkel állítható be a [-@tbl-pwr-fuggvenyek]. táblázat függvényeiben. A mintaelemszám számításához szükséges harmadik összetevő, a hatásméret meghatározásához azonban tapasztalat, elegendő háttér információ és hasonló témában publikált tanulmányok is szükségesek lehetnek. Könnyebbség, hogy létezik ökölszabály, amelyek megkülönböztetik a hatásméret legalább három kategóriáját, így beszélünk kis, közepes és nagy hatásméretről. Sajnos ezek a szabályok tudományterülettől függhetnek, ráadásul különböző statisztikai próbák eltérő hatásméret mérőszámmal rendelkeznek, így a kategória határok tesztenként változnak.
+
+### T-próbák
+
+A t-próbákkal kapcsolatos mintaelemszám meghatározásához a `pwr.t.test()` függvényt használjuk, a hatásmérték a `d=` argumentummal adható meg, amely a Cohe-d hatásmértéket jelenti.
+
+Számoljuk ki, hogy egymintás t-próba esetén mekkora mintanagyság szükséges 0,8-as statisztikai erő eléréséhez, ha a hatás mérete közepes (0,5) és 0,05-ös szignifikanciaszintet alkalmazunk. A `pwr.t.test()` függvényt használjuk
+
+```{r}
+#| tidy: false
+
+# egymintás t-próba
+library(pwr)
+pwr::pwr.t.test(n = NULL, d = 0.5, sig.level = 0.05, power = 0.8,
+                type="one.sample", alternative = "two.sided")
+```
+
+A kalkulált mintaelemszám felfelé kerekítve 34. Láthatjuk, hogy egymintás t-próbához a `type="one.sample"` argumentum megadása szükséges.
+
+Páros t-próba esetén a `type="paired"` argumentumot kell használnunk.
+
+```{r}
+#| tidy: false
+
+# páros t-próba
+pwr::pwr.t.test(n = NULL, d = 0.5, sig.level = 0.05, power = 0.8,
+                type="paired", alternative = "two.sided")
+```
+
+Láthatjuk, hogy 0,5-ös hatásméret és 0,05-ös szignifikanciaszint esetén a 0,8-as statisztikai erőhöz szintén 34 fős mintára van szükség.
+
+Kétmintás t-próba a `type="two.sample"` argumentummal végezhető.
+
+```{r}
+#| tidy: false
+
+# kétmintás t-próba, azonos csoportlétszámok
+pwr::pwr.t.test(n = NULL, d = 0.5, sig.level = 0.05, power = 0.8,
+                type="two.sample", alternative = "two.sided")
+```
+
+Láthatjuk, hogy 0,5-ös hatásméret és 0,05-ös szignifikanciaszint esetén a 0,8-as statisztikai erőhöz mindkét csoportban 64 főre van szükség.
+
+Amennyiben eltérő csoportlétszámmal dolgozunk, akkor valamelyik csoport létszámának ismeretében a másik csoport létszáma meghatározható.
+
+```{r}
+#| tidy: false
+
+# kétmintás t-próba, eltérő csoportlétszámok
+pwr::pwr.t2n.test(n1 = NULL, n2 = 45, d = 0.5, sig.level = 0.05, 
+             power = 0.8, alternative = "two.sided")
+```
+
+A fenti output alapján azt mondhatjuk, hogy amennyiben az egyik csoport létszáma 40 fő, 0,5-ös a hatásméret és 0,05-ös a szignifikanciaszint, akkor a 0,8-as statisztikai erőhöz a másik csoportban 109 főre van szükség.
+
+### Varianciaelemzés
+
+Egyszempontos varianciaelemzés esetén a `pwr.anova.test()` függvényt használjuk.
+
+Számoljuk ki egyszempontos varianciaelemzés esetén 5 csoporttal számolva, mekkora mintanagyság szükséges minden csoportban 0,8-as statisztikai erő eléréséhez, ha a hatás mérete közepes (0,25) és a 0,05 szignifikanciaszintet alkalmazunk.
+
+```{r}
+#| tidy: false
+
+# egyszempontos varianciaelemzés 
+pwr.anova.test(k = 5, n = NULL, f = 0.25, sig.level = 0.05, 
+               power = 0.8)
+```
+
+Látható, hogy csoportonként 40 fős mintára van szükség. A hatásmérték az `f=` argumentumban adható meg és a jelentése a Cohen-féle F. A Cohen-féle F értéke a független változó összes szintjének egyfajta standardizált átlagos hatása a populációban. A Cohen-féle F értéke 0 és plusz végtelen között bármi lehet. Nulla, ha a populációbeli várható értékek egyenlők egymással az egyes csoportokban, de bármeddig nőhet mivel az átlagok szórása az egyes csoportokon belüli átlagos szóráshoz képest bármilyen nagy lehet. Cohen azt javasolta [@Cohen1988], hogy a 0,10, 0,25 és 0,40 értékek kis, közepes és nagy hatásméreteket jelentenek.
+
+### Korreláció és regresszió
+
+A korrelációszámításhoz kötődő mintaelemszám meghatározásához a `pwr.r.test()` függvényt használjuk.
+
+Számoljuk ki mekkora mintanagyság szükséges minden csoportban 0,8-as statisztikai erő eléréséhez, ha a hatás mérete közepes (0,5) és a 0,05 szignifikanciaszintet alkalmazunk.
+
+```{r}
+#| tidy: false
+
+# korrelációszámítás
+pwr.r.test(n = NULL, r = 0.3, sig.level = 0.05, power = 0.8, 
+           alternative = "two.sided")
+```
+
+Látható, hogy 29 elemű mintára van szükségünk. A hatásmérték `r=` megadásához a korrelációs együttható értékét használjuk. Cohen szerint a 0,1, 0,3, és 0,5-ös $r$ értékek kis, közepes és nagy hatásméreteket jelentenek.
+
+Egyszerű lineáris regresszió esetén a `pwr.f2.test()` függvényt használhatjuk.
+
+Számoljuk ki mekkora mintanagyság szükséges 0,8-as statisztikai erő eléréséhez, ha a hatás mérete közepes (0,15) és a 0,05 szignifikanciaszintet alkalmazunk.
+
+```{r}
+#| tidy: false
+
+# egyszerű lineáris regresszió
+pwr.f2.test(u = 1, v = NULL, f2 = 0.15, sig.level = 0.05, power = 0.8)
+```
+
+A függvény paraméterében az `f2=` a Cohen-féle F^2^ értéket jelenti, ami a korábban látott Cohen-féle F négyzete. Cohen szerint a 0,02, 0,15 és 0,35 értékek kis, közepes és nagy hatásméreteket reprezentálnak.
+
+Egyszerű lineáris regresszió esetén, mivel csak egy prediktorváltozó van, a számláló szabadsági fokainak száma 1, így a függvényben az `u=1` beállítást használjuk. Mivel a nevező szabadsági fokainak számára vagyunk kíváncsiak, a `v=` argumentumot `NULL`-ra állítottuk. A mintaelemszám meghatározásához a nevező szabadsági fokainak számát 2-vel meg kell növelnünk. Ennek megfelelően az ajánlott mintaelemszám 55.
+
+### Valószínűség próbái
+
+#### Egyetlen valószínűségre vonatkozó próba
+
+Egyetlen valószínűségre vonatkozó próba esetén a `pwr.p.test()` függvényt használjuk.
+
+Számoljuk ki mekkora mintanagyság szükséges 0,8-as statisztikai erő eléréséhez, ha a hatás mérete közepes (0,5) és a 0,05 szignifikanciaszintet alkalmazunk.
+
+```{r}
+#| tidy: false
+#| eval: false
+
+# binomiális próba
+pwr.p.test(h=0.5, n=NULL, sig.level=0.05, power=0.80, 
+           alternative="two.sided")
+#>
+#>      proportion power calculation for binomial distribution (arcsine 
+#>        transformation) 
+#> 
+#>               h = 0.5
+#>               n = 31
+#>       sig.level = 0.05
+#>           power = 0.8
+#>     alternative = two.sided
+```
+
+Látjuk, hogy legalább 32 elemű mintával kell dolgoznunk. A hatásmérték megadására a `h=` argumentumot használjuk, amely Cohen-féle H értéket vár. Cohen szerint a 0,2, 0,5 és 0,8 értékek kis, közepes és nagy hatásméreteket reprezentálnak.
+
+#### Két független valószínűségre vonatkozó próba
+
+Két populációbeli arány összehasonlítása során is kiszámolhatjuk a szükséges mintaelemszámot.
+
+```{r}
+#| tidy: false
+#| eval: false
+
+# két populációbeli arány összehasonlítása, azonos csoportlétszámok
+pwr.2p.test(h=0.5, n=NULL, sig.level=0.05, power=0.80, 
+           alternative="two.sided")
+#>
+#>      Difference of proportion power calculation for binomial distribution
+#>       (arcsine transformation) 
+#> 
+#>               h = 0.5
+#>               n = 63
+#>       sig.level = 0.05
+#>           power = 0.8
+#>     alternative = two.sided
+#> 
+#> NOTE: same sample sizes
+```
+
+Látjuk, hogy mindkét mintában 63 elemre van szükség. A `h=` paraméterben továbbra is a kimutatni kívánt hatásmértéket kell megadnunk a Cohen-féle H mérőszámmal meghatározva.
+
+Amennyiben eltérő mintaelemszámmal dolgozunk a két minta setében, akkor a `pwr.2p2n.test()` függvényt használjuk. Az egyik csoport 55 elemű.
+
+```{r}
+#| tidy: false
+#| eval: false
+
+# két populációbeli arány összehasonlítása, eltérő csoportlétszámok
+pwr.2p2n.test(h=0.5, n1=55, n2=NULL, sig.level=0.05, power=0.80, 
+              alternative="two.sided")
+#>
+#>      difference of proportion power calculation for binomial distribution 
+#>        (arcsine transformation) 
+#> 
+#>               h = 0.5
+#>              n1 = 55
+#>              n2 = 73
+#>       sig.level = 0.05
+#>           power = 0.8
+#>     alternative = two.sided
+#> 
+#> NOTE: different sample sizes
+```
+
+Látjuk a másik csoportban 74 személyre van szükségünk.
+
+#### Khí-négyzet próba
+
+Khí-négyzet próbák esetén a `pwr.chisq.test()` függvényt használhatjuk, de két lényegesen eltérő szituációban is alkalmazhatjuk.
+
+-   Egyetlen nominális változó illeszkedésvizsgálata során a nominális változó szintjeinek száma ($k$) határozza meg a `df=` értékét: `df=k-1`.
+-   Kapcsolatvizsgálat esetén a két nominális változó szintjeinek száma ($k$ és $s$) alapján: `df=(k-1)*(s-1)`.
+
+A `w=` hatásmérték paraméter a Cohen-féle W értéket jelenti. Kis hatás: w = 0,10; közepes hatás: w = 0,30; nagy hatás: w = 0,50.
+
+Az első példa az illeszkedésvizsgálatra vonatkozik. Egy 4 szintű nominális változó eloszlását vetjük össze egy konstans eloszlással. Számoljuk ki a szükséges mintaelemszámot 0,8-as statisztikai erő eléréséhez, ha a hatás mérete közepes (0,5) és a 0,05 szignifikanciaszintet alkalmazunk.
+
+```{r}
+#| tidy: false
+
+# khí-négyzet próba, illeszkedésvizsgálat
+pwr.chisq.test(w=0.3, N=NULL, df = (4-1), sig.level = 0.05, power=0.8)
+```
+
+A második példa a kapcsolatvizsgálatra vonatkozik. Számoljuk ki a szükséges mintaelemszámot 0,8-as statisztikai erő eléréséhez, ha a hatás mérete kicsi (0,1) és 0,05-ös szignifikanciaszintet alkalmazunk. A két nominális változó szintjeinek száma 5 és 6.
+
+```{r}
+#| tidy: false
+
+# khí-négyzet próba, kapcsolatvizsgálat
+pwr.chisq.test(w=0.1,df=(5-1)*(6-1),power=0.80,sig.level=0.05)
+```
+
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+Egy jól megtervezett vizsgálat esetén alapvető kérdés, hogy mekkora minta szükséges ahhoz, hogy egy valós hatást megbízhatóan kimutathassunk. Túl kicsi minta esetén előfordulhat, hogy egy meglévő hatást nem tudunk érzékelni, ezzel szemben túl nagy mintával feleslegesen pazaroljuk az erőforrásainkat. A statisztikai erő (más néven a próba ereje) és a mintanagyság, a hatás nagysága és a szignifikanciaszint egymással összefüggő mennyiségek. Bármelyik kiszámítható, ha a másik három ismert. Ezek kiszámítására a `{pwr}` csomag függvényeit használtuk.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1. A fejezetben a statisztikai erő és mintanagyság kiszámítására kizárólag a `{pwr}` csomag függvényeit használtuk. Milyen R-beli és R-en kívüli alternatívák léteznek még?
+:::
+
+
+## Jamovi az R-ben `r emoji("exploding-head")` {#sec-alternativak-jmv-csomag}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   megismerjük a `{jmv}` csomag egy-parancsos megközelítésmódját,
+-   és példán keresztül szemléltetjük ezt a lehetőséget.
+:::
+
+A hipotézisvizsgálat összetett tevékenység, nem pusztán a próbát megvalósító függvényhívásból áll (például az `aov()` hívásából egyszempontos varianciaelemzésnél), hanem körbeveszik leíró statisztikai, feltételvizsgáló, hatásmérték számoló, vagy utóvizsgálatokat végző parancsok is. Feladatunk teljesítéséhez rendszerint több függvényhívásra van szükségünk, és ezek újabb és újabb csomagok betöltését és karbantartását igénylik, amely rendkívül időigényessé tehetik a folyamatot.
+
+Vannak azonban olyan csomagok, amelyek leegyszerűsítik a fenti folyamatot, és az ígérik, hogy akár egyetlen függvényhívás outputjából egy teljes statisztikai hipotézisvizsgálat eredményét ki tudjuk olvasni. Ilyen csomag a `{jmv}`, amely a grafikus felhasználói felülettel rendelkező *jamovi* statisztikai programcsomag funkcióinak elérését biztosítja számunkra R-ből. A *jamovi* külön [oldalt](https://www.jamovi.org/jmv/descriptives.html) tart fent, amely bemutatja a `{jmv}` csomag aktuálisan elérhető funkcióit. Jelenleg több olyan függvény érhető el, amely a könyvünkben bemutatott próbákhoz szorosan kapcsolódik, és komplett elemzések végrehajtását támogatja. Ezek a következők:
+
+-   `descriptives()` - leíró statisztikai elemzés,
+-   `ttestOneS()` - egymintás t-róba és egymintás Wilcoxon-próba,
+-   `ttestPS()` - páros t-róba és páros Wilcoxon-próba,
+-   `ttestIS()` - kétmintás t-próba, Welch-féle d próba és Mann--Whitney próba,
+-   `anovaRM()` - összetartozó mintás egyszempontos varianciaelemzés,
+-   `anovaOneW()` - egyszempontos varianciaelemzés és Welch-féle varianciaelemzés,
+-   `anovaNP()`- Kruskal--Wallis próba,
+-   `anovaRMNP()` - Friedman-próba,
+-   `corrMatrix()` - korrelációszámítás,
+-   `linReg()` - regressziószámítás,
+-   `propTest2()` - binomiális-próba,
+-   `propTestN()`- illeszkedésvizsgálat khí-négyzet próbával,
+-   `contTables()` - kapcsolatvizsgálat khí-négyzet próbával,
+-   `contTablesPaired()` - McNemar-próba, McNemar--Bowker próba.
+
+A fenti listában az egyes függvényhívások fő statisztikai próbáit neveztük meg, de az output jóval gazdagabb a központi próba eredményénél. Éppen ez az újdonság, miszerint a próbával kapcsolatos összes szóba jöhető elemző tevékenység egyetlen függvényhívással kiíratható.
+
+Két példán mutatjuk be ezt a lehetőséget a korábban bemutatott `df02` és `df22` adatbázisokon. Az első példában a `ttestIS()` függvényhívásával egy kétmintás t-próbát hajtunk végre, amelyhez a Welch-féle d próba és a Mann--Whitney próba is hozzátartozik. A második példában a `contTables()` függvényhívásával egy kapcsolatvizsgálatot hajtunk végre, amelyhez kérhetjük többek között a soronkénti százalékos eloszlást és a Fisher-féle egzakt próbát is.
+
+Kezdjük a két független csoport összehasonlítását a `ttestIS()` függvényhívásával.
+
+```{r}
+#| echo: false
+options(digits=2)
+```
+
+```{r}
+#| tidy: false
+
+library(jmv)
+ttestIS(formula = pontszam~modszer,
+        data=df02,
+        welchs = TRUE,
+        mann = TRUE,
+        norm = TRUE,
+        eqv = TRUE,
+        desc = TRUE
+        )
+```
+
+Két nominális változó kapcsolatát a `contTables()` függvénnyel vizsgálhatjuk.
+
+```{r}
+#| tidy: false
+
+# átnevezzük a szinteket
+levels(df22$dohanyzasi_szokas) <- c("alkalmi", "naponta", "nem doh.")
+
+# kontingencia táblázat
+jmv::contTables(
+    formula = ~ korosztaly:dohanyzasi_szokas,
+    data = df22, 
+    pcRow = TRUE,
+    fisher = TRUE,
+    phiCra = TRUE,
+    gamma = TRUE,
+    taub = TRUE,
+    exp = TRUE
+)
+```
+
+```{r}
+#| echo: false
+options(digits=7)
+```
+
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A statisztikai hipotézisvizsgálatok gyakran több lépésből állnak: leíró statisztikák, feltételvizsgálatok, hatásméret-számítás, utóvizsgálatok. Ezek rendszerint több csomag és függvény használatát igénylik, ami időigényes és bonyolult lehet. A `{jmv}` csomag ezt a folyamatot egyszerűsíti: egy függvényhívással komplex statisztikai elemzést végezhetünk, amely nemcsak a fő statisztikai próbát tartalmazza, hanem automatikusan mellékeli az ahhoz kapcsolódó információkat is.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1. Keressünk a `{jmv}` csomaghoz hasonló példákat, olyan csomagokat, amelyek egyetlen függvényhívással komplett statisztikai elemzést végeznek. Készítsünk egy rövid összefoglalót a csomagokról és a funkcióikról!
+2. Végezzük el az előző fejezetekben bemutatott próbákat a `{jmv}` csomag segítségével! Készítsünk egy statisztikai jelentést (HTML riportot) a kapott eredményekről (lásd [-@sec-publikacio]. fejezet)!
+:::

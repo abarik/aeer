@@ -1,0 +1,41 @@
+---
+title: "Kutatási beszámoló"
+date: 2025-04-30
+format: html
+---
+
+# Bevezetés
+
+Ebben a dokumentumban a `tidyverse` csomag `starwars` adatkészletét fogjuk elemezni. 
+
+# Adatok betöltése és előkészítése
+
+```{r}
+#| label: setup
+library(tidyverse)
+
+# Az adatok áttekintése
+glimpse(starwars)
+```
+
+# Alapvető leíró statisztikák
+
+Az adatkészlet **`r nrow(starwars)`** karakter adatait tartalmazza. 
+
+```{r}
+#| label: summary-stats
+summary(starwars |> select(height, mass, birth_year))
+```
+
+## Magasság és tömeg közötti kapcsolat
+
+Vizsgáljuk meg a karakterek magassága és tömege közötti kapcsolatot egy ábrával:
+
+```{r}
+#| label: height-mass-plot
+#| fig-cap: "A Star Wars karakterek magassága és tömege közötti kapcsolat"
+ggplot(starwars, aes(x = height, y = mass)) + geom_point(na.rm = TRUE) +
+  labs(title = "Magasság és tömeg", x = "Magasság (cm)", y = "Tömeg (kg)") +
+  theme_minimal()
+```
+

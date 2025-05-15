@@ -1,0 +1,2338 @@
+# Modern grafika {#sec-modern grafika}
+
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+```{r}
+#| fig-align: center
+#| echo: false
+#| out-width: '65%'
+knitr::include_graphics(path = "images/ch_09_small.png")
+```
+
+{{< pagebreak >}}
+
+Az R-ben több grafikus rendszer közül választhatunk, amikor ábrák rajzolásához kezdünk. A hagyományos grafikus rendszer mellett elérhető az ún. grid grafikus rendszer, a trellis/lattice rendszer és a ggplot2 rendszer is. Az egyes rendszerek eltérő megközelítést használnak az ábrák létrehozásához, és természetesen különböző csomagok különböző függvényeit használják.
+
+-   A *hagyományos grafikus* rendszer az S nyelv grafikus rendszerének implementációja. A magasszintű grafikus függvények a komplett ábrák létrehozásért felelősek, az alacsony szintű függvényekkel pedig kisebb-nagyobb grafikus elemeket helyezhetünk a meglévő ábrára. Mindig "rárajzolunk" a meglévő elemekre, a későbbi módosításra vagy törlésre nincs lehetőségünk.
+
+-   A `{grid}` csomagból elérhető grafikus rendszer grafikus primitívek rendkívül gazdag tárháza. Segítségükkel grafikus objektumokat építhetünk, amelyek az ábrától független reprezentációval rendelkeznek, így azok később módosíthatók. A saját koordináta-rendszerrel rendelkező viewport-ok rendszere tetszőlegesen bonyolult ábrák létrehozását segíti. A grid rendszer maga nem tartalmaz statisztikai rajzfüggvényeket, de számos, a grid csomagra épülő rendszer igen, például a lattice és a ggplot2.
+
+-   A `{lattice}` csomag grafikus rendszere az ún. trellis grafikus rendszer megvalósítása R-ben. A hagyományos grafikus rendszerhez képest rendkívül sok fejlesztést tartalmaz. A grid grafikus rendszerre épül, így hordozza annak rugalmasságát.
+
+-   A `{ggplot2}` csomag grafikus rendszere kísérletet tesz arra, hogy a hagyományos és a lattice grafikus rendszer előnyös tulajdonságait ötvözze. Szintén a grid rendszerre épül. A `{ggplot2}` csomag a *Tidyverse R* része, így a modern R grafikus megjelenítőjének is tekinthetjük. A többi felsorolt grafikus rendszer az *Alap R* része.
+
+A következő fejezetekben a ggplot2 grafikus rendszert ismertetjük.
+
+A továbblépés előtt gondoskodjunk a következő csomagok betöltéséről, ha szükséges az `install.packages("csomagnév")` parancs segítségével telepítsük őket.
+
+```{r}
+#| results: hide
+#| warning: false
+#| message: false
+#| tidy: false
+
+library(ggplot2)      # install.packages("ggplot2")
+library(gridExtra)    # install.packages("gridExtra")
+library(tidyr)        # install.packages("tidyr")
+library(tibble)       # install.packages("tibble")
+library(scales)       # install.packages("scales")
+library(ggbeeswarm)   # install.packages("ggbeeswarm")
+library(ggthemes)     # install.packages("ggthemes")
+library(RColorBrewer) # install.packages("RColorBrewer")
+library(ggrepel)      # install.packages("ggrepel")
+library(showtext)     # install.packages("showtext")
+library(ggh4x)        # install.packages("ggh4x")
+library(LaplacesDemon)# install.packages("LaplacesDemon")
+library(rio)          # install.packages("rio")
+library(psych)        # install.packages("psych")
+```
+
+## A ggplot2 alapjai `r emoji("slightly-smiling-face")` {#sec-ggplot2-alapjai}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük a ggplot2 rendszer alapelveit,
+-   és a legalapvetőbb ábratípusok létrehozását.
+:::
+
+### Alapelvek
+
+A ggplot2 grafika teljesen más megközelítést használ az ábrák létrehozásához, mint az *Alap R* grafikus rendszerei. Nevét Leland Wilkinson *Grammar of Graphics* [@10.5555/1088896] könyve után kapta, amely a grafika általános formális és strukturált leírására tett kísérletet. A ggplot2 grafika a Hadley Wickham által készített `{ggplot2}` csomagban érhető el. A ggplot2 ábrák létrehozása némi tanulás után átlátható és következetes lesz, maguk az elkészült grafikák gyönyörűek és alkalmasak azonnali publikálásra.
+
+Egy ggplot2 grafika három összetevőn alapul:
+
+-   *adat rész (data)*: Minden ábra egy adattáblában alapul (*data frame* vagy *tibble*). Az adatoszlopok ennek megfelelően többnyire faktorok vagy numerikus vektorok.
+-   *geometria objektumok (geometric objects, geoms)*: Az ábrán megjelenő geometriai elemek, például a pont, az oszlop (téglalap) vagy a vonal. Ezek határozzák meg végső soron az ábra típusát, így létrehozhatunk például pontdiagramot, oszlopdiagramot, hisztogramot vagy vonal diagramot, de ezekből akár többet is felhasználhatunk, így lehetnek különböző rétegei ugyanannak az ábrának.
+-   *esztétikai leképezések (aesthetic mapping)*: A leképezés lényegében összerendelés az adatbázis egyes változói és az ábrán megjelenő geometriai elemek paraméterei között. Ilyen lehetséges geom paraméter például pont geom esetén az *x* és *y* koordináta, a szín, a méret vagy az alak, oszlop geom esetén például a magasság és a kitöltő szín.
+
+Az ábrák létrehozását a `ggplot()` függvénnyel kezdjük, amely rendszerint tartalmazza az első két összetevőt (adat és leképezés), és `+` operátorral adjuk ehhez a geom elemeket. Az általános forma a következő:
+
+::: {.callout-tip icon="false"}
+## ggplot2 használata (egyszerű ábrák)
+
+    ggplot(data = <ADAT>, mapping = aes(<LEKÉPEZÉS>)) + <GEOM_FÜGGVÉNY>()
+:::
+
+Természetesen az ábra számos összetevőjét (például feliratok, tengelyek, rácsos elrendezés ténye, jelmagyarázat stb.) módosíthatjuk, és ezt ugyancsak a `+` operátor után megjelenő függvényekkel tehetjük meg. Rendszerint az ábránkat objektumban tároljuk, és vagy a képernyőn jelenítjük meg, vagy a háttértárra írjuk ki a `ggsave()` függvény segítségével. A szokásos munka a ggplot2 rendszerben tehát a következő:
+
+::: {.callout-tip icon="false"}
+## ggplot2 használata (összetett ábrák)
+
+    # 1. lépés: ábra létrehozása objektumban
+    p1 <- ggplot(data = <ADAT>, mapping = aes(<LEKÉPEZÉS>)) + 
+      <GEOM_FÜGGVÉNY_1>() + ... + <GEOM_FÜGGVÉNY_N>() + 
+      <MÓDOSÍTÓ_1>() + ...  + <MÓDOSÍTÓ_N>()
+    # 2. lépés: megjelenítés a képernyőn
+    p1 
+    # 3. lépés: png fájl írása háttértárra
+    ggsave(filename = "<KEP_NEVE>.png", plot = p1) 
+:::
+
+A ggplot2 megismeréséhez nézzünk egy egyszerű példát! Hozzunk létre egy adatbázist és négy ábrát, majd jelenítsük meg őket. Az adatbázist a könnyebb áttekinthetőség kedvéért inline módon hozzuk létre ([-@sec-inline-beolvasas]. fejezet).
+
+```{r}
+#| tidy: false
+
+# data frame létrehozása, 3 sor, 4 oszlop
+df <- read.table(header=T, stringsAsFactors=T, text="
+  csoport pont.1 pont.2 pont.3
+       AA     15     42     12 
+       BB     20     28     18
+       CC     35     12     21
+")
+```
+
+Az adatbázist létrehozó fenti parancs egy 3 sorból és 4 oszlopból álló adattáblát (`df`) hoz létre, amely egy faktorrá konvertált karakteres (`csoport`) és három numerikus oszlopot (`pont.1`, `pont.2`, `pont.3`) tartalmaz. Ez adja a rajzparancsaink *adat* részét.
+
+Az áttekinthetőbb megjelenítés kedvéért a továbbiakban mindig a `{gridExtra}` csomag `grid.arrange()` függvényét használjuk fel, amely képes egyszerre több ábrát egymás mellett (vagy más tetszőleges elrendezésben) megjeleníteni.
+
+```{r}
+#| fig-align: center
+#| fig.width: 8
+#| fig-asp: 0.25
+#| tidy: false
+
+# p1 - pontdiagram 
+p1 <- ggplot(data=df, mapping=aes(x=pont.1, y=pont.2)) + geom_point()
+# p2 - oszlopdiagram
+p2 <- ggplot(data=df, mapping=aes(x=pont.1, y=pont.2)) + geom_col()
+# p3 - vonaldiagram
+p3 <- ggplot(data=df, mapping=aes(x=pont.1, y=pont.2)) + geom_line()
+# p4 - pontdiagram, oszlopdiagram és vonaldiagram egy ábrán
+p4 <- ggplot(data=df, mapping=aes(x=pont.1, y=pont.2)) + 
+  geom_point() + geom_col() + geom_line()
+grid.arrange(p1, p2, p3, p4, ncol=4) # ábrák megjelenítése
+```
+
+Mint említettük a legtöbb ggplot2 ábra létrehozása a `ggplot()` függvénnyel indul, ahol a `data=` argumentum az adat részt tartalmazza, a `mapping=` argumentum pedig a leképezés során használt geom paramétereket és az adat részben definiált adatbázis változóit rendeli össze. Utóbbihoz az `aes()` függvényt használjuk, amely az adatoszlopok és a megjelenést meghatározó geom paraméterek közötti kapcsolatot adja meg. Eddig a pontig az ábráinkat létrehozó fenti 4 rajzparancs megegyezik. A geom elemeket a `+` operátorral adjuk hozzá a `ggplot()` függvényhez, ezek rendre a pontelemeket létrehozó `geom_point()`, az oszlopelemeket definiáló `geom_col()`, és a vonalelemekért felelős `geom_line()`. Az utolsó rajzparancsban mindhárom geom elem szerepel, ugyanis az egyes `geom_*()` függvénnyel létrehozott geom elemek külön rétegre kerülnek, így egyszerre is megjeleníthetők.
+
+Az első ábra létrehozásához a `ggplot()` függvényt és a pontelemek hozzáadásához a `geom_point()` függvényt használtuk, az utóbbiban nincs is szükség argumentumok megadására. A `ggplot()` első argumentuma a `data=df`, amely az adatösszetevőt tisztázta, míg a `mapping=` argumentumban az `aes()` függvényben az `x` és `y` geom paraméterekről gondoskodtunk az `x=pont.1` és `y=pont.2` adatbázisváltozók megadásával. Az `x` és `y` geom paraméterek természetesen a hozzáadott pontok *x* és *y* koordinátáira vonatkoznak.
+
+A második ábrán a pontelemek helyett oszlopelemeket használtunk a `geom_col()` geom függvény segítségével. Ekkor az `x` és `y` geom paraméterek az oszlop *x* koordinátáját és az oszlop magasságát jelentik. A harmadik ábrán a `geom_line()` geom elemet használtuk, és az `x` és `y` paraméterek a vonalak létrehozásához használt pontok *x* és *y* koordinátái. A negyedik ábrán mindhárom ábraelem (pont, oszlop, vonal) felvonul.
+
+Az ábra létrehozásakor használt `geom_*()` geom függvény részben meghatározza azokat a paramétereket, amelyeket az `aes()` függvénnyel definiált leképezésben használni fogunk, használnunk kell. Vannak ugyanis kötelező és opcionális geom paraméterek ([-@tbl-geomelemek]. táblázat). A kötelező geom paraméterek megadása nélkül hibaüzenetet kapunk a rajzparancs kiadása után, ugyanis ezek feltétlenül szükségesek az adott geom elem megjelenítéséhez.
+
++---------------------------+--------------------------+---------------------------------------------------+
+| Ábra elemek               | Kötelező geom paraméter  | Opcionális geom paraméter                         |
++===========================+==========================+===================================================+
+| `geom_abline()`           | `slope`, `intercept`     | `alpha`, `color`, `linetype`, `linewidth`         |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_hline()`            | `yintercept`             | `alpha`, `color`, `linetype`, `linewidth`         |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_vline()`            | `xintercept`             | `alpha`, `color`, `linetype`, `linewidth`         |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_area()`             | `x`, `ymin`, `ymax`      | `alpha`, `colour`, `fill`, `group`,\              |
+|                           |                          | `linetype`, `linewidth`                           |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_col()`              | `x`, `y`                 | `alpha`, `colour`, `fill`, `group`,\              |
+|                           |                          | `linetype`, `linewidth`                           |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_bar()` `geom_bar()` | `x`, `y` `x`, `y`        | `alpha`, `colour`, `fill`, `group`,\              |
+|                           |                          | `linetype`, `linewidth`                           |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_boxplot()`          | `x`, `lower`, `middle`,\ | `alpha`, `color`, `fill`, `group`,\               |
+|                           | `upper`, `ymax`, `ymin`  | `linetype`, `shape`, `linewidth`, `weight`        |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_density()`          | `x`, `y`                 | `alpha`, `color`, `fill`, `group`, `linetype`,\   |
+|                           |                          | `linewidth`, `weight`                             |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_dotplot()`          | `x`, `y`                 | `alpha`, `color`, `fill`, `group`, `linetype`,\   |
+|                           |                          | `stroke`                                          |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_histogram()`        | `x`                      | `alpha`, `color`, `fill`, `linetype`,\            |
+|                           |                          | `linewidth`, `weight`                             |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_jitter()`           | `x`, `y`                 | `alpha`, `color`, `fill`, `shape`, `size`         |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_line()`             | `x`, `y`                 | `alpha`, `color`, `linetype`, `linewidth`         |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_point()`            | `x`, `y`                 | `alpha`, `color`, `fill`, `shape`, `size`         |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_ribbon()`           | `x`, `ymax`, `ymin`      | `alpha`, `color`, `fill`, `linetype`, `linewidth` |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_smooth()`           | `x`, `y`                 | `alpha`, `color`, `fill`, `linetype`,\            |
+|                           |                          | `linewidth`, `weight`                             |
++---------------------------+--------------------------+---------------------------------------------------+
+| `geom_text()`             | `label`, `x`, `y`        | `alpha`, `angle`, `color`, `family`, `fontface`,\ |
+|                           |                          | `hjust`, `lineheight`, `size`, `vjust`            |
++---------------------------+--------------------------+---------------------------------------------------+
+
+: A geom függvények a kötelező és opcionális paraméterekkel. {#tbl-geomelemek}
+
+A [-@tbl-geomelemek]. táblázatból kiolvasható, hogy az általunk használt `geom_point()`, `geom_col()` és `geom_line()` geom függvényekben az `x` és `y` geom paraméterek megadása kötelező, ezért nem is felejtkeztünk el róluk a rajzparancsainkban. Azonban más, opcionális geom paramétereket is használhatunk. Ha a például a szín és a pontméret jellemzőket is be akarjuk állítani, akkor az `aes()` függvényben adjunk meg a `colour=` és a `size=` argumentumoknak egy-egy adattábla-változót. Ilyen esetekben jelmagyarázat is megjelenik, amelynek az alapértelmezett pozíciója az ábra jobb oldala (ezért nem kell megadnunk a következő módosító parancsot: `theme(legend.position = "right")`).
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.45
+
+# p1 - pontdiagram, színezett pontokkal
+p1 <- ggplot(df, aes(x=pont.1, y=pont.2, colour=csoport)) + 
+  geom_point() 
+# p2 - pontdiagram, színezett és átméretezett pontokkal
+p2 <- ggplot(df, aes(x=pont.1, y=pont.2, colour=csoport, 
+                        size=pont.3)) + geom_point()
+grid.arrange(p1, p2, ncol=2) # ábrák megjelenítése
+```
+
+Oszlopdiagram esetén használhatjuk például a `fill=` vagy az `alpha=` argumentumokat, amelyekkel az egyes oszlopok kitöltőszínét és átlátszóságát tudjuk beállítani.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.45
+
+# p1 - oszlopdiagram kitöltőszín megadásával
+p1 <- ggplot(df, aes(x=csoport, y=pont.2, fill=csoport)) + 
+  geom_col()
+# p2 - oszlopdiagram kitöltőszín és átlátszóság megadásával
+p2 <- ggplot(df, aes(x=csoport, y=pont.2, fill=csoport, 
+                        alpha=pont.3)) + geom_col()
+grid.arrange(p1, p2, ncol=2) # ábrák megjelenítése
+```
+
+Korábban említettük, hogy a ggplot2 ábrák több geom réteget is tartalmazhatnak. Valójában az 1. rétegen mindig az adatbázis és a leképezés szerepel, amely már önmagában meghatározza például a feliratokat és a tengelyeket. A 2. és a további rétegeken az egyes geom elemek szerepelnek. A következő példában három olyan ábrát jelenítünk meg, melyeken rendre egy, kettő és három réteg szerepel.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.3
+#| tidy: false
+
+# p1 - csak az 1. réteg: a tengelyek és a feliratok
+p1 <- ggplot(df, aes(x=csoport, y=pont.2, fill=csoport))
+# p2 - a 2. réteg is megjelenik, amely egy oszlopdiagramot tartalmaz
+p2 <- ggplot(df, aes(x=csoport, y=pont.2, fill=csoport)) + 
+  geom_col()
+# p3 - a 2. és 3. réteg is megjelenik, amely egy oszlopdiagramot és 
+# egy pontdiagramot is tartalmaz
+p3 <- ggplot(df, aes(x=csoport, y=pont.2, fill=csoport)) + 
+  geom_col() + geom_point()
+grid.arrange(p1, p2, p3, ncol=3) # ábrák megjelenítése
+```
+
+Utolsó általános megjegyzés, hogy az egyes rétegek valójában saját adatrésszel és leképezés résszel is rendelkezhetnek, azaz például a `geom_col()` függvényben saját `data=` és `mapping=` argumentumot is megadhatunk. A fenti példákban nem szerepeltek ezek az argumentumok, így a `ggplot()` függvényben definiáltakat vette át az adott réteg, vagyis a réteget definiáló `geom_col()` függvény.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.3
+
+# p1 - adat és leképezés a ggplot()-ban
+p1 <- ggplot(data = df, mapping = aes(x=csoport, y=pont.2, 
+                                         fill=csoport)) + geom_col()
+# p2 - adat és leképezés a geom_col()-ban
+p2 <- ggplot() + 
+  geom_col(data = df, mapping = aes(x=csoport, y=pont.2, fill=csoport))
+# p3 - adat a ggplot()-ban, leképezés a geom_col()-ban, 
+# plusz egy konstans keretszín megadás
+p3 <- ggplot(df) + 
+  geom_col(mapping = aes(x=csoport, y=pont.2, fill=csoport), colour="black")
+grid.arrange(p1, p2, p3, ncol=3) # ábrák megjelenítése
+```
+
+A fenti 1. és 2. ábra minden pontban megegyezik, látható, nincs jelentősége, hogy a `ggplot()` függvényben vagy a réteget meghatározó `geom_col()` függvényben adjuk meg az adatrészt és a leképezést. A 3. ábrát létrehozó függvényben figyeljük meg, hogy a geom paraméterek konstans értékre is állíthatók, ekkor azonban nem szabad az leképezés definiáláshoz az `aes()` függvényt használnunk. A 3. ábrán az oszlopok keretszínét állítottuk be (`colour="black"`).
+
+Az alapok ismertetése után ízelítőül adunk néhány példát az ábratípusokra és a létrehozásukhoz szükséges geom elemekre ([-@fig-gemabraklistaja] ábra).
+
+```{r}
+#| label: fig-gemabraklistaja
+#| fig-cap: "Ábrátípusok és geom elemek"
+#| echo: false
+#| fig-align: center
+#| fig-width: 9
+#| fig-asp: 1.8
+#| warning: false
+#| message: false
+
+
+data(survey, package = "MASS")
+
+survey$Smoke <- factor(survey$Smoke, levels=c("Never", "Occas", "Regul", "Heavy"))
+survey$Exer <- factor(survey$Exer, levels=c("None", "Some", "Freq"))
+
+p1 <- ggplot(na.omit(survey), aes(x=Smoke, y=Pulse, fill=Smoke)) + geom_boxplot() + labs(title="Dobozdiagram", subtitle = "geom_boxplot()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p2 <- ggplot(na.omit(survey), aes(x=Smoke, y=Pulse, fill=Smoke)) + geom_violin() + labs(title="Hegedűdiagram", subtitle = "geom_violin()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p3 <- ggplot(na.omit(survey), aes(x=Smoke, y=Pulse, colour=Smoke)) + geom_jitter() + labs(title="Pontdiagram (1D)", subtitle = "geom_jitter()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p4 <- ggplot(na.omit(survey), aes(x=Pulse, fill=Smoke)) + geom_dotplot(binwidth = 2.5) + labs(title="Dotplot", subtitle = "geom_dotplot()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p5 <- ggplot(na.omit(survey), aes(x=Smoke, fill=Smoke)) + geom_bar() + labs(title="Oszlopdiagram", subtitle = "geom_bar() vagy geom_col()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p6 <- ggplot(na.omit(survey), aes(x=Height, y=Wr.Hnd, colour=Sex)) + geom_point() + geom_smooth(se = F, method = "lm") + labs(title="Pontdiagram (2D)", subtitle = "geom_point() és geom_smooth()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p7 <- ggplot(data=survey, aes(x=Height)) + 
+        geom_histogram( binwidth=4, colour = "blue", fill = "lightblue") + labs(title="Hisztogram", subtitle = "geom_histogram()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p8 <- ggplot(data=survey, aes(x=Height, colour=Exer, linetype=Sex)) + 
+        geom_freqpoly(binwidth=4, linewidth=1.2) + labs(title="Gyakorisági görbe", subtitle = "geom_freqpoly()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p9 <- ggplot(data=survey, aes(x=Height, fill = Exer)) + geom_density(alpha=0.2, size=0.7) + labs(title="Simított hisztogram", subtitle = "geom_density()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p10 <- ggplot(data=survey[!is.na(survey$Exer) & !is.na(survey$Sex),], 
+             aes(x=Exer, y=Pulse, fill=Sex)) + 
+        stat_summary(fun=mean, geom="point", position=position_dodge(width=0.90), colour="black") + 
+        stat_summary(fun.data=mean_cl_normal, geom="errorbar", 
+                     position=position_dodge(width=0.90), width=0.11) +
+        scale_fill_manual("Sex",values = c("Female"="#bccdff", "Male"="#81a1ff")) + 
+        coord_cartesian(ylim = c(30, 100)) + labs(title="Errorbar", subtitle = "geom_error() és geom_point()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+
+# Lollipop ---------------------
+cty_mpg <- aggregate(mpg$cty, by=list(mpg$manufacturer), FUN=mean)  # aggregate
+colnames(cty_mpg) <- c("make", "mileage")  # change column names
+cty_mpg <- cty_mpg[order(cty_mpg$mileage), ]  # sort
+cty_mpg$make <- factor(cty_mpg$make, levels = cty_mpg$make)  # to retain the order in plot.
+p11 <- ggplot(cty_mpg, aes(x=make, y=mileage)) + 
+  geom_point(size=3) + 
+  geom_segment(aes(x=make, 
+                   xend=make, 
+                   y=0, 
+                   yend=mileage))  + labs(title="Lollipop ábra", subtitle = "geom_segment() és geom_point()") + theme_fivethirtyeight() + theme(legend.position = "none") +  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+
+
+library(gcookbook) # Load gcookbook for the climate data set
+library(dplyr)
+
+# Grab a subset of the climate data
+climate_mod <- climate %>%
+  filter(Source == "Berkeley") %>%
+  select(Year, Anomaly10y, Unc10y)
+
+# With a dotted line for upper and lower bounds
+p12 <- ggplot(climate_mod, aes(x = Year, y = Anomaly10y)) +
+  geom_line(aes(y = Anomaly10y - Unc10y), colour = "grey50", linetype = "dotted") +
+  geom_line(aes(y = Anomaly10y + Unc10y), colour = "grey50", linetype = "dotted") +
+  geom_line() + labs(title="Vonaldiagram", subtitle = "geom_line()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+
+library(gcookbook)  # Load gcookbook for the uspopage data set
+
+# Create the base plot
+p13 <- ggplot(uspopage, aes(x = Year, y = Thousands, fill = AgeGroup)) +
+  geom_area() +  labs(title="Területdiagram", subtitle = "geom_area()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+
+p14 <- ggplot(data=survey, aes(sample=Height, colour=Sex)) + stat_qq() + labs(title="QQ-ábra", subtitle = "stat_qq() és stat_qq_line()") + theme_fivethirtyeight() + theme(legend.position = "none") + stat_qq_line()
+
+p15 <- ggplot(data=survey, aes(x=Height)) + stat_ecdf(geom = "step") + labs(title="Eloszlásdiagram", subtitle = "stat_ecdf()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, ncol=3)
+```
+
+Látjuk, a ggplot2 rendszer számos geom elemet kínál, számos ábratípus hozható létre ezek segítségével. A ggplot2 ábrák rajzolásának és beállításainak részletes ismertetése egy külön könyvet megtöltene. A következő táblázatban újra kiemelünk néhány ábratípust, bemutatjuk a kötelező paraméterek nevét és azok típusát is. A típusra vonatkozó információ az adatelemzés során jut kulcsszerephez. A [-@tbl-atipusok]. táblázatban láthatjuk, melyek a numerikus és melyek a faktor adattípust megjelenítő geom függvények.
+
++---------------------+------------------------+----------------------------+
+| Ábra típusa         | Geom elem              | Szokásos kötelező változók |
++=====================+========================+============================+
+| Dobozdiagram        | `geom_boxplot(y)`      | 1 numerikus                |
++---------------------+------------------------+----------------------------+
+| Hisztogram          | `geom_histogram(x)`    | 1 numerikus                |
++---------------------+------------------------+----------------------------+
+| Simított hisztogram | `geom_density(x)`      | 1 numerikus                |
++---------------------+------------------------+----------------------------+
+| Gyakorisági poligon | `geom_freqpoly(x)`     | 1 numerikus                |
++---------------------+------------------------+----------------------------+
+| 1D pontdiagram      | `geom_dotplot(x)`      | 1 numerikus                |
++---------------------+------------------------+----------------------------+
+| QQ-ábra             | `geom_qq(sample)`      | 1 numerikus                |
++---------------------+------------------------+----------------------------+
+| QQ vonal            | `geom_qq_line(sample)` | 1 numerikus                |
++---------------------+------------------------+----------------------------+
+| Eloszlás-görbe      | `stat_ecdf(x)`         | 1 numerikus                |
++---------------------+------------------------+----------------------------+
+| 2D pontdiagram      | `geom_point(x, y)`     | 2 numerikus                |
++---------------------+------------------------+----------------------------+
+| Vonaldiagram        | `geom_line(x, y)`      | 2 numerikus                |
++---------------------+------------------------+----------------------------+
+| Oszlopdiagram       | `geom_bar(x)`          | 1 faktor                   |
++---------------------+------------------------+----------------------------+
+| Oszlopdiagram       | `geom_col(x, y)`       | 1 faktor (`x`),\           |
+|                     |                        | 1 numerikus (`y`)          |
++---------------------+------------------------+----------------------------+
+
+: Ábratípusok és geom elemek a kötelező paraméterekkel {#tbl-atipusok}
+
+### 1D pontdiagram
+
+Egydimenziós pontdiagramokat legtöbb esetben kvantitatív változók eloszlásának vizsgálatára használjuk. A nyers pontértékek megjelenítésével képet kaphatunk a minta terjedelméről és a fontosabb sűrűsödési helyeiről. Folytonos, azaz sok különböző értékkel rendelkező numerikus változók esetén is kiváló adatbetekintő eszköz ([-@sec-folytonos-kvanitativ]. fejezet), de diszkrét, tipikusan kevesebb egymástól eltérő értékekkel rendelkező változók esetén is értékes eszköz ([-@sec-diszkret-kvantitativ]. fejezet).
+
+#### Folytonos kvantitatív változók {#sec-folytonos-kvanitativ}
+
+:::: {.callout-caution appearance="minimal"}
+::: {#exm-kerdoiv-1 name="Ausztrál egyetemisták"}
+Egy felmérésben 237 ausztrál egyetemista adatát gyűjtötték össze. Többek között nemre (`Sex`), kezességre (`W.Hnd`), testmozgásra (`Exer`), dohányzási szokásra (`Smoke`), testmagasságra (`Height`), kézméretre (`Wr.Hnd`) és a pulzusra (`Pulse`) vonatkozó információt gyűjtöttek. Az adatokat a `kerdoiv.xlsx` adatbázis tartalmazza.\
+*Forrás: @Venables2002*
+:::
+::::
+
+Végezzük el a beolvasást és a nem változó (`Sex`) faktorrá alakítását. A továbbiakban a testmagasság változót (`Height`) vizsgáljuk, amely folytonos kvantitatív változó.
+
+```{r}
+# adatok beolvasása
+kerdoiv <- rio::import(file = "adat/kerdoiv.xlsx")
+kerdoiv$Sex <- factor(kerdoiv$Sex) # konvertálás faktorrá
+psych::headTail(kerdoiv[, c(1:6)])
+```
+
+A testmagasság nyers adatpontjait a `geom_point()` vagy a `geom_jitter()` segítségével rajzolhatjuk ábrára. Ahogyan a [-@tbl-geomelemek] táblázatból kiolvashatjuk, mindkét függvénynek kötelező paramétere az `x=` és az `y=`, amelyek a pontok helyét határozzák meg a koordináta rendszerben. Egydimenziós pontdiagram esetén tipikusan az `x=1` vagy az `x=<faktor>` megoldást választjuk az első argumentumnak, mert a vizsgált változót az `y=<numerikus vektor>` paraméterrel rögzítjük. Esetünkben a `y=Height` paramétert használjuk. Vizsgáljuk meg ezzel a módszerrel az ausztrál egyetemisták ([-@exm-kerdoiv-1]. példa) testmagasságát.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+
+p1 <- ggplot(data = kerdoiv, mapping = aes(x=1, y=Height)) + geom_point()
+p2 <- ggplot(data = kerdoiv, mapping = aes(x=1, y=Height)) + geom_jitter()
+p3 <- ggplot(data = kerdoiv, mapping = aes(x=Sex, y=Height)) + geom_point()
+p4 <- ggplot(data = kerdoiv, mapping = aes(x=Sex, y=Height)) + geom_jitter()
+grid.arrange(p1, p2, p3, p4, nrow=1)
+```
+
+A fenti ábrákon látható, hogy a `geom_jitter()` a `geom_point()` elemhez képest mindössze véletlen *x* és *y* irányú elmozdulást ad az eredeti koordinátákhoz, ezzel csökkenti az adatpontok átfedését.
+
+A fenti ábrán látható, hogy a nem (`Sex`) faktor tartalmaz hiányzó értéket, így ez a kategória is megjelenik az *x* tengelyen. A hiányzó érték mint kategória megjelenítését kétféle módszerrel kerülhetjük el: az adatbázis manipulációjával, vagy ggplot2 módosítókkal. A következő példa 1. ábrájában a `kerdoiv |> tidyr::drop_na(Sex) |> ggplot()` sor már a `ggplot()` függvénybe olyan adatbázist küld, amelyben nincsenek a nem oszlopban hiányzó értékek ([-@sec-hianyzo-ertekek-tidy]. fejezet). A másik módszer a `scale_x_discrete(na.translate = F)` módosító használata. A következő példa 2-4. ábráiban ezt a módszert használjuk a hiányzó nem érték eltávolítására.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- kerdoiv |> tidyr::drop_na(Sex) |> 
+  ggplot(mapping = aes(x = Sex, y = Height)) + 
+  geom_point(position = position_jitter(width = 0.1, height = 0))
+p2 <- ggplot(data=kerdoiv, 
+             mapping = aes(x = Sex, y = Height), alpha = 0.5) + 
+  geom_jitter(width = 0.1, height = 0) + 
+  scale_x_discrete(na.translate = F)
+p3 <- ggplot(data=kerdoiv, 
+             mapping = aes(x = Sex, y = Height, colour = Sex)) + 
+  geom_jitter(width = 0.1, height = 0, alpha=0.5) + 
+  scale_x_discrete(na.translate = F) + theme(legend.position = "none")
+p4 <- ggplot(data=kerdoiv, 
+             mapping = aes(x = Sex, y = Height, colour = Sex)) + 
+  geom_quasirandom(show.legend=F) + scale_x_discrete(na.translate = F) +
+  theme_bw()
+grid.arrange(p1, p2, p3, p4, nrow=1)
+```
+
+A fenti példa 1. ábrájából az is kiolvasható, hogy `geom_point()` függvény is paraméterezhető úgy, hogy visszakapjuk belőle a `geom_jitter()` hatását (`position = position_jitter(width = 0.1, height = 0)`). A `width=` és a `height=` megadásával a véletlen *x* és *y* irányú elmozdulás mértékét szabályozhatjuk. Vegyük észre, hogy az *y* elmozdulást most letiltottuk (`height = 0`).
+
+A vizsgált numerikus változónk (`Height`) sűrűsödési pontjainak még jobb kitapintása érdekében a pontok átlátszóságát is beállíthatjuk (2-4. ábrák). Ennek mértékét most nem adatbázisváltozótól tesszük függővé, hanem fixre állítjuk, ezért nem a leképezés részben, az `aes()` függvényben szerepeltetjük, hanem azon kívül, például a `ggplot()` vagy a `geom_jitter()` függvényben.
+
+A fenti 3-4. ábra színezését a leképezésben használt `colour=Sex` beállítással értük el, az ilyenkor automatikusan megjelenő jelmagyarázatot a `theme(legend.position = "none")` módosítóval vagy a `show.legend=F` paraméterrel nyomhatjuk el.
+
+A 4. ábrán a `{ggbeeswarm}` csomag `geom_quasirandom()` geom elemét használtuk, amely a `geom_jitter()` függvényhez hasonlóan, de annál nagyobb mértékben csökkenti a pontok egymásra rajzolását. Továbbá a `theme_bw()` módosító függvénnyel az ábra kinézetén is változtattunk.
+
+Megjegyezzük, hogy a `theme_bw()` módosításait a további ábrákon alapértelmezettként állítjuk be. Ezt a `theme_set()` függvény segítségével tehetjük meg. Így elkerüljük, hogy a `theme_bw()` módosítót minden esetben szerepeltessük a rajzparancsainkban.
+
+```{r}
+# a theme_bw() módosításainak globális érvényesítése
+old.theme <- theme_set(theme_bw()) 
+# a korábbi állapot visszaállítása, ha erre szükség lenne
+# theme_set(old.theme) 
+```
+
+#### Diszkrét kvantitatív változók {#sec-diszkret-kvantitativ}
+
+Vizsgáljuk meg a 237 ausztrál egyetemista pulzusát ([-@exm-kerdoiv-1]. példa). A pulzus diszkrét kvantitatív változó, így várhatóan a mintában előfordulnak ismétlődések. Ebben az esetben a változó eloszlását a `geom_dotplot()` geom elemmel vizsgálhatjuk, de természetesen az előző, [-@sec-folytonos-kvanitativ] fejezet `geom_point()`, `geom_jitter()` vagy `ggbeeswarm::geom_quasirandom()` geom elemei ugyanúgy rendelkezésre állnak.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.6
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(data = kerdoiv, mapping = aes(x = Pulse)) + 
+  geom_dotplot(binwidth = 1)
+p2 <- ggplot(data = kerdoiv, mapping = aes(x = Pulse, fill=Sex)) + 
+  geom_dotplot(binwidth = 1, stackgroups = T) + 
+  scale_fill_discrete(na.translate = F) + 
+  theme(legend.position = c(0.1, 0.6),
+        legend.box.background = element_rect(colour = "grey12", 
+                                             linewidth = 1.2))
+grid.arrange(p1, p2, ncol=1)
+```
+
+Diszkrét kvantitatív változók esetében elképzelhető az adatok egymásra halmozása, ezt mutatja be a fenti két ábra. A `binwidth=1` paraméterrel biztosítjuk, hogy minden adatpont különálló legyen, lényegében 1 hosszú osztályintervallumokkal számolunk. Az alsó ábrán a nem (`Sex`) változó megjelenítéséről is gondoskodunk. Csoportok helyes megjelenítéséhez a `stackgroups=T` paramétert is meg kell adnunk. A nem változóból a hiányzó értéket a szokásos módon távolítjuk el (`scale_fill_discrete(na.translate=F)`), a jelmagyarázatot pedig a rajzterületen jelenítjük meg.
+
+Az egymásra halmozott pontok az *y* tengely mentén is megjeleníthetők. Ehhez a leképezésben az `y=<numerikus változó>` és az `x=1` vagy a `x=<faktor>` összerendeléseket kell használnunk. Pluszban a `binaxis = "y"` paramétert is meg kell adnunk a `geom_dotplot()` függvényben, így közöljük, hogy az *y* tengely mentén szeretnénk az értékek egymásra halmozását kezdeményezni.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x=1, y = Pulse)) +
+  geom_dotplot(binwidth = 1, binaxis = "y")
+p2 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x=Sex, y = Pulse)) +
+  geom_dotplot(binwidth = 1, binaxis = "y")
+p3 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x=Sex, y = Pulse)) +
+  geom_dotplot(binwidth = 1, binaxis = "y", stackdir = "center")
+p4 <- kerdoiv |> drop_na(Sex) |> 
+  ggplot(aes(x=Sex, y = Pulse, colour=Sex)) +
+  geom_dotplot(binwidth = 1, binaxis = "y", stackdir = "center", 
+               show.legend = F, stackratio=1.6, dotsize=1.1)
+grid.arrange(p1, p2, p3, p4, nrow=1)
+```
+
+A fenti négy ábrán az y tengely értékeit halmoztuk egymásra. A 3-4. ábrán a `stackdir="center"` beállítással középre igazítottuk a pontokat, így az eloszlás könnyebben áttekinthető.
+
+A 4. ábrán a `dotsize=` és a `stackratio=` paraméterekkel finomítottunk a pontok megjelenésén. A `dotsize=` paraméter a megjelenített pontok átmérőjét módosítja az osztályintervallum szélességéhez (`binwidth=`) viszonyítva. A `stackratio=` azt szabályozza, hogy milyen közel kell egymásra rajzolni a pontokat. Az alapértelmezés 1, ahol a pontok éppen érintkeznek. Kisebb értékek esetén átfedő pontokat kapunk.
+
+### Dobozdiagram {#sec-dobozdiagram}
+
+Az előző fejezetben bemutatott egydimenziós pontdiagram kiváló eszköz nyers adatok megjelenítésére, azonban sokszor van szükség származtatott adatok ábrázolására is, ilyen például a mintaátlag, medián, szórás, interkvartilis eltérés, minimum vagy maximum. Ez utóbbi ábrák sorába tartozik a dobozdiagram is, amellyel most a testmagasságot hasonlítjuk össze a nem két csoportjában ([-@exm-kerdoiv-1]. példa). Az 1. ábrán két réteg szerepel, az elsőn az adatok és a leképezésre vonatkozó információk, miszerint az *x* tengelyre a kétértékű `Sex` faktor kerül, az *y* tengelyre pedig a folytonos `Height` változó. A második rétegen már a dobozdiagramok is szerepelnek a `geom_boxplot()` függvény miatt. A 2. ábrára már három réteg került, a nyers pontokat is megjelenítjük a `geom_jitter()` segítségével, egyben ezek pontok méretét, színét és átláthatóságát is beállítjuk. A 3. ábrán pusztán a dobozoknak adtunk kitöltőszínt (`fill=Sex`).
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.3
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p1 - dobozdiagram
+p1 <- ggplot(kerdoiv, aes(x = Sex, y = Height)) + geom_boxplot() + 
+  scale_x_discrete(na.translate = F)
+# p2 - dobozdiagram nyers pontokkal
+p2 <- ggplot(kerdoiv, aes(x = Sex, y = Height)) + geom_boxplot() +
+  geom_jitter(size = 2, colour = 'darkgrey', alpha = 0.3) +
+  scale_x_discrete(na.translate = F)
+# p3 - dobozdiagram kitöltőszínnel és nyers pontokkal
+p3 <- ggplot(kerdoiv, aes(x = Sex, y = Height, fill=Sex)) + 
+  geom_boxplot() + theme(legend.position = "none") + 
+  geom_jitter(size = 2, colour = 'darkgrey', alpha = 0.3) + 
+  scale_x_discrete(na.translate = F)
+grid.arrange(p1, p2, p3, ncol=3)
+```
+
+A dobozdiagram a három kvartilis, illetve a minimum és maximum megjelenítésével világossá teszi, hogy a mintában a férfiak magasabbak a nőknél.
+
+A dobozdiagramok megjelenítése során kérdésként merülhet fel, hogy a származtatott adatok mikor kerülnek be a megjelenítendő adatok közé, hiszen az eredeti `kerdoiv` adatbázis nem tartalmazza a mediánt és a szélső értékeket sem. A megoldást a [-@sec-automatikus-szamitasok]. fejezetben találjuk.
+
+### Hisztogram {#sec-histogram}
+
+Egy változó eloszlásának megismerése rendkívüli jelentőséggel bír. Numerikus változó esetében hisztogram segítségével megtudhatjuk, hogy az adatok hol, milyen sűrűn fordulnak elő, egyszerre kaphatunk információt a középértékről, a szóródásról és a kiugró értékekről. A hisztogram a dobozdiagramhoz hasonlóan származtatott információt jelenít meg.
+
+```{r}
+#| label: fig-hisztogram-01
+#| fig-cap: "Bevezető példák hisztogram megjelenítésére"
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.3
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p1 - alapértelmezett hisztogram
+p1 <- ggplot(kerdoiv, aes(x = Height)) + geom_histogram()
+# p2 - hisztogram 15 (kg) széles csoportokkal
+p2 <- ggplot(kerdoiv, aes(x=Height)) + geom_histogram(binwidth=6)
+# p3 - hisztogram 15 (kg) széles csoportokkal és színezéssel
+p3 <- ggplot(kerdoiv, aes(x=Height)) + 
+  geom_histogram(binwidth=6, colour="blue", fill="lightblue")
+grid.arrange(p1, p2, p3, ncol=3)
+```
+
+Az 1. ábrán már a `geom_histogram()` függvénynek köszönhetően megjelenik egy alapértelmezett kinézetű hisztogram, amelyet a 2. ábrán kicsit értelmezhetőbbé teszünk a `binwidth=15` argumentummal, amely a megjelenített intervallumok szélességét határozza meg. A 3. ábrán mindössze a színeket állítjuk be.
+
+A ggplot2 rendszer nem ajánl optimális értéket az osztályintervallumok számára, így azt nekünk kell minden esetben a helyesnek vélt értékre beállítani. A következő számításokkal ajánlásokat kapunk az osztályintervallumok szélességére (@Venables2002). Láthatjuk, hogy esetünkben az 5 cm-es vagy a 6 cm-es osztályintervallum-hossz lehet a megfelelő.
+
+```{r}
+# Hisztogram - osztályintervallumok hossza
+x <- na.omit(kerdoiv$Height)
+2 * IQR(x) / (length(x)^(1/3))   # Freedman–Diaconis formula
+3.49 * sd(x) / (length(x)^(1/3)) # Scott formula
+```
+
+A fenti hisztogramok világossá teszik számunkra, hogy a testmagasság adatok hol, milyen sűrűn fordulnak elő, de igazán az lenne érdekes, ha ezt a két nem esetében külön-külön is láthatnánk. Rácsos megjelenítéssel részábrákra bonthatjuk a meglévő ábránkat, ehhez csak a `facet_wrap()` függvényben kell egy vagy több kategorikus változót megadni. A legegyszerűbb esetben, egyetlen faktor esetén, használjuk a `facet_wrap(~<faktor>)` alakú módosítót.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.3
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p1 - alapértelmezett felbontás a Grazing faktor alapján
+p1 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x = Height)) +
+  geom_histogram(binwidth = 6, colour="blue", fill="lightblue") + 
+  facet_wrap(~ Sex)
+# p2 - a hisztrogram egyoszlopos felbontása a Grazing faktor mentén
+p2 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x = Height)) +
+  geom_histogram(binwidth = 6, colour="blue", fill="lightblue") + 
+  facet_wrap(~ Sex, ncol=1)
+grid.arrange(p1, p2, ncol=2, layout_matrix=cbind(1, 1, 1, 2, 2))
+```
+
+Mivel a `Sex` faktor mindössze két különböző értéket tartalmaz, így két részábra jön létre, melyek elrendezését az `nrow=` vagy `ncol=` argumentumok megadásával lehet szabályozni.
+
+Hisztogram esetében használhatunk egy másik megoldást is a `Sex` faktor bevonására. Ha az adatok erre alkalmassá teszik, akkor a két csoport hisztogramját egyetlen ábrán is megjeleníthetjük. Egészítsük ki `position="identity"` argumentummal a hisztogramért felelős függvényt. További beállítási lehetőségek a `boundary=` (az egyik osztályintervallum végpontjának rögzítése) és a `closed=` (melyik oldal legyen zárt) argumentumokkal lehetségesek. Hasonló céllal hozunk létre simított hisztogramot, erre a `geom_density()` függvényt használhatjuk.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.33
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p1 - két hisztogram egy ábrán
+p1 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x = Height, fill=Sex)) + 
+  geom_histogram(binwidth = 6, colour="lightgrey", 
+                 position="identity", alpha=0.6) + 
+  theme(legend.position = "top")
+# p2 - két simított hisztogram egy ábrán
+p2 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x = Height, fill=Sex)) + 
+  geom_density() + theme(legend.position="top")
+# p3 - két simított hisztogram egy ábrán
+p3 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x = Height, fill=Sex)) + 
+  geom_density(alpha=0.4, colour="gray12") +
+  theme(legend.position = "top")
+grid.arrange(p1, p2, p3, ncol=3)
+```
+
+A hisztogramról és a simított hisztogramról leolvasható információkhoz hasonlót szolgáltatnak a gyakorisági poligonok és a hegedűdiagramok is. Elsőként egy simított hisztogramot rajzolunk, amelynek most nem a kitöltését (`fill=`), hanem a vonalszínét határozzuk meg a `Sex` két szintje mentén (`colour=Sex`). Látható, hogy a következő két ábrán a gyakorisági poligont a `geom_freqpoly()` a területdiagramot pedig a `geom_violin()` függvénnyel hoztuk létre. A hegedűdiagramra a nyers adatpontokat is rárajzoltuk a `geom_jitter()` segítségével.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.33
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p1 - két simított hisztogram
+p1 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x = Height, colour=Sex)) + 
+  geom_density(linewidth=1.2) + theme(legend.position = "top")
+# p2 - két gyakorisági poligon
+p2 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x = Height, colour=Sex)) + 
+  geom_freqpoly(binwidth=6, linewidth=1.2) + theme(legend.position = "top")
+# p3 - két területábra
+p3 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x=Sex, y = Height, fill=Sex)) + 
+  geom_violin() + geom_jitter(height = 0, width = 0.1, alpha=0.2) + 
+  theme(legend.position = "top")
+grid.arrange(p1, p2, p3, ncol=3)
+```
+
+### Oszlopdiagram
+
+Az oszlopdiagram alapvetően kategorikus változó eloszlását jeleníti meg, de összesített numerikus értékek, például átlagok megjelenítésére is használhatjuk. Ez utóbbi lehetőségekről a [-@sec-direkt-szamitasok]. fejezetben lesz szó.
+
+A kategorikus változók eloszlásának vizsgálatát a [-@exm-kerdoiv-1]. példával kezdjük, és a nem (`Sex`), valamint a kezesség (`W.Hnd`) változókat elemezzük. A `kerdoiv` adatbázisból a `geom_bar()` geom függvény segítségével készíthetünk egy- vagy kétdimenziós oszlopdiagramokat.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.33
+#| tidy: false
+
+# oszlopdiagramok nyers adatokból
+p1 <- kerdoiv |> drop_na(W.Hnd) |> 
+  ggplot(aes(x=W.Hnd)) + geom_bar() 
+p2 <- kerdoiv |> drop_na(W.Hnd, Sex) |> 
+  ggplot(aes(x=W.Hnd, fill=Sex)) + geom_bar() + 
+  theme(legend.position = "top")
+p3 <- kerdoiv |> drop_na(W.Hnd, Sex) |> 
+  ggplot(aes(x=W.Hnd, fill=Sex)) + geom_bar(position="dodge") + 
+  theme(legend.position = "top")
+p4 <- kerdoiv |> drop_na(W.Hnd, Sex) |> 
+  ggplot(aes(x=W.Hnd, fill=Sex)) + geom_bar(position="fill") + 
+  theme(legend.position = "top")
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+Az első ábra a kezesség (`W.Hnd`) egydimenziós oszlopdiagramja. Láthatjuk, a jobbkezesség az ausztrál egyetemisták között is gyakoribb. A 2-4. ábrák kétdimenziósak, vagyis 2 faktoron alapulnak (kezesség és nem). Oszlopdiagramok esetében az első faktort tipikusan a leképezés (`aes()`) `x=<faktor1>` paraméterében, a második faktort a `fill=<faktor2>` argumentumában adjuk meg. A 2-4. ábrák a `position=` paraméterben térnek el. A 2. ábra az alapértelmezett `position="stack"` szerint jelenik meg, azaz a gyakorisági értékeket a 2. faktor mentén egymásra halmozzuk. A 3. ábra `position="dodge"` beállítása miatt egymás melletti oszlopokban jeleníti meg a nem szerinti gyakoriságokat. A 4. ábra azonos magasságú oszlopokat jelenít meg (`position="fill"` beállítás), így relatív gyakoriságok összevetésére van lehetőségünk.
+
+Fontos kiemelnünk, hogy a fenti oszlopdiagramok nyers adatok alapján jöttek létre. A másik lehetőség, hogy összesített, eleve gyakoriságokat tartalmazó adatmátrixot használunk. A [-@tbl-oszlopdiagram1]. táblázat összefoglalja az oszlopdiagram rajzolásának leggyakoribb eseteit. Láthatjuk, hogy megkülönböztetünk egy és kétdimenziós oszlopdiagramokat, és az adatbázis is tartalmazhat nyers vagy összesített gyakorisági adatokat.
+
++--------------+--------------------+---------------+--------------------------+
+| Dimenzió     | Adatbázis formája  | Geom függvény | Szokásos paraméterek     |
++==============+====================+===============+==========================+
+| 1D           | nyers adatok       | `geom_bar()`  | `x=`                     |
++--------------+--------------------+---------------+--------------------------+
+| 1D           | összesített adatok | `geom_col()`  | `x=`, `y=`               |
++--------------+--------------------+---------------+--------------------------+
+| 1D           | összesített adatok | `geom_bar()`  | `x=`, `weight=`          |
++--------------+--------------------+---------------+--------------------------+
+| 2D           | nyers adatok       | `geom_bar()`  | `x=`, `fill=`            |
++--------------+--------------------+---------------+--------------------------+
+| 2D           | összesített adatok | `geom_col()`  | `x=`, `y=`, `fill=`      |
++--------------+--------------------+---------------+--------------------------+
+| 2D           | összesített adatok | `geom_bar()`  | `x=`, `weight=`, `fill=` |
++--------------+--------------------+---------------+--------------------------+
+
+: Az oszlopdiagram geom paraméterezése. {#tbl-oszlopdiagram1}
+
+Összesített gyakorisági adatokat tartalmazó adatmátrixot magunk is létrehozhatunk ([-@sec-gyakorisagi-tablazatok-konverzioi]. fejezet).
+
+```{r}
+(tablazat.1D <- xtabs(~W.Hnd, data = kerdoiv))
+(df.1D <- as.data.frame(tablazat.1D))
+(tablazat.2D <- xtabs(~W.Hnd+Sex, data = kerdoiv))
+(df.2D <- as.data.frame(tablazat.2D))
+```
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.33
+#| tidy: false
+
+# oszlopdiagramok összesített gyakorisági adatokból
+p1 <- ggplot(df.1D, aes(x=W.Hnd, y=Freq)) + geom_col() 
+p2 <- ggplot(df.2D, aes(x=W.Hnd, y=Freq, fill=Sex)) + geom_col() +
+  theme(legend.position = "top")
+p3 <- ggplot(df.2D, aes(x=W.Hnd, y=Freq, fill=Sex)) + 
+  geom_col(position="dodge") + 
+  theme(legend.position = "top")
+p4 <- ggplot(df.2D, aes(x=W.Hnd, y=Freq, fill=Sex)) + 
+  geom_col(position="fill") + 
+  theme(legend.position = "top")
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+A fenti 4 ábrát összesített adatok alapján a `geom_col()` függvénnyel rajzoltuk, és a kapott oszlopdiagramok szó szerint megegyeznek a nyers adatok alapján a `geom_bar()` függvénnyel rajzolt diagramokkal. Kétdimenziós esetben a `geom_col()` szokásos előkészítése a leképezés részben: `x=<faktor1>`, `<fill=faktor2>` és `y=<gyakorisági adatok>`.
+
+A gyakorlatban előfordulhat, hogy az összesített adatokat tartalmazó adatmátrix elemszámokat tartalmazó oszlopa közvetlenül nem alkalmas a megjelenítésre. Tekintsük a következő példát.
+
+:::: {.callout-caution appearance="minimal"}
+::: {#exm-katica-1 name="Kétpettyes katicabogarak"}
+A kétpettyes katicabogarak (Adalia bipunctata) ipari és vidéki területen való előfordulásáról `ladybirds_morph_colour.csv` adatállomány tartalmaz információt. A `Habitat` változó megmutatja, hogy melyik területen történt a gyűjtés (`Industrial`, `Rural`), a `Site` változó a mérési hely azonosítója (10 különböző hely, 5 ipari és 5 vidéki területen), a `morph_color` változó a katicabogár két változatát (`red` és `black`) tartalmazza. Az iránt érdeklődünk, hogy a szennyezettebb élőhely (`Industrial`) valóban kedvezőbb-e azon rovarok számára, amelyek sötétebb morfológiával rendelkeznek, mert így kevésbe vannak kitéve a ragadozó állatoknak.\
+*Forrás: @Beckerman2017*
+:::
+::::
+
+Olvassuk be a `ladybirds_morph_colour.csv` adatállományt.
+
+```{r}
+# Adatbázis beolvasása
+katica <- read.table(file = "adat/ladybirds_morph_colour.csv", 
+                     header=T, sep=",", dec=".", stringsAsFactors = T)
+psych::headTail(katica)
+```
+
+A beolvasott `katica` adatbázis összesített gyakorisági adatokat tartalmaz (`number` változó), de három faktor alapján. Például az első sorban lévő `number` érték 10, azaz vidéki területen, az R1-es mérőhelyen fekete katicából 10 darabot figyeltek meg. Az eddigi megoldásaink sem egy-, sem kétdimenziós gyakorisági táblázatok megjelenítését nem támogatják. Ahogyan a következő példában láthatjuk, a `geom_bar()` geom függvényt kell használnunk a szokásos módon, de a leképezésben a `weight=<gyakorisági adatok>` paraméter is használnunk kell.
+
+A fenti adatbázisból a következő rajzparancsokkal készíthetünk 1D és 2D oszlopdiagramokat.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.3
+#| tidy: false
+
+# oszlopdiagramok (részben) összesítetlen gyakorisági adatokból
+p1 <- ggplot(katica, aes(x=Habitat, weight=number)) +
+  geom_bar(fill="#ADD8E6", colour="black")
+p2 <- ggplot(katica, aes(x=Habitat, fill=morph_colour, 
+                         weight=number)) +
+  geom_bar(colour="black") + theme(legend.position = "top")
+p3 <- ggplot(katica, aes(x=Habitat, fill=morph_colour, 
+                         weight=number)) +
+  geom_bar(colour="black", position = "dodge") + 
+  theme(legend.position = "top")
+p4 <- ggplot(katica, aes(x=Habitat, fill=morph_colour, 
+                         weight=number)) +
+  geom_bar(colour="black", position = "fill") + 
+  theme(legend.position = "top")
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+### 2D pontdiagram
+
+Kétdimenziós pontdiagramok segítségével két numerikus változó kapcsolatát jeleníthetjük meg. Tekintsük a következő példát.
+
+:::: {.callout-caution appearance="minimal"}
+::: {#exm-almafa-1 name="Almafák terméshozama"}
+A `compensation.csv` egy gyümölcsöskert almafáinak terméshozamát tartalmazza (`Fruit` változó kg-ban). Rögzítettük azt is, hogy az almafát milyen alanyra oltották (az alany szélessége mm-ben: `Root` változó). Továbbá egyes fák a gyümölcsös azon részeiben vannak, ahol szarvasmarhákat legeltetnek (`Grazing` változó `Grazed` értékkel), más fák pedig legeltetéstől mentes részen vannak (`Grazing` változó `Ungrazed` értékkel). A legeltetés csökkentheti a fű mennyiségét, így ezen a területen kevésbé kell osztozni az almafáknak a fűvel közös erőforrásokon.\
+*Forrás: @Beckerman2017*
+:::
+::::
+
+Végezzük el a `compensation.csv` adatállomány beolvasását.
+
+```{r}
+# adatbázis beolvasása
+alma <- read.table(file="adat/compensation.csv", header=T, 
+                   sep=",", dec=".", stringsAsFactors=T)
+str(alma)
+psych::headTail(alma)
+```
+
+Vizsgáljuk meg két numerikus változó, az alany mérete és a terméshozam kapcsolatát. Tudjuk, hogy a `ggplot()` függvény `data=` argumentumában meg kell adnunk az `alma` adatbázis nevét, és a `mapping=` argumentumban az `aes()` függvényhívásban az adatbázis `Root` és `Fruit` numerikus változóit az `x` és `y` geom paraméterekhez kötjük. Magáról a pontok megjelenítéséről `geom_point()` gondoskodik.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.3
+
+p1 <- ggplot(data=alma, mapping=aes(x=Root, y=Fruit)) + geom_point()
+p2 <- ggplot(data=alma, mapping=aes(x=Root, y=Fruit)) + geom_point() + 
+  geom_smooth(method = "lm", se = F)
+p3 <- ggplot(alma, aes(x=Root, y=Fruit, colour=Grazing)) + geom_point()
+p4 <- ggplot(alma, aes(x=Root, y=Fruit, colour=Grazing)) + geom_point() + 
+  geom_smooth(method = "lm") 
+grid.arrange(p1, p2, p3, p4, layout_matrix=rbind(c(1, 2, 3, 3, 4, 4)))
+```
+
+A fenti ábrákon vegyük észre a pozitív összefüggést az *x* tengelyen ábrázolt alany-szélesség és az *y* tengelyen megjelenő almahozam között. Már az 1. ábráról jól kivehető két pontcsoport, amely a legeltetéssel kapcsolatos. Ezt ellenőrizzük a 3. ábrán, amely megjeleníti a `Grazing` faktor hatását, ezért a leképezés részben szerepeltettük az `x=` és `y=` paraméterek mellett a `colour=Grazing` paramétert is, amely a megjelenő pontok színét határozza meg. A `Grazing` két értékkel rendelkezik (`Grazed` és `Ungrazed`), ezekhez a ggplot2 rendszer két alapértelmezett színt rendel (`"#F8766D"` és `"#00BFC4"`; a `{scales}` csomag `hue_pal()` függvényét használja erre). A pontok színezésével párhuzamosan a jelmagyarázat is megjelenik az ábránkon. A 2. és 4. ábrákon lineáris regressziós egyeneseket is megjelenítettünk a `geom_smooth(method="lm")` módosító segítségével. A regressziós egyeneshez tartozó konfidencia intervallum alapértelmezetten megjelenik, de az `se = FALSE` paraméterrel letiltható.
+
+### Ábrák mentése
+
+Az ábrák mentése a `ggsave()` függvénnyel történik. A kép méreteit alapértelmezetten hüvelykben (inch-ben, 1 inch 2,54 cm) adhatjuk meg a `width=` és a `height=` paraméterekben. A felbontást a `dpi=` paraméterben változtathatjuk meg, nyomtatásban a 300 dpi a legtöbb esetben elegendő. A `scale=` alapértelmezett 1 értékének változtatásával kicsinyíthetjük (1 -nél kisebb értékek) vagy nagyíthatjuk (1-nél nagyobb érték) az elkészült ábrát. Az elkészült ábra formátumát a képállmony kiterjesztése határozza meg. A `.png` kiterjesztés vagyis a PNG formátum a legtöbb esetben megfelelő, de beállíthatunk `.eps`, `.ps`, `.tex`, `.pdf`, `.jpeg`, `.tiff`, `.bmp` vagy `.svg` kiterjesztéseket is.
+
+```{r}
+#| eval: false
+#| results: hide
+
+# p1 ábra létrehozása
+p1  <- ggplot(data=alma, aes(x=Grazing, y=Fruit)) + geom_boxplot()
+# PNG képállomány létrehozása p1-ből
+ggsave(filename="output/kep/gs_kep1.png", plot=p1, 
+       width=4, height=3, dpi=300, scale=0.9)
+```
+
+A háttértárra írt képállomány több ábrát is tartalmazhat. Első lépésben hozzuk létre az ábrákat (például `p1` és `p2`), majd a `{gridExtra}` csomag `grid.arrange()` függvényével illesszük őket össze, és az így létrehozott ábrát mentsük el a `ggsave()` segítségével.
+
+```{r}
+#| eval: false
+#| results: hide
+
+# p2 ábra létrehozása, p1 már létezik (lásd fent)
+p2 <- ggplot(alma, aes(x=Root, y=Fruit)) + geom_point()
+# p1 és p2 egymás mellett
+p.1.2 <- grid.arrange(p1, p2, ncol=2)
+# PNG képállomány létrehozása p1-ből és p2-ből
+ggsave(filename="output/kep/gs_kep1_2.png", plot=p.1.2, width=7, height=3, dpi=300, scale=0.9)
+```
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A ggplot2 ábra rajzolása egy adatmátrix létezését feltételezi. El kell döntenünk, hogy a számos faktor és/vagy numerikus változó közül melyeket szeretnénk az ábra létrehozásába bevonni. Faktor változó vizsgálata esetén tipikusan oszlopdiagramot használunk, numerikus változónál pontdiagramot, dobozdiagramot vagy hisztogramot. Az ábra típusa meghatározza, hogy milyen `geom_*()` függvényt fogunk használni a rajzparancsainkban. Például oszlopdiagram esetén a `geom_col()`, dobozdiagram esetén a `geom_boxplot()` geom függvényt használjuk. A rajzparancsunk harmadik összetevője az a leképezés, amelyet a `ggplot(mapping=aes(<LEKÉPEZÉS>))` kifejezésben használunk, amely az adatmátrix változóit és a használt geom elemek paramétereit köti össze. Az `aes()` függvényben számos paraméter beállítható, például `x=`, `y=`, `fill=` és `colour=`, amelyek jelentősen hozzájárulnak az ábra összetettségéhez és értelmezéséhez, melyet jelmagyarázat is segít. Amennyiben geom paramétert az `aes()` függvényen kívül adunk meg, az csak az ábra szépségéhez járul hozzá.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  A [-@exm-kerdoiv-1] példában 237 Ausztrál egyetemista adata szerepel. A `kerdoiv.xlsx`-ből elérhető adatokban megtalálható a `Fold` faktor és az `Age` numerikus változó. Megkérték az egyetemistákat, hogy kulcsolják össze a kezüket, majd lejegyezték a felül lévő kart. Így a `Fold` lehetséges értékei `"R on L"`, `"L on R"`, `"Neither"`. Az `Age` változó az egyetemisták életkorát tartalmazza évben kifejezve. Vizsgáljuk meg mindkét változó eloszlását a szokásos módon. A faktor változót oszlopdiagrammal, a numerikus változót egydimenziós pontdiagrammal, dobozdiagrammal és hisztogrammal is.
+2.  Mentsük el háttértárra PNG állományok formájában az előző feladat négy ábráját!
+3.  Az 1. feladatban szereplő két változó (`Fold` és `Age`) eloszlását vizsgáljuk meg nemenként is! Továbbra is használjunk oszlopdiagramot, illetve egydimenziós pontdiagramot, dobozdiagramot és hisztogramot.
+4.  Vizsgáljuk meg több módszerrel is, hogy az `Age` változó hisztogramjában milyen széles osztályintervallumokkal lenne érdemes dolgozni. Hívjuk segítségül az *Alap R* `hist()` függvényét.
+5. Egyetlen ábrán jelenítsünk meg 3 db normális eloszláshoz tartozó sűrűségfüggvényt, melyek paraméterei: $\mu_1=1, \sigma_1=2$; $\mu_2=1, \sigma_2=3$; $\mu_3=2, \sigma_3=1$.
+6. Mutassuk be a standard normális eloszlás és a t eloszlás kapcsolatát! Egy ábrán jelenítsük meg a standard normális eloszlás sűrűségfüggvényét és az 5, 10, 15, 20 és 25 szabadsági fokú t eloszlás sűrűségfüggvényét!
+7. Jelenítsük meg az $n=50, p=1/3$ paraméterű binomiális eloszlás eloszlását bemutató vonalas ábrát!
+:::
+
+## Számítások az ábrán `r emoji("thinking-face")` {#sec-szamitasok-abran}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   megismerjük az összesített adatokkal dolgozó geom elemek (például oszlopdiagram, dobozdiagram és a hisztogram) rajzolási elveit,
+-   megtanuljuk, hogyan helyezhetjük el a pont- vagy intervallumbecslés eredményét az ábrán,
+-   és áttekintjük az átlagábrák rajzolási lehetőségeit.
+:::
+
+Minden ggplot2 ábra valamilyen adatbázison alapul, és az abban lévő változók értékei a leképezés segítségével válnak a megjelenített geom elemek tulajdonságaivá. Sokszor nem közvetlenül az adatbázis változók értékeit szeretnénk az ábrán megjeleníteni, hanem az azokból származó mutatókat vagy transzformált adatokat. Ezek a megjelenítésre szánt származtatott adatok kétféle módszerrel jöhetnek létre:
+
+-   vagy automatikusan a megjelenítés során ([-@sec-automatikus-szamitasok]. fejezet),
+-   vagy direkt módon, az általunk előírt recept szerint ([-@sec-direkt-szamitasok]. fejezet).
+
+### Automatikus számítások {#sec-automatikus-szamitasok}
+
+Emlékezzünk vissza a dobozdiagram ábrára ([@sec-dobozdiagram]. fejezet). A `ggplot()` függvényben nyers adatokat adtunk meg (237 egyetemista testmagassága), azonban az ábráról származtatott adatokat olvashattunk le, például a testmagasság mediánját, minimumát és maximumát. Hogyan jöttek ezek létre? Hasonló kérdést tehetünk fel a hisztogram és az oszlopdiagram egyes oszlopainak magasságával kapcsolatban is, ahogyan a lenti ábrákon ezt láthatjuk.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.3
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p1 - dobozdiagram
+p1 <- ggplot(kerdoiv, aes(x = Sex, y = Height)) + geom_boxplot() + 
+  scale_x_discrete(na.translate = F)
+# p2 - dobozdiagram nyers pontokkal
+p2 <- ggplot(kerdoiv, aes(x = Height)) + 
+  geom_histogram(binwidth=6, colour="blue", fill="lightblue")
+# p3 - dobozdiagram kitöltőszínnel és nyers pontokkal
+p3 <- ggplot(kerdoiv, aes(x = Smoke)) + geom_bar() + 
+  scale_x_discrete(na.translate = F)
+grid.arrange(p1, p2, p3, ncol=3)
+```
+
+#### Származtatott változók
+
+Először is a `ggplot_build()` függvényt hívjuk segítségül, hogy pontosan megkaphassuk azt az adatbázist, ami alapján az ábra valóban létrejön. Természetesen ez az ideiglenes ábra-adatbázis a nyers `kerdoiv` adatbázison alapul, de az ábra megalkotásához szükséges specifikus információkat is szerepelnek benne, ezek az ún. származtatott változók. Az igen összetett adatszerkezet `data` részének megjelenítésével pontosan tájékozódhatunk a háttérben keletkező új adatokról. Vizsgáljuk most csak a `p1` objektumban tárolt, fenti 1. ábra hátterét.
+
+```{r}
+#| warning: false
+#| message: false
+
+ggplot_build(p1)$data[[1]][, 1:5] # csak az első 5 oszlop
+names(ggplot_build(p1)$data[[1]]) # az összes oszlop neve
+```
+
+A `p1` ábra ábra-adatbázisa mindössze két sort tartalmaz a két dobozdiagram számára. Származtatott változóként többek között tartalmazza a három kvartilist (`lower`, `middle`, `upper`) és a szélsőértékeket (`ymin`, `ymax`) is. A fenti outputokból kiderül, hogy a `geom_boxplot()` nem egyszerűen a dobozdiagram geom elem hozzáadásáról gondoskodik, hanem a nyers adatbázis egyfajta transzformációját is elvégzi.
+
++---------------------+-------------------+------------------------------------------+
+| Geom elem           | Transzformáció    | Származtatott változók                   |
++=====================+===================+==========================================+
+| `geom_boxplot()`    | `stat_boxplot()`  | `width`, `ymin`, `lower`, `notchlower`,\ |
+|                     |                   | `middle`, `notchupper`, `upper`, `ymax`  |
++---------------------+-------------------+------------------------------------------+
+| `geom_bar()`        | `stat_count()`    | `count`, `prop`                          |
++---------------------+-------------------+------------------------------------------+
+| `geom_density()`    | `stat_density()`  | `density`, `count`, `scaled`, `ndensity` |
++---------------------+-------------------+------------------------------------------+
+| `geom_histogram()`\ | `stat_bin()`      | `count`, `density`, `ncount`, `ndensity` |
+| `geom_freqpoly()`   |                   |                                          |
++---------------------+-------------------+------------------------------------------+
+| `geom_violin()`     | `stat_ydensity()` | `density`, `scaled`, `count`,\           |
+|                     |                   | `violinwidth`, `n`, `width`              |
++---------------------+-------------------+------------------------------------------+
+| `geom_smooth()`     | `stat_smooth()`   | `y`, `ymin`, `ymax`, `se`                |
++---------------------+-------------------+------------------------------------------+
+| `stat_ecdf()`       | `stat_ecdf()`     | `x`, `y`                                 |
++---------------------+-------------------+------------------------------------------+
+| `geom_qq()`         | `stat_qq()`       | `sample`, `theoretical`                  |
++---------------------+-------------------+------------------------------------------+
+| `geom_qq_line()`    | `stat_qq_line()`  | `x`, `y`                                 |
++---------------------+-------------------+------------------------------------------+
+
+: Transzformációt használó geom elemek. {#tbl-szarmazgeom1}
+
+A [-@tbl-szarmazgeom1]. táblázat összefoglalja az automatikus transzformációt végző geom elemeket. Dobozdiagram esetében a geom megjelenési paramétereket a `geom_boxlot()` által meghívott `stat_boxplot()` függvény biztosítja, így nekünk ezekről nem kell gondoskodni, elegendő egyetlen numerikus vektort (`y=`) megadnunk. Hisztogram esetében a `stat_bin()`, oszlopdiagram esetében a `stat_count()` végzi a származtatott változók létrehozását.
+
+További ábrákhoz tekintsük a következő példát.
+
+:::: {.callout-caution appearance="minimal"}
+::: {#exm-juhok-1 name="Soay juhok"}
+A Soay skót félvad juhféle Hirta egy kis szigetén Skócia nyugati partjainál él. Igazoltnak látszik, hogy a nagyobb testméret evolúciós előnyökkel jár. Az anyajuh fittségét mutatja az utódok száma (reprodukciós siker). A `SoaySheepFitness.csv` adatbázis `body.size` változója az anyajuh standardizált, átlagos tömegét (kg-ban) méri, a `fitness` pedig az utódok számát a teljes élettartam alatt.\
+*Forrás: @Beckerman2017*
+:::
+::::
+
+Olvassuk be a `SoaySheepFitness.csv` állományt.
+
+```{r}
+# adatbázis megnyitása
+soay <- read.table(file = "adat/SoaySheepFitness.csv", header = T, 
+                   sep=",", dec=".", stringsAsFactors = T)
+psych::headTail(soay)
+```
+
+A következő ábrákon a dobozdiagramhoz hasonló elven működő, automatikus számításokat végző geom elemekre mutatunk példát. A hegedűdiagram, a QQ-ábra, az eloszlásfüggvény és a görbeillesztés egyes esetei mind-mind ebbe a csoportba tartoznak. A hegedűdiagram, a QQ-ábra és a tapasztalati eloszlásfüggvény létrehozásához elegendő egyetlen numerikus vektort biztosítani, a megjelenítéshez szükséges számításokról maga a geom függvény gondoskodik. Könnyen illeszthetünk egyenest vagy a görbét a kétdimenziós pontdiagramra, ehhez mindössze a `geom_smooth()` függvényt kell használnunk. Valójában az illesztett egyenes és görbe ábrázolásához szükséges adatok előállításáról maga a `geom_smooth()` gondoskodott, nekünk ezzel nincs teendőnk.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p1 - hegedűdiagram a testsúlyra
+p1 <- ggplot(soay, aes(x=1, y=body.size)) + geom_violin()
+# p2 - QQ-ábra a testsúlyra
+p2 <- ggplot(soay, aes(sample=body.size)) + geom_qq() + 
+  geom_qq_line()
+# p3 - tapasztalati eloszlásfüggvény a testsúlyra
+p3 <- ggplot(soay, aes(x=body.size)) + stat_ecdf()
+# p4 - kétdimenziós pontdiagram, regressziós egyenessel és 
+# görbeillesztéssel
+p4 <- ggplot(soay, aes(x = body.size, y = fitness)) + geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_smooth(method = "loess", span = 1, colour = "red", se = FALSE)
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+#### A származtatott változók elérése
+
+Az ábra-adatbázis új oszlopait az `after_stat()` függvénnyel tudjuk elérni a rajzparancsainkban. Ez biztosítja, hogy az eredeti adatbázis változói és a származtatott új változók ne keveredjenek össze. Az `after_stat()` argumentumában csak származtatott változók szerepelhetnek. A függvény használatára gyakrabban van szükségünk mint gondolnánk. Tudjuk, ha hisztogramot rajzolunk, akkor használhatjuk a `stat_bin()` függvény `density` változóját, vagy ha oszlopdiagramot hozunk létre szükség lehet a `stat_count()` által létrehozott `count` változóra. Nézzünk ezekre példát!
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.33
+#| warning: false
+#| message: false
+#| tidy: false
+
+p0 <- kerdoiv |> drop_na(Sex, Smoke) |> ggplot(aes(x=Pulse)) + 
+  geom_histogram(aes(y=after_stat(density)), 
+                 binwidth=10, colour="blue", fill="lightblue")
+p1 <- p0 + geom_density(linewidth=1, colour="blue") + 
+  stat_theodensity(colour = "red", linewidth=1) + 
+  facet_wrap(~Sex, ncol=1)
+p2 <- ggplot(kerdoiv, aes(x=Pulse, colour=Smoke)) + 
+  geom_freqpoly(binwidth=10, linewidth=1) + 
+  scale_color_discrete(na.translate=F)
+p3 <- ggplot(kerdoiv, aes(x=Pulse, colour=Smoke)) + 
+  geom_freqpoly(aes(y=after_stat(density)), binwidth=10, linewidth=1)+ 
+  scale_color_discrete(na.translate=F) + 
+  coord_cartesian(ylim=c(0,0.05))
+grid.arrange(p1, p2, p3, ncol=3)
+```
+
+Az 1. ábrán a hisztogram rajzolásához nem az alapértelmezett gyakoriságot használjuk (`aes(y=after_stat(count)`), hanem a gyakorisági sűrűséget (`aes(y=after_stat(density)`), amely lehetőséget ad arra, hogy egy ábrán szerepeljen a simított hisztogrammal `geom_density()` és a normális eloszlás sűrűségfüggvényével (`stat_theodensity()`). Ez utóbbi lehetőség a\
+`{ggh4x}` csomag betöltése után áll rendelkezésre. A megjelenítéshez szükséges paraméterek (átlag és szórás) becslése automatikusan megtörténik.
+
+A 2. és 3. ábrán a gyakorisági poligonok ábrázolását vethetjük össze. A 2. ábrán gyakorisági értékek, míg a 3. ábrán relatív gyakorisági értékek alapján történik az ábrázolás, így az eltérő elemszámokhoz tartozó eloszlások összehasonlítása lényegesen leegyszerűsödik.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.3
+#| warning: false
+#| message: false
+#| tidy: false
+
+# oszlopdiagramok nyers adatokból
+p1 <- kerdoiv |> drop_na(W.Hnd) |> 
+  ggplot(aes(x=W.Hnd, fill=W.Hnd)) + geom_bar() + 
+  geom_text(aes(label=after_stat(count)), 
+            stat="count", color="white", vjust=1.5) +
+  theme(legend.position = "none")
+p2 <- kerdoiv |> drop_na(W.Hnd) |> 
+  ggplot(aes(x=W.Hnd, fill=W.Hnd, y=after_stat(count/sum(count)))) + 
+  geom_bar() + 
+  geom_text(aes(label=scales::percent(after_stat(count/sum(count)),
+                                      decimal.mark = ",", 
+                                      accuracy = 0.1)), 
+            color="white", vjust=1.5, stat="count") +
+  theme(legend.position="none") + 
+  scale_y_continuous(labels = scales::percent)
+p3 <- ggplot(data = katica, aes(x = Habitat, weight=number, 
+                                fill = morph_colour)) + 
+  geom_bar() + 
+  geom_text(aes(label=after_stat(count)),
+            position= position_stack(vjust=0.5), 
+            colour="white", stat="count") + 
+  scale_fill_manual(values = c("black"="#444444", 
+                                      "red"="#e34444"), name = "mc") + 
+  theme(legend.position = "top")
+p4 <- ggplot(data = katica, aes(x = Habitat, 
+                                weight=number, fill = morph_colour)) + 
+  geom_bar(position = "dodge") + 
+  geom_text(aes(label=after_stat(count)), 
+            position=position_dodge(width=1),
+            color="black",vjust=-.3, stat = "count") +
+  scale_fill_manual(values = c("black"="#444444", 
+                                      "red"="#e34444"), name = "mc") +
+  coord_cartesian(ylim=c(0, 140)) + 
+  theme(legend.position = "top")
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+A fenti ábrákon a `geom_bar()` által meghívott `stat_count()` függvény `count` származtatott változóját használjuk az `after_stat(count)` kifejezéssel. Mindegyik ábrán felhasználjuk az egyes gyakoriságok megjelenítéséhez a `geom_text()` függvényben, de a 2. ábrán az `after_stat(count/sum(count))` kifejezéssel relatív gyakoriságokat használunk.
+
+Összefoglalva, léteznek olyan grafikus elemek, amelyek változtatás nélkül képesek a bemenő adatok alapján a geom paramétereket beállítani (például `geom_point()`, `geom_col()`), és léteznek olyanok is, amelyek a bemenő adatokat áttranszformálják egy köztes adattáblába, és a geom paraméterek konkrét értékét innen veszik. Természetesen ezeknek a geom elemeknek pontosan a származtatott adatokat megjelenítése a célja. A [-@tbl-szarmazgeom1]. táblázat ezeket a statisztikai transzformációkat foglalja össze.
+
+### Direkt számítások {#sec-direkt-szamitasok}
+
+Statisztikai számításokat mi is előírhatunk egy-egy ggplot2 ábra létrehozása során. Ehhez a `stat_summary()` függvényt használjuk, amelynek fontos paramétere a konkrét statisztikai számítást előíró `fun=`, `fun.min=`, `fun.max=` és `fun.data=`.
+
+Ebben a részben a következő példát is felhasználjuk.
+
+:::: {.callout-caution appearance="minimal"}
+::: {#exm-vonzero-1 name="A vonzerő és a nem hatása az ítéletekre"}
+Egy kísérletben a résztvevőket arra kérték, hogy jelöljék meg, hány év börtönbüntetést szabnának ki vádiratok alapján. A 60 résztvevőből 20 egyszerűen megkapta az írásbeli szöveget, nem volt csatolva fotó a vádlottról, 20 résztvevő azonban a szöveg mellé egy vonzó vádlottól származó fotót kapott, az utolsó 20 fős csoport pedig egy nem vonzó vádlottól származót. A fotón férfi vagy nő vádlottak jelentek meg, és a résztvevők közé is egyaránt válogattak férfiakat és nőket is. Az adatok a `vallomasok.sav` állományban találhatók. A `sexdiff` változó a vizsgálati személy és az vádlott nemének egyezését tartalmazza (`"ugyanaz"`, `"eltérő"`), az `attract` a vádlott vonzóságára vonatkozó információ (`"vonzó"`, `"nem vonzó"`, `"nincs kép"`), míg a `sentence` az ítélet években kifejezve.\
+*Forrás: @Brace2016 [213]*
+:::
+::::
+
+Olvassuk be az adatokat!
+
+```{r}
+# adatok beolvasása és előkészítése
+vallomas <- rio::import(file = "adat/vallomasok.sav")
+vallomas$sexdiff <- factor(vallomas$sexdiff)
+levels(vallomas$sexdiff) <- c("ugyanaz", "eltérő")
+vallomas$attract <- factor(vallomas$attract)
+levels(vallomas$attract) <- c("vonzó", "nem vonzó", "nincs kép")
+tibble::glimpse(vallomas)
+psych::headTail(vallomas)
+```
+
+#### Pontbecslések ábrázolása
+
+Sokszor felmerül, hogy az elkészült ábránkon még egy középértéket (például mintaátlagot) pluszban jelenítsünk meg. Az átlag az ábrán leolvasható lehet egy pont *y* koordinátájaként, egy oszlop magasságának formájában, vagy egy vízszintes/függőleges egyenesként, ahol az átlagot az *y*/*x* tengellyel való metszéspont jeleníti meg. Több átlagot, ha azokat pontokkal jelenítjük meg, össze is köthetünk vonallal. A [-@tbl-pontszeru-szamitas]. táblázatban összefoglaltuk ezeket a lehetőségeket.
+
++------------------+-----------------------------+-------------------------------+
+| Geom elem        | `stat_summary()` paramétere | Beállított változó            |
++==================+=============================+===============================+
+| oszlop           | `fun=mean, geom="col"`      | `y` - az oszlopok magassága   |
++------------------+-----------------------------+-------------------------------+
+| pont             | `fun=mean, geom="point"`    | `y` - a pontok y koordinátája |
++------------------+-----------------------------+-------------------------------+
+| vonal(diagram)   | `fun=mean, geom="point"`    | `y` - a pontok y koordinátája |
++------------------+-----------------------------+-------------------------------+
+| vízszintes vonal | `fun=mean, geom="hline"`    | `yintercept=after_stat(y)` -\ |
+|                  |                             | metszéspont az y tengellyel   |
++------------------+-----------------------------+-------------------------------+
+| függőleges vonal | `fun=mean, geom="vline"`    | `xintercept=after_stat(y)` -\ |
+|                  |                             | metszéspont az x tengellyel   |
++------------------+-----------------------------+-------------------------------+
+
+: Pontszerű számítások a `stat_summary()` segítségével. A `fun=mean` helyett, bármely más vektorból skalárt előállító függvényt használhatjuk, tipikus még, a `fun=median`. {#tbl-pontszeru-szamitas}
+
+A következő ábrán bemutatjuk a [-@tbl-pontszeru-szamitas] táblázatban szereplő lehetőségeket.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(vallomas, aes(x = attract, y = sentence)) +
+  stat_summary(fun = mean, geom = "col") 
+p2 <- ggplot(vallomas, aes(x = attract, y = sentence)) +
+  stat_summary(fun = mean, geom = "point") + 
+  coord_cartesian(ylim=c(0,14))
+p3 <- ggplot(vallomas, aes(x = attract, y = sentence)) +
+  stat_summary(fun = mean, geom = "line", group=1) + 
+  coord_cartesian(ylim=c(0,14))
+p4 <- ggplot(kerdoiv, aes(x = Height, y = Wr.Hnd)) +
+  geom_point() + 
+  stat_summary(fun = mean, geom = "hline", 
+               colour="blue", alpha=.5, linetype=2,
+               aes(x=0, yintercept=after_stat(y))) + 
+  stat_summary(fun = mean, geom = "vline", 
+               colour="blue", alpha=.5, linetype=2,
+               aes(y=0, xintercept=after_stat(x)), orientation = "y") + 
+  coord_cartesian(xlim=range(kerdoiv$Height, na.rm = T), 
+                  ylim=range(kerdoiv$Wr.Hnd, na.rm = T))
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+A fenti 4 példában végig az átlagszámító `fun=mean` argumentumot használtuk a `stat_summary()` függvényben. Az átlag számítása az 1-3. ábrán az *x* tengely kategóriái szerint történik (az alapértelmezett `orientation="x"` szerinti beállításnak megfelelően). Mivel három csoport van az *x* tengelyen, ezért három átlagolt érték keletkezik, amely az `y` származtatott értékként használható fel később (`after_stat(y)`-et kell használni ha közvetlenül szeretnénk rá hivatkozni).
+
+Az 1. ábrán a `geom="col"` hatására oszlopdiagram jön létre, és az új `y` származtatott változó az oszlopok magasságát írja le. A 2. ábrán a `geom="point"` miatt pontdiagram jön lére, és az `y` jelentése a pontok *y* koordinátája. A 3. ábrán megjelenő vonaldiagram lényegében ezeket a pontokat köti össze.
+
+A 4. ábrán egy vízszintes vonal (`geom="hline"`) és egy függőleges vonal (`geom="vline"`) is megjelenik. A `geom_hline()` kötelező paramétere a `yintercept=`, így ennek az `y` átlagot az `after_stat(y)` függvényhívással tudjuk közvetlenül átadni. Az `x=0` biztosítja, hogy egyetlen csoportunk legyen az *x* tengely mentén, vagyis minden mintabeli személy kézméretét vegye figyelembe az átlagolás során. A függőleges vonal a testmagasságok átlagát reprezentálja, így egyrészt fordítani kell az összegzés irányán (`orientation="y"`), vagyis az *x* tengelyen lévő értékeket fogjuk összegezni. Másrészt az `y=0` segítéségével jelezzük, hogy egyetlen átlagot szeretnénk létrehozni, és végül a `geom_vline()` függvény `xintercept=` paraméterét állítjuk be a kiszámolt átlagra (`after_stat(x)`).
+
+Sok esetben meglévő ábra kiegészítésére használjuk az összesített értékeket.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(kerdoiv, aes(x = Sex, y = Height, fill=Sex)) + 
+  geom_boxplot(alpha=0.6) + theme(legend.position = "none") + 
+  stat_summary(fun=mean, geom = "point", colour="blue", size=3, 
+               shape=15) + 
+  scale_x_discrete(na.translate = F)
+p2 <- ggplot(kerdoiv, aes(x = Sex, y = Height, colour=Sex)) + 
+  geom_quasirandom() +  
+  stat_summary(fun=mean, geom = "point", colour="blue", size=3, 
+               shape=15) +
+  stat_summary(fun=median, geom = "point", colour="red", size=3, 
+               shape=15) + 
+  scale_x_discrete(na.translate = F) + theme(legend.position = "none")
+p3 <- ggplot(kerdoiv, aes(x=Height)) +
+  geom_histogram(binwidth = 6, colour = "blue", fill="lightblue") +
+  stat_summary(aes(x = 165, y = Height, xintercept = after_stat(y)), 
+               fun = mean, geom = "vline", colour="blue", size=1) +
+  stat_summary(aes(x = 165, y = Height, xintercept = after_stat(y)), 
+               fun = median, geom = "vline", colour="red", size=1) +
+  stat_summary(aes(x = 165, y = Height, xintercept = after_stat(y)), 
+               fun = LaplacesDemon::Mode, geom = "vline", 
+               colour="black", size=1) +
+  coord_cartesian(ylim = c(0,60))
+p4 <- kerdoiv |> drop_na(Sex) |> 
+  ggplot(aes(x=Height, fill = Sex)) +
+  geom_histogram(binwidth = 6, colour = "black") +
+  stat_summary(aes(x = 165, y = Height, xintercept = after_stat(y), 
+                   group = Sex), 
+               fun = mean, geom = "vline", colour="blue", size=1) +
+  facet_wrap(~ Sex, ncol=1) +
+  theme(legend.position = "none") + 
+  coord_cartesian(ylim = c(0,45))
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+A fenti példa 1. ábráján dobozdiagramon jelenítjük meg az átlagot (kék négyzetek). A 2. ábrán egydimenziós pontdiagramon az átlag mellett a medián (piros négyzet) is szerepel. A 3. és 4. ábra pedig arra mutat példát, hogy hisztogramon hogyan tudunk átlagot, mediánt és móduszt reprezentáló függőleges egyeneseket megjeleníteni.
+
+#### Intervallumbecslések ábrázolása
+
+A pontszerű értékek becslésén túl gyakran van szükség olyan geom elemek megjelenítésére, amelyek intervallumokat reprezentálnak. A hiba jelzése vagy a különböző megbízhatóságú konfidencia intervallumok megjelenítése pontosan ebbe a kategóriába tartozik. Elsőként nézzük meg, milyen geom elemek alkalmasak egyáltalán intervallum megjelenítésére. A [-@tbl-errorjelzes]. táblázat felsorolja a négy leggyakrabban használt intervallumszerű geom elemet.
+
++-------------------+---------------------+-----------------------------+
+| Geom elem         | Geom függvény       | `stat_summary()` paramétere |
++===================+=====================+=============================+
+| Vonal-intervallum | `geom_linerange()`  | `fun.data=mean_cl_normal,`\ |
+|                   |                     | `geom="linerange"`          |
++-------------------+---------------------+-----------------------------+
+| Errorbar          | `geom_errorbar()`   | `fun.data=mean_cl_normal,`\ |
+|                   |                     | `geom="errorbar"`           |
++-------------------+---------------------+-----------------------------+
+| Pont-intervallum  | `geom_pointrange()` | `fun.data=mean_cl_normal,`\ |
+|                   |                     | `geom="pointrange"`         |
++-------------------+---------------------+-----------------------------+
+| Crossbar          | `geom_crossbar()`   | `fun.data=mean_cl_normal,`\ |
+|                   |                     | `geom="crossbar"`           |
++-------------------+---------------------+-----------------------------+
+
+: Intervallum megjelenítésére használt geom elemek. {#tbl-errorjelzes}
+
+A következő parancsokból kiderül, hogy intervallumokat nem csak a [-@tbl-errorjelzes]. táblázat 2. oszlopában lévő geom függvényekkel hozzuk létre (például errorbart a `geom_errorbar()` függvénnyel), hanem a 3. oszlopban látható `stat_summary()` függvénnyel is. Ehhez a táblázat 3. oszlopát kell alapul vennünk.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  stat_summary(fun.data = mean_cl_normal, geom="linerange") + 
+  labs(subtitle = "Vonal-intervallum")
+p2 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  stat_summary(fun.data = mean_cl_normal, geom="errorbar") + 
+  labs(subtitle = "Errorbar")
+p3 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  stat_summary(fun.data = mean_cl_normal, geom="pointrange") + 
+  labs(subtitle = "Pont-intervallum")
+p4 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  stat_summary(fun.data = mean_cl_normal, geom="crossbar") + 
+  labs(subtitle = "Crossbar")
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+Látható, hogy a `stat_summary()` paraméterében a `fun.data=` argumentumot használtuk, amely most a `mean_cl_normal()` függvényre hivatkozik. Ez a függvény előállítja a mintaátlagot (`y=`), valamint az intervallum megjelenítéséhez szükséges `ymin` és `ymax` végpontokat, amelyek ebben az esetben a várható értékre vonatkozó 95%-os megbízhatóságú konfidencia intervallum határait jelentik. Vonal-intervallum és errorbar esetében elegendőek a végpontok ahhoz, hogy a vonzóság három kategóriájában a kiszabott büntetések várható értékére vonatkozó 95%-os megbízhatóságú konfidencia intervallumot megjelenítsük. Pont-intervallum és a crossbar már igényli az `y=` paramétert, vagyis a pont helyét is. A [-@tbl-osszegzo-fv-statsum] táblázat összefoglalja, hogy milyen függvényeket használhatunk az `y=`, `ymin=` és `ymax=` értékek előállítására, így ezek is szerepelhetnek a `fun.data=` paraméterében.
+
++--------------------+-----------------+----------------------------------+
+| Összegző függvény  | Paraméter       | Leírás                           |
++====================+=================+==================================+
+| `mean_cl_normal()` | `conf.int=0.95` | mintaátlag és 95%-os\            |
+|                    |                 | konfidenciaintervallum           |
++--------------------+-----------------+----------------------------------+
+| `mean_se()`        |                 | mintaátlag és standard hiba\     |
+|                    |                 | felmérve mindkét irányban        |
++--------------------+-----------------+----------------------------------+
+| `mean_sdl()`       | `mult=2`        | mintaátlag és szórás kétszerese\ |
+|                    |                 | felmérve mindkét irányban        |
++--------------------+-----------------+----------------------------------+
+| `median_hilow`     | `conf.int=0.95` | medián, valamint a 2,5% és\      |
+|                    |                 | 97,5%-os kvantilis               |
++--------------------+-----------------+----------------------------------+
+
+: Összegző függvények a `stat_summary(fun.data=)`-ban {#tbl-osszegzo-fv-statsum}
+
+A következő parancsok a [-@tbl-osszegzo-fv-statsum]. táblázat függvényeire adnak példát. Figyeljük meg, hogy az outputban az `y=`, `ymin=` és `ymax=` értékek is megjelennek, függvényenként eltérő tartalommal.
+
+```{r}
+# átlag és 95%-os megbízhatóságú konfidencia intervallum (t-eloszlás)
+ggplot2::mean_cl_normal(kerdoiv$Height, conf.int=0.95)
+# átlag és átlag ± SE 
+ggplot2::mean_se(kerdoiv$Height) 
+# átlag és átlag ± 2xSD 
+ggplot2::mean_sdl(kerdoiv$Height, mult=2)
+# median, lower, upper, ahol [lower, upper] 95%-ot fed le
+ggplot2::median_hilow(kerdoiv$Height, conf.int=0.95)
+```
+
+A következő parancsok a [-@tbl-osszegzo-fv-statsum] táblázat összegző függvényeire mutatnak példát. Az egyes függvények paraméterezésén is változtathatunk, ehhez a `stat_summary()` függvény `fun.args=` argumentumát kell megadnunk, amely egy listát vár.
+
+```{r}
+#| label: fig-fun-data-01
+#| fig-cap: "Példák a `fun.data=` argumentum használatára"
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  geom_boxplot() + 
+  stat_summary(fun.data = mean_se, geom="errorbar", col="red") + 
+  stat_summary(fun = mean, geom="point", col="red") 
+p2 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  geom_quasirandom() +
+  stat_summary(fun.data = median_hilow, fun.args = list(conf.int=0.5),
+               geom="pointrange", col="red")
+p3 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  geom_violin() + 
+  stat_summary(fun.data = mean_cl_normal, col="red",
+               fun.args = list(conf.int=0.99), geom="pointrange")
+p4 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  geom_beeswarm() +
+  stat_summary(fun = median, fun.min=median, fun.max=median, 
+               geom="crossbar", col="red")
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+Az 1. ábra a vonzóság három kategóriájában az átlagot és a standard hibát jeleníti meg egy dobozdiagramon. A 2. ábrán egydimenziós pontdiagramra a mediánt, valamint a 25%-os és 75%-os kvantiliseket rajzolja. A 3. ábra egy hegedűábrán jelenít meg 99%-os konfidencia intervallumot a három várható értékre. A 4. ábra arra mutat példát, hogy a `fun.data=` argumentum helyett a `fun=`, `fun.min=` és `fun.max` is elegendő intervallum megjelenítésére. A crossbar szükséges paramétereit itt pontszerű függvények, mindhárom esetben a `median()` függvény szolgáltatja.
+
+#### Átlagábrák
+
+Az eddig tanultakat felhasználhatjuk egy- és kétdimenziós átlagábrák készítéséhez. A következő négy diagram az egyszempontos varianciaelemzés során használható átlagábrákra mutat példát.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(vallomas, aes(x=attract, y=sentence)) +
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar", width=0.2) +
+  stat_summary(fun=mean, geom="point", size=3, shape=21, fill="white")+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+p2 <- ggplot(vallomas, aes(x=attract, y=sentence, colour=attract)) +
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar", width=0.2) +
+  stat_summary(fun=mean, geom="line", size=0.6, aes(group=1), 
+               colour="grey32") +
+  stat_summary(fun=mean, geom="point", size=3, shape=21, 
+               fill="white") +
+  theme(legend.position = "none") + 
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+p3 <- ggplot(vallomas, aes(x=attract, y=sentence, colour=attract)) +
+  stat_summary(fun=mean, geom="col", fill="white") +
+  stat_summary(fun.data=mean_cl_normal, geom="pointrange") +
+  theme(legend.position = "none") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+p4 <- ggplot(vallomas, aes(x=attract, y=sentence)) +
+  stat_summary(fun=mean, geom="col", fill="#95b0ff", colour="black") +
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar", width=0.2) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+A fenti ábrákon a pont- és intervallumbecslések eredményét együtt mutatjuk be. Kétszempontos elemzésekhez is könnyen készíthetünk ábrát.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.32
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(vallomas, aes(x=attract, y=sentence, colour=sexdiff)) +
+  geom_boxplot() +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) + 
+  theme(legend.position = "top")
+p2 <- ggplot(vallomas, aes(x=attract, y=sentence, colour=sexdiff)) +
+  stat_summary(fun.data=mean_cl_normal, geom="pointrange",
+               position = position_dodge(width=0.4)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) + 
+  theme(legend.position = "top")
+p3 <- ggplot(vallomas, aes(x=attract, y=sentence, colour=sexdiff)) +
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar", width=0.2,
+               position = position_dodge(width=0.4)) +
+  stat_summary(fun=mean, geom="point", size=3, shape=21, fill="white",
+               position =position_dodge(width=0.4)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) + 
+  theme(legend.position = "top")
+p4 <- ggplot(vallomas, aes(x=attract, y=sentence, colour=sexdiff)) +
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar", width=0.2,
+               position = position_dodge(width=0.4)) +
+  stat_summary(fun=mean, geom="line", size=0.6, shape=21, fill="white",
+               aes(group=sexdiff),
+               position = position_dodge(width=0.4)) +
+  stat_summary(fun=mean, geom="point", size=3, shape=21, fill="white",
+               position = position_dodge(width=0.4)) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) + 
+  theme(legend.position = "top")
+grid.arrange(p1, p2, p3, p4, ncol=4)
+
+```
+
+A fenti 1. ábra hagyományosnak tekinthető, mert két szempont elrendezett dobozdiagramokat mutat be. A 2-4. ábrák hasonló elrendezésben már pont- és intervallumbecsléseket tartalmaznak. A mintaátlagokat gyakran oszlopdiagramok segítségével ábrázoljuk, akár két faktor mentén elrendezve.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.32
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(vallomas, aes(x=attract, y=sentence, fill=sexdiff)) +
+  stat_summary(fun=mean, geom="col", colour="black", 
+               position=position_dodge()) +
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar", width=0.2,
+               position=position_dodge(width=0.9)) + 
+  scale_fill_brewer(palette="Set2")
+p2 <- ggplot(vallomas, aes(x=attract, y=sentence, fill=sexdiff)) +
+  stat_summary(fun=mean, geom="col", colour="black", fill="#95b0ff") +
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar", width=0.2) +
+  facet_wrap(~sexdiff) +
+  scale_x_discrete(guide = guide_axis(angle = 45))
+grid.arrange(p1, p2, ncol=2)
+
+```
+
+A fenti ábratípusok mindegyikére igaz, hogy a kötelező változókon kívül a geom más paraméterei faktor vagy numerikus változó segítségével tovább finomíthatók. Amennyiben egy új faktort szeretnénk beépíteni a meglévő ábrába, akkor az megjelenhet a meglévő geom elem új paramétereként, például szín vagy kitöltőszín képében, de a `facet_wrap()` függvénnyel mátrixosan is felbonthatjuk az ábránkat az új faktor mentén. A fenti 2. ábrán erre mutattunk példát.
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+Nemcsak nyers adatokat tudunk az ábráinkon megjeleníteni. A dobozdiagram, hisztogram és oszlopdiagram például olyan származtatott adatokat (mediánt, gyakoriságot) jelenít meg, amelyek a nyers adatokból automatikusan számolódnak. A ggplot2 rendszer a háttérben végzi ezeket a számításokat, nem nekünk kell ezt kezdeményezni. Ha szeretnénk elérni ezeket a származtatott változókat, akkor az `after_stat()` függvényt kell használni. Azonban mi is végezhetünk számításokat a nyers adatokkal, tipikusan pont- és intervallumbecsléseket, de ezek eredményének megjelenítéséről már magunknak kell gondoskodni. A leggyakrabban a `stat_summary(fun=mean)` és a `stat_summary(fun.data=mean_cl_normal)` módosítókkal gondoskodunk mintaátlag és várható értékre vonatkozó 95%-os konfidenciaintervallum megjelenítéséről. A fenti becslések ábrára helyezése csak geom elemmel lehetséges, a `geom=` argumentum értéke tipikusan pontbecslés esetén `"col"` vagy `"point"`, intervallumbecslés esetén `"linerange"`, `"errorbar"`, `"pointrange"` vagy `"crossbar"`. A fenti lehetőségeket legtöbbször átlagábrák rajzolásához használjuk.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  A [-@exm-kerdoiv-1] példában 237 Ausztrál egyetemista adata szerepel. Olvassuk be a `kerdoiv.xlsx` állományt, majd hasonlítsuk össze az életkort tartalmazó `Age` változó eloszlását a normális eloszlással. Használjunk hisztogramot és simított hisztogramot is. Próbáljuk egyetlen ábrán elvégezni az összehasonlítást.
+2.  A [-@exm-kerdoiv-1] példában a nem (`Sex`) és a kezesség (`W.Hnd`) faktorok kapcsolata 4 fajta kereszttáblával is vizsgálható: (1) gyakorisági, (2) teljes kereszttáblára vonatkozó százalékos relatív gyakorisági, (3) soronként vett százalékos relatív gyakorisági és (4) oszloponként vett százalékos relatív gyakorisági táblázattal. Mind a négy kétdimenziós gyakorisági táblázatnak rajzoljuk meg az oszlopdiagram megfelelőjét. Az egyes oszlopok feliratként a gyakorisági és a százalékos relatív gyakorisági értékeket is tartalmazzák. A soronként vagy oszloponként vett relatív gyakorisági táblázatokból készült ábrák létrehozásához [használjuk](https://ggobi.github.io/ggally/articles/ggally_stats.html) a `{GGally}` csomag `stat_prop()` függvényét.
+:::
+
+## Ábrák testreszabása `r emoji("exploding-head")` {#sec-abrak-testreszabasa}
+
+::: callout-note
+## Miről lesz szó? Ebben a fejezetben
+
+-   áttekintjük, hogy az ábráink milyen módszerekkel lehetnek még tetszetősebbek és még jobban értelmezhetőek,
+-   így megtanuljuk a feliratok, jelmagyarázatok és a tengelyek beállításait,
+-   a színek és a témák kezelését,
+-   rácsozott (faceting) ábrák készítését,
+-   valamint az elkészült ábra annotálási lehetőségeit.
+:::
+
+Megismerkedtünk a ggplot2 működésével és a legfontosabb ábratípusokkal. Ugyan ábráink szinte publikációkész állapotban vannak, kisebb nagyobb módosításokra még így is szükség lehet. Ezekből a finomítási lehetőségekből tekintünk át néhányat. Már eddig is számos lehetőséggel megismerkedtünk, de ezeket most szisztematikusan áttekintjük.
+
+### Feliratok
+
+Egy ábra számos feliratot tartalmazhat és ezek nagy részét a `labs()` függvénnyel is beállíthatjuk. Megadhatjuk a főcímet (`title=`), az alcímet (`subtitle=`), képaláírást (`caption=`), címkét (`tag=`), az *x* tengely feliratát (`x=`) és az *y* tengely feliratát (`y=`). Amennyiben az ábrán jelmagyarázat is található, akkor a jelmagyarázat feliratát is megváltoztathatjuk úgy, hogy a jelmagyarázat alapját képező geom paraméter nevét meghatározzuk. Ilyen lehet például a `colour=`, `fill=` vagy `linewidth=` paraméterek beállítása. A jelmagyarázatokon megjelenő szövegek is beállíthatók a `scale_color_discrete()`, `scale_fill_discrete()` vagy `scale_linewidth_discrete()` függvények `labels=` argumentumával.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.36
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(alma, aes(x = Grazing, y = Fruit, fill=Grazing)) + 
+  geom_boxplot() + scale_x_discrete(na.translate = F)
+p2 <- p1 + labs(title = "Almafák terméshozama", 
+                subtitle = "N=40", 
+                caption = "Beckerman és mtsai., 2017",
+                tag = "1/1",
+                x = "Legeltetés", 
+                y = "Terméshozam (kg)", 
+                fill = "Legeltetés", 
+                colour = "Legeltetés") +
+        scale_x_discrete(labels = c("Grazed" = "L", 
+                                  "Ungrazed" = "NL")) +
+        scale_fill_discrete(labels = c("Grazed" = "Legelt.", 
+                                     "Ungrazed" = "Nem legelt.")) +
+        scale_color_discrete(labels = c("Grazed" = "Legelt.", 
+                                      "Ungrazed" = "Nem legelt."))
+grid.arrange(p1, p2, ncol=2)
+```
+
+A [-@tbl-feliratszovegel]. táblázatban az ábrán megjelenő feliratok beállításait foglaltuk össze. Minden felirat szöveges tartalma beállítható a `labs()` függvénnyel, de bizonyos esetekben használhatjuk a `gtitle()`, `xlab()` és `ylab()` függvényeket is. A feliratok formátumát a `theme()` függvény megfelelő argumentumával állíthatjuk be.
+
++---------------------+----------------------+------------------------+
+| Felirat             | Szöveg tartalma      | Szöveg formázása       |
++=====================+======================+========================+
+| cím                 | `labs(title=)`\      | `theme(plot.title=)`   |
+|                     | `ggtitle(label=)`    |                        |
++---------------------+----------------------+------------------------+
+| alcím               | `labs(subtitle=)`\   | `theme(plot.sub=)`     |
+|                     | `ggtitle(subtitle=)` |                        |
++---------------------+----------------------+------------------------+
+| képaláírás          | `labs(caption=)`     | `theme(plot.caption=)` |
++---------------------+----------------------+------------------------+
+| címke               | `labs(tag=)`         | `theme(plot.tag=)`     |
++---------------------+----------------------+------------------------+
+| *x* tengely felirat | `labs(x=)`\          | `theme(axis.title.x=)` |
+|                     | `xlab(label=)`       |                        |
++---------------------+----------------------+------------------------+
+| *y* tengely felirat | `labs(y=)`\          | `theme(axis.title.y=)` |
+|                     | `ylab(label=)`       |                        |
++---------------------+----------------------+------------------------+
+
+: Az ábra feliratainak beállításai. {#tbl-feliratszovegel}
+
+A formátum meghatározásához az `element_text()` függvényt használhatjuk, amely számos beállítási lehetőséggel rendelkezik ([-@tbl-elementtext]. táblázat). Ha törölni szeretnénk az adott feliratot az ábráról, akkor az `element_blank()` függvényt használhatjuk.
+
++---------------+----------------------------------------------------+
+| Paraméter     | Jelentés                                           |
++===============+====================================================+
+| `family=`     | betűtípus (pl. Times New Roman)                    |
++---------------+----------------------------------------------------+
+| `face=`       | betűstílus (pl. plain, italic, bold, bold.italic   |
++---------------+----------------------------------------------------+
+| `colour=`     | szöveg színe                                       |
++---------------+----------------------------------------------------+
+| `size=`       | szöveg mérete pt-ban                               |
++---------------+----------------------------------------------------+
+| `hjust=`      | horizontális igazítás(lehetséges értékek: \[0, 1\] |
++---------------+----------------------------------------------------+
+| `vjust=`      | vertikális igazítás (lehetséges értékek \[0, 1\])  |
++---------------+----------------------------------------------------+
+| `lineheight=` | sormagasság, többsoros szöveg esetén a sorközhöz   |
++---------------+----------------------------------------------------+
+| `angle=`      | a szöveg forgatása (lehetséges értékek \[0, 360\]) |
++---------------+----------------------------------------------------+
+
+: A szöveg formátumának beállítása az `element_text()` függvényben. {#tbl-elementtext}
+
+A következő ábrát a már korábban elkészült `p2` ábra módosításával hozzuk létre. Az `element_text()` függvény lehetőségeire hívjuk fel a figyelmet az új ábrával. Első lépésként a `{showtext}` csomag segítségével betöltjük a Times New Roman és a Roboto betűtípusokat. A `{showtext}` csomag használatával a Google fontokat is betölthetjük, amelyeket a [Google Fonts](https://fonts.google.com/) weboldalról tölthetünk le. A következő példában a Times New Roman és a Roboto betűtípusokat használjuk.
+
+```{r}
+library(showtext)
+# lokális font betöltése
+font_add("Times New Roman", regular = "times.ttf")
+## Google font betöltése (https://fonts.google.com/)
+font_add_google("Roboto", "roboto")
+font_add_google("Pacifico", "pacifico")
+font_add_google("Alegreya", "alegreya")
+font_add_google("Kalam", "kalam")
+font_add_google("Kaushan Script", "kaushan")
+font_add_google("Courgette", "courgette")
+## Betöltött fontok használata
+showtext_auto()
+```
+
+A fontok birtokában elkészítjük a `p2` ábrát, amelyen a cím, az alcím és a képaláírás betűtípusát is megváltoztatjuk. A `theme()` függvény segítségével a tengelyek feliratait és a tengelyek szövegét is átírjuk. A `theme()` függvény argumentumainak beállításait a [-@tbl-elementtext]. táblázatban található paraméterekkel végezzük el.
+
+```{r}
+#| fig-align: center
+#| fig-width: 4
+#| fig-asp: 0.6
+#| warning: false
+#| message: false
+#| tidy: false
+#| out-width: '90%'
+
+p2 + theme(plot.title=element_text(family = "kaushan"),
+           plot.sub=element_text(family = "Times New Roman"),
+           plot.caption=element_text(family = "courgette"),
+           plot.tag=element_text(family = "kalam"),
+           axis.title.y=element_text(family = "pacifico",
+                                     face = "bold",
+                                     colour = "darkblue",
+                                     size=16,
+                                     angle = 45,
+                                     vjust=0.5),
+           axis.title.x=element_text(family = "alegreya", size="14"),
+           axis.text.x = element_text(family="roboto", angle=45, size=14),
+           axis.text.y = element_text(family="roboto", angle=45, size=14),
+           legend.title = element_blank(), 
+           legend.text = element_text(family="roboto", face="italic"))
+showtext_auto(FALSE) # a fontok használatának kikapcsolása
+```
+
+### Jelmagyarázat
+
+Ábráinkat a jelmagyarázatok teszik beszédessé. A ggplot2 rendszer szükség esetén automatikusan megjeleníti a jelmagyarázatot. Már most megemlítjük, hogy a `theme(legend.position="none")` segítségével tilthatjuk meg a jelmagyarázat megjelenítését. A következő példában a leképezés részben használtuk a kitöltő színt (`fill=Smoke`), így a jelmagyarázat automatikusan megjelenik. A jelmagyarázatban lévő szövegek átírását, ahogyan korábban is láttuk már, a `labs(fill=)` és a `scale_fill_discrete(name=,labels=)` segítségével szabályozhatjuk. A jelmagyarázatban megjelenő szövegek sorrendjét a `guides(fill=guide_legend(reverse=T))` segítségével fordíthatjuk meg.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.7
+#| warning: false
+#| message: false
+#| tidy: false
+
+# a dohányzási szokás ordinális változó, a címkék sorrendjét átírjuk
+kerdoiv$Smoke <- factor(kerdoiv$Smoke, 
+                        levels=c("Never", "Occas", "Regul", "Heavy"))
+p1 <- kerdoiv |>  drop_na("Smoke") |> 
+  ggplot(aes(x=Smoke, y=Pulse, fill=Smoke)) + geom_boxplot()
+p2 <- p1 + labs(fill="Dohányzás")
+p3 <- p1 + scale_fill_discrete(name="Dohányzás", 
+                         labels=c("Never" = "Soha", 
+                                  "Occas" = "Alkalmi", 
+                                  "Regul" = "Gyakran", 
+                                  "Heavy" = "Erős"))
+p4 <- p3 + guides(fill = guide_legend(reverse=T))
+grid.arrange(p1, p2, p3, p4, ncol=2)
+```
+
+A jelmagyarázat helyét és irányát a kívánt módon állíthatjuk be.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.85
+#| warning: false
+#| message: false
+#| tidy: false
+
+p0 <- kerdoiv |>  drop_na("Smoke") |> 
+  ggplot(aes(x=Smoke, y=Pulse, fill=Smoke)) + geom_boxplot()
+p1 <- p0 + theme(legend.position = "none")
+p2 <- p0 + theme(legend.position = "top")
+p3 <- p0 + theme(legend.position = "top", 
+                 legend.direction = "vertical")
+p4 <- p0 + theme(legend.position = c(0.6, 0.1), 
+                 legend.direction = "horizontal",
+                 legend.title = element_blank())
+grid.arrange(p1, p2, p3, p4, ncol=2)
+```
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.4
+#| warning: false
+#| message: false
+#| tidy: false
+
+p0 <- kerdoiv |>  drop_na("Smoke") |> 
+  ggplot(aes(x=Smoke, y=Pulse, fill=Smoke)) + geom_boxplot()
+p1 <- p0 + theme(legend.background = element_rect(fill="lightblue", 
+                                                  colour="blue", 
+                                                  linewidth = 1, 
+                                                  linetype="solid"))
+p2 <- p1 + theme(legend.key = element_rect(fill="lightblue"),
+                 legend.key.size = unit(0.3, "cm"))
+grid.arrange(p1, p2, ncol=2)
+```
+
++--------------+-----------------------+-----------------------------------------------------+
+| Jellemző     | Formázó paraméter a\  | Lehetséges érték(ek)                                |
+|              | `theme()` függvényben |                                                     |
++==============+=======================+=====================================================+
+| pozíció      | `legend.position=`    | `none, right, left, top, bottom`\                   |
+|              |                       | vagy `c(x, y)`, ahol `x` és `y`\                    |
+|              |                       | \[0,1\] közötti                                     |
++--------------+-----------------------+-----------------------------------------------------+
+| irány        | `legend.direction=`   | `horizontal, vertical`                              |
++--------------+-----------------------+-----------------------------------------------------+
+| cím          | `legend.title=`       | `element_text()` lásd [-@tbl-elementtext]. táblázat |
++--------------+-----------------------+-----------------------------------------------------+
+| szöveg       | `legend.text=`        | `element_text()` lásd [-@tbl-elementtext]. táblázat |
++--------------+-----------------------+-----------------------------------------------------+
+| háttér       | `legend.background=`  | `element_rect(fill, colour,`\                       |
+|              |                       | `linewidth, linetype)`                              |
++--------------+-----------------------+-----------------------------------------------------+
+| kulcs        | `legend.key=`         | `element_rect(fill, colour)`                        |
++--------------+-----------------------+-----------------------------------------------------+
+| kulcs mérete | `legend.key.size=`    | `unit()`                                            |
++--------------+-----------------------+-----------------------------------------------------+
+
+: A jelmagyarázat megjelenésének beállításai. {#tbl-legendparam}
+
+A `legend.position=` értéke lehet két szám, 0 és 1 között, ahol a c(0,0) megfelel a bal alsó saroknak, a c(1,1) a jobb felső saroknak.
+
+A jelmagyarázatban megjelenő kulcsok sorrendje és a hozzá tartozó címkék is megváltoztathatók ([-@tbl-legendparam]. táblázat).
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.6
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- kerdoiv |>  drop_na("Sex", "Smoke") |> 
+  ggplot(aes(x=Wr.Hnd, y=Height, colour=Sex, shape=Smoke)) + 
+  geom_point() + 
+  stat_ellipse(aes(x=Wr.Hnd, y=Height, colour=Sex), inherit.aes = F) +
+  theme(legend.spacing = unit(0.5, "cm"), 
+        legend.spacing.y = unit(0.1, "cm"),
+        legend.spacing.x = unit(0.01, "cm"),
+        legend.key.height = unit(0.2, "cm"))
+p2 <- p1 + guides(colour=F)
+p3 <- p1 + guides(shape=F)
+p4 <- p1 + guides(colour=guide_legend(order=1), 
+                  fill=guide_legend(order=2))
+grid.arrange(p1, p2, p3, p4, ncol=2)
+```
+
+A `guide_legends()` beállításai és a korábban használt beállítási lehetőségek között nagy átfedés van. Például az adott geom paraméterre vonatkozó címet a `title=` argumentummal is át tudjuk írni.
+
+### Tengelyek beállításai
+
+Az ábra tengelyeinek beállítása legtöbb esetben a következő összetevőket jelenti:
+
+-   tengelyek megfordítása (`coord_flip()`),
+-   láthatósági tartomány beállítása (`coord_cartesian(xlim=,ylim=)`),
+-   tengelyek átskálázása (például `scale_y_log10()`, `scale_y_sqrt()`, `scale_y_reverse()`),
+-   tengely osztásközök beállításai (például `scale_x_discrete` és `scale_y_continuous()`).
+
+#### Tengelyek felcserélése
+
+A lenti ábrákat már korábban megrajzoltuk. Most a `coord_flip()` függvénnyel egyszerűen felcseréljük az ábra *x* és *y* tengelyét.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  geom_boxplot() + 
+  stat_summary(fun.data = mean_se, geom="errorbar", col="red") + 
+  stat_summary(fun = mean, geom="point", col="red") 
+p1 <- p1 + coord_flip()
+p2 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  geom_quasirandom() +
+  stat_summary(fun.data = median_hilow, fun.args = list(conf.int=0.5),
+               geom="pointrange", col="red")
+p2 <- p2 + coord_flip()
+p3 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  geom_violin() + 
+  stat_summary(fun.data = mean_cl_normal, col="red",
+               fun.args = list(conf.int=0.99), geom="pointrange")
+p3 <- p3 + coord_flip()
+p4 <- ggplot(vallomas, aes(x=attract, y=sentence)) + 
+  geom_beeswarm() +
+  stat_summary(fun = median, fun.min=median, fun.max=median, 
+               geom="crossbar", col="red")
+p4 <- p4 + coord_flip()
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+#### Tengelyek láthatósági tartománya
+
+A ggplot2 rendszer az *x* és *y* tengely ábrán látható tartományát automatikusan határozza meg a leképezésben megadott változók mintabeli értéktartománya alapján. Előfordul, hogy ezen szeretnénk változtatni. Használjuk a `coord_cartesian(xlim=,ylim=)` függvényt, ahol az *x* és *y* tengely határait a két-két végpont beállításával adhatjuk meg.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.25
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(kerdoiv, aes(x=Height, y=Wr.Hnd)) + geom_point()
+p2 <- p1 + coord_cartesian(xlim = c(170, 180))
+p3 <- p1 + coord_cartesian(xlim = c(170, 180), ylim=c(17, 20))
+p4 <- p1 + coord_cartesian(xlim = c(0, 200), ylim=c(0, 50))
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+A fenti 1. ábrán az alapértelmezett tengelytartományokat láthatjuk, a 2-4. ábrákon pedig változtattunk ezeken. Vegyük észre, hogy milyen nagy mértékben járul hozzá az ábrák értelmezéséhez a tengelyek láthatósági tartománya.
+
+#### Tengelyek skálázása
+
+A tengelyek skálázásával jelentősen tudunk változtatni az ábránk megjelenésén. A `{fosdata}` csomag `brake` adatbázisa reakcióidőket tartalmaz (`latency_p1` és `p1_p2`) ms-ban mérve. A reakcióidők gyakran jobbra ferde eloszlásúak. A lenti 1-2. ábráról leolvasható, hogy mindkét vizsgált változónk valóban jobbra ferde, a könnyebb értelmezés miatt az adatokra illeszthető normális eloszlás sűrűségfüggvényét is berajzoltuk (piros görbe). A 3. ábrán a két jobbra ferde reakcióidő kétdimenziós pontdiagramját láthatjuk, míg a 4. ábrán ugyanezt, a két tengely 10-es alapú logaritmikus transzformációja után (`scale_x_log10()` és `scale_y_log10()`).
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.27
+#| warning: false
+#| message: false
+#| tidy: false
+
+fek <- fosdata::brake
+p1 <- ggplot(fek, aes(x=latency_p1))  + geom_density() + 
+  stat_theodensity(colour="red")
+p2 <- ggplot(fek, aes(x=p1_p2)) + geom_density() + 
+  stat_theodensity(colour="red")
+p3 <- ggplot(fek, aes(x=p1_p2, y=latency_p1)) + geom_point()
+p4 <- ggplot(fek, aes(x=p1_p2, y=latency_p1)) + geom_point() + 
+  scale_x_log10() + scale_y_log10()
+grid.arrange(p1, p2, p3, p4, ncol=4)
+```
+
+#### Osztásközök beállításai
+
+A tengelyekkel kapcsolatos utolsó beállítási lehetőség, hogy az *x* és *y* tengelyen hol és milyen címkékkel rajzoljunk osztásközöket. A megjelenő címkék hozzájárulnak az ábra könnyebb értelmezéséhez, így jelentőségük nagyobb mint gondolnánk.
+
+A példákban a következő egyszerű adatbázist fogjuk használni, egy karakteres oszloppal és két numerikussal.
+
+```{r}
+#| tidy: false
+
+d.tbl <- tribble(
+  ~csop, ~ertek, ~x,
+  "A", 0.01, 2,
+  "B", 0.03, 4,
+  "C", 0.11, 5,
+   NA, 0.02, 4.5
+)
+```
+
+Amennyiben valamely tengelyhez kategorikus változó tartozik, akkor a `scale_x_discrete()` vagy `scale_y_discrete()` függvényt használhatjuk a tengelyek beállításaira. Összefoglaljuk a leggyakrabban használt paramétereket:
+
+-   `name=` - A tengely felirata.
+-   `breaks=` - Az osztásközök megadása, ami egyben a megjelenő léptékeket a rácsvonalakat is beállítja. Lehetséges értékei például:
+    -   `NULL` - Minden osztásköz eltávolítása.
+    -   Karakteres vagy numerikus vektor, amely a megjelenő osztásközöket tartalmazza.
+-   `labels=` - Az egyes osztásközök felirata. Lehetséges értékei például:
+    -   `NULL` - Minden osztásköz feliratának eltávolítása.
+    -   Karakteres vagy numerikus vektor, amely a megjelenő osztásközök feliratát tartalmazza, így átnevezésre is van lehetőségünk.
+-   `limits=` - Karakteres vektor, amely a megjelenő adatkategóriákat tartalmazza a megfelelő sorrendben.
+
+A fenti paraméterek használatára mutat példát a következő nyolc ábra.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.45
+#| warning: false
+#| message: false
+#| tidy: false
+
+# alapértelmezett megjelenítés
+p1 <- ggplot(d.tbl, aes(x=csop, y=ertek)) + 
+  geom_col(fill="#E1B378") + labs(x=NULL, y=NULL) 
+ # átnevezzük az x tengely értékeit, mindet
+p2 <- p1 + scale_x_discrete(labels=c("A1", "B1", "C2", "??"))
+# átnevezzük az x tengely értékeit, néhányat
+p3 <- p1 + scale_x_discrete(labels=c("A"="A1", "C"="C2"))
+# nem kell minden az x tengelyről
+p4 <- p1 + scale_x_discrete(limits=c("A","B", NA))
+# sorrend az x tengelyen
+p5 <- p1 + scale_x_discrete(limits=c("B", NA, "A"))
+# NA eltávolítása
+p6 <- p1 + scale_x_discrete(na.translate = F)
+# Csak bizonyos jelölések jelenjenek meg
+p7 <- p1 + scale_x_discrete(breaks=c("A", "C"))
+# Csak bizonyos jelölések jelenjenek meg, átnevezve
+p8 <- p1 + scale_x_discrete(breaks=c("A", "C"), labels=c("A1", "C1"))
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, ncol=4)
+```
+
+Numerikus tengelyek esetében a `scale_x_continuous()` vagy `scale_y_continuous()` függvényeket használhatjuk az osztásközök beállítására. A szokásos argumentumok a következők:
+
+-   `name=` - A tengely felirata.
+-   `breaks=` - Az osztásközök megadása, ami egyben a megjelenő fő léptékeket a fő rácsvonalakat is beállítja. Lehetséges értékei például:
+    -   `NULL` - Minden osztásköz eltávolítása.
+    -   Numerikus vektor, amely a megjelenő fő osztásközöket tartalmazza.
+-   `minor_breaks=` - A kis osztásközök megadása, ami egyben a megjelenő kis léptékeket a kis rácsvonalakat is beállítja. Lehetséges értékei például:
+    -   `NULL` - Minden kis osztásköz eltávolítása.
+    -   Numerikus vektor, amely a megjelenő kis osztásközöket tartalmazza.
+-   `labels=` -  A fő osztásközök felirata. Lehetséges értékei például:
+    -   `NULL` - Minden fő osztásköz feliratának eltávolítása.
+    -   Karakteres vektor, amely a megjelenő fő osztásközök feliratát tartalmazza.
+    -   Egy függvény, amely előállítja a feliratokat. Gyakran használjuk a következő függvényeket a `{scales}` csomagból:
+        -   `label_number(accuracy,scale,prefix,suffix,big.mark,decimal.mark)` - hagyományos, tizedes törtes megjelenítés
+        -   `label_number(accuracy,scale,prefix,suffix,big.mark,decimal.mark)` - százalékos formára konvertált megjelenítés
+        -   `label_scientific(digits,scale,prefix,suffix,decimal.mark)` - exponenciális alakú számok megjelenítése
+-   `limits=` A megjelenő értékek kezdő és végpontja, `limits=c(<min>, <max>)` formában.
+
+Látható, hogy numerikus tengely esetén egy kicsivel több lehetőségünk van a beállítások során, mint kategorikus tengely esetében. A következő nyolc ábra a fenti paraméterek beállításaira mutat példát.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.45
+#| warning: false
+#| message: false
+#| tidy: false
+
+# ebből az ábrából indulunk ki
+p0 <- ggplot(d.tbl, aes(x=csop, y=ertek)) + 
+  geom_col(fill="#E1B378") + labs(x=NULL, y=NULL) 
+# a tizedes törtes megjelenítés előírása, tizedesvessző beállítása
+p1 <- p0 + 
+  scale_y_continuous(labels=label_number(decimal.mark = ",",
+                                         accuracy=0.01))
+# százalékos forma előírása, tizedesvessző beállítása
+p2 <- p0 + 
+  scale_y_continuous(labels = label_percent(decimal.mark = ",",
+                                            accuracy = 1))
+# exponenciális alak előírása, tizedesvessző beállítása
+p3 <- p0 + scale_y_continuous(labels=label_scientific())
+# skálázás (szorzás 100-zal) és suffix beállítása (Celsius)
+p4 <- p0 + scale_y_continuous(labels=label_number(decimal.mark = ",",
+                                                  scale = 100,
+                                                  accuracy = 1,
+                                                  suffix="\u00b0C"))
+# kis léptékek beállítása
+p5 <- p0 + scale_y_continuous(minor_breaks = seq(0, 0.12, 0.01))
+# nagy léptékek beállítása
+p6 <- p0 + scale_y_continuous(breaks = seq(0, 0.12, 0.01))
+# nagy és kis léptékek
+p7 <- p0 + 
+  scale_y_continuous(breaks = seq(0, 0.12, 0.04),
+                     minor_breaks = seq(0, 0.12, 0.01))
+# nagy léptékek beállítása és a feliratok megváltoztatása
+p8 <- p0 + 
+  scale_y_continuous(breaks = seq(0, 0.12, 0.01),
+                     labels = LETTERS[1+100*seq(0, 0.12, 0.01)])
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, ncol=4)
+```
+
+A további példákban egy új ábrából indulunk ki, ahol az *x* tengely a numerikus. Fontos megjegyezni, hogy a `guides(x = guide_axis(n.dodge = 2))` módosítóval az *x* tengelyen 2 soros osztásköz feliratot tudunk beállítani. A `guides()` függvény számos korábban megismert beállítási lehetőség alternatíváját kínálja.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.3
+#| warning: false
+#| message: false
+#| tidy: false
+
+# új ábra
+p1 <- ggplot(d.tbl, aes(x=x, y=ertek)) + geom_col(fill="#56B4E9") + 
+  labs(x=NULL, y=NULL)
+# nem minden értéket szeretnénk látni, plusz tengelyfelirat
+p2 <- p1 + scale_x_continuous(limits = c(3, 7), 
+                              name="x tengely")
+# hol legyen fő lépték
+p3 <- p1 + scale_x_continuous(breaks = seq(0, 10, 1), 
+                              limits=c(0, 10)) +
+  guides(x = guide_axis(n.dodge = 2))
+# szöveges felirat
+p4 <- p1 + 
+  scale_x_continuous(breaks = c(2, 4, 4.5, 5), 
+                     limits = c(1, 6),
+                     labels=c("kettő","négy", "négy és fél", "öt")) +
+  guides(x = guide_axis(n.dodge = 3))
+# szöveges felirat, plusz eltolás az osztások feliratában
+p5 <- p1 + 
+  scale_x_continuous(breaks = c(2, 4, 4.5, 5), 
+                     limits = c(1, 6),
+                     labels=c("kettő","négy", "négy és fél", "öt")) +
+  guides(x = guide_axis(angle=90))
+grid.arrange(p1, p2, p3, p4, p5, ncol=5, 
+             layout_matrix=rbind(c(1,2,3,4,4,5,5)))
+```
+
+### Színek
+
+A színek használatával ábráink szebbek és jobban értelmezhetőek lehetnek. Korábban számos alkalommal adtunk meg közvetlenül színt. Például a hisztogram téglalapjainak kitöltőszínét (`fill=`) vagy keretszínét (`colour=`) is meghatároztuk ([-@fig-hisztogram-01] ábra). Amikor R-ben egy konkrét színre hivatkozunk 3 módszert használhatunk:
+
+-   szín megnevezése (például `"blue"`, `"lightblue"`; az összes használható színnév a `colors()` függvénnyel kiíratható)
+-   hexadecimális kód (például `"#000000"`, `"#FFFFFF"`, ahol a piros (R), zöld (Z) és kék (K) mennyiségét adjuk meg a színben #RRGGBB formában)
+-   az `rgb(maxColorValue = 255)` függvény, ahol 0 és 255 közötti számmal adjuk meg a piros, zöld és kék komponensek értékét (például `rgb(red=255, green=165, blue=0, maxColorValue = 255)`).
+
+A fentiek alapján, amikor a korábban említett [-@fig-hisztogram-01] ábrán a `fill="lightblue"` paramétert használtuk, akkor a `fill="#ADD8E6"` és a `fill=rgb(red = 173, green = 216, blue = 230, maxColorValue = 255)` kifejezéseket is megadhattuk volna. A `col2rgb()` függvénnyel magunk is meggyőződhetünk a három színmegadási mód azonosságáról.
+
+```{r}
+# ugyanaz a szín háromféle megadási móddal
+col2rgb("lightblue")
+col2rgb("#ADD8E6")
+col2rgb(rgb(red = 173, green = 216, blue = 230, maxColorValue = 255))
+```
+
+Amikor a `fill=` vagy `colour=` paraméterekkel színek megjelenésére adunk utasítást, akkor figyelnünk kell, hogy azt a leképezésen (`aes()` függvényen) belül tesszük meg, vagy valahol azon kívül. Megkülönböztetünk tehát két esetet, ahol a színeket specifikálhatjuk:
+
+-   leképezésen belül, azaz az `aes()` függvényben, ekkor a szín megadásához az adatmátrix változóit használjuk, faktorokat vagy numerikus vektorokat:
+    -   `fill=<változónév>`
+    -   `colour=<változónév>`\
+-   leképezésen kívül, azaz közvetlenül a `ggplot()` függvényben, vagy valamelyik `geom_*()` függvényben, ekkor konkrét színt adunk meg:
+    -   `fill="white"`
+    -   `colour="#c1c1c1"`.
+
+Leképezésen belül, változók megadásával akkor írjuk elő színek megjelenését, ha az ábra tartalmát, értelmezését, felépítését szeretnénk megváltoztatni. A fejezet további részében ezeket az eseteket vesszük sorra. Leképezésen kívül, konkrét színkódok megadásával akkor adunk meg színt, ha szépíteni szeretnénk ábránk megjelenésén. Ebbe a kategóriába tartozott a már korábban említett [-@fig-hisztogram-01]. hisztogram kék színűre színezése is.
+
+A színezésre megfogalmazott fenti szabály a geom elemek más paramétereire is igazak. Tudnunk kell, hogy a `linetype=`, `linewidth=`, `shape=` `size=`, `alpha=` és egyéb geom paramétereket a leképezésen belül vagy azon kívül kívánjuk használni. Az első esetben ezeknek a geom paramétereknek konkrét jelentése van, míg a második esetben csak az ábra külalakján finomítanak.
+
+A továbbiakban a jelentéssel bíró, az ábra értelmezését meghatározó színezéseket fogjuk áttekinteni. Ilyenkor a leképezésen belül írjuk elő színek használatát, nem konkrét színkódot adunk meg, hanem változót. A ggplot2 rendszer automatikusan gondoskodik arról, hogy a változó értékeihez milyen konkrét színkódok fognak tartozni. Ezt az automatikus folyamatot, vagyis a változóérték-színkód összerendelést közvetett és közvetlen módon is felülbírálhatjuk. Ezt a két esetet tekintjük át részletesebben.
+
+#### Színek közvetett beállítása
+
+A ggplot2 rendszerben a színek alkalmazása automatikusan történik, amikor a leképezésben (`aes()` függvényben) a szokásos `x=` és/vagy `y=` paraméterek mellett a `colour=` vagy `fill=` argumentumokat is használjuk. Ekkor receptszerűen előírjuk, hogy ábránkon a megadott kategorikus vagy numerikus változó értékének megfelelően több szín is jelenjen meg. De melyek lesznek a ténylegesen használt színkódok?
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.7
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(kerdoiv, aes(x=Smoke, y=Wr.Hnd, fill=Smoke)) + 
+  geom_boxplot()
+p2 <- ggplot(kerdoiv, aes(x=Wr.Hnd, y=NW.Hnd, colour=Smoke)) + 
+  geom_point()
+p3 <- ggplot(kerdoiv, aes(x=Wr.Hnd, fill=after_stat(count))) + 
+  geom_histogram(binwidth=1)
+p4 <- ggplot(kerdoiv, aes(x=Wr.Hnd, y=NW.Hnd, colour=Height)) + 
+  geom_point()
+grid.arrange(p1, p2, p3, p4, ncol=2)
+```
+
+A fenti 1-2. ábra kategorikus változót (`Smoke`) rendel a `fill=` (1. ábra) és a `colour=` (2. ábra) argumentumhoz. A jelmagyarázatban a `Smoke` értékei és az automatikusan hozzárendelt színeket látjuk. Az automatikus hozzárendeléshez a ggplot2 a `scale_fill_hue()` és `scale_colour_hue()` függvényt használja, amelyek valójában a `scales::hue_pal()(4)` függvényt hívják, mivel a `Smoke` faktornak négy szintje van. A használt színkódok a következők:
+
+```{r}
+# alapértelmezett színkódok
+scales::hue_pal()(4)
+```
+
+A fenti 3-4. ábra numerikus változót rendel a `fill=` (3. ábra) és a `colour=` (4. ábra) argumentumhoz. A jelmagyarázatban egy színskála szerepel, amely a `count`, illetve a `Height` változó értékeinek teljes tartományát reprezentálja. A ggplot2 a `scale_fill_gradient()` és a `scale_colour_gradient()` függvényeket használja a színskála összeállításához.
+
+Látjuk, hogy a ggplot2 a fenti ábrák létrehozásához nem kért tőlünk konkrét színkódokat, mégis a faktor vagy numerikus változó egyes értékeinek reprezentáláshoz automatikusan megjelentek bizonyos színek. Ezeken természetesen magunk is változtathatunk.
+
+Felsorolunk néhány lehetőséget kitöltőszín (`fill=`) automatikus beállítására (a lenti függvényekben a `fill` helyett a `colour` szót használjuk, ha a `colour=` szerepel a leképezésben):
+
+-   Kategorikus változó esetén:
+    -   `scale_fill_hue()` - ez az alapértelmezés
+    -   `scale_fill_grey()` - szürke színárnyalatok magadása
+    -   `scale_fill_viridis_d()` - színek a `{viridisLite}` csomagból
+    -   `scale_fill_brewer()` - színek a `{RColorBrewer}` csomagból
+    -   `scale_fill_calc()` - színek a LibreOffice Calc-ból
+    -   `ggthemes::scale_fill_canva()` canva.com színpalettái
+    -   `ggthemes::scale_fill_colorblind()` színpaletta színtévesztők számára
+    -   `ggthemes::scale_fill_pander()` színpaletta a `{pander}` csomagból
+    -   `ggthemes::scale_fill_wsj()` Wall Street Journal színpaletta
+    -   `ggthemes::scale_fill_tableau()` Tableau színpalettája
+    -   `ggthemes::scale_fill_stata()` Stata színpalettája
+    -   `ggthemes::scale_fill_hc()` Highcharts színpaletta
+-   Numerikus változók esetén:
+    -   `scale_fill_gradient()`
+    -   `scale_fill_gradient2()`
+    -   `scale_fill_gradientn()`
+    -   `ggthemes::scale_fill_gradient_tableau()`
+
+A fenti függvények az alapértelmezett színpalettát cserélik le, így az ábrán már más színek fognak megjelenni. A fenti függvények többsége számos paraméterrel tovább specifikálható. Például a `scale_fill_grey(start = 0.5, end = 0.9)` az alapértelmezett (\[0, 1\]) feketétől fehérig terjedő színárnyalatokból való választást eltolja a világosak irányába (\[0,5;0,9\]). A `scale_fill_brewer(palette = "Accent")` a számos előre definiált paletta közül az `Accent` nevűt választja a változóérték-színkód összerendelés során. A következő négy ábra az alapértelmezett színpaletta megváltoztatására mutat példát kategorikus változó esetében.
+
+```{r}
+#| label: fig-szinpaletta-kat-01
+#| fig-cap: "Alapértelmezett színpaletta megváltoztatása kategorikus változó esetén"
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.7
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(kerdoiv, aes(x=Smoke, y=Wr.Hnd, fill=Smoke)) + 
+  geom_boxplot() + scale_fill_grey(start = 0.5, end = 0.9)
+p2 <- ggplot(kerdoiv, aes(x=Smoke, y=Wr.Hnd, fill=Smoke)) + 
+  geom_boxplot() + scale_fill_brewer(palette = "Accent")
+p3 <- ggplot(kerdoiv, aes(x=Smoke, y=Wr.Hnd, fill=Smoke)) + 
+  geom_boxplot() + scale_fill_calc()
+p4 <- ggplot(kerdoiv, aes(x=Smoke, y=Wr.Hnd, fill=Smoke)) + 
+  geom_boxplot() + scale_fill_canva()
+grid.arrange(p1, p2, p3, p4, ncol=2)
+```
+
+Az `{RColorBrewer}` csomag színpalettái különösen hasznosak lehetnek ábráink színezésére. Kategorikus változó esetén használható összes színpalettát a [-@fig-rcolorbrewer-01]. ábra tartalmazza (`RColorBrewer::display.brewer.all()`).
+
+```{r}
+#| label: fig-rcolorbrewer-01
+#| fig-cap: "Az RColorBrewer színpalettái"
+#| fig-align: center
+#| fig-width: 5.5
+#| fig-asp: 1.3
+#| warning: false
+#| message: false
+#| echo: false
+
+old.par <- par(mar=c(0,3,0,0))
+RColorBrewer::display.brewer.all()
+par(old.par)
+```
+
+Numerikus változók esetén is van módunk állítani az előre definiált változóérték-színkód összerendelésen. Az alapértelmezett `scale_fill_gradient(low = "#132B43",  high = "#56B1F7")` összerendelés a sötétkéktől a világoskékig tartó intervallumból választ színeket. Ezt például a `low = "yellow", high = "red"` paraméterekkel felülírhatjuk. Ha a `scale_fill_gradient2()` függvényt használjuk, akkor egy közbülső pont színének megadására is van módunk, míg a `scale_fill_gradientn()` tetszőlegesen sok szín megadását teszi lehetővé. A folytonos színpaletták használatára mutat példát a lenti négy ábra.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.7
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(kerdoiv, aes(x=Wr.Hnd, fill=after_stat(count))) + 
+  geom_histogram(binwidth=1) + 
+  scale_fill_gradient(low = "yellow", high = "red")
+p2 <- ggplot(kerdoiv, aes(x=Wr.Hnd, fill=after_stat(count))) + 
+  geom_histogram(binwidth=1) + 
+  scale_fill_gradient2(low = "blue",mid = "white", high = "red", 
+                       midpoint=30)
+p3 <- ggplot(kerdoiv, aes(x=Wr.Hnd, fill=after_stat(count))) + 
+  geom_histogram(binwidth=1) + 
+  scale_fill_gradientn(colours = rainbow(5))
+p4 <- ggplot(kerdoiv, aes(x=Wr.Hnd, fill=after_stat(count))) + 
+  geom_histogram(binwidth=1) + 
+  scale_fill_gradient_tableau(palette = "Orange")
+grid.arrange(p1, p2, p3, p4, ncol=2)
+```
+
+#### Színek közvetlen megadása
+
+A kategorikus változók színeit közvetlenül is meghatározhatjuk, nem kell feltétlenül egy előre definiált színpaletta színeit használni úgy, ahogy azt az előző fejezetben láthattuk.
+
+Szinek közvetlen beállítására a leképezésben használt paramétertől függően használhatjuk a következő függvényeket:
+
+-   `scale_fill_manual()` - dobozdiagram, oszlopdiagram stb. kitöltőszínének beállítására, amikor a `fill=` szerepel a leképezésben
+-   `scale_color_manual()` - vonalak vagy pontok színének beállítására, amikor a `colour=` szerepel a leképezésben.
+
+Színek közvetlen beállítására mutat példát a következő két ábra. Láthatjuk, hogy a hiányzó érték jelzésére használt színt az `na.value=` argumentummal szabályozhatjuk. Ezt az argumentumot az előző fejezet összes `scale_fill_*()` és `scale_colour_*()` függvényében is használhattuk volna.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.35
+#| warning: false
+#| message: false
+#| tidy: false
+
+p1 <- ggplot(kerdoiv, aes(x=Smoke, y=Wr.Hnd, fill=Smoke)) + 
+  geom_boxplot() + 
+  scale_fill_manual(values=c("#999999","#E69F00", 
+                             "#56B4E9","#009E73"), na.value = "white")
+p2 <- ggplot(kerdoiv, aes(x=Wr.Hnd, y=NW.Hnd, colour=Smoke)) + 
+  geom_point() + 
+  scale_color_manual(values=c("#D3BA68", "#D5695D",
+                   "#5D8CA8", "#65A479"),na.value = "black")
+grid.arrange(p1, p2, ncol=2)
+```
+
+### Témák
+
+A ggplot2 rendszerhez számos ábrastílus készült, amelyeket a `theme_*()` függvényekkel adhatunk az ábránkhoz. Az egyes témák egyéni beállítások sorát tartalmazzák például az ábra színezésére, betűtípusára és betűnagyságára vonatkozóan. A `{ggplot2}` csomag maga is több témát tartalmaz, de ezeket például a `{ggthemes}` csomag újabb ábrastílusokkal egészíti ki. Nézzünk példát néhány ábrastílusra. Megjegyezzük, hogy a [-@sec-folytonos-kvanitativ]. fejezet utolsó ábrájától kezdve az összes ábránk stílusa `theme_bw()` volt, és erről a beállításáról az `old.theme <- theme_set(theme_bw())` globálisan érvényes paranccsal gondoskodtunk.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.75
+#| warning: false
+#| message: false
+#| tidy: false
+
+p0  <- ggplot(data=alma, aes(x=Grazing, y=Fruit)) + geom_boxplot()
+p1  <- p0 + theme_gray() + labs(subtitle = "theme_gray()")
+p2  <- p0 + theme_bw() + labs(subtitle = "theme_bw()")
+p3  <- p0 + theme_classic() + labs(subtitle = "theme_classic()")
+p4  <- p0 + theme_light() + labs(subtitle = "theme_light()")
+p5  <- p0 + theme_minimal() + labs(subtitle = "theme_minimal()")
+p6  <- p0 + theme_clean() + labs(subtitle = "theme_clean()")
+p7  <- p0 + theme_economist() + labs(subtitle = "theme_economist()")
+p8  <- p0 + theme_economist_white() + 
+  labs(subtitle = "theme_economist_white()")
+p9  <- p0 + theme_fivethirtyeight() + 
+  labs(subtitle = "theme_fivethirtyeight()")
+p10 <- p0 + theme_stata() + labs(subtitle = "theme_stata()")
+p11 <- p0 + theme_tufte() + labs(subtitle = "theme_tufte()")
+p12 <- p0 + theme_pander() + labs(subtitle = "theme_pander()")
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, 
+             p9, p10, p11, p12, nrow=3, ncol=4)
+```
+
+### Ábra annotálása
+
+Az elkészült ábrát további információkkal is elláthatjuk a ggplot2 rendszer annotálási lehetőségeinek köszönhetően. Elsősorban szöveges információval szokás kiegészíteni az ábrát, de valójában bármilyen geom elemet ráhelyezhetünk a már elkészült képre.
+
+A részletes, mintaelemszintű szöveges annotálást a [-@tbl-szovegesannr]. táblázatban szereplő függvények támogatják. Ezek tipikusan valamely pontdiagramhoz köthetők, és a mintaelemeket reprezentáló pontok mellett tudnak szöveget megjeleníteni.
+
+| Geom függvény        | Leírás                                  |
+|----------------------|-----------------------------------------|
+| `geom_text()`        | Szöveg rajzolása                        |
+| `geom_label()`       | Szöveg rajzolása keretben               |
+| `geom_text_repel()`  | Szöveg rajzolása (`{ggrepel}`)          |
+| `geom_label_repel()` | Szöveg rajzolása keretben (`{ggrepel}`) |
+
+: A mintaelemek szöveges reprezentálása. {#tbl-szovegesannr}
+
+```{r}
+#| fig-align: center
+#| fig-width: 6.4
+#| fig-asp: 0.89
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p0 - alapábra, önmagában nem jelenik meg
+p0 <- ggplot(katica, aes(x = Habitat, y=number, colour=morph_colour))+
+  geom_point() + theme(legend.position = "top") + 
+  scale_color_manual(values = c("black"="#444444", "red"="#e34444"), 
+                     name = "mc") + 
+  scale_fill_manual(values = c("black"="#444444", "red"="#e34444"), 
+                    name = "mc")
+# p1 - feliratokkal
+p1 <- p0 + geom_text(aes(label=Site))
+# p2 - feliratok kerettel
+p2 <- p0 + geom_label(aes(label=Site))
+# p3 - feliratok, nem fedik egymást
+p3 <- p0 + geom_text_repel(aes(label=Site))
+# p4 - feliratok kerettel, nem fedik egymást
+p4 <- p0 + geom_label_repel(aes(label=Site, fill=morph_colour), 
+                            colour="white", segment.colour = "grey")
+grid.arrange(p1, p2, p3, p4, ncol=2)
+```
+
+A fenti 4 kép a [-@tbl-szovegesannr]. táblázatban szereplő négy szövegrajzoló függvényre mutat példát. Látjuk, hogy a legjobb eredményt a `{ggrepel}` csomag függvényeivel érhetjük el.
+
+Amennyiben nem mintaelem szinten szeretnénk szöveget megjeleníteni, akkor az `annotate(geom="text")` függvényt is használhatjuk. A `geom=` argumentumot azonban beállíthatjuk úgy, hogy téglalapot (`rect`) vagy egy egyenes szakaszt hozzunk létre (`segment`). Erre mutat példát a következő öt ábra.
+
+```{r}
+#| fig-align: center
+#| fig-width: 8
+#| fig-asp: 0.28
+#| warning: false
+#| message: false
+#| tidy: false
+
+# p1 - egyetlen szöveg az ábrára
+p1 <- p0 + annotate(geom="text", x=1.5, y=20, label="1D pontok", 
+                    color="red")
+# p2 - egyetlen szöveg az ábrára, képlettel
+p2 <- p0 + annotate(geom="text", x=1.5, y=20,
+                    label="paste(italic(R) ^ 2, \" = 0,75\")", 
+                    parse=TRUE)
+# p3 - több szöveg az ábrára
+p3 <- p0 + annotate("text", x=c(1.5, 1.5), y=c(8, 12), 
+                    label=c("Cím 1", "Cím 2"))
+# p4 - téglalap az ábrára
+p4 <- p0 + annotate("rect", xmin=0.9, xmax=1.1, 
+                    ymin=1, ymax=33, alpha=.2)
+# p2 - vonal az ábrára
+p5 <- p0 + annotate("segment", x=0.9, xend=2.1, y=1, yend=33, 
+                    colour = "blue")
+grid.arrange(p1, p2, p3, p4, p5, ncol=5)
+```
+
+### Rácsozás
+
+A rácsozás (faceting) egy igen hatékony ábrázolási technika ggplot2 rendszerben, amely egy vagy több kategorikus változó segítségével több ábra egyidejű létrehozását teszi lehetővé a faktor változó(k) egyes csoportjai mentén.
+
+Korábban már vizsgáltuk a testmagasság és a kézméret kapcsolatát ([-@exm-kerdoiv-1]. példa), most a testmozgás (`Exer`) három szintű faktor segítségével három ábrára bontjuk az alap kétdimenziós pontdiagramot. Minden szinthez tartozni fog egy-egy kétdimenziós pontdiagram, mely csak az adott testmozgású személyek testmagasságát és kézméretét tartalmazza. A `facet_wrap(.~Exer)` függvény ad erre lehetőséget, sőt az `nrow=` és `ncol=` argumentumok beállításával szabályozhatjuk, hogy az ábrák a rácsszerű elrendezésben hány sorba, és hány oszlopba rendezetten jelenjenek meg. Lássunk példát három-, két- és egyoszlopos megjelenésre.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.5
+#| warning: false
+#| message: false
+#| tidy: false
+
+p0 <- ggplot(kerdoiv, aes(x=Height, y=Wr.Hnd)) + geom_point() + 
+  geom_smooth(method = "lm", se=F)  
+p1 <- p0 + facet_wrap(. ~ Exer, ncol = 3) # 1 sor, 3 oszlop
+p2 <- p0 + facet_wrap(. ~ Exer, ncol = 2) # 2 sor, 2 oszlop
+p3 <- p0 + facet_wrap(. ~ Exer, ncol = 1) # 3 sor, 1 oszlop
+grid.arrange(p1, p2, p3, nrow=1)
+```
+
+A rácsozás egyik előnye, hogy alapértelmezés szerint az egyes csoportokban (a kis képeken) a tengelyek értéktartományai azonosak, így az eredmények összehasonlítása nagyon egyszerű. Nagyon ritkán írjük felül ezt a működést, ha mégis szükség van rá, akkor átírhatjuk az *x* tengelyt, az *y* tengelyt vagy mindkettőt "szabadra" úgy, hogy a `facet_wrap()` függvény `scales=` argumentumában a `"free_x"`, `"free_y"` vagy `"free"` értéket adjuk meg. Erre látunk példát a lenti ábrán.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.5
+#| warning: false
+#| message: false
+#| tidy: false
+
+p0 <- ggplot(kerdoiv, aes(x=Height, y=Wr.Hnd)) + geom_point() + 
+  geom_smooth(method = "lm", se=F)  
+p1 <- p0 + facet_wrap(. ~ Exer, ncol = 3, scale="free_x") # x szabad
+p2 <- p0 + facet_wrap(. ~ Exer, ncol = 2, scale="free_y") # y szabad
+p3 <- p0 + facet_wrap(. ~ Exer, ncol = 1, scale="free") # x, y szabad
+grid.arrange(p1, p2, p3, nrow=1)
+```
+
+Két vagy akár több faktor segítségével tovább finomíthatjuk a rácsozott megjelenítést, de a két kategorikus változó esetén a `facet_grid()` függvénnyel létrehozott rácsozott ábra adja a legjobban értelmezhető megjelenést. Most mindkét lehetőséget kipróbáljuk a nem (`Sex`) és testmozgás (`Exer`) faktorok bevonásával. Mivel az egyik változó két, a másik három szintű, így a rácsozott ábrán hat kis kép megjelenését várjuk.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.5
+#| warning: false
+#| message: false
+#| tidy: false
+
+p0 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x=Height, y=Wr.Hnd)) + 
+  geom_point() + geom_smooth(method = "lm", se=F)
+p1 <- p0 + facet_wrap(Sex ~ Exer, ncol = 2)
+p2 <- p0 + facet_grid(Sex ~ Exer)
+grid.arrange(p1, p2, nrow=1)
+```
+
+A rácsozott ábrák finomabb beállítására is lehetőségünk van. A paneleken megjelenő szöveg a `labeller=` paraméterrel írható felül, mind a `facet_wrap()`, mind a `facet_grid()` függvényben. A paraméter értéke a `labeller()` függvénnyel összeállított objektum, melynek paraméterezésében a régi szintneveket újra cserélhetjük a lenti példában látható módon.
+
+```{r}
+#| fig-align: center
+#| fig-width: 7
+#| fig-asp: 0.5
+#| warning: false
+#| message: false
+#| tidy: false
+
+p0 <- kerdoiv |> drop_na(Sex) |> ggplot(aes(x=Height, y=Wr.Hnd)) + 
+  geom_point() + geom_smooth(method = "lm", se=F)
+p1 <- p0 + facet_wrap(Sex ~ Exer, ncol = 2, 
+                      labeller = labeller(Sex=c("Female"="Nő", 
+                                                "Male"="Férfi"),
+                                          Exer=c("Freq"="Gyakran", 
+                                                 "None"="Soha", 
+                                                 "Some"="Néha"))) + 
+  theme(
+    strip.background = element_rect(fill = "lightblue", 
+                                    color = "blue", size = 1),
+    strip.text = element_text(colour = "blue")
+)
+p2 <- p0 + facet_grid(Sex ~ Exer, 
+                      labeller = labeller(Sex=c("Female"="Nő", 
+                                                "Male"="Férfi"),
+                                          Exer=c("Freq"="Gyakran", 
+                                                 "None"="Soha", 
+                                                 "Some"="Néha"))) +
+  theme(
+    strip.background.x = element_rect(fill = "lightblue", 
+                                      color = "blue", size = 1),
+    strip.text.x = element_text(colour = "blue"),
+    strip.background.y = element_rect(fill = "#f1f1f1", 
+                                      color = "#212121", size = 1),
+    strip.text.y = element_text(colour = "#212121", angle = 0)
+)
+grid.arrange(p1, p2, nrow=1)
+```
+
+A panelek formázására is van lehetőségünk, a `facet_wrap()` esetében a `strip.background=` a téglalap formátumát, a `strip.text=` a szöveg stílusát határozza meg, míg a `facet_grid()` esetén külön az *x* és *y* tengelyen megjelenő panelek állítására is van módunk. Ezek a paramétereket a `theme()` függvényben kell elhelyeznünk.
+
+::: {.callout-tip icon="false"}
+## `r emoji("books")` Összefoglalás
+
+A ggplot2 ábráink szinte azonnal publikációkészek, de kisebb nagyobb módosításokra még így is szükség lehet. A `labs(title= , x= , y=, fill =, colour = )` módosító ábracímet, tengelyfeliratokat és jelmagyarázatbeli címkéket is be tud állítani, míg a `theme(legend.position=)` magának a jelmagyarázatnak a helyét határozza meg. A tengelyek láthatósági tartományát a `coord_cartesian(xlim=, ylim=)`, osztásközeit a `scale_[x|y]_[discrete|continuous](name=, breaks=, limits=, labels=)` függvénnyel szabályozhatjuk. A faktor változók értékei és az egyes színkódok közötti alapértelmezett összerendelést legtöbbször a `scale_[colour|fill]_grey()` és `scale_[colour|fill]_brewer()`, míg numerikus változó esetén a `scale_[colour|fill]_gradient(low=, high=)` függvénnyel bíráljuk felül. A számos előre definiált ábrastílus közül a `theme_*()` módosítóval választhatunk. Rácsozott ábrát tipikusan a `facet_wrap(. ~ <faktor>)` vagy `facet_grid(<faktor1> ~ <faktor2>)` módosítókkal hozunk létre.
+:::
+
+::: {.callout-warning icon="false"}
+## `r emoji("dart")` Feladatok
+
+1.  A [-@fig-szinpaletta-kat-01]. ábrán már használtuk az `{RColorBrewer}` csomag színpalettáját kategorikus változó esetén. Próbáljuk ki magunk is a [-@fig-rcolorbrewer-01]. ábrán felsorolt palettaneveket "Set3"-tól "Accent"-ig!
+2.  A standard normális eloszlás és az 5, 10, 15 és 20 szabadsági fokú t-eloszás sűrűségfüggvényét jelenítsük meg egy-egy ábrán! A görbék megjelenítéséhez használjuk a `stat_function()` függvényt!
+3. Mutassuk be az R hagyományos grafikus rendszerét!
+:::
