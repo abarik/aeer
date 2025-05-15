@@ -1,1 +1,0 @@
-# Irodalomjegyzék {- #irodalomjegyzek}
